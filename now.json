@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "name": "YAPP",
+  "alias": ["podcast.bullinger.dev"],
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(?!.*\\.(css|js|html|png|svg|jpg|gif)$)(.*)",
+      "dest": "/"
+    }
+  ],
+  "scope": "bullingermathis"
+}

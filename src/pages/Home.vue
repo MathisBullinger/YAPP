@@ -12,7 +12,7 @@
 
 <script>
 import Component from '/utils/component'
-import ControlBar from '/components/ControlBar'
+import ControlBar from '/components/molecular/ControlBar'
 
 export default new Component({
   name: 'Home',
