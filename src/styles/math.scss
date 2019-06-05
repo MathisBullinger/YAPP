@@ -1,0 +1,65 @@
+$PI: 3.14159265359;
+
+@function no-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+@function pow($number, $exponent) {
+  $value: 1;
+  @if $exponent > 0 {
+    @for $i from 1 through $exponent {
+      $value: $value * $number;
+    }
+  } @else if $exponent < 0 {
+    @for $i from 1 through -$exponent {
+      $value: $value / $number;
+    }
+  }
+  @return $value;
+}
+
+@function fact($number) {
+  $value: 1;
+  @if $number > 0 {
+    @for $i from 1 through $number {
+      $value: $value * $i;
+    }
+  }
+  @return $value;
+}
+
+@function rad($angle) {
+  @if unit($angle) != deg {
+    @return $angle;
+  }
+  @return no-unit($angle) / 180 * $PI * 1rad;
+}
+
+@function sin($angle) {
+  $PRECISION: 100;
+  $angle: no-unit(rad($angle));
+  $sin: 0;
+  @for $i from 0 through $PRECISION {
+    $sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
+  }
+  @if $sin == -0 {
+    $sin: 0;
+  }
+  @return $sin;
+}
+
+@function cos($angle) {
+  $PRECISION: 100;
+  $angle: no-unit(rad($angle));
+  $cos: 0;
+  @for $i from 0 through $PRECISION {
+    $cos: $cos + pow(-1, $i) * pow($angle, 2 * $i) / fact(2 * $i);
+  }
+  @if $cos == -0 {
+    $cos: 0;
+  }
+  @return $cos;
+}
