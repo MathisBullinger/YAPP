@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Component from '/util/component'
+import Component from '/utils/component'
 
 export default new Component({
   name: 'ControlBar',
