@@ -1,0 +1,40 @@
+{
+  "name": "yapp",
+  "version": "1.0.0",
+  "description": "Yet Another Podcast Player",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html --no-autoinstall",
+    "build": "parcel build --no-source-maps src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format:check": "prettier --check \"./*.{js,vue,html}\" \"./**/*.{js,vue,html}\"",
+    "format:write": "prettier --write \"./*.{js,vue,html}\" \"./**/*.{js,vue,html}\"",
+    "lint:check": "eslint . --ext .js,.vue",
+    "lint:write": "eslint . --ext .js,.vue --fix",
+    "format-lint:check": "npm run lint:check && npm run format:check",
+    "format-lint:write": "npm run lint:write && npm run format:write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathisBullinger/YAPP.git"
+  },
+  "author": "Mathis Bullinger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MathisBullinger/YAPP/issues"
+  },
+  "homepage": "https://github.com/MathisBullinger/YAPP#readme",
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^3.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "parcel-bundler": "^1.12.3",
+    "prettier": "^1.17.1",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "dependencies": {
+    "vue": "^2.6.10",
+    "vue-hot-reload-api": "^2.3.3"
+  }
+}
