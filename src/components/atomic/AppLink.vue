@@ -1,7 +1,17 @@
 <template>
-  <RouterLink :class="getClass" v-bind="{ ...$props }" active-class="active">
+  <RouterLink
+    v-if="['Paragraph', 'Header'].includes($parent.$options.name)"
+    :class="getClass"
+    v-bind="{ ...$props }"
+    active-class="active"
+  >
     <slot></slot>
   </RouterLink>
+  <Paragraph v-else>
+    <RouterLink :class="getClass" v-bind="{ ...$props }" active-class="active">
+      <slot></slot>
+    </RouterLink>
+  </Paragraph>
 </template>
 
 <script>
