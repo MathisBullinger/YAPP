@@ -6,6 +6,7 @@
     <Header s3>Header s3</Header>
     <Header s4>Header s4</Header>
     <Header s5>Header s5</Header>
+    <Button>hello</Button>
     <ControlBar></ControlBar>
   </div>
 </template>
