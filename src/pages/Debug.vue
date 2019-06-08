@@ -1,7 +1,15 @@
 <template>
   <div :class="getClass">
     <Header s2>Connection Info</Header>
-    connection: {{ connection }}
+    type: {{ connection.type }}
+    <br>
+    effective type: {{ connection.effectiveType }}
+    <br>
+    downlink: {{ connection.downlink }}
+    <br>
+    downlink max: {{ connection.downlinkMax }}
+    <br>
+    save data: {{ connection.saveData }}
   </div>
 </template>
 
@@ -18,7 +26,7 @@ export default new Component({
   }),
   methods: {
     getConnection() {
-      this.connection = JSON.stringify(connection)
+      this.connection = connection
     },
   },
   mounted() {
