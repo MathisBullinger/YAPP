@@ -32,6 +32,9 @@ export default class Component {
       // type computed property
       if (!this.computed) this.computed = {}
       this.computed['type'] = function() {
+        if (!this.types) return
+        if (this.$data._defaultType && !this.types.some(t => this[t]))
+          return this.$data._defaultType
         const type = this.types.map(t => [t, this[t]]).find(t => t[1])
         return type ? type[0] : null
       }
@@ -51,6 +54,14 @@ export default class Component {
           return this.tags[this.types.indexOf(this.type)]
         }
       }
+
+      if (this.defaultType) {
+        assert(
+          () => this.types.includes(this.defaultType),
+          `unknown default type "${this.defaultType}"`
+        )
+        this._addData({ _defaultType: this.defaultType })
+      }
     }
 
     // getClass computed property
@@ -59,6 +70,18 @@ export default class Component {
       const kebabCase = str =>
         (str[0] + str.slice(1).replace(/([A-Z])/g, '-$1')).toLowerCase()
       return [kebabCase(this.$options.name), this.type]
+    }
+
+    this.created = function() {
+      if (this.types === undefined) return
+      const num_types = this.types.map(t => this[t]).filter(t => t).length
+      if (this.types.includes('default') && !num_types) return
+      if (this.$data._defaultType) return
+      assert(() => num_types > 0, this.$options.name + ' must have a type')
+      assert(
+        () => num_types < 2,
+        this.$options.name + ' must not have multiple types'
+      )
     }
   }
 
@@ -69,16 +92,5 @@ export default class Component {
       )
     this.data = comp =>
       Object.assign(...this.dataFuncs.map(func => func.call(comp)))
-  }
-
-  created() {
-    if (this.types === undefined) return
-    const num_types = this.types.map(t => this[t]).filter(t => t).length
-    if (this.types.includes('default') && !num_types) return
-    assert(() => num_types > 0, this.$options.name + ' must have a type')
-    assert(
-      () => num_types < 2,
-      this.$options.name + ' must not have multiple types'
-    )
   }
 }

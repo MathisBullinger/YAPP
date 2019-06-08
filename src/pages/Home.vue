@@ -1,14 +1,5 @@
 <template>
-  <div :class="getClass">
-    <Paragraph>YAPP</Paragraph>
-    <Header s1>Header s1</Header>
-    <Header s2>Header s2</Header>
-    <Header s3>Header s3</Header>
-    <Header s4>Header s4</Header>
-    <Header s5>Header s5</Header>
-    <Button>hello</Button>
-    <ControlBar></ControlBar>
-  </div>
+  <div :class="getClass"></div>
 </template>
 
 <script>

@@ -7,6 +7,7 @@
     <Header s5>Header s5</Header>
     <Paragraph>Paragraph</Paragraph>
     <Button>Button</Button>
+    <Button outlined>Button</Button>
   </div>
 </template>
 
