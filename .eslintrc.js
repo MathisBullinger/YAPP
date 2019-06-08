@@ -5,6 +5,7 @@ const config = {
   },
   parserOptions: {
     ecmaVersion: 2018,
+    parser: 'babel-eslint',
   },
   globals: {
     module: true,

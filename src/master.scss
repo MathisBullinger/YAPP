@@ -1,0 +1,22 @@
+@import '/styles/fluid.scss';
+@import '/styles/text.scss';
+
+:root {
+  padding: 0;
+  overflow: hidden;
+  font-family: $font-primary;
+  @include fluid(font-size, $rem-min, $rem-max, $fs-min-screen, $fs-max-screen);
+  @include fluid(
+    --baseline,
+    $rem-min * 1.5,
+    $rem-max * 1.5,
+    $fs-min-screen,
+    $fs-max-screen
+  );
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: scroll;
+}
