@@ -1,9 +1,11 @@
 <template>
-  <div :class="getClass"></div>
+  <div :class="getClass">
+    <Button>play</Button>
+  </div>
 </template>
 
 <script>
-import Component from '/utils/component'
+import Component from '~/scripts/component'
 
 export default new Component({
   name: 'ControlBar',

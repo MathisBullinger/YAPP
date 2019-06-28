@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Component from '/utils/component'
+import Component from '~/scripts/component'
 
 const connection =
   navigator.connection || navigator.mozConnection || navigator.webkitConnection

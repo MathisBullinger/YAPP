@@ -1,11 +1,11 @@
 <template>
   <p :class="getClass">
-    <slot />
+    <slot/>
   </p>
 </template>
 
 <script>
-import Component from '/utils/component'
+import Component from '~/scripts/component'
 
 export default new Component({
   name: 'Paragraph',

@@ -1,22 +1,24 @@
-@import '/styles/fluid.scss';
-@import '/styles/text.scss';
+@import '~/styles/fluid.scss';
+@import '~/styles/text.scss';
 
 :root {
+  margin: 0;
   padding: 0;
-  overflow: hidden;
-  font-family: $font-primary;
   @include fluid(font-size, $rem-min, $rem-max, $fs-min-screen, $fs-max-screen);
   @include fluid(
-    --baseline,
+    --baseline-raw,
     $rem-min * 1.5,
     $rem-max * 1.5,
     $fs-min-screen,
     $fs-max-screen
   );
+  --baseline: var(--baseline-raw);
+  line-height: var(--baseline);
+  font-family: $font-primary;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
-  height: 100vh;
-  overflow: scroll;
+  padding: 0;
 }
