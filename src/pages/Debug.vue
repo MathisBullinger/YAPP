@@ -2,19 +2,19 @@
   <div :class="getClass">
     <Header s2>Connection Info</Header>
     type: {{ connection.type }}
-    <br>
+    <br />
     effective type: {{ connection.effectiveType }}
-    <br>
+    <br />
     downlink: {{ connection.downlink }}
-    <br>
+    <br />
     downlink max: {{ connection.downlinkMax }}
-    <br>
+    <br />
     save data: {{ connection.saveData }}
   </div>
 </template>
 
 <script>
-import Component from '/utils/component'
+import Component from '~/scripts/component'
 
 const connection =
   navigator.connection || navigator.mozConnection || navigator.webkitConnection

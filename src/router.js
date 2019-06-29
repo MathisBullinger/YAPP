@@ -1,8 +1,8 @@
 import Router from 'vue-router'
-import Home from '/pages/Home'
-import Demo from '/pages/Demo'
-import ComponentDemo from '/pages/demo/Components'
-import Debug from '/pages/Debug'
+import Home from '~/pages/Home'
+import Demo from '~/pages/Demo'
+import ComponentDemo from '~/pages/demo/Components'
+import Debug from '~/pages/Debug'
 
 export default new Router({
   mode: 'history',

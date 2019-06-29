@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Component from '/utils/component'
+import Component from '~/scripts/component'
 
 export default new Component({
   name: 'Header',
@@ -15,8 +15,8 @@ export default new Component({
 </script>
 
 <style lang="scss" scoped>
-@import '/styles/text';
-@import '/styles/fluid';
+@import '~/styles/text';
+@import '~/styles/fluid';
 
 .header {
   font-weight: 500;

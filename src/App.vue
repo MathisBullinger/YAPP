@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Component from '/utils/component'
-import ControlBar from '/components/molecular/ControlBar'
+import Component from '~/scripts/component'
+import ControlBar from '~/components/molecular/ControlBar'
 
 export default new Component({
   name: 'App',
@@ -16,11 +16,3 @@ export default new Component({
   },
 })
 </script>
-
-<style lang="scss" scoped>
-.app {
-  .content {
-    margin-left: 2rem;
-  }
-}
-</style>

@@ -72,17 +72,20 @@ export default class Component {
       return [kebabCase(this.$options.name), this.type]
     }
 
-    this.created = function() {
-      if (this.types === undefined) return
-      const num_types = this.types.map(t => this[t]).filter(t => t).length
-      if (this.types.includes('default') && !num_types) return
-      if (this.$data._defaultType) return
-      assert(() => num_types > 0, this.$options.name + ' must have a type')
-      assert(
-        () => num_types < 2,
-        this.$options.name + ' must not have multiple types'
-      )
-    }
+    if (def.created) this._addData({ _created: def.created })
+  }
+
+  created() {
+    if (this.types === undefined) return
+    const num_types = this.types.map(t => this[t]).filter(t => t).length
+    if (this.types.includes('default') && !num_types) return
+    if (this.$data._defaultType) return
+    assert(() => num_types > 0, this.$options.name + ' must have a type')
+    assert(
+      () => num_types < 2,
+      this.$options.name + ' must not have multiple types'
+    )
+    if (this.$data._created) this.$data._created()
   }
 
   _addData(...data) {
