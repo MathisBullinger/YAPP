@@ -13,7 +13,7 @@
     @keyup.enter="onEnter"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
-  >
+  />
 </template>
 
 <script>

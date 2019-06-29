@@ -37,12 +37,19 @@
     "eslint": "*",
     "eslint-config-prettier": "*",
     "eslint-plugin-vue": "*",
+    "graphql": "^14.4.0",
+    "graphql-tag": "^2.10.1",
     "parcel-bundler": "*",
     "prettier": "*",
     "vue-template-compiler": "*"
   },
   "dependencies": {
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link-error": "^1.1.11",
+    "apollo-link-http": "^1.5.15",
     "vue": "*",
+    "vue-apollo": "^3.0.0-rc.1",
     "vue-hot-reload-api": "*",
     "vue-router": "*"
   },

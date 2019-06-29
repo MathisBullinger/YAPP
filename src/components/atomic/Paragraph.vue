@@ -1,6 +1,6 @@
 <template>
   <p :class="getClass">
-    <slot/>
+    <slot />
   </p>
 </template>
 
