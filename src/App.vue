@@ -8,11 +8,16 @@
 <script>
 import Component from '~/scripts/component'
 import ControlBar from '~/components/molecular/ControlBar'
+import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'App',
   components: {
     ControlBar,
+  },
+  methods: mapActions('user', ['initGoogleAuth']),
+  created() {
+    this.initGoogleAuth()
   },
 })
 </script>

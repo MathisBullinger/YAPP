@@ -11,17 +11,8 @@ import Component from '~/scripts/component'
 import { mapActions } from 'vuex'
 
 export default new Component({
-  name: 'Login',
+  name: 'SignIn',
   methods: mapActions('user', ['setUser']),
-  mounted() {
-    gapi.load('auth2', () => {
-      const auth2 = gapi.auth2.init({
-        client_id:
-          '75138250727-l5c04n890osefg8gcp3bvcq04uv6lafp.apps.googleusercontent.com',
-      })
-      auth2.attachClickHandler(this.$refs['signin-wrap'], {}, this.setUser)
-    })
-  },
 })
 </script>
 
