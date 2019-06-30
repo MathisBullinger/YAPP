@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from './App'
+import App from '~/App'
 import VueApollo from 'vue-apollo'
-import router from './router'
-import defaultClient from './api'
+import router from '~/router'
+import defaultClient from '~/api'
+import store from '~/store'
 import '~/styles/master.scss'
 
 Vue.use(VueRouter)
@@ -20,5 +21,6 @@ new Vue({
   el: '#app',
   router,
   apolloProvider,
+  store,
   render: h => h(App),
 })

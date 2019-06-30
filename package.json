@@ -51,7 +51,8 @@
     "vue": "*",
     "vue-apollo": "^3.0.0-rc.1",
     "vue-hot-reload-api": "*",
-    "vue-router": "*"
+    "vue-router": "*",
+    "vuex": "^3.1.1"
   },
   "posthtml": {
     "recognizeSelfClosing": true
