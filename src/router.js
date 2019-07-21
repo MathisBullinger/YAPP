@@ -6,17 +6,21 @@ import Demo from '~/pages/Demo'
 import ComponentDemo from '~/pages/demo/Components'
 import Debug from '~/pages/Debug'
 import NotFound from '~/pages/NotFound'
+import Podcast from '~/pages/Podcast'
+import Library from '~/pages/Library'
 
 export default new Router({
   mode: 'history',
   routes: [
     { path: '/', component: Home },
+    { path: '/podcast/:id', component: Podcast, props: true },
     { path: '/profile', component: Profile },
     { path: '/signin', component: SignIn },
     { path: '/login', redirect: 'signin' },
     { path: '/demo', component: Demo },
     { path: '/demo/components', component: ComponentDemo },
     { path: '/debug', component: Debug },
+    { path: '/podcasts', component: Library },
     { path: '*', component: NotFound },
   ],
 })
