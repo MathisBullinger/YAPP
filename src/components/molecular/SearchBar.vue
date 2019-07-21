@@ -50,7 +50,6 @@ export default new Component({
   width: 100vw;
   background-color: gray;
   padding: 1rem;
-  box-sizing: border-box;
 
   .input {
     margin: 0;
