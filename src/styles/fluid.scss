@@ -1,15 +1,25 @@
 @import './math.scss';
 
-@mixin fluid($prop, $val-min, $val-max, $width-min, $width-max, $lock: true) {
+@mixin fluid(
+  $prop,
+  $val-min,
+  $val-max,
+  $width-min,
+  $width-max,
+  $lock-bottom: true,
+  $lock-top: true
+) {
   #{$prop}: calc(
     #{$val-min} + (#{no-unit($val-max)} - #{no-unit($val-min)}) * (
         100vw - #{$width-min}
       ) / (#{no-unit($width-max)} - #{no-unit($width-min)})
   );
-  @if $lock {
+  @if $lock-bottom {
     @media screen and (max-width: $width-min) {
       #{$prop}: $val-min;
     }
+  }
+  @if $lock-top {
     @media screen and (min-width: $width-max) {
       #{$prop}: $val-max;
     }
