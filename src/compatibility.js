@@ -1,3 +1,5 @@
+import 'unfetch/polyfill'
+
 if (!Object.fromEntries) require('object.fromentries').shim()
 
 // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill

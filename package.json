@@ -52,6 +52,7 @@
     "apollo-link-error": "^1.1.11",
     "apollo-link-http": "^1.5.15",
     "object.fromentries": "^2.0.0",
+    "unfetch": "^4.1.0",
     "vue": "*",
     "vue-apollo": "^3.0.0-rc.1",
     "vue-hot-reload-api": "*",
