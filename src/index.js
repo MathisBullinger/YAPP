@@ -1,4 +1,12 @@
 import Vue from 'vue'
+import * as Sentry from '@sentry/browser'
+import * as Integrations from '@sentry/integrations'
+
+Sentry.init({
+  dsn: 'https://f253732d670843f0b08015c64bb7587f@sentry.io/1500732',
+  integrations: [new Integrations.Vue({ Vue, attachProps: true })],
+})
+
 import VueRouter from 'vue-router'
 import App from '~/App'
 import VueApollo from 'vue-apollo'
