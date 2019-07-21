@@ -25,5 +25,11 @@ export default new Component({
 
   @include discrete(--columns, 3, 7, 400px, 1200px);
   grid-template-columns: repeat(var(--columns), 1fr);
+
+  @include fluid(grid-gap, 0px, 40px, 400px, 1200px);
+
+  @include fluid(padding-left, 0px, 100px, 400px, 1200px);
+  @include fluid(padding-right, 0px, 100px, 400px, 1200px);
+  @include fluid(padding-top, 0px, 50px, 400px, 1200px);
 }
 </style>
