@@ -25,6 +25,6 @@ export default new Component({
 <style lang="scss" scoped>
 .app {
   height: calc(100vh - 4rem);
-  overflow: scroll;
+  overflow-y: scroll;
 }
 </style>
