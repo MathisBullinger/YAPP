@@ -6,5 +6,6 @@ query searchPodcast($name: String!) {
       size
       url
     }
+    feed
   }
 }

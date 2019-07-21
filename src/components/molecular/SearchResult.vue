@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass">
+  <div :class="getClass" @click="onClick">
     <img :src="artwork" />
     <div class="text">
       <Paragraph>{{ title }}</Paragraph>
@@ -27,6 +27,11 @@ export default new Component({
       required: false,
     },
   },
+  methods: {
+    onClick() {
+      this.$router.push(`/podcast/${this.id}`)
+    },
+  },
 })
 </script>
 
@@ -35,6 +40,7 @@ export default new Component({
   width: 100vw;
   display: flex;
   margin-top: 1rem;
+  cursor: pointer;
 
   img {
     height: 4rem;
