@@ -21,3 +21,10 @@ export default new Component({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.app {
+  height: calc(100vh - 4rem);
+  overflow: scroll;
+}
+</style>
