@@ -1,14 +1,45 @@
-@import "./math.scss";
+@import './math.scss';
 
 @mixin fluid($prop, $val-min, $val-max, $width-min, $width-max, $lock: true) {
-  #{$prop}: calc(#{$val-min} + (#{no-unit($val-max)} - #{no-unit($val-min)}) * (100vw - #{$width-min}) / 
-    (#{no-unit($width-max)} - #{no-unit($width-min)}));
+  #{$prop}: calc(
+    #{$val-min} + (#{no-unit($val-max)} - #{no-unit($val-min)}) * (
+        100vw - #{$width-min}
+      ) / (#{no-unit($width-max)} - #{no-unit($width-min)})
+  );
   @if $lock {
     @media screen and (max-width: $width-min) {
       #{$prop}: $val-min;
     }
     @media screen and (min-width: $width-max) {
       #{$prop}: $val-max;
+    }
+  }
+}
+
+@mixin discrete($prop, $val-min, $val-max, $width-min, $width-max) {
+  @if round($val-min) != $val-min or round($val-max) != $val-max {
+    @error 'min and max must be integers';
+  }
+  @if $val-min >= $val-max {
+    @error 'min must be < max';
+  }
+
+  @media screen and (max-width: $width-min) {
+    #{$prop}: $val-min;
+  }
+  @media screen and (min-width: $width-max) {
+    #{$prop}: $val-max;
+  }
+
+  @for $i from 1 through $val-max - $val-min - 1 {
+    @media screen and (min-width: round($width-min +
+      ($width-max - $width-min) /
+      ($val-max - $val-min - 1) *
+      ($i - 1) + 1)) and (max-width: round($width-min +
+      ($width-max - $width-min) /
+      ($val-max - $val-min - 1) *
+      $i)) {
+      #{$prop}: $val-min + $i;
     }
   }
 }
