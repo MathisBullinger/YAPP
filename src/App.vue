@@ -55,7 +55,7 @@ export default new Component({
     grid-column: 1 / -1;
   }
 
-  @media screen and (min-width: 500px) {
+  @media (orientation: landscape) {
     grid-template-areas:
       'left right'
       'bottom bottom';

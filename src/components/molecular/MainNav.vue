@@ -30,7 +30,7 @@ export default new Component({
     cursor: pointer;
   }
 
-  @media screen and (min-width: 500px) {
+  @media (orientation: landscape) {
     width: 5rem;
     height: 100%;
     flex-direction: column;
