@@ -1,12 +1,8 @@
 <template>
   <div :class="getClass">
-    <main>
-      <RouterView class="content"></RouterView>
-    </main>
-    <div class="bottom">
-      <!-- <ControlBar></ControlBar> -->
-      <MainNav></MainNav>
-    </div>
+    <RouterView class="content"></RouterView>
+    <ControlBar></ControlBar>
+    <MainNav></MainNav>
   </div>
 </template>
 
@@ -41,14 +37,36 @@ export default new Component({
   height: 100vh;
   display: grid;
   grid-template-rows: 1fr auto;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'main main'
+    'bottom bottom';
 
-  main {
+  .content {
+    grid-area: main;
     overflow-y: scroll;
   }
 
-  .bottom {
-    display: block;
-    bottom: 0;
+  .control-bar {
+    grid-area: bottom;
+  }
+
+  .main-nav {
+    grid-column: 1 / -1;
+  }
+
+  @media screen and (min-width: 500px) {
+    grid-template-areas:
+      'left right'
+      'bottom bottom';
+
+    .main-nav {
+      grid-area: left;
+    }
+
+    .content {
+      grid-area: right;
+    }
   }
 }
 </style>

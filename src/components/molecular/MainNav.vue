@@ -29,5 +29,11 @@ export default new Component({
   .icon {
     cursor: pointer;
   }
+
+  @media screen and (min-width: 500px) {
+    width: 5rem;
+    height: 100%;
+    flex-direction: column;
+  }
 }
 </style>
