@@ -26,6 +26,10 @@ export default new Component({
       type: String,
       required: false,
     },
+    id: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
     onClick() {

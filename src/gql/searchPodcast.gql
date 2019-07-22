@@ -7,5 +7,6 @@ query searchPodcast($name: String!) {
       url
     }
     feed
+    id
   }
 }

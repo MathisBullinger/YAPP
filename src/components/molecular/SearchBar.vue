@@ -7,6 +7,7 @@
       :title="result.name"
       :creator="result.creator"
       :artwork="result.artworks.filter(art => art.size >= 100)[0].url"
+      :id="result.id"
     ></SearchResult>
   </div>
 </template>
