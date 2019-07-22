@@ -1,9 +1,13 @@
 <template>
-  <div :class="getClass">{{ id }}</div>
+  <div :class="getClass">
+    <Paragraph>{{ podcasts[id].title }}</Paragraph>
+    <Paragraph>{{ podcasts[id].creator }}</Paragraph>
+  </div>
 </template>
 
 <script>
 import Component from '~/scripts/component'
+import { mapState } from 'vuex'
 
 export default new Component({
   name: 'Podcast',
@@ -11,6 +15,7 @@ export default new Component({
     id: String,
     required: true,
   },
+  computed: mapState('podcasts', ['podcasts']),
 })
 </script>
 

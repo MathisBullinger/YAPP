@@ -10,6 +10,7 @@
 
 <script>
 import Component from '/scripts/component'
+import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'SearchResult',
@@ -32,7 +33,13 @@ export default new Component({
     },
   },
   methods: {
+    ...mapActions('podcasts', ['addPodcast']),
     onClick() {
+      this.addPodcast({
+        id: this.id,
+        ...(this.title && { title: this.title }),
+        ...(this.creator && { creator: this.creator }),
+      })
       this.$router.push(`/podcast/${this.id}`)
     },
   },

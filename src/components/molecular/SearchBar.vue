@@ -3,11 +3,11 @@
     <Input v-model="search" />
     <SearchResult
       v-for="(result, i) in searchResults"
+      :id="result.id"
       :key="`result-${i}`"
       :title="result.name"
       :creator="result.creator"
       :artwork="result.artworks.filter(art => art.size >= 100)[0].url"
-      :id="result.id"
     ></SearchResult>
   </div>
 </template>
