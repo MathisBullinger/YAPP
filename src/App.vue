@@ -1,19 +1,26 @@
 <template>
   <div :class="getClass">
-    <RouterView class="content"></RouterView>
-    <ControlBar></ControlBar>
+    <main>
+      <RouterView class="content"></RouterView>
+    </main>
+    <div class="bottom">
+      <ControlBar></ControlBar>
+      <MainNav></MainNav>
+    </div>
   </div>
 </template>
 
 <script>
 import Component from '~/scripts/component'
 import ControlBar from '~/components/molecular/ControlBar'
+import MainNav from '~/components/molecular/MainNav'
 import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'App',
   components: {
     ControlBar,
+    MainNav,
   },
   methods: mapActions('user', ['initGoogleAuth']),
   created() {
@@ -31,7 +38,17 @@ export default new Component({
 
 <style lang="scss" scoped>
 .app {
-  height: calc(100vh - 4rem);
-  overflow-y: scroll;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+
+  main {
+    overflow-y: scroll;
+  }
+
+  .bottom {
+    display: block;
+    bottom: 0;
+  }
 }
 </style>

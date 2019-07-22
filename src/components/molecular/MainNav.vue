@@ -1,22 +1,21 @@
 <template>
-  <div :class="getClass">
-    <Button>play</Button>
-  </div>
+  <div :class="getClass"></div>
 </template>
 
 <script>
 import Component from '~/scripts/component'
 
 export default new Component({
-  name: 'ControlBar',
+  name: 'MainNav',
 })
 </script>
 
 <style lang="scss" scoped>
-.control-bar {
-  background-color: black;
+.main-nav {
+  background-color: yellow;
   height: 4rem;
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
+  display: block;
 }
 </style>
