@@ -2,6 +2,8 @@
   <div :class="getClass">
     <Icon name="library" @click="$router.push('/podcasts')"></Icon>
     <Icon name="feed" @click="$router.push('/')"></Icon>
+    <Icon name="search" @click="$router.push('/')"></Icon>
+    <Icon name="account" @click="$router.push('/profile')"></Icon>
   </div>
 </template>
 
