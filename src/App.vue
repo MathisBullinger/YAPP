@@ -17,7 +17,14 @@ export default new Component({
   },
   methods: mapActions('user', ['initGoogleAuth']),
   created() {
-    this.initGoogleAuth()
+    if (window.gapi) {
+      this.initGoogleAuth()
+    } else {
+      window.initGoogleAuth = function() {
+        this.initGoogleAuth()
+        delete window.initGoogleAuth
+      }.bind(this)
+    }
   },
 })
 </script>
