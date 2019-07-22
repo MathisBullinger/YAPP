@@ -1,5 +1,8 @@
 <template>
-  <div :class="getClass"></div>
+  <div :class="getClass">
+    <Icon name="library" @click="$router.push('/podcasts')"></Icon>
+    <Icon name="feed" @click="$router.push('/')"></Icon>
+  </div>
 </template>
 
 <script>
@@ -12,10 +15,17 @@ export default new Component({
 
 <style lang="scss" scoped>
 .main-nav {
-  background-color: yellow;
+  background-color: gray;
   height: 4rem;
   width: 100%;
   overflow: auto;
-  display: block;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  .icon {
+    cursor: pointer;
+  }
 }
 </style>

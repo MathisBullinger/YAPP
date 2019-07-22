@@ -4,7 +4,7 @@
       <RouterView class="content"></RouterView>
     </main>
     <div class="bottom">
-      <ControlBar></ControlBar>
+      <!-- <ControlBar></ControlBar> -->
       <MainNav></MainNav>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default new Component({
 .app {
   height: 100vh;
   display: grid;
-  grid-template-rows: repeat(2, auto);
+  grid-template-rows: 1fr auto;
 
   main {
     overflow-y: scroll;

@@ -19,6 +19,3 @@ $colors: (
 @function color($name) {
   @return map-get($colors, $name);
 }
-
-$icon-filter: invert(27%) sepia(16%) saturate(1494%) hue-rotate(174deg)
-  brightness(93%) contrast(88%);
