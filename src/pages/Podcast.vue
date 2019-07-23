@@ -1,7 +1,8 @@
 <template>
   <div :class="getClass">
-    <Paragraph>{{ podcasts[id].title }}</Paragraph>
-    <Paragraph>{{ podcasts[id].creator }}</Paragraph>
+    <Loader></Loader>
+    <!-- <Paragraph>{{ podcasts[id].title }}</Paragraph>
+    <Paragraph>{{ podcasts[id].creator }}</Paragraph>-->
   </div>
 </template>
 
@@ -19,4 +20,12 @@ export default new Component({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.podcast {
+  .loader {
+    position: relative;
+    left: calc(50% - 1rem);
+    top: calc(50% - 1rem);
+  }
+}
+</style>
