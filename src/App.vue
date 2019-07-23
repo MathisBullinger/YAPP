@@ -29,12 +29,18 @@ export default new Component({
       }.bind(this)
     }
   },
+  mounted() {
+    window.addEventListener('resize', ({ target: { innerHeight: height } }) => {
+      this.$el.style.height = `${height}px`
+    })
+    window.dispatchEvent(new Event('resize'))
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 .app {
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: auto 1fr;
