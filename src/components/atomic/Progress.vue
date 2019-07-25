@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass"></div>
+  <div :class="{...getClassObj, collapsed: collapsed || inactive}"></div>
 </template>
 
 <script>
@@ -9,6 +9,22 @@ export default new Component({
   name: 'Progress',
   types: ['linear', 'circular'],
   defaultType: 'linear',
+  props: {
+    inactive: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      collapsed: true,
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.collapsed = false
+    }, 10)
+  },
 })
 </script>
 
@@ -21,6 +37,11 @@ export default new Component({
   height: 0.2rem;
   overflow-x: hidden;
   background-color: lighten(color('primary'), 40%);
+
+  transition: height 0.5s ease;
+  &.collapsed {
+    height: 0;
+  }
 
   &:before {
     content: '';
