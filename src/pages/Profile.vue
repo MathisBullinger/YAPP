@@ -7,11 +7,16 @@
 
 <script>
 import Component from '~/scripts/component'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default new Component({
   name: 'Profile',
   computed: mapState('user', ['email']),
+  methods: mapActions('app', ['setPage', 'showAppBar']),
+  created() {
+    this.showAppBar()
+    this.setPage('Profile')
+  },
 })
 </script>
 

@@ -8,8 +8,9 @@ import Debug from '~/pages/Debug'
 import NotFound from '~/pages/NotFound'
 import Podcast from '~/pages/Podcast'
 import Library from '~/pages/Library'
+import store from '~/store'
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     { path: '/', component: Home },
@@ -24,3 +25,10 @@ export default new Router({
     { path: '*', component: NotFound },
   ],
 })
+
+router.beforeEach((to, from, next) => {
+  store.dispatch('hideAppBar')
+  next()
+})
+
+export default router

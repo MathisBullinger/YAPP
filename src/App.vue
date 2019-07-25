@@ -1,13 +1,15 @@
 <template>
   <div :class="getClass">
+    <AppBar></AppBar>
     <RouterView class="content"></RouterView>
-    <ControlBar></ControlBar>
+    <!-- <ControlBar></ControlBar> -->
     <MainNav></MainNav>
   </div>
 </template>
 
 <script>
 import Component from '~/scripts/component'
+import AppBar from '~/components/molecular/AppBar'
 import ControlBar from '~/components/molecular/ControlBar'
 import MainNav from '~/components/molecular/MainNav'
 import { mapActions } from 'vuex'
@@ -15,6 +17,7 @@ import { mapActions } from 'vuex'
 export default new Component({
   name: 'App',
   components: {
+    AppBar,
     ControlBar,
     MainNav,
   },
@@ -42,9 +45,10 @@ export default new Component({
 .app {
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
   grid-template-columns: auto 1fr;
   grid-template-areas:
+    'top top'
     'main main'
     'bottom bottom';
 
