@@ -1,6 +1,6 @@
 <template>
   <div :class="getClass" @click="onClick">
-    <img :src="artwork" />
+    <img :src="thumbnail" ref="thumbnail" />
     <div class="text">
       <Paragraph>{{ title }}</Paragraph>
       <Paragraph>{{ creator }}</Paragraph>
@@ -23,13 +23,22 @@ export default new Component({
       type: String,
       required: false,
     },
-    artwork: {
-      type: String,
-      required: false,
+    artworks: {
+      type: Array,
+      default: () => [],
     },
     id: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    thumbnail() {
+      if (this.artworks.length === 0) return
+      const minSize =
+        parseFloat(getComputedStyle(document.documentElement).fontSize) * 4
+      const sorted = this.artworks.sort((a, b) => a.size - b.size)
+      return (sorted.find(art => art.size >= minSize) || sorted.pop()).url
     },
   },
   methods: {

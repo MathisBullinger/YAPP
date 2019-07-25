@@ -51,6 +51,8 @@ export default new Component({
   .content {
     grid-area: main;
     overflow-y: scroll;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   .control-bar {

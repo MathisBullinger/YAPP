@@ -7,6 +7,7 @@
       :key="result.id"
       :title="result.name"
       :creator="result.creator"
+      :artworks="result.artworks"
     ></SearchResult>
   </div>
 </template>
@@ -46,7 +47,7 @@ export default new Component({
 
 <style lang="scss" scoped>
 .search-bar {
-  width: 100vw;
+  width: 100%;
   padding: 1rem;
   box-sizing: border-box;
 

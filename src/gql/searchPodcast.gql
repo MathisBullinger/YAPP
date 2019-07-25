@@ -3,5 +3,9 @@ query searchPodcast($name: String!) {
     name
     creator
     id: itunesId
+    artworks {
+      size
+      url
+    }
   }
 }
