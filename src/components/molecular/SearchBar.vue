@@ -16,6 +16,7 @@
 import Component from '~/scripts/component'
 import SearchResult from './SearchResult'
 import searchQuery from '~/gql/searchPodcast'
+import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'SearchBar',
@@ -36,11 +37,25 @@ export default new Component({
       },
     },
   },
+  computed: {
+    loading() {
+      return this.$apollo.loading
+    },
+  },
   data() {
     return {
       search: '',
       searchResults: [],
     }
+  },
+  methods: mapActions('app', ['showAppBar', 'setPageLoading']),
+  watch: {
+    loading(v) {
+      this.setPageLoading(v)
+    },
+  },
+  created() {
+    this.showAppBar()
   },
 })
 </script>
