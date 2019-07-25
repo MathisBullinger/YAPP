@@ -67,7 +67,9 @@ export default new Component({
 </script>
 
 <style lang="scss" scoped>
+@import '~/styles/colors';
+
 .icon-main {
-  fill: white;
+  fill: color(icon);
 }
 </style>

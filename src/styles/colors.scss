@@ -9,6 +9,7 @@ $colors: (
   on-surface: #1c1e47,
   error: #ff3d00,
   on-error: rgba(255, 255, 255, 0.87),
+  icon: #000,
 );
 
 @mixin colorScheme($scheme) {

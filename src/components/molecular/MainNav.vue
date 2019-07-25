@@ -16,8 +16,12 @@ export default new Component({
 </script>
 
 <style lang="scss" scoped>
+@import '~/styles/shadows';
+
 .main-nav {
-  background-color: gray;
+  background-color: white;
+  box-shadow: shadow(4);
+
   height: 4rem;
   width: 100%;
   overflow: auto;
@@ -25,6 +29,7 @@ export default new Component({
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  z-index: 1000;
 
   .icon {
     cursor: pointer;
