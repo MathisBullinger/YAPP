@@ -1,8 +1,6 @@
 <template>
   <div :class="getClass">
-    <Loader></Loader>
-    <!-- <Paragraph>{{ podcasts[id].title }}</Paragraph>
-    <Paragraph>{{ podcasts[id].creator }}</Paragraph>-->
+    <Progress></Progress>
   </div>
 </template>
 
