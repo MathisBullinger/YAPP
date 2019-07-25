@@ -7,11 +7,17 @@
 <script>
 import Component from '~/scripts/component'
 import PodTile from './library/PodTile'
+import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'Library',
   components: {
     PodTile,
+  },
+  methods: mapActions('app', ['setPage', 'showAppBar']),
+  created() {
+    this.showAppBar()
+    this.setPage('Podcasts')
   },
 })
 </script>

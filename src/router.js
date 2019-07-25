@@ -27,7 +27,8 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  store.dispatch('hideAppBar')
+  store.dispatch('app/setPageLoading', false)
+  store.dispatch('app/hideAppBar')
   next()
 })
 

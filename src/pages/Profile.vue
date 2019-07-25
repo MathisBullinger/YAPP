@@ -12,10 +12,13 @@ import { mapState, mapActions } from 'vuex'
 export default new Component({
   name: 'Profile',
   computed: mapState('user', ['email']),
-  methods: mapActions('app', ['setPage', 'showAppBar']),
+  methods: mapActions('app', ['setPage', 'showAppBar', 'setPageLoading']),
   created() {
     this.showAppBar()
     this.setPage('Profile')
+    this.setPageLoading(true)
+
+    setTimeout(() => this.setPageLoading(false), 2000)
   },
 })
 </script>
