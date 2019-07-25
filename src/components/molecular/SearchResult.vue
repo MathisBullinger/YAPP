@@ -48,7 +48,7 @@ export default new Component({
 
 <style lang="scss" scoped>
 .search-result {
-  width: 100vw;
+  width: 100%;
   display: flex;
   margin-top: 1rem;
   cursor: pointer;
