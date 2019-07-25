@@ -1,12 +1,10 @@
 <template>
-  <div :class="getClass">
-    <Progress></Progress>
-  </div>
+  <div :class="getClass"></div>
 </template>
 
 <script>
 import Component from '~/scripts/component'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default new Component({
   name: 'Podcast',
@@ -14,7 +12,23 @@ export default new Component({
     id: String,
     required: true,
   },
-  computed: mapState('podcasts', ['podcasts']),
+  computed: {
+    ...mapState('podcasts', ['podcasts']),
+    podcast() {
+      return this.podcasts[this.id]
+    },
+  },
+  methods: mapActions('app', ['setPage', 'showAppBar', 'setPageLoading']),
+  created() {
+    this.showAppBar()
+    if (!this.podcast) return
+    this.setPage(this.podcast.title)
+  },
+  watch: {
+    podcast({ title }) {
+      this.setPage(title)
+    },
+  },
 })
 </script>
 
