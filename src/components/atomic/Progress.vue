@@ -1,5 +1,5 @@
 <template>
-  <div :class="{...getClassObj, collapsed: collapsed || inactive}"></div>
+  <div :class="{ ...getClassObj, collapsed: collapsed || inactive }"></div>
 </template>
 
 <script>
