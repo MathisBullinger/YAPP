@@ -15,12 +15,19 @@ export default new Component({
       const scrollDelta = this.$el.scrollTop - this.lastScrollPos
       if (
         scrollDelta > 0 !== this.lastScrollDelta > 0 &&
-        this.$el.scrollTop > 0 && // topmost
-        this.$el.scrollHeight - this.$el.scrollTop > this.$el.offsetHeight // bottommost
+        this.$el.scrollTop > 0 && // not topmost
+        this.$el.scrollHeight - this.$el.scrollTop > this.$el.offsetHeight // not bottommost
       )
         this.$parent.$emit('scrollDirChange', scrollDelta)
       this.lastScrollDelta = this.$el.scrollTop - this.lastScrollPos
       this.lastScrollPos = this.$el.scrollTop
+
+      if (this.$el.scrollTop === 0) this.lastScrollDelta = -1
+      else if (
+        this.$el.scrollHeight - this.$el.scrollTop <=
+        this.$el.offsetHeight
+      )
+        this.lastScrollDelta = 1
     }, 100),
   },
   data() {
