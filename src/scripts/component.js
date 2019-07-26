@@ -71,6 +71,9 @@ export default class Component {
         (str[0] + str.slice(1).replace(/([A-Z])/g, '-$1')).toLowerCase()
       return [kebabCase(this.$options.name), this.type]
     }
+    this.computed['getClassObj'] = function() {
+      return this.getClass.reduce((a, c) => ({ ...a, [c]: true }), {})
+    }
 
     if (def.created) this._addData({ _created: def.created })
   }

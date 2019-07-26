@@ -2,11 +2,12 @@
   <div :class="getClass">
     <Input v-model="search" />
     <SearchResult
-      v-for="(result, i) in searchResults"
-      :key="`result-${i}`"
-      :title="result.name"
+      v-for="result in searchResults"
+      :id="result.id"
+      :key="result.id"
+      :name="result.name"
       :creator="result.creator"
-      :artwork="result.artworks.filter(art => art.size >= 100)[0].url"
+      :artworks="result.artworks"
     ></SearchResult>
   </div>
 </template>
@@ -15,6 +16,7 @@
 import Component from '~/scripts/component'
 import SearchResult from './SearchResult'
 import searchQuery from '~/gql/searchPodcast'
+import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'SearchBar',
@@ -29,10 +31,15 @@ export default new Component({
           name: this.search,
         }
       },
-      throttle: 500,
+      throttle: 700,
       skip() {
         return this.search.length < 3
       },
+    },
+  },
+  computed: {
+    loading() {
+      return this.$apollo.loading
     },
   },
   data() {
@@ -41,14 +48,21 @@ export default new Component({
       searchResults: [],
     }
   },
-  mounted() {},
+  methods: mapActions('app', ['showAppBar', 'setPageLoading']),
+  watch: {
+    loading(v) {
+      this.setPageLoading(v)
+    },
+  },
+  created() {
+    this.showAppBar()
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 .search-bar {
-  width: 100vw;
-  background-color: gray;
+  width: 100%;
   padding: 1rem;
   box-sizing: border-box;
 

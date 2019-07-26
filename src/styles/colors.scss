@@ -1,5 +1,5 @@
 $colors: (
-  primary: #2196f3,
+  primary: #fb8c00,
   on-primary: rgba(255, 255, 255, 0.87),
   secondary: #ff5722,
   on-secondary: rgba(255, 255, 255, 0.87),
@@ -9,6 +9,7 @@ $colors: (
   on-surface: #1c1e47,
   error: #ff3d00,
   on-error: rgba(255, 255, 255, 0.87),
+  icon: #000,
 );
 
 @mixin colorScheme($scheme) {
@@ -19,6 +20,3 @@ $colors: (
 @function color($name) {
   @return map-get($colors, $name);
 }
-
-$icon-filter: invert(27%) sepia(16%) saturate(1494%) hue-rotate(174deg)
-  brightness(93%) contrast(88%);

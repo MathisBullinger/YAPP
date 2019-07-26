@@ -98,9 +98,6 @@ export default new Component({
 
   &:focus {
     outline: none;
-    border-color: color('primary');
-    border-width: 0.125rem;
-    padding-left: calc(0.5rem - 0.125rem / 2);
   }
 }
 

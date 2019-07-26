@@ -15,6 +15,7 @@ const config = {
     describe: true,
     it: true,
     expect: true,
+    gapi: 'readonly',
   },
   rules: {
     'vue/max-attributes-per-line': false,

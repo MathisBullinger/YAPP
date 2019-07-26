@@ -15,10 +15,8 @@ export default new Component({
 <style lang="scss" scoped>
 .control-bar {
   background-color: black;
-
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
   height: 4rem;
+  width: 100%;
+  overflow: hidden;
 }
 </style>
