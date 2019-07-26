@@ -60,7 +60,12 @@ export default new Component({
   &.hidden {
     height: 0;
 
-    * {
+    .progress {
+      bottom: initial;
+      top: 100%;
+    }
+
+    *:not(.progress) {
       display: none;
     }
   }
