@@ -1,5 +1,12 @@
 <template>
-  <div :class="getClass"></div>
+  <div :class="getClass">
+    <template v-if="loaded">
+      <div class="info">
+        <img ref="artwork" :src="artwork" />
+        <Paragraph>{{podcast.creator}}</Paragraph>
+      </div>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -12,21 +19,49 @@ export default new Component({
     id: String,
     required: true,
   },
+  data() {
+    return {
+      loaded: false,
+      podcast: {
+        name: '',
+        creator: '',
+      },
+    }
+  },
   computed: {
     ...mapState('podcasts', ['podcasts']),
-    podcast() {
-      return this.podcasts[this.id]
+    artwork() {
+      if (this.podcast.artworks.length === 0) return
+      const minSize =
+        parseFloat(getComputedStyle(document.documentElement).fontSize) * 8
+      const sorted = this.podcast.artworks.sort((a, b) => a.size - b.size)
+      return (sorted.find(art => art.size >= minSize) || sorted.pop()).url
     },
   },
-  methods: mapActions('app', ['setPage', 'showAppBar', 'setPageLoading']),
-  created() {
-    this.showAppBar()
-    if (!this.podcast) return
-    this.setPage(this.podcast.title)
+  methods: {
+    ...mapActions('app', ['setPage', 'showAppBar', 'setPageLoading']),
+    ...mapActions('podcasts', ['loadPodcast']),
+  },
+  async created() {
+    if (this.podcasts[this.id])
+      Object.assign(this.podcast, this.podcasts[this.id])
+    this.setPageLoading(true)
+    await this.loadPodcast(this.id)
+    Object.assign(this.podcast, this.podcasts[this.id])
+    this.setPageLoading(false)
+    this.loaded = true
+
+    console.log(this.podcast.artworks)
   },
   watch: {
-    podcast({ title }) {
-      this.setPage(title)
+    podcast: {
+      handler() {
+        if (this.podcasts[this.id].name) {
+          this.showAppBar()
+          this.setPage(this.podcasts[this.id].name)
+        }
+      },
+      deep: true,
     },
   },
 })
@@ -34,10 +69,11 @@ export default new Component({
 
 <style lang="scss" scoped>
 .podcast {
-  .loader {
-    position: relative;
-    left: calc(50% - 1rem);
-    top: calc(50% - 1rem);
+  .info {
+    padding: 1rem;
+    img {
+      height: 8rem;
+    }
   }
 }
 </style>

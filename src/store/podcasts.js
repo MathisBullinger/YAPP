@@ -1,7 +1,8 @@
+import api from '~/api'
+import gql from 'graphql-tag'
+
 const types = {
-  ADD_PODCAST_ID: 'ADD_PODCAST_ID',
-  SET_TITLE: 'SET_TITLE',
-  SET_CREATOR: 'SET_CREATOR',
+  SET_PODCAST: 'SET_PODCAST',
 }
 
 import { assert } from '~/scripts/debug'
@@ -10,24 +11,54 @@ export default {
   namespaced: true,
   state: {
     podcasts: {},
+    podcastList: [],
+  },
+  getters: {
+    podcast: state => id => state.podcasts[id],
   },
   mutations: {
-    [types.ADD_PODCAST_ID]: (state, id) => {
-      if (!state.podcasts[id]) state.podcasts[id] = {}
-    },
-    [types.SET_TITLE]: (state, { id, title }) => {
-      state.podcasts[id].title = title
-    },
-    [types.SET_CREATOR]: (state, { id, creator }) => {
-      state.podcasts[id].creator = creator
+    [types.SET_PODCAST]: (state, { id, name, creator, artworks }) => {
+      if (!state.podcastList.includes(id)) {
+        state.podcastList.push(id)
+        state.podcasts[id] = {}
+      }
+
+      Object.assign(state.podcasts[id], {
+        ...(name && { name }),
+        ...(creator && { creator }),
+        ...(artworks && { artworks }),
+      })
     },
   },
   actions: {
-    addPodcast: async ({ state, commit }, { id, title, creator }) => {
-      assert(() => id !== undefined, 'podcast id required')
-      if (!state[id]) commit(types.ADD_PODCAST_ID, id)
-      if (title) commit(types.SET_TITLE, { id, title })
-      if (creator) commit(types.SET_CREATOR, { id, creator })
+    loadPodcast: async ({ state, commit }, itunesId) => {
+      assert(() => itunesId)
+
+      const {
+        data: { podcast },
+      } = await api.query({
+        query: gql`
+          query loadPodcast($itunesId: ID!) {
+            podcast(itunesId: $itunesId) {
+              name
+              creator
+              artworks {
+                url
+                size
+              }
+            }
+          }
+        `,
+        variables: {
+          itunesId,
+        },
+      })
+
+      if (!podcast) return
+
+      commit(types.SET_PODCAST, { id: itunesId, ...podcast })
     },
+
+    setPodcast: ({ commit }, payload) => commit(types.SET_PODCAST, payload),
   },
 }
