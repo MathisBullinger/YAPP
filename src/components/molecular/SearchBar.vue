@@ -5,7 +5,7 @@
       v-for="result in searchResults"
       :id="result.id"
       :key="result.id"
-      :title="result.name"
+      :name="result.name"
       :creator="result.creator"
       :artworks="result.artworks"
     ></SearchResult>

@@ -1,8 +1,8 @@
 <template>
   <div :class="getClass" @click="onClick">
-    <img :src="thumbnail" ref="thumbnail" />
+    <img ref="thumbnail" :src="thumbnail" />
     <div class="text">
-      <Paragraph>{{ title }}</Paragraph>
+      <Paragraph>{{ name }}</Paragraph>
       <Paragraph>{{ creator }}</Paragraph>
     </div>
   </div>
@@ -15,7 +15,7 @@ import { mapActions } from 'vuex'
 export default new Component({
   name: 'SearchResult',
   props: {
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -42,11 +42,11 @@ export default new Component({
     },
   },
   methods: {
-    ...mapActions('podcasts', ['addPodcast']),
+    ...mapActions('podcasts', ['setPodcast']),
     onClick() {
-      this.addPodcast({
+      this.setPodcast({
         id: this.id,
-        ...(this.title && { title: this.title }),
+        ...(this.name && { name: this.name }),
         ...(this.creator && { creator: this.creator }),
       })
       this.$router.push(`/podcast/${this.id}`)
