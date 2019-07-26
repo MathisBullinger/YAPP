@@ -13,11 +13,15 @@ export default new Component({
   methods: {
     onScroll: throttle(function() {
       const scrollDelta = this.$el.scrollTop - this.lastScrollPos
-      if (scrollDelta > 0 !== this.lastScrollDelta > 0)
+      if (
+        scrollDelta > 0 !== this.lastScrollDelta > 0 &&
+        this.$el.scrollTop > 0 && // topmost
+        this.$el.scrollHeight - this.$el.scrollTop > this.$el.offsetHeight // bottommost
+      )
         this.$parent.$emit('scrollDirChange', scrollDelta)
       this.lastScrollDelta = this.$el.scrollTop - this.lastScrollPos
       this.lastScrollPos = this.$el.scrollTop
-    }, 200),
+    }, 100),
   },
   data() {
     return {
