@@ -31,7 +31,7 @@ export default {
     },
   },
   actions: {
-    loadPodcast: async ({ state, commit }, itunesId) => {
+    loadPodcast: async ({ commit }, itunesId) => {
       assert(() => itunesId)
 
       const {

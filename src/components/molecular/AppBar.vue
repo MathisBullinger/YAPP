@@ -1,5 +1,8 @@
 <template>
-  <div class="app-bar" :class="{ hidden: !showAppBar || scrollDir > 0, animated }">
+  <div
+    class="app-bar"
+    :class="{ hidden: !showAppBar || scrollDir > 0, animated }"
+  >
     <Header s2 class="title">{{ pageTitle }}</Header>
     <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
   </div>
@@ -37,11 +40,6 @@ export default new Component({
     showAppBar(v) {
       if (!v) this.animated = false
       else setTimeout(() => (this.animated = true), 100)
-    },
-  },
-  methods: {
-    onScroll(e) {
-      console.log(e)
     },
   },
   mounted() {

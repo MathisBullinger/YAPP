@@ -3,7 +3,7 @@
     <template v-if="loaded">
       <div class="info">
         <img ref="artwork" :src="artwork" />
-        <Paragraph>{{podcast.creator}}</Paragraph>
+        <Paragraph>{{ podcast.creator }}</Paragraph>
       </div>
     </template>
   </div>
@@ -50,8 +50,6 @@ export default new Component({
     Object.assign(this.podcast, this.podcasts[this.id])
     this.setPageLoading(false)
     this.loaded = true
-
-    console.log(this.podcast.artworks)
   },
   watch: {
     podcast: {

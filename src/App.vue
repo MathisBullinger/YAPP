@@ -1,7 +1,10 @@
 <template>
   <div :class="getClass">
     <AppBar :scroll-dir="scrollDir"></AppBar>
-    <RouterView class="content" @scrollDirChange="onScrollDirChange"></RouterView>
+    <RouterView
+      class="content"
+      @scrollDirChange="onScrollDirChange"
+    ></RouterView>
     <!-- <ControlBar></ControlBar> -->
     <MainNav></MainNav>
   </div>
