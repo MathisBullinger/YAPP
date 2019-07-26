@@ -1,7 +1,7 @@
 <template>
   <div :class="getClass">
-    <AppBar></AppBar>
-    <RouterView class="content"></RouterView>
+    <AppBar :scrollDir="scrollDir"></AppBar>
+    <RouterView class="content" @scrollDirChange="onScrollDirChange"></RouterView>
     <!-- <ControlBar></ControlBar> -->
     <MainNav></MainNav>
   </div>
@@ -21,7 +21,17 @@ export default new Component({
     ControlBar,
     MainNav,
   },
-  methods: mapActions('user', ['initGoogleAuth']),
+  data() {
+    return {
+      scrollDir: 0,
+    }
+  },
+  methods: {
+    ...mapActions('user', ['initGoogleAuth']),
+    onScrollDirChange(dir) {
+      this.scrollDir = dir
+    },
+  },
   created() {
     if (window.gapi) {
       this.initGoogleAuth()
