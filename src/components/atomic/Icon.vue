@@ -1,11 +1,7 @@
 <template>
-  <object
-    type="image/svg+xml"
-    :data="icon"
-    :style="opacity"
-    @load="objLoaded"
-    @click="$emit('click')"
-  ></object>
+  <div :class="getClass" @click="$emit('click')">
+    <object ref="obj" type="image/svg+xml" :data="icon" :style="opacity" @load="objLoaded"></object>
+  </div>
 </template>
 
 <script>
@@ -39,9 +35,19 @@ export default new Component({
   },
   methods: {
     objLoaded() {
-      this.$el.getSVGDocument().querySelector('path').style.fill = ICON_COLOR
+      this.$refs.obj
+        .getSVGDocument()
+        .querySelector('path').style.fill = ICON_COLOR
       this.loaded = true
     },
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.icon {
+  object {
+    pointer-events: none;
+  }
+}
+</style>
