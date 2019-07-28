@@ -28,9 +28,14 @@ export default new Component({
     }
   },
   computed: {
-    ...mapState('podcasts', ['episodes']),
+    ...mapState('podcasts', ['episodes', 'podcasts']),
     image() {
-      return this.episodes[this.id].image
+      const minSize = Math.min(window.innerHeight, window.innerWidth)
+
+      const sorted = this.podcasts[
+        this.episodes[this.id].podcastId
+      ].artworks.sort((a, b) => a.size - b.size)
+      return (sorted.find(art => art.size >= minSize) || sorted.pop()).url
     },
   },
   methods: {

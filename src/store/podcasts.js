@@ -29,6 +29,7 @@ export default {
           state.episodes[episode.id] = state.podcasts[payload.id].episodes.find(
             e => e.id === episode.id
           )
+          state.episodes[episode.id].podcastId = payload.id
         })
       }
     },
