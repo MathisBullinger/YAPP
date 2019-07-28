@@ -1,0 +1,14 @@
+query loadPodcast($itunesId: ID!) {
+  podcast(itunesId: $itunesId) {
+    name
+    creator
+    artworks {
+      url
+      size
+    }
+    episodes {
+      title
+      file
+    }
+  }
+}

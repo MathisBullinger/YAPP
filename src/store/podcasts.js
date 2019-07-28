@@ -1,5 +1,6 @@
 import api from '~/api'
 import gql from 'graphql-tag'
+import loadPodcastQuery from '~/gql/loadPodcast'
 
 const types = {
   SET_PODCAST: 'SET_PODCAST',
@@ -33,22 +34,7 @@ export default {
       const {
         data: { podcast },
       } = await api.query({
-        query: gql`
-          query loadPodcast($itunesId: ID!) {
-            podcast(itunesId: $itunesId) {
-              name
-              creator
-              artworks {
-                url
-                size
-              }
-              episodes {
-                title
-                file
-              }
-            }
-          }
-        `,
+        query: loadPodcastQuery,
         variables: {
           itunesId,
         },
