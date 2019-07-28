@@ -1,6 +1,12 @@
 <template>
   <div :class="getClass" @click="$emit('click')">
-    <object ref="obj" type="image/svg+xml" :data="icon" :style="opacity" @load="objLoaded"></object>
+    <object
+      ref="obj"
+      type="image/svg+xml"
+      :data="icon"
+      :style="opacity"
+      @load="objLoaded"
+    ></object>
   </div>
 </template>
 

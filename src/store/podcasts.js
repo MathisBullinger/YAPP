@@ -44,6 +44,7 @@ export default {
               }
               episodes {
                 title
+                file
               }
             }
           }

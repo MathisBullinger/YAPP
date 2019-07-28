@@ -4,7 +4,11 @@
       <div class="info">
         <img ref="artwork" :src="artwork" />
         <Paragraph>{{ podcast.creator }}</Paragraph>
-        <Paragraph v-for="episode in podcast.episodes" :key="episode.title">{{episode.title}}</Paragraph>
+        <Episode
+          v-for="episode in podcast.episodes"
+          :key="episode.title"
+          :episode="episode"
+        ></Episode>
       </div>
     </template>
   </div>
@@ -12,6 +16,7 @@
 
 <script>
 import Component from '~/scripts/component'
+import Episode from './podcast/Episode'
 import { mapState, mapActions } from 'vuex'
 
 export default new Component({
@@ -19,6 +24,9 @@ export default new Component({
   props: {
     id: String,
     required: true,
+  },
+  components: {
+    Episode,
   },
   data() {
     return {
