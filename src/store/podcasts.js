@@ -17,17 +17,13 @@ export default {
     podcast: state => id => state.podcasts[id],
   },
   mutations: {
-    [types.SET_PODCAST]: (state, { id, name, creator, artworks }) => {
-      if (!state.podcastList.includes(id)) {
-        state.podcastList.push(id)
-        state.podcasts[id] = {}
+    [types.SET_PODCAST]: (state, payload) => {
+      if (!state.podcastList.includes(payload.id)) {
+        state.podcastList.push(payload.id)
+        state.podcasts[payload.id] = {}
       }
 
-      Object.assign(state.podcasts[id], {
-        ...(name && { name }),
-        ...(creator && { creator }),
-        ...(artworks && { artworks }),
-      })
+      Object.assign(state.podcasts[payload.id], payload)
     },
   },
   actions: {
@@ -45,6 +41,9 @@ export default {
               artworks {
                 url
                 size
+              }
+              episodes {
+                title
               }
             }
           }

@@ -4,6 +4,7 @@
       <div class="info">
         <img ref="artwork" :src="artwork" />
         <Paragraph>{{ podcast.creator }}</Paragraph>
+        <Paragraph v-for="episode in podcast.episodes" :key="episode.title">{{episode.title}}</Paragraph>
       </div>
     </template>
   </div>
@@ -25,6 +26,7 @@ export default new Component({
       podcast: {
         name: '',
         creator: '',
+        episodes: [],
       },
     }
   },
