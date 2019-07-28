@@ -1,5 +1,4 @@
 import api from '~/api'
-import gql from 'graphql-tag'
 import loadPodcastQuery from '~/gql/loadPodcast'
 
 const types = {
@@ -13,6 +12,7 @@ export default {
   state: {
     podcasts: {},
     podcastList: [],
+    episodes: {},
   },
   getters: {
     podcast: state => id => state.podcasts[id],
@@ -23,8 +23,14 @@ export default {
         state.podcastList.push(payload.id)
         state.podcasts[payload.id] = {}
       }
-
       Object.assign(state.podcasts[payload.id], payload)
+      if ('episodes' in payload) {
+        payload.episodes.forEach(episode => {
+          state.episodes[episode.id] = state.podcasts[payload.id].episodes.find(
+            e => e.id === episode.id
+          )
+        })
+      }
     },
   },
   actions: {
