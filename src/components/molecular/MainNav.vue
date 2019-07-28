@@ -30,6 +30,7 @@ export default new Component({
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
+  overflow: hidden;
 
   .icon {
     cursor: pointer;

@@ -16,7 +16,9 @@ export default new Component({
     },
   },
   methods: {
-    onClick() {},
+    onClick() {
+      this.$parent.$emit('showEpisode', this.episode.id)
+    },
   },
 })
 </script>

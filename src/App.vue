@@ -1,12 +1,10 @@
 <template>
   <div :class="getClass">
     <AppBar :scroll-dir="scrollDir"></AppBar>
-    <RouterView
-      class="content"
-      @scrollDirChange="onScrollDirChange"
-    ></RouterView>
+    <RouterView class="content" @scrollDirChange="onScrollDirChange" @showEpisode="showEpisode"></RouterView>
     <!-- <ControlBar></ControlBar> -->
     <MainNav></MainNav>
+    <Episode v-if="episode" :id="episode"></Episode>
   </div>
 </template>
 
@@ -15,6 +13,7 @@ import Component from '~/scripts/component'
 import AppBar from '~/components/molecular/AppBar'
 import ControlBar from '~/components/molecular/ControlBar'
 import MainNav from '~/components/molecular/MainNav'
+import Episode from '~/pages/Episode'
 import { mapActions } from 'vuex'
 
 export default new Component({
@@ -23,16 +22,21 @@ export default new Component({
     AppBar,
     ControlBar,
     MainNav,
+    Episode,
   },
   data() {
     return {
       scrollDir: 0,
+      episode: false,
     }
   },
   methods: {
     ...mapActions('user', ['initGoogleAuth']),
     onScrollDirChange(dir) {
       this.scrollDir = dir
+    },
+    showEpisode(id) {
+      this.episode = id
     },
   },
   created() {
