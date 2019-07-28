@@ -1,9 +1,18 @@
 <template>
-  <div :class="{...getClassObj, hidden}"></div>
+  <div :class="{...getClassObj, hidden}">
+    <template v-if="episodes && id in episodes">
+      <Icon name="nav_down" @click="close"></Icon>
+      <img :src="image" />
+      <div class="square"></div>
+      <div class="image"></div>
+      <Header s2>{{episodes[id].title}}</Header>
+    </template>
+  </div>
 </template>
 
 <script>
 import Component from '~/scripts/component'
+import { mapState } from 'vuex'
 
 export default new Component({
   name: 'Episode',
@@ -17,6 +26,18 @@ export default new Component({
     return {
       hidden: true,
     }
+  },
+  computed: {
+    ...mapState('podcasts', ['episodes']),
+    image() {
+      return this.episodes[this.id].image
+    },
+  },
+  methods: {
+    close() {
+      this.hidden = true
+      setTimeout(() => this.$emit('closed'), 500)
+    },
   },
   mounted() {
     setTimeout(() => (this.hidden = false), 10)
@@ -38,9 +59,20 @@ export default new Component({
   transition: top 0.4s ease-out;
   will-change: top;
   box-shadow: shadow(4);
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
 
   &.hidden {
+    transition: top 0.4s ease-in;
     top: 100%;
+  }
+
+  img {
+    position: relative;
+    width: 50vmin;
+    height: 50vmin;
+    object-fit: cover;
   }
 }
 </style>

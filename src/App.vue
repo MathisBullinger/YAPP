@@ -4,7 +4,7 @@
     <RouterView class="content" @scrollDirChange="onScrollDirChange" @showEpisode="showEpisode"></RouterView>
     <!-- <ControlBar></ControlBar> -->
     <MainNav></MainNav>
-    <Episode v-if="episode" :id="episode"></Episode>
+    <Episode v-if="episode" :id="episode" @closed="closeEpisode"></Episode>
   </div>
 </template>
 
@@ -38,6 +38,9 @@ export default new Component({
     showEpisode(id) {
       this.episode = id
     },
+    closeEpisode() {
+      this.episode = false
+    }
   },
   created() {
     if (window.gapi) {

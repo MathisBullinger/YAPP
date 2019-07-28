@@ -10,6 +10,7 @@ query loadPodcast($itunesId: ID!) {
       id
       title
       file
+      image
     }
   }
 }
