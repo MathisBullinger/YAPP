@@ -1,5 +1,5 @@
 <template>
-  <button data-playing="false" role="switch" aria-checked="false" @click="toggle">
+  <button role="switch" :aria-checked="value" @click="toggle">
     <Icon :name="value ? 'pause' : 'play'"></Icon>
   </button>
 </template>
@@ -9,15 +9,14 @@ import Component from '~scripts/component'
 
 export default new Component({
   name: 'PlayButton',
-  data() {
-    return {
-      value: false,
-    }
+  props: {
+    value: {
+      type: Boolean,
+    },
   },
   methods: {
     toggle() {
-      this.value = !this.value
-      this.$emit('input', this.value)
+      this.$emit('input', !this.value)
     },
   },
 })
