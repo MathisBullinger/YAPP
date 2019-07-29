@@ -17,17 +17,13 @@
   --baseline: var(--baseline-raw);
   line-height: var(--baseline);
   font-family: $font-primary;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 body {
   margin: 0;
   padding: 0;
 
-  &::-webkit-scrollbar {
-    display: none;
+  &.noscroll {
+    overflow-y: hidden;
   }
 }

@@ -57,7 +57,6 @@ export default new Component({
   width: 100vw;
   height: 100vh;
   top: 0;
-  overflow-y: scroll;
   z-index: 2000;
   background-color: white;
   transition: transform 0.4s ease-out;

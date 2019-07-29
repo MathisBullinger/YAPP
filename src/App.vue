@@ -40,9 +40,11 @@ export default new Component({
     },
     showEpisode(id) {
       this.episode = id
+      document.body.classList.add('noscroll')
     },
     closeEpisode() {
       this.episode = false
+      document.body.classList.remove('noscroll')
     },
     onScroll: throttle(function() {
       const scrollDelta = window.scrollY - this.lastScrollPos
