@@ -1,8 +1,7 @@
 <template>
   <div :class="getClass">
-    <audio src="http://traffic.libsyn.com/hellointernet/126.mp3"></audio>
+    <audio crossorigin="anonymous" src="http://traffic.libsyn.com/hellointernet/126.mp3"></audio>
     <div class="controls">
-      <!-- <Icon :name="playState ? 'pause' : 'play'" @click="togglePlay"></Icon> -->
       <PlayButton v-model="playState"></PlayButton>
     </div>
   </div>
@@ -21,12 +20,23 @@ export default new Component({
     return {
       audioContext: new (window.AudioContext || window.webkitAudioContext)(),
       playState: false,
+      track: null,
+      audioElement: null,
     }
   },
   watch: {
     playState(v) {
-      console.log(v)
+      if (this.audioContext.state === 'suspended') {
+        this.audioContext.resume()
+      }
+      if (v) this.audioElement.play()
+      else this.audioElement.pause()
     },
+  },
+  mounted() {
+    this.audioElement = this.$el.querySelector('audio')
+    this.track = this.audioContext.createMediaElementSource(this.audioElement)
+    this.track.connect(this.audioContext.destination)
   },
 })
 </script>
