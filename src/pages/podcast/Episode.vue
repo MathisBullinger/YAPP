@@ -1,7 +1,11 @@
 <template>
-  <div :class="getClass" @click="onClick">
-    <Paragraph>{{ episode.title }}</Paragraph>
-    <Icon name="play"></Icon>
+  <div :class="getClass">
+    <div class="left" @click="onClick">
+      <Paragraph>{{ episode.title }}</Paragraph>
+    </div>
+    <div class="right" @click="play">
+      <Icon name="play"></Icon>
+    </div>
   </div>
 </template>
 
@@ -20,6 +24,9 @@ export default new Component({
     onClick() {
       this.$parent.$emit('showEpisode', this.episode.id)
     },
+    play(e) {
+      console.log('play', e)
+    },
   },
 })
 </script>
@@ -30,5 +37,28 @@ export default new Component({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 4rem;
+
+  .left,
+  .right {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    * {
+      margin: 0;
+    }
+  }
+
+  .left {
+    flex-grow: 1;
+  }
+
+  .right {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: -1rem;
+  }
 }
 </style>

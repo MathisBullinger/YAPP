@@ -1,5 +1,5 @@
 <template>
-  <svgicon :class="getClass" @click="$emit('click')" :name="name" color="#000"></svgicon>
+  <svgicon :class="getClass" @click="$emit('click')" :name="name" :color="color"></svgicon>
 </template>
 
 <script>
@@ -13,6 +13,11 @@ export default new Component({
       type: String,
       default: '',
     },
+  },
+  data() {
+    return {
+      color: '#000',
+    }
   },
 })
 </script>

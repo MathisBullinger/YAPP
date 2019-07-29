@@ -20,17 +20,14 @@ export default new Component({
 
 .main-nav {
   background-color: white;
-  box-shadow: shadow(4);
-
   height: 4rem;
   width: 100%;
-  overflow: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  z-index: 1000;
-  overflow: hidden;
+  grid-column: 1 / -1;
+  @include pseudoShadow(7);
 
   .icon {
     cursor: pointer;
@@ -40,6 +37,7 @@ export default new Component({
     width: 5rem;
     height: 100%;
     flex-direction: column;
+    grid-area: left;
   }
 }
 </style>

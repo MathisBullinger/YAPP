@@ -1,12 +1,8 @@
 <template>
   <div :class="getClass">
     <AppBar :scroll-dir="scrollDir"></AppBar>
-    <RouterView
-      class="content"
-      @scrollDirChange="onScrollDirChange"
-      @showEpisode="showEpisode"
-    ></RouterView>
-    <!-- <ControlBar></ControlBar> -->
+    <RouterView class="content" @scrollDirChange="onScrollDirChange" @showEpisode="showEpisode"></RouterView>
+    <Player></Player>
     <MainNav></MainNav>
     <Episode v-if="episode" :id="episode" @closed="closeEpisode"></Episode>
   </div>
@@ -15,7 +11,7 @@
 <script>
 import Component from '~/scripts/component'
 import AppBar from '~/components/molecular/AppBar'
-import ControlBar from '~/components/molecular/ControlBar'
+import Player from '~/components/molecular/Player'
 import MainNav from '~/components/molecular/MainNav'
 import Episode from '~/pages/Episode'
 import { mapActions } from 'vuex'
@@ -24,7 +20,7 @@ export default new Component({
   name: 'App',
   components: {
     AppBar,
-    ControlBar,
+    Player,
     MainNav,
     Episode,
   },
@@ -83,22 +79,10 @@ export default new Component({
     width: 100%;
   }
 
-  .control-bar {
-    grid-area: bottom;
-  }
-
-  .main-nav {
-    grid-column: 1 / -1;
-  }
-
   @media (orientation: landscape) {
     grid-template-areas:
       'left right'
       'bottom bottom';
-
-    .main-nav {
-      grid-area: left;
-    }
 
     .content {
       grid-area: right;

@@ -4,11 +4,7 @@
       <div class="info">
         <img ref="artwork" :src="artwork" />
         <Paragraph>{{ podcast.creator }}</Paragraph>
-        <Episode
-          v-for="episode in podcast.episodes"
-          :key="episode.title"
-          :episode="episode"
-        ></Episode>
+        <Episode v-for="episode in podcast.episodes" :key="episode.title" :episode="episode"></Episode>
       </div>
     </template>
   </div>
@@ -78,7 +74,7 @@ export default new Component({
 <style lang="scss" scoped>
 .podcast {
   .info {
-    padding: 1rem;
+    padding: 1.5rem;
     img {
       height: 8rem;
     }
