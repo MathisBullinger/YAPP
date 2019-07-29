@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="app-bar"
-    :class="{ hidden: !showAppBar || scrollDir > 0, animated }"
-  >
+  <div class="app-bar" :class="{ hidden: !showAppBar || scrollDir > 0, animated }">
     <Header s2 class="title">{{ pageTitle }}</Header>
     <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
   </div>
@@ -60,9 +57,10 @@ export default new Component({
   display: flex;
   align-items: center;
   padding-left: 1rem;
-  position: relative;
+  position: fixed;
   top: 0;
   margin-bottom: 0;
+  background-color: white;
 
   @media (orientation: 'landscape') {
     display: none;

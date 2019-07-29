@@ -63,30 +63,11 @@ export default new Component({
 
 <style lang="scss" scoped>
 .app {
-  height: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: auto 1fr;
-  grid-template-areas:
-    'top top'
-    'main main'
-    'bottom bottom';
-
   .content {
-    grid-area: main;
-    overflow-y: scroll;
     box-sizing: border-box;
     width: 100%;
-  }
-
-  @media (orientation: landscape) {
-    grid-template-areas:
-      'left right'
-      'bottom bottom';
-
-    .content {
-      grid-area: right;
-    }
+    min-height: 100vh;
+    padding-top: 3.5rem;
   }
 }
 </style>

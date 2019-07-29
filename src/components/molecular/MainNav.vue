@@ -26,8 +26,10 @@ export default new Component({
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  grid-column: 1 / -1;
-  @include pseudoShadow(7);
+  box-shadow: shadow(7);
+
+  position: sticky;
+  bottom: 0;
 
   .icon {
     cursor: pointer;
@@ -37,7 +39,6 @@ export default new Component({
     width: 5rem;
     height: 100%;
     flex-direction: column;
-    grid-area: left;
   }
 }
 </style>

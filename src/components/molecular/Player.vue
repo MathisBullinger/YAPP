@@ -1,6 +1,6 @@
 <template>
   <div :class="getClass">
-    <audio crossorigin="anonymous" src="http://traffic.libsyn.com/hellointernet/126.mp3"></audio>
+    <audio crossorigin="anonymous" src="https://traffic.libsyn.com/hellointernet/126.mp3"></audio>
     <div class="controls">
       <PlayButton v-model="playState"></PlayButton>
     </div>
@@ -48,10 +48,12 @@ export default new Component({
   width: 100%;
   height: 4rem;
   background-color: white;
-  grid-area: bottom;
   box-sizing: border-box;
   border-bottom: 1px solid rgba(#000, 8%);
-  @include pseudoShadow(7);
+  box-shadow: shadow(7);
+
+  position: sticky;
+  bottom: 4rem;
 
   display: flex;
   flex-direction: row;
