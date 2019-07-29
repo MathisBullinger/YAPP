@@ -1,20 +1,18 @@
 <template>
-  <Page :class="getClass">
+  <div :class="getClass">
     <PodTile v-for="i in new Array(50)" :key="i"></PodTile>
-  </Page>
+  </div>
 </template>
 
 <script>
 import Component from '~/scripts/component'
 import PodTile from './library/PodTile'
-import Page from '~/components/molecular/Page'
 import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'Library',
   components: {
     PodTile,
-    Page,
   },
   methods: mapActions('app', ['setPage', 'showAppBar']),
   created() {

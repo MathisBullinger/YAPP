@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { debounce, throttle } from 'lodash'
 import Component from '~/scripts/component'
 import AppBar from '~/components/molecular/AppBar'
 import Player from '~/components/molecular/Player'
@@ -28,11 +29,14 @@ export default new Component({
     return {
       scrollDir: 0,
       episode: false,
+      lastScrollPos: 0,
+      lastScrollDelta: 0,
     }
   },
   methods: {
     ...mapActions('user', ['initGoogleAuth']),
     onScrollDirChange(dir) {
+      console.log('scroll', dir)
       this.scrollDir = dir
     },
     showEpisode(id) {
@@ -41,6 +45,25 @@ export default new Component({
     closeEpisode() {
       this.episode = false
     },
+    onScroll: throttle(function() {
+      const scrollDelta = window.scrollY - this.lastScrollPos
+      if (
+        scrollDelta > 0 !== this.lastScrollDelta > 0 &&
+        window.scrollY > 0 && // not topmost
+        document.body.scrollHeight - window.scrollY >
+          document.body.offsetHeight // not bottommost
+      )
+        this.onScrollDirChange(scrollDelta)
+      this.lastScrollDelta = window.scrollY - this.lastScrollPos
+      this.lastScrollPos = window.scrollY
+
+      if (window.scrollY === 0) this.lastScrollDelta = -1
+      else if (
+        document.body.scrollHeight - window.scrollY <=
+        document.body.offsetHeight
+      )
+        this.lastScrollDelta = 1
+    }, 100),
   },
   created() {
     if (window.gapi) {
@@ -57,6 +80,11 @@ export default new Component({
       this.$el.style.height = `${height}px`
     })
     window.dispatchEvent(new Event('resize'))
+
+    this.lastScrollPos = window.scrollY
+    window.addEventListener('scroll', debounce(this.onScroll), {
+      passive: true,
+    })
   },
 })
 </script>
