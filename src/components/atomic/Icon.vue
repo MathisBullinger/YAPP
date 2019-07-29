@@ -1,7 +1,5 @@
 <template>
-  <div :class="getClass">
-    <Svgicon :name="name" color="#000"></Svgicon>
-  </div>
+  <svgicon :class="getClass" @click="$emit('click')" :name="name" color="#000"></svgicon>
 </template>
 
 <script>
