@@ -1,11 +1,11 @@
 <template>
-  <div :class="{...getClassObj, hidden}">
+  <div :class="{ ...getClassObj, hidden }">
     <template v-if="episodes && id in episodes">
       <Icon name="nav_down" @click="close"></Icon>
       <img class="artwork" :src="image" />
       <div class="square"></div>
       <div class="image"></div>
-      <Header s2>{{episodes[id].title}}</Header>
+      <Header s2>{{ episodes[id].title }}</Header>
     </template>
   </div>
 </template>

@@ -1,7 +1,11 @@
 <template>
   <div :class="getClass">
     <AppBar :scroll-dir="scrollDir"></AppBar>
-    <RouterView class="content" @scrollDirChange="onScrollDirChange" @showEpisode="showEpisode"></RouterView>
+    <RouterView
+      class="content"
+      @scrollDirChange="onScrollDirChange"
+      @showEpisode="showEpisode"
+    ></RouterView>
     <!-- <ControlBar></ControlBar> -->
     <MainNav></MainNav>
     <Episode v-if="episode" :id="episode" @closed="closeEpisode"></Episode>
@@ -40,7 +44,7 @@ export default new Component({
     },
     closeEpisode() {
       this.episode = false
-    }
+    },
   },
   created() {
     if (window.gapi) {
