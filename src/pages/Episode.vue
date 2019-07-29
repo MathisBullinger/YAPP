@@ -53,15 +53,15 @@ export default new Component({
 @import '~/styles/shadows';
 
 .episode {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   overflow-y: scroll;
   z-index: 2000;
+  will-change: top;
   top: 0;
   background-color: white;
   transition: top 0.4s ease-out;
-  will-change: top;
   box-shadow: shadow(4);
   padding: 1rem;
   box-sizing: border-box;
@@ -69,7 +69,7 @@ export default new Component({
 
   &.hidden {
     transition: top 0.4s ease-in;
-    top: 100%;
+    top: 100vw;
   }
 
   .artwork {

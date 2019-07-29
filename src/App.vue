@@ -36,7 +36,6 @@ export default new Component({
   methods: {
     ...mapActions('user', ['initGoogleAuth']),
     onScrollDirChange(dir) {
-      console.log('scroll', dir)
       this.scrollDir = dir
     },
     showEpisode(id) {
@@ -50,8 +49,7 @@ export default new Component({
       if (
         scrollDelta > 0 !== this.lastScrollDelta > 0 &&
         window.scrollY > 0 && // not topmost
-        document.body.scrollHeight - window.scrollY >
-          document.body.offsetHeight // not bottommost
+        document.body.scrollHeight - window.scrollY > document.body.offsetHeight // not bottommost
       )
         this.onScrollDirChange(scrollDelta)
       this.lastScrollDelta = window.scrollY - this.lastScrollPos
