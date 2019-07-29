@@ -56,20 +56,19 @@ export default new Component({
   position: fixed;
   width: 100vw;
   height: 100vh;
+  top: 0;
   overflow-y: scroll;
   z-index: 2000;
-  will-change: top;
-  top: 0;
   background-color: white;
-  transition: top 0.4s ease-out;
+  transition: transform 0.4s ease-out;
   box-shadow: shadow(4);
   padding: 1rem;
   box-sizing: border-box;
   overflow-x: hidden;
 
   &.hidden {
-    transition: top 0.4s ease-in;
-    top: 100vw;
+    transition: transform 0.4s ease-in;
+    transform: translateY(100vh);
   }
 
   .artwork {

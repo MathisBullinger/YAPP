@@ -58,7 +58,6 @@ export default new Component({
   align-items: center;
   padding-left: 1rem;
   position: fixed;
-  top: 0;
   margin-bottom: 0;
   background-color: white;
 
@@ -68,8 +67,7 @@ export default new Component({
 
   &.animated {
     $transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transition: top $transition, margin-bottom $transition,
-      box-shadow $transition;
+    transition: transform $transition, box-shadow $transition;
   }
 
   .title {
@@ -85,9 +83,8 @@ export default new Component({
   }
 
   &.hidden {
-    top: -3.5rem;
-    margin-bottom: -3.5rem;
     box-shadow: none;
+    transform: translateY(-3.5rem);
 
     .progress {
       bottom: initial;
