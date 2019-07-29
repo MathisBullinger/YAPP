@@ -2,7 +2,7 @@
   <div :class="{...getClassObj, hidden}">
     <template v-if="episodes && id in episodes">
       <Icon name="nav_down" @click="close"></Icon>
-      <img :src="image" />
+      <img class="artwork" :src="image" />
       <div class="square"></div>
       <div class="image"></div>
       <Header s2>{{episodes[id].title}}</Header>
@@ -31,7 +31,6 @@ export default new Component({
     ...mapState('podcasts', ['episodes', 'podcasts']),
     image() {
       const minSize = Math.min(window.innerHeight, window.innerWidth)
-
       const sorted = this.podcasts[
         this.episodes[this.id].podcastId
       ].artworks.sort((a, b) => a.size - b.size)
@@ -73,7 +72,7 @@ export default new Component({
     top: 100%;
   }
 
-  img {
+  .artwork {
     position: relative;
     width: 50vmin;
     height: 50vmin;

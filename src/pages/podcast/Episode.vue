@@ -1,6 +1,7 @@
 <template>
   <div :class="getClass" @click="onClick">
     <Paragraph>{{ episode.title }}</Paragraph>
+    <Icon name="play"></Icon>
   </div>
 </template>
 
@@ -26,5 +27,8 @@ export default new Component({
 <style lang="scss" scoped>
 .episode {
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>
