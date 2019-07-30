@@ -67,5 +67,9 @@ export default new Component({
     justify-content: space-around;
     align-items: center;
   }
+
+  @media (orientation: landscape) {
+    bottom: 0;
+  }
 }
 </style>

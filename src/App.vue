@@ -87,22 +87,24 @@ export default new Component({
 <style lang="scss" scoped>
 .app {
   min-height: 100vh;
+  overflow: auto;
 
   .content {
     box-sizing: border-box;
     width: 100%;
     min-height: 100vh;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
 
     @media (orientation: portrait) {
-      padding-bottom: 5.5rem;
-      padding-top: 5rem;
+      margin-bottom: 4rem;
+      margin-top: 4rem;
     }
   }
 
   .player ~ .content {
-    padding-bottom: 9.5rem;
+    margin-bottom: 8rem;
+    @media (orientation: landscape) {
+      margin-bottom: 4rem;
+    }
   }
 }
 </style>
