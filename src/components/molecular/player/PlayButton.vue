@@ -23,4 +23,12 @@ export default new Component({
 </script>
 
 <style lang="scss" scoped>
+button {
+  background-color: transparent;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+}
 </style>

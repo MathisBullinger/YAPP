@@ -3,6 +3,7 @@ import Vue from 'vue'
 import app from './app'
 import user from './user'
 import podcasts from './podcasts'
+import player from './player'
 
 Vue.use(Vuex)
 
@@ -12,5 +13,6 @@ export default new Vuex.Store({
     app,
     user,
     podcasts,
+    player,
   },
 })

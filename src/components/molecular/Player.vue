@@ -1,6 +1,12 @@
 <template>
-  <div :class="{...getClassObj, fixed}" :style="fixPos">
-    <audio crossorigin="anonymous" src="https://traffic.libsyn.com/hellointernet/126.mp3"></audio>
+  <div :class="{...getClassObj, fixed, hidden: episodeUrl === null}" :style="fixPos">
+    <audio
+      crossorigin="anonymous"
+      :src="episodeUrl"
+      @play="playState = true"
+      @playing="playState = true"
+      @pause="playState = false"
+    ></audio>
     <div class="controls">
       <PlayButton v-model="playState"></PlayButton>
     </div>
@@ -10,6 +16,7 @@
 <script>
 import Component from '~scripts/component'
 import PlayButton from './player/PlayButton'
+import { mapState } from 'vuex'
 
 export default new Component({
   name: 'Player',
@@ -22,26 +29,44 @@ export default new Component({
       default: false,
     },
   },
-  computed: {
-    fixPos() {
-      return !this.fixed || !this.$el ? {} : { top: `${this.$el.offsetTop}px` }
-    },
-  },
   data() {
     return {
       audioContext: new (window.AudioContext || window.webkitAudioContext)(),
       playState: false,
       track: null,
       audioElement: null,
+      episodeUrl: null,
     }
   },
+  computed: {
+    fixPos() {
+      return !this.fixed || !this.$el ? {} : { top: `${this.$el.offsetTop}px` }
+    },
+    ...mapState('player', ['request']),
+    ...mapState('podcasts', ['episodes']),
+  },
   watch: {
-    playState(v) {
+    async playState(v) {
       if (this.audioContext.state === 'suspended') {
-        this.audioContext.resume()
+        await this.audioContext.resume()
       }
-      if (v) this.audioElement.play()
-      else this.audioElement.pause()
+      if (v) {
+        if (this.audioElement.src) await this.audioElement.play()
+        else this.playState = false
+      } else await this.audioElement.pause()
+    },
+    request(v) {
+      this.playEpisode(v)
+    },
+  },
+  methods: {
+    async playEpisode(episodeId) {
+      if (!this.episodes[episodeId] || !this.episodes[episodeId].file) return
+      await this.audioElement.pause()
+      this.episodeUrl = this.episodes[episodeId].file
+      await this.audioElement.load()
+      console.log(this.audioElement.play)
+      await this.audioElement.play()
     },
   },
   mounted() {
@@ -71,6 +96,10 @@ export default new Component({
   justify-content: space-between;
 
   z-index: 1001;
+
+  &.hidden {
+    display: none;
+  }
 
   .controls {
     height: 100%;

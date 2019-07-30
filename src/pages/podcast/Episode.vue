@@ -3,7 +3,7 @@
     <div class="left" @click="onClick">
       <Paragraph>{{ episode.title }}</Paragraph>
     </div>
-    <div class="right" @click="play">
+    <div class="right" @click="onPlay">
       <Icon name="play"></Icon>
     </div>
   </div>
@@ -11,6 +11,7 @@
 
 <script>
 import Component from '~/scripts/component'
+import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'Episode',
@@ -24,9 +25,10 @@ export default new Component({
     onClick() {
       this.$parent.$emit('showEpisode', this.episode.id)
     },
-    play(e) {
-      console.log('play', e)
+    onPlay(e) {
+      this.request(this.episode.id)
     },
+    ...mapActions('player', ['request']),
   },
 })
 </script>
