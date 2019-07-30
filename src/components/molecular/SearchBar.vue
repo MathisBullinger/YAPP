@@ -73,12 +73,6 @@ export default new Component({
   .input {
     margin: 0;
     width: calc(100% - 2rem);
-
-    position: fixed;
-
-    &:focus {
-      position: absolute;
-    }
   }
 }
 </style>
