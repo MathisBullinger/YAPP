@@ -1,7 +1,7 @@
 <template>
   <div :class="getClass">
     <AppBar :scroll-dir="scrollDir"></AppBar>
-    <RouterView class="content" @scrollDirChange="onScrollDirChange" @showEpisode="showEpisode"></RouterView>
+    <RouterView class="content" @showEpisode="showEpisode"></RouterView>
     <Player></Player>
     <MainNav></MainNav>
     <Episode v-if="episode" :id="episode" @closed="closeEpisode"></Episode>
@@ -63,7 +63,7 @@ export default new Component({
         document.body.offsetHeight
       )
         this.lastScrollDelta = 1
-    }, 100),
+    }, 50),
   },
   created() {
     if (window.gapi) {
@@ -76,11 +76,6 @@ export default new Component({
     }
   },
   mounted() {
-    window.addEventListener('resize', ({ target: { innerHeight: height } }) => {
-      this.$el.style.height = `${height}px`
-    })
-    window.dispatchEvent(new Event('resize'))
-
     this.lastScrollPos = window.scrollY
     window.addEventListener('scroll', debounce(this.onScroll), {
       passive: true,
@@ -94,8 +89,8 @@ export default new Component({
   .content {
     box-sizing: border-box;
     width: 100%;
-    min-height: 100vh;
-    padding-top: 3.5rem;
+    // min-height: 100vh;
+    padding-top: 5rem;
   }
 }
 </style>
