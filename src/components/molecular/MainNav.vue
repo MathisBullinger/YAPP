@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass">
+  <div :class="{...getClassObj, fixed}" :style="fixPos">
     <Icon name="library" @click="$router.push('/podcasts')"></Icon>
     <Icon name="feed" @click="$router.push('/')"></Icon>
     <Icon name="search" @click="$router.push('/')"></Icon>
@@ -12,6 +12,17 @@ import Component from '~/scripts/component'
 
 export default new Component({
   name: 'MainNav',
+  props: {
+    fixed: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    fixPos() {
+      return !this.fixed || !this.$el ? {} : { top: `${this.$el.offsetTop}px` }
+    },
+  },
 })
 </script>
 
@@ -35,10 +46,12 @@ export default new Component({
     cursor: pointer;
   }
 
-  @media (orientation: landscape) {
-    width: 5rem;
-    height: 100%;
-    flex-direction: column;
+  &:not(.fixed) {
+    @media (orientation: landscape) {
+      width: 5rem;
+      height: 100%;
+      flex-direction: column;
+    }
   }
 }
 </style>

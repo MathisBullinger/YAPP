@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass">
+  <div :class="{...getClassObj, fixed}" :style="fixPos">
     <audio crossorigin="anonymous" src="https://traffic.libsyn.com/hellointernet/126.mp3"></audio>
     <div class="controls">
       <PlayButton v-model="playState"></PlayButton>
@@ -15,6 +15,17 @@ export default new Component({
   name: 'Player',
   components: {
     PlayButton,
+  },
+  props: {
+    fixed: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    fixPos() {
+      return !this.fixed || !this.$el ? {} : { top: `${this.$el.offsetTop}px` }
+    },
   },
   data() {
     return {
@@ -68,8 +79,10 @@ export default new Component({
     align-items: center;
   }
 
-  @media (orientation: landscape) {
-    bottom: 0;
+  &:not(.fixed) {
+    @media (orientation: landscape) {
+      bottom: 0;
+    }
   }
 }
 </style>

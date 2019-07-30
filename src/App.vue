@@ -1,9 +1,9 @@
 <template>
   <div :class="getClass">
     <AppBar :scroll-dir="scrollDir"></AppBar>
-    <Player></Player>
-    <MainNav></MainNav>
-    <RouterView class="content" @showEpisode="showEpisode"></RouterView>
+    <Player :fixed="keyboardOpen"></Player>
+    <MainNav :fixed="keyboardOpen"></MainNav>
+    <RouterView class="content" @showEpisode="showEpisode" @keyboard="onKeyboard"></RouterView>
     <Episode v-if="episode" :id="episode" @closed="closeEpisode"></Episode>
   </div>
 </template>
@@ -31,6 +31,7 @@ export default new Component({
       episode: false,
       lastScrollPos: 0,
       lastScrollDelta: 0,
+      keyboardOpen: false,
     }
   },
   methods: {
@@ -64,6 +65,10 @@ export default new Component({
       )
         this.lastScrollDelta = 1
     }, 50),
+    onKeyboard(v) {
+      if (v) this.keyboardOpen = v
+      else setTimeout(() => (this.keyboardOpen = v), 200)
+    },
   },
   created() {
     if (window.gapi) {

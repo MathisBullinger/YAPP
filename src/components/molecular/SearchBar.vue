@@ -1,6 +1,10 @@
 <template>
   <div :class="getClass">
-    <Input v-model="search" />
+    <Input
+      v-model="search"
+      @focus="$parent.$emit('keyboard', true)"
+      @blur="$parent.$emit('keyboard', false)"
+    />
     <SearchResult
       v-for="result in searchResults"
       :id="result.id"
@@ -68,7 +72,13 @@ export default new Component({
 
   .input {
     margin: 0;
-    width: 100%;
+    width: calc(100% - 2rem);
+
+    position: fixed;
+
+    &:focus {
+      position: absolute;
+    }
   }
 }
 </style>
