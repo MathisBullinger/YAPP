@@ -70,6 +70,8 @@ export default new Component({
   flex-direction: row;
   justify-content: space-between;
 
+  z-index: 1001;
+
   .controls {
     height: 100%;
     display: flex;

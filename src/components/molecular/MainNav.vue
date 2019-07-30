@@ -42,6 +42,8 @@ export default new Component({
   position: fixed;
   bottom: 0;
 
+  z-index: 1002;
+
   .icon {
     cursor: pointer;
   }
@@ -49,8 +51,14 @@ export default new Component({
   &:not(.fixed) {
     @media (orientation: landscape) {
       width: 5rem;
-      height: 100%;
+      height: 100vh;
       flex-direction: column;
+      top: 0;
+
+      .player ~ & {
+        height: calc(100vh - 4rem);
+        z-index: 1000;
+      }
     }
   }
 }

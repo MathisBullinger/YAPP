@@ -71,8 +71,7 @@ export default new Component({
   box-sizing: border-box;
 
   .input {
-    margin: 0;
-    width: calc(100% - 2rem);
+    width: 100%;
   }
 }
 </style>

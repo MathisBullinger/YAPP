@@ -103,6 +103,10 @@ export default new Component({
       margin-bottom: 4rem;
       margin-top: 3.5rem;
     }
+
+    @media (orientation: landscape) {
+      margin-left: 5rem;
+    }
   }
 
   .player ~ .content {
