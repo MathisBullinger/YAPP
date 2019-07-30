@@ -34,9 +34,6 @@ export default new Component({
 
   @include fluid(grid-gap, 0px, 20px, 400px, 1200px);
 
-  @include fluid(padding, 0px, 50px, 400px, 800px, true, false);
-  @include fluid(padding-top, 0px, 50px, 400px, 800px);
-  @include fluid(padding-bottom, 0px, 50px, 400px, 800px);
   @include fluid(padding-left, 50px, 100px, 801px, 1200px, false, true);
   @include fluid(padding-right, 50px, 100px, 801px, 1200px, false, true);
 }

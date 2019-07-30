@@ -28,7 +28,7 @@ export default new Component({
   align-items: center;
   box-shadow: shadow(7);
 
-  position: sticky;
+  position: fixed;
   bottom: 0;
 
   .icon {

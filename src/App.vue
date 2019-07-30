@@ -1,9 +1,9 @@
 <template>
   <div :class="getClass">
     <AppBar :scroll-dir="scrollDir"></AppBar>
-    <RouterView class="content" @showEpisode="showEpisode"></RouterView>
     <Player></Player>
     <MainNav></MainNav>
+    <RouterView class="content" @showEpisode="showEpisode"></RouterView>
     <Episode v-if="episode" :id="episode" @closed="closeEpisode"></Episode>
   </div>
 </template>
@@ -86,11 +86,23 @@ export default new Component({
 
 <style lang="scss" scoped>
 .app {
+  min-height: 100vh;
+
   .content {
     box-sizing: border-box;
     width: 100%;
-    // min-height: 100vh;
-    padding-top: 5rem;
+    min-height: 100vh;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    @media (orientation: portrait) {
+      padding-bottom: 5.5rem;
+      padding-top: 5rem;
+    }
+  }
+
+  .player ~ .content {
+    padding-bottom: 9.5rem;
   }
 }
 </style>

@@ -52,7 +52,7 @@ export default new Component({
   border-bottom: 1px solid rgba(#000, 8%);
   box-shadow: shadow(7);
 
-  position: sticky;
+  position: fixed;
   bottom: 4rem;
 
   display: flex;
