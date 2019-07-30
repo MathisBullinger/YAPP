@@ -96,7 +96,7 @@ export default new Component({
 
     @media (orientation: portrait) {
       margin-bottom: 4rem;
-      margin-top: 4rem;
+      margin-top: 3.5rem;
     }
   }
 
