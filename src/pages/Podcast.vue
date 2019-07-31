@@ -1,16 +1,7 @@
 <template>
   <div :class="getClass">
     <template v-if="loaded">
-      <!-- <div class="head">
-        <img ref="artwork" :src="artwork" />
-        <div class="right">
-          <Header s2>{{ podcast.name }}</Header>
-          <Paragraph>{{ podcast.creator }}</Paragraph>
-        </div>
-        <Icon name="nav_down" class="toggle-expand"></Icon>
-      </div>-->
       <Info :id="id"></Info>
-      <!-- <Divider></Divider> -->
       <ol class="episodes">
         <Episode
           v-for="episode in podcast.episodes"
@@ -52,12 +43,18 @@ export default new Component({
     ...mapState('podcasts', ['podcasts']),
   },
   methods: {
-    ...mapActions('app', ['setPage', 'showAppBar', 'setPageLoading']),
+    ...mapActions('app', [
+      'setPage',
+      'showAppBar',
+      'setPageLoading',
+      'mergeAppBarAtTop',
+    ]),
     ...mapActions('podcasts', ['loadPodcast']),
   },
   async created() {
     if (this.podcasts[this.id])
       Object.assign(this.podcast, this.podcasts[this.id])
+    this.mergeAppBarAtTop()
     this.setPageLoading(true)
     await this.loadPodcast(this.id)
     Object.assign(this.podcast, this.podcasts[this.id])

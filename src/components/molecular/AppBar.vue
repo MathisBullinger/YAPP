@@ -4,6 +4,7 @@
     :class="{
       hidden: !showAppBar || (scrollDir > 0 && hideAppBarOnScroll),
       animated,
+      merged,
     }"
   >
     <Header s2 class="title">{{ pageTitle }}</Header>
@@ -24,6 +25,7 @@ export default new Component({
       'showAppBar',
       'pageLoading',
       'hideAppBarOnScroll',
+      'mergeAppBarAtTop',
     ]),
   },
   data() {
@@ -31,6 +33,7 @@ export default new Component({
       showLoading: false,
       animated: false,
       scrollDir: -1,
+      merged: false,
     }
   },
   watch: {
@@ -45,14 +48,25 @@ export default new Component({
       if (!v) this.animated = false
       else setTimeout(() => (this.animated = true), 100)
     },
+    hideAppBarOnScroll(v) {
+      if (v) scroll.addEventListener('dirchange', this.onScrollDirChange)
+      else scroll.removeEventListener('dirchange', this.onScrollDirChange)
+    },
+    mergeAppBarAtTop(v) {
+      if (v) scroll.addEventListener('top', this.onScrollTop)
+      else {
+        this.merged = false
+        scroll.removeEventListener('top', this.onScrollTop)
+      }
+    },
   },
   methods: {
     onScrollDirChange(dir) {
       this.scrollDir = dir
     },
-  },
-  created() {
-    scroll.addEventListener('dirchange', this.onScrollDirChange)
+    onScrollTop(v) {
+      this.merged = v
+    },
   },
   mounted() {
     setTimeout(() => (this.animated = true), 100)
@@ -83,6 +97,10 @@ export default new Component({
   &.animated {
     $transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transition: transform $transition, box-shadow $transition;
+
+    .title {
+      transition: opacity $transition;
+    }
   }
 
   .title {
@@ -104,6 +122,16 @@ export default new Component({
     .progress {
       bottom: initial;
       top: 100%;
+    }
+  }
+
+  &.merged {
+    box-shadow: none;
+    transition: box-shadow 0.2s ease;
+
+    .title {
+      opacity: 0;
+      transition: opacity 0.1s ease;
     }
   }
 }
