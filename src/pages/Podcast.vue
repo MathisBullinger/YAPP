@@ -1,12 +1,17 @@
 <template>
   <div :class="getClass">
     <template v-if="loaded">
-      <div class="info">
+      <div class="head">
+        <div>
+          <Header s2>{{podcast.name}}</Header>
+          <Paragraph>{{podcast.creator}}</Paragraph>
+        </div>
         <img ref="artwork" :src="artwork" />
-        <Paragraph>by {{ podcast.creator }}</Paragraph>
-        <Paragraph>{{podcast.description}}</Paragraph>
-        <Episode v-for="episode in podcast.episodes" :key="episode.title" :episode="episode"></Episode>
       </div>
+      <Divider></Divider>
+      <ol class="episodes">
+        <Episode v-for="episode in podcast.episodes" :key="episode.title" :episode="episode"></Episode>
+      </ol>
     </template>
   </div>
 </template>
@@ -74,11 +79,20 @@ export default new Component({
 
 <style lang="scss" scoped>
 .podcast {
-  .info {
+  .head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 1.5rem;
+
     img {
+      width: 8rem;
       height: 8rem;
     }
+  }
+
+  .episodes {
+    padding: 1rem;
   }
 }
 </style>

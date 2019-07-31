@@ -1,12 +1,12 @@
 <template>
-  <div :class="getClass">
+  <li :class="getClass">
     <div class="left" @click="onClick">
       <Paragraph>{{ episode.title }}</Paragraph>
     </div>
     <div class="right" @click="onPlay">
       <Icon name="play"></Icon>
     </div>
-  </div>
+  </li>
 </template>
 
 <script>
