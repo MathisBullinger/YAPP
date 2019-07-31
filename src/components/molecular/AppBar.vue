@@ -7,6 +7,12 @@
       merged,
     }"
   >
+    <Icon
+      v-if="navigation"
+      :name="navIcon"
+      class="navbutton"
+      @click="navAction"
+    ></Icon>
     <Header s2 class="title">{{ pageTitle }}</Header>
     <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
   </div>
@@ -26,7 +32,16 @@ export default new Component({
       'pageLoading',
       'hideAppBarOnScroll',
       'mergeAppBarAtTop',
+      'navigation',
     ]),
+    navIcon() {
+      switch (this.navigation) {
+        case 'back':
+          return 'nav_back'
+        default:
+          return null
+      }
+    },
   },
   data() {
     return {
@@ -67,6 +82,15 @@ export default new Component({
     onScrollTop(v) {
       this.merged = v
     },
+    navAction() {
+      switch (this.navigation) {
+        case 'back':
+          window.history.length > 1
+            ? this.$router.go(-1)
+            : this.$router.push('/')
+          break
+      }
+    },
   },
   mounted() {
     setTimeout(() => (this.animated = true), 100)
@@ -103,10 +127,9 @@ export default new Component({
     }
   }
 
-  .title {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 100%;
+  .navbutton {
+    height: 1.5rem;
+    margin-right: 0.5rem;
   }
 
   .progress {

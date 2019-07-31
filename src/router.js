@@ -31,6 +31,7 @@ router.beforeEach((to, from, next) => {
   store.dispatch('app/hideAppBar')
   store.dispatch('app/hideAppBarOnScroll', false)
   store.dispatch('app/mergeAppBarAtTop', false)
+  store.dispatch('app/setNavigation')
   store.dispatch('app/setPage', '')
   next()
 })

@@ -48,6 +48,7 @@ export default new Component({
       'showAppBar',
       'setPageLoading',
       'mergeAppBarAtTop',
+      'setNavigation',
     ]),
     ...mapActions('podcasts', ['loadPodcast']),
   },
@@ -55,6 +56,7 @@ export default new Component({
     if (this.podcasts[this.id])
       Object.assign(this.podcast, this.podcasts[this.id])
     this.mergeAppBarAtTop()
+    this.setNavigation('back')
     this.setPageLoading(true)
     await this.loadPodcast(this.id)
     Object.assign(this.podcast, this.podcasts[this.id])

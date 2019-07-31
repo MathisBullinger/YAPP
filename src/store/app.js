@@ -4,6 +4,7 @@ const types = {
   SET_MERGE_APPBAR_AT_TOP: 'SET_MERGE_APPBAR_AT_TOP',
   SET_PAGE_TITLE: 'SET_PAGE_TITLE',
   SET_PAGE_LOADING: 'SET_PAGE_LOADING',
+  SET_NAVIGATION: 'SET_NAVIGATION',
 }
 
 export default {
@@ -12,6 +13,7 @@ export default {
     showAppBar: false,
     hideAppBarOnScroll: false,
     mergeAppBarAtTop: false,
+    navigation: null,
     pageTitle: '',
     pageLoading: false,
   },
@@ -30,6 +32,9 @@ export default {
     },
     [types.SET_PAGE_LOADING]: (state, loading) => {
       state.pageLoading = loading
+    },
+    [types.SET_NAVIGATION]: (state, v) => {
+      state.navigation = v
     },
   },
   actions: {
@@ -50,6 +55,9 @@ export default {
     },
     setPageLoading: ({ state, commit }, loading) => {
       if (state.pageLoading !== loading) commit(types.SET_PAGE_LOADING, loading)
+    },
+    setNavigation: ({ commit }, v = null) => {
+      commit(types.SET_NAVIGATION, v)
     },
   },
 }
