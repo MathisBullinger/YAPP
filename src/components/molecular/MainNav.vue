@@ -55,7 +55,7 @@ export default new Component({
       flex-direction: column;
       top: 0;
 
-      .player ~ & {
+      .player:not(.hidden) ~ & {
         height: calc(100vh - 4rem);
         z-index: 1000;
       }

@@ -106,6 +106,7 @@ export default new Component({
 
     @media (orientation: landscape) {
       margin-left: 5rem;
+      width: calc(100vw - 5rem);
     }
   }
 
