@@ -1,5 +1,8 @@
 <template>
-  <div :class="{...getClassObj, fixed, hidden: episodeUrl === null}" :style="fixPos">
+  <div
+    :class="{ ...getClassObj, fixed, hidden: episodeUrl === null }"
+    :style="fixPos"
+  >
     <audio
       crossorigin="anonymous"
       :src="episodeUrl"
@@ -65,7 +68,6 @@ export default new Component({
       await this.audioElement.pause()
       this.episodeUrl = this.episodes[episodeId].file
       await this.audioElement.load()
-      console.log(this.audioElement.play)
       await this.audioElement.play()
     },
   },

@@ -25,7 +25,7 @@ export default new Component({
     onClick() {
       this.$parent.$emit('showEpisode', this.episode.id)
     },
-    onPlay(e) {
+    onPlay() {
       this.request(this.episode.id)
     },
     ...mapActions('player', ['request']),

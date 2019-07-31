@@ -1,5 +1,5 @@
 <template>
-  <div :class="{...getClassObj, fixed}" :style="fixPos">
+  <div :class="{ ...getClassObj, fixed }" :style="fixPos">
     <Icon name="library" @click="$router.push('/podcasts')"></Icon>
     <Icon name="feed" @click="$router.push('/')"></Icon>
     <Icon name="search" @click="$router.push('/')"></Icon>

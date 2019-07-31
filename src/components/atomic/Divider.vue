@@ -1,5 +1,5 @@
 <template>
-  <hr />
+  <hr :class="getClass" />
 </template>
 
 <script>
@@ -15,6 +15,6 @@ hr {
   margin: 0;
   height: 1px;
   border: none;
-  background-color: gray;
+  background-color: #cfd8dc;
 }
 </style>

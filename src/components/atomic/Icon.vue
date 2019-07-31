@@ -1,5 +1,10 @@
 <template>
-  <svgicon :class="getClass" @click="$emit('click')" :name="name" :color="color"></svgicon>
+  <SvgIcon
+    :class="getClass"
+    :name="name"
+    :color="color"
+    @click="$emit('click')"
+  ></SvgIcon>
 </template>
 
 <script>

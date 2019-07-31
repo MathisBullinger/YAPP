@@ -1,16 +1,22 @@
 <template>
   <div :class="getClass">
     <template v-if="loaded">
-      <div class="head">
-        <div>
-          <Header s2>{{podcast.name}}</Header>
-          <Paragraph>{{podcast.creator}}</Paragraph>
-        </div>
+      <!-- <div class="head">
         <img ref="artwork" :src="artwork" />
-      </div>
-      <Divider></Divider>
+        <div class="right">
+          <Header s2>{{ podcast.name }}</Header>
+          <Paragraph>{{ podcast.creator }}</Paragraph>
+        </div>
+        <Icon name="nav_down" class="toggle-expand"></Icon>
+      </div>-->
+      <Info :id="id"></Info>
+      <!-- <Divider></Divider> -->
       <ol class="episodes">
-        <Episode v-for="episode in podcast.episodes" :key="episode.title" :episode="episode"></Episode>
+        <Episode
+          v-for="episode in podcast.episodes"
+          :key="episode.title"
+          :episode="episode"
+        ></Episode>
       </ol>
     </template>
   </div>
@@ -18,6 +24,7 @@
 
 <script>
 import Component from '~/scripts/component'
+import Info from './podcast/Info'
 import Episode from './podcast/Episode'
 import { mapState, mapActions } from 'vuex'
 
@@ -28,6 +35,7 @@ export default new Component({
     required: true,
   },
   components: {
+    Info,
     Episode,
   },
   data() {
@@ -42,13 +50,6 @@ export default new Component({
   },
   computed: {
     ...mapState('podcasts', ['podcasts']),
-    artwork() {
-      if (this.podcast.artworks.length === 0) return
-      const minSize =
-        parseFloat(getComputedStyle(document.documentElement).fontSize) * 8
-      const sorted = this.podcast.artworks.sort((a, b) => a.size - b.size)
-      return (sorted.find(art => art.size >= minSize) || sorted.pop()).url
-    },
   },
   methods: {
     ...mapActions('app', ['setPage', 'showAppBar', 'setPageLoading']),
@@ -79,20 +80,8 @@ export default new Component({
 
 <style lang="scss" scoped>
 .podcast {
-  .head {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 1.5rem;
-
-    img {
-      width: 8rem;
-      height: 8rem;
-    }
-  }
-
   .episodes {
-    padding: 1rem;
+    padding: 1.2rem;
   }
 }
 </style>

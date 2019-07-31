@@ -26,7 +26,7 @@ Object.keys(atomic).forEach(name =>
   Vue.component(name, atomic[name].default || atomic[name])
 )
 Vue.use(SvgIcon, {
-  tagName: 'svgicon',
+  tagName: 'SvgIcon',
 })
 
 const apolloProvider = new VueApollo({ defaultClient })

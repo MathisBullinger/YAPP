@@ -7,8 +7,8 @@
     />
     <SearchResult
       v-for="result in searchResults"
-      :id="result.id"
-      :key="result.id"
+      :id="result.itunesId"
+      :key="result.itunesId"
       :name="result.name"
       :creator="result.creator"
       :artworks="result.artworks"

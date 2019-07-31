@@ -2,7 +2,7 @@ query searchPodcast($name: String!) {
   searchResults: search(name: $name) {
     name
     creator
-    id: itunesId
+    itunesId
     artworks {
       size
       url
