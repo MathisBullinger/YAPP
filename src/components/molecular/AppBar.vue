@@ -1,7 +1,10 @@
 <template>
   <div
     class="app-bar"
-    :class="{ hidden: !showAppBar || scrollDir > 0, animated }"
+    :class="{
+      hidden: !showAppBar || (scrollDir > 0 && hideAppBarOnScroll),
+      animated,
+    }"
   >
     <Header s2 class="title">{{ pageTitle }}</Header>
     <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
@@ -16,7 +19,12 @@ import scroll from '~/scripts/scroll'
 export default new Component({
   name: 'AppBar',
   computed: {
-    ...mapState('app', ['pageTitle', 'showAppBar', 'pageLoading']),
+    ...mapState('app', [
+      'pageTitle',
+      'showAppBar',
+      'pageLoading',
+      'hideAppBarOnScroll',
+    ]),
   },
   data() {
     return {

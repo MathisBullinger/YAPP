@@ -14,9 +14,10 @@ export default new Component({
   components: {
     PodTile,
   },
-  methods: mapActions('app', ['setPage', 'showAppBar']),
+  methods: mapActions('app', ['setPage', 'showAppBar', 'hideAppBarOnScroll']),
   created() {
     this.showAppBar()
+    this.hideAppBarOnScroll()
     this.setPage('Podcasts')
   },
 })

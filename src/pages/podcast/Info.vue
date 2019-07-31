@@ -5,6 +5,9 @@
       <div class="right">
         <Header s2 class="title">{{ podcasts[id].name }}</Header>
         <Paragraph>{{ podcasts[id].creator }}</Paragraph>
+        <Paragraph class="description">
+          {{ podcasts[id].description }}
+        </Paragraph>
       </div>
     </div>
     <div ref="expandable" class="additional" :style="expandableHeight">
@@ -61,15 +64,6 @@ export default new Component({
       this.expanded = !this.expanded
     },
   },
-  mounted() {
-    // this.$refs.expandable.style.height
-    // console.log(document.styleSheets)
-    // const expandable = this.$refs.expandable
-    // console.log(expandable.style.display)
-    // expandable.style.display = 'none'
-    // expandable.classList.add('expanded')
-    // expandable.style.
-  },
 })
 </script>
 
@@ -83,6 +77,8 @@ export default new Component({
     .artwork {
       width: 30vw;
       height: 30vw;
+      max-width: 14rem;
+      max-height: 14rem;
     }
 
     .right {
@@ -91,10 +87,18 @@ export default new Component({
 
       * {
         margin: 0;
+        margin-bottom: 0.5rem;
       }
 
-      .title {
-        margin-bottom: 0.5rem;
+      .description {
+        margin-top: 1.5rem;
+        display: none;
+      }
+
+      @media screen and (min-width: 600px) {
+        .description {
+          display: block;
+        }
       }
     }
   }
@@ -111,6 +115,13 @@ export default new Component({
   .tools {
     margin: 0.5rem;
     margin-left: 1.2rem;
+  }
+
+  @media screen and (min-width: 600px) {
+    .additional,
+    .tools {
+      display: none;
+    }
   }
 }
 </style>
