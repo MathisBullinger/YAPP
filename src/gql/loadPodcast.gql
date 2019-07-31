@@ -2,6 +2,7 @@ query loadPodcast($itunesId: ID!) {
   podcast(itunesId: $itunesId) {
     name
     creator
+    description
     artworks {
       url
       size

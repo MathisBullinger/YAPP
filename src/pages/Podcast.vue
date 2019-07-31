@@ -3,7 +3,8 @@
     <template v-if="loaded">
       <div class="info">
         <img ref="artwork" :src="artwork" />
-        <Paragraph>{{ podcast.creator }}</Paragraph>
+        <Paragraph>by {{ podcast.creator }}</Paragraph>
+        <Paragraph>{{podcast.description}}</Paragraph>
         <Episode v-for="episode in podcast.episodes" :key="episode.title" :episode="episode"></Episode>
       </div>
     </template>
