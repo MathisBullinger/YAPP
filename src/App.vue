@@ -110,7 +110,7 @@ export default new Component({
     }
   }
 
-  .player ~ .content {
+  .player:not(.hidden) ~ .content {
     margin-bottom: 8rem;
     @media (orientation: landscape) {
       margin-bottom: 4rem;
