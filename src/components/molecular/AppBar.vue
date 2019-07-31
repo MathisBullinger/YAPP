@@ -1,5 +1,8 @@
 <template>
-  <div class="app-bar" :class="{ hidden: !showAppBar || scrollDir > 0, animated }">
+  <div
+    class="app-bar"
+    :class="{ hidden: !showAppBar || scrollDir > 0, animated }"
+  >
     <Header s2 class="title">{{ pageTitle }}</Header>
     <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
   </div>
@@ -8,15 +11,10 @@
 <script>
 import Component from '~/scripts/component'
 import { mapState } from 'vuex'
+import scroll from '~/scripts/scroll'
 
 export default new Component({
   name: 'AppBar',
-  props: {
-    scrollDir: {
-      type: Number,
-      default: 0,
-    },
-  },
   computed: {
     ...mapState('app', ['pageTitle', 'showAppBar', 'pageLoading']),
   },
@@ -24,6 +22,7 @@ export default new Component({
     return {
       showLoading: false,
       animated: false,
+      scrollDir: -1,
     }
   },
   watch: {
@@ -38,6 +37,14 @@ export default new Component({
       if (!v) this.animated = false
       else setTimeout(() => (this.animated = true), 100)
     },
+  },
+  methods: {
+    onScrollDirChange(dir) {
+      this.scrollDir = dir
+    },
+  },
+  created() {
+    scroll.addEventListener('dirchange', this.onScrollDirChange)
   },
   mounted() {
     setTimeout(() => (this.animated = true), 100)

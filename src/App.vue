@@ -1,15 +1,18 @@
 <template>
   <div :class="getClass">
-    <AppBar :scroll-dir="scrollDir"></AppBar>
+    <AppBar></AppBar>
     <Player :fixed="keyboardOpen"></Player>
     <MainNav :fixed="keyboardOpen"></MainNav>
-    <RouterView class="content" @showEpisode="showEpisode" @keyboard="onKeyboard"></RouterView>
+    <RouterView
+      class="content"
+      @showEpisode="showEpisode"
+      @keyboard="onKeyboard"
+    ></RouterView>
     <Episode v-if="episode" :id="episode" @closed="closeEpisode"></Episode>
   </div>
 </template>
 
 <script>
-import { debounce, throttle } from 'lodash'
 import Component from '~/scripts/component'
 import AppBar from '~/components/molecular/AppBar'
 import Player from '~/components/molecular/Player'
@@ -47,24 +50,6 @@ export default new Component({
       this.episode = false
       document.body.classList.remove('noscroll')
     },
-    onScroll: throttle(function() {
-      const scrollDelta = window.scrollY - this.lastScrollPos
-      if (
-        scrollDelta > 0 !== this.lastScrollDelta > 0 &&
-        window.scrollY > 0 && // not topmost
-        document.body.scrollHeight - window.scrollY > document.body.offsetHeight // not bottommost
-      )
-        this.onScrollDirChange(scrollDelta)
-      this.lastScrollDelta = window.scrollY - this.lastScrollPos
-      this.lastScrollPos = window.scrollY
-
-      if (window.scrollY === 0) this.lastScrollDelta = -1
-      else if (
-        document.body.scrollHeight - window.scrollY <=
-        document.body.offsetHeight
-      )
-        this.lastScrollDelta = 1
-    }, 50),
     onKeyboard(v) {
       if (v) this.keyboardOpen = v
       else setTimeout(() => (this.keyboardOpen = v), 200)
@@ -79,12 +64,6 @@ export default new Component({
         delete window.initGoogleAuth
       }.bind(this)
     }
-  },
-  mounted() {
-    this.lastScrollPos = window.scrollY
-    window.addEventListener('scroll', debounce(this.onScroll), {
-      passive: true,
-    })
   },
 })
 </script>
