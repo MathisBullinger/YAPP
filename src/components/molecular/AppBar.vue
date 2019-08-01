@@ -5,16 +5,20 @@
       hidden: !showAppBar || (scrollDir > 0 && hideAppBarOnScroll),
       animated,
       merged,
+      fixed,
     }"
   >
-    <Icon
-      v-if="navigation"
-      :name="navIcon"
-      class="navbutton"
-      @click="navAction"
-    ></Icon>
-    <Header s2 class="title">{{ pageTitle }}</Header>
-    <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
+    <template v-if="!customAppBar">
+      <Icon
+        v-if="navigation"
+        :name="navIcon"
+        class="navbutton"
+        @click="navAction"
+      ></Icon>
+      <Header s2 class="title">{{ pageTitle }}</Header>
+      <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
+    </template>
+    <PodSearch v-else-if="customAppBar === 'podSearch'"></PodSearch>
   </div>
 </template>
 
@@ -22,9 +26,19 @@
 import Component from '~/scripts/component'
 import { mapState } from 'vuex'
 import scroll from '~/scripts/scroll'
+import PodSearch from '~/pages/discover/Search'
 
 export default new Component({
   name: 'AppBar',
+  components: {
+    PodSearch,
+  },
+  props: {
+    fixed: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     ...mapState('app', [
       'pageTitle',
@@ -33,6 +47,7 @@ export default new Component({
       'hideAppBarOnScroll',
       'mergeAppBarAtTop',
       'navigation',
+      'customAppBar',
     ]),
     navIcon() {
       switch (this.navigation) {
@@ -103,19 +118,22 @@ export default new Component({
 
 .app-bar {
   width: 100vw;
-  height: 3.5rem;
+  height: 4rem;
   box-shadow: shadow(4);
   box-sizing: border-box;
   z-index: 1000;
   display: flex;
   align-items: center;
   padding-left: 1rem;
+  padding-right: 1rem;
   position: fixed;
   margin-bottom: 0;
   background-color: white;
 
-  @media (orientation: 'landscape') {
-    display: none;
+  &:not(.fixed) {
+    @media (orientation: 'landscape') {
+      display: none;
+    }
   }
 
   &.animated {

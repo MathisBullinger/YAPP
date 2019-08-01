@@ -3,14 +3,14 @@
 $spotlight: 360deg;
 
 @function ambientShadow($elevation) {
-  @return sin($spotlight + 180deg) * $elevation / 4 * 1px cos($spotlight) *
-    $elevation / 4 * 1px $elevation * 1px
+  @return sin($spotlight + 180deg) * $elevation / 10 * 1px cos($spotlight) *
+    $elevation / 10 * 1px $elevation * 1px
     rgba(0, 0, 0, ((1 / ($elevation / 100 + 1)) * 38) / 100);
 }
 
 @function spotlightShadow($elevation) {
-  @return sin($spotlight + 180deg) * $elevation * 1px cos($spotlight) *
-    $elevation * 1px $elevation * 0.8 * 1px
+  @return sin($spotlight + 180deg) * $elevation / 2 * 1px cos($spotlight) *
+    $elevation / 2 * 1px $elevation * 0.8 * 1px
     rgba(0, 0, 0, ((1 / ($elevation / 100 + 1)) * 24) / 100);
 }
 

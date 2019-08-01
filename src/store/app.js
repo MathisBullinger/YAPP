@@ -1,10 +1,11 @@
 const types = {
-  TOGGLE_APPBAR: 'TOGGLE_APPBAR',
+  SET_SHOW_APPBAR: 'SET_SHOW_APPBAR',
   SET_HIDE_APPBAR_ON_SCROLL: 'SET_HIDEBAR_ON_SCROLL',
   SET_MERGE_APPBAR_AT_TOP: 'SET_MERGE_APPBAR_AT_TOP',
   SET_PAGE_TITLE: 'SET_PAGE_TITLE',
   SET_PAGE_LOADING: 'SET_PAGE_LOADING',
   SET_NAVIGATION: 'SET_NAVIGATION',
+  SET_CUSTOM_APPBAR: 'SET_CUSTOM_APPBAR',
 }
 
 export default {
@@ -16,13 +17,14 @@ export default {
     navigation: null,
     pageTitle: '',
     pageLoading: false,
+    customAppBar: null,
   },
   mutations: {
     [types.SET_PAGE_TITLE]: (state, title) => {
       state.pageTitle = title
     },
-    [types.TOGGLE_APPBAR]: state => {
-      state.showAppBar = !state.showAppBar
+    [types.SET_SHOW_APPBAR]: (state, v) => {
+      state.showAppBar = v
     },
     [types.SET_HIDE_APPBAR_ON_SCROLL]: (state, v) => {
       state.hideAppBarOnScroll = v
@@ -36,13 +38,16 @@ export default {
     [types.SET_NAVIGATION]: (state, v) => {
       state.navigation = v
     },
+    [types.SET_CUSTOM_APPBAR]: (state, v) => {
+      state.customAppBar = v
+    },
   },
   actions: {
-    showAppBar: ({ state, commit }) => {
-      if (!state.showAppBar) commit(types.TOGGLE_APPBAR)
+    showAppBar: ({ commit }) => {
+      commit(types.SET_SHOW_APPBAR, true)
     },
-    hideAppBar: ({ state, commit }) => {
-      if (state.showAppBar) commit(types.TOGGLE_APPBAR)
+    hideAppBar: ({ commit }) => {
+      commit(types.SET_SHOW_APPBAR, false)
     },
     hideAppBarOnScroll: ({ commit }, v = true) => {
       commit(types.SET_HIDE_APPBAR_ON_SCROLL, v)
@@ -58,6 +63,9 @@ export default {
     },
     setNavigation: ({ commit }, v = null) => {
       commit(types.SET_NAVIGATION, v)
+    },
+    setCustomAppBar: ({ commit }, v = null) => {
+      commit(types.SET_CUSTOM_APPBAR, v)
     },
   },
 }

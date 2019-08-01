@@ -28,6 +28,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   store.dispatch('app/setPageLoading', false)
+  store.dispatch('app/setCustomAppBar')
   store.dispatch('app/hideAppBar')
   store.dispatch('app/hideAppBarOnScroll', false)
   store.dispatch('app/mergeAppBarAtTop', false)

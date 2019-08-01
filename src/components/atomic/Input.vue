@@ -9,6 +9,7 @@
     :autocomplete="autocomplete"
     :type="(email && 'email') || (password && 'password') || 'text'"
     :style="size ? { width: size + 'em' } : {}"
+    :placeholder="placeholder"
     @input="onInput"
     @keyup.enter="onEnter"
     @focus="$emit('focus')"
@@ -45,6 +46,9 @@ export default new Component({
     },
     defaultValue: {
       type: String | Number,
+    },
+    placeholder: {
+      type: String,
     },
   },
   computed: {
@@ -87,7 +91,7 @@ export default new Component({
   margin-top: calc(var(--baseline) - var(--baseline) / 4);
   margin-bottom: calc(var(--baseline) - var(--baseline) / 4);
   background-color: color('surface');
-  border: 0.0625rem solid color('on-surface');
+  border: 0.125rem solid color('on-surface');
   border-radius: 0.25rem;
   box-sizing: border-box;
   padding-left: 0.5rem;

@@ -37,7 +37,8 @@ export default new Component({
       },
       throttle: 700,
       skip() {
-        return this.search.length < 3
+        // return this.search.length < 3
+        return true
       },
     },
   },

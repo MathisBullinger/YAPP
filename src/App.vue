@@ -1,6 +1,10 @@
 <template>
   <div :class="getClass">
-    <AppBar></AppBar>
+    <AppBar
+      :fixed="keyboardOpen"
+      @showEpisode="showEpisode"
+      @keyboard="onKeyboard"
+    ></AppBar>
     <Player :fixed="keyboardOpen"></Player>
     <MainNav :fixed="keyboardOpen"></MainNav>
     <RouterView
