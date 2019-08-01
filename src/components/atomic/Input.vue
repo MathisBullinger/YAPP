@@ -97,7 +97,7 @@ export default new Component({
   box-sizing: border-box;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
   transition: color, background-color 0.2s ease;
   min-width: 13rem;
 

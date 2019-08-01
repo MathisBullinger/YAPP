@@ -1,12 +1,14 @@
 <template>
-  <div :class="getClass">
+  <div :class="{ ...getClassObj, expanded: active }">
     <Input
       placeholder="Search podcast"
       @focus="inputStart"
       @blur="$parent.$emit('keyboard', false)"
       @submit="submit"
     />
-    <div class="input-shadow"></div>
+    <div class="input-shadow">
+      <Icon name="nav_back" class="back" @click="back"></Icon>
+    </div>
     <div class="result-pane"></div>
   </div>
 </template>
@@ -22,12 +24,21 @@ export default new Component({
       active: false,
     }
   },
+  watch: {
+    active(v) {
+      if (v) this.lockScroll()
+      else this.unlockScroll()
+    },
+  },
   methods: {
     ...mapActions('app', ['lockScroll', 'unlockScroll']),
     submit() {},
     inputStart() {
       this.$parent.$emit('keyboard', true)
-      this.lockScroll()
+      this.active = true
+    },
+    back() {
+      this.active = false
     },
   },
 })
@@ -48,6 +59,7 @@ $trans: 0.2s ease;
     margin: 0;
     border: none;
     height: 100%;
+    padding-left: 3rem;
   }
 
   .input-shadow {
@@ -59,6 +71,18 @@ $trans: 0.2s ease;
     border-radius: 0.25rem;
     box-shadow: none;
     pointer-events: none;
+
+    .icon {
+      position: absolute;
+      height: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 1rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity $trans;
+      pointer-events: all;
+    }
   }
 
   .result-pane {
@@ -75,12 +99,28 @@ $trans: 0.2s ease;
     box-shadow: none;
     will-change: height;
   }
-  .input:focus ~ .result-pane {
-    transform: none;
-    width: 100%;
-    height: calc(100vh - 8rem);
-    box-shadow: shadow(4);
-    transition: height $trans, transform $trans, width $trans, box-shadow 0s;
+
+  &.expanded {
+    .result-pane {
+      transform: none;
+      width: 100%;
+      height: calc(100vh - 8rem);
+      box-shadow: shadow(4);
+      transition: height $trans, transform $trans, width $trans, box-shadow 0s;
+    }
+
+    .input-shadow {
+      transform: translateX(-1rem) translateY(calc(-100% + 0.5rem));
+      width: calc(100% + 2rem);
+      height: calc(100% + 1rem);
+      border-radius: 0;
+      transition: transform $trans, width $trans, height $trans,
+        border-radius 0s;
+
+      .icon {
+        opacity: 1;
+      }
+    }
   }
 }
 
@@ -91,15 +131,7 @@ $trans: 0.2s ease;
       border-radius 0s 0.2s;
   }
 
-  .input:focus ~ .input-shadow {
-    transform: translateX(-1rem) translateY(calc(-100% + 0.5rem));
-    width: calc(100% + 2rem);
-    height: calc(100% + 1rem);
-    border-radius: 0;
-    transition: transform $trans, width $trans, height $trans, border-radius 0s;
-  }
-
-  .result-pane {
+  &:not(.expanded) > .result-pane {
     width: calc(100% - 2rem);
     transform: translateX(1rem) translateY(-0.5rem);
   }
