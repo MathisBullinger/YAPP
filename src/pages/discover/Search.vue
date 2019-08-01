@@ -5,6 +5,7 @@
       @focus="inputStart"
       @blur="$parent.$emit('keyboard', false)"
       @submit="submit"
+      @escape="back"
     />
     <div class="input-shadow">
       <Icon name="nav_back" class="back" @click="back"></Icon>
@@ -15,6 +16,7 @@
 
 <script>
 import Component from '~scripts/component'
+import searchPodcastQuery from '~/gql/searchPodcast'
 import { mapActions } from 'vuex'
 
 export default new Component({
@@ -22,6 +24,7 @@ export default new Component({
   data() {
     return {
       active: false,
+      results: [],
     }
   },
   watch: {
@@ -31,8 +34,18 @@ export default new Component({
     },
   },
   methods: {
-    ...mapActions('app', ['lockScroll', 'unlockScroll']),
-    submit() {},
+    ...mapActions('app', ['lockScroll', 'unlockScroll', 'setPageLoading']),
+    async submit(name) {
+      this.setPageLoading(true)
+      const result = await this.$apollo.query({
+        query: searchPodcastQuery,
+        variables: {
+          name,
+        },
+      })
+      this.results = result.data.searchResults
+      this.setPageLoading(false)
+    },
     inputStart() {
       this.$parent.$emit('keyboard', true)
       this.active = true
@@ -98,6 +111,11 @@ $trans: 0.2s ease;
       box-shadow 0s linear 0.2s;
     box-shadow: none;
     will-change: height;
+    overflow: hidden;
+
+    * {
+      margin-left: 1.5rem;
+    }
   }
 
   &.expanded {
@@ -107,6 +125,7 @@ $trans: 0.2s ease;
       height: calc(100vh - 8rem);
       box-shadow: shadow(4);
       transition: height $trans, transform $trans, width $trans, box-shadow 0s;
+      overflow: scroll;
     }
 
     .input-shadow {
@@ -116,6 +135,7 @@ $trans: 0.2s ease;
       border-radius: 0;
       transition: transform $trans, width $trans, height $trans,
         border-radius 0s;
+      will-change: transform;
 
       .icon {
         opacity: 1;

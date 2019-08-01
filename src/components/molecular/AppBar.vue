@@ -16,9 +16,9 @@
         @click="navAction"
       ></Icon>
       <Header s2 class="title">{{ pageTitle }}</Header>
-      <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
     </template>
     <PodSearch v-else-if="customAppBar === 'podSearch'"></PodSearch>
+    <Progress v-if="showLoading" :inactive="!pageLoading"></Progress>
   </div>
 </template>
 

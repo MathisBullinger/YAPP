@@ -12,6 +12,7 @@
     :placeholder="placeholder"
     @input="onInput"
     @keyup.enter="onEnter"
+    @keyup.escape="onEscape"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
   />
@@ -78,7 +79,11 @@ export default new Component({
     },
     onEnter() {
       this.$el.blur()
-      this.$emit('submit')
+      this.$emit('submit', this.value)
+    },
+    onEscape() {
+      this.$el.blur()
+      this.$emit('escape')
     },
   },
 })
