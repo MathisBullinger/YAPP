@@ -12,7 +12,7 @@
 
 <script>
 import Component from '~/scripts/component'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default new Component({
   name: 'Episode',
@@ -42,6 +42,10 @@ export default new Component({
       this.hidden = true
       setTimeout(() => this.$emit('closed'), 500)
     },
+    ...mapActions('app', ['showAppBar', 'mergeAppBarAtTop']),
+  },
+  created() {
+    this.showAppBar()
   },
   mounted() {
     setTimeout(() => (this.hidden = false), 10)

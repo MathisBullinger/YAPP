@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ ...getClassObj, fixed }" :style="fixPos">
+  <div :class="{ ...getClassObj, fixed: fixed && wasPortrait }" :style="fixPos">
     <Icon name="library" @click="$router.push('/podcasts')"></Icon>
     <Icon name="feed" @click="$router.push('/')"></Icon>
     <Icon name="search" @click="$router.push('/')"></Icon>
@@ -16,6 +16,16 @@ export default new Component({
     fixed: {
       type: Boolean,
       default: false,
+    },
+  },
+  data() {
+    return {
+      wasPortrait: null,
+    }
+  },
+  watch: {
+    fixed(v) {
+      if (v) this.wasPortrait = window.innerHeight >= window.innerWidth
     },
   },
   computed: {

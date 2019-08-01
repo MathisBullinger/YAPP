@@ -76,7 +76,6 @@ export default new Component({
   .content {
     box-sizing: border-box;
     width: 100%;
-    min-height: 100vh;
 
     @media (orientation: portrait) {
       margin-bottom: 4rem;
@@ -93,6 +92,13 @@ export default new Component({
     margin-bottom: 8rem;
     @media (orientation: landscape) {
       margin-bottom: 4rem;
+    }
+  }
+
+  .player.hidden ~ .content {
+    @media (orientation: landscape) {
+      margin-left: 0;
+      width: 100%;
     }
   }
 }
