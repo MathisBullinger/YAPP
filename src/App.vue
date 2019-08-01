@@ -95,7 +95,7 @@ export default new Component({
     }
   }
 
-  .player.hidden ~ .content {
+  .main-nav.fixed ~ .content {
     @media (orientation: landscape) {
       margin-left: 0;
       width: 100%;
