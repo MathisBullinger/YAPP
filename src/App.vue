@@ -22,7 +22,7 @@ import AppBar from '~/components/molecular/AppBar'
 import Player from '~/components/molecular/Player'
 import MainNav from '~/components/molecular/MainNav'
 import Episode from '~/pages/Episode'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default new Component({
   name: 'App',
@@ -40,6 +40,12 @@ export default new Component({
       lastScrollDelta: 0,
       keyboardOpen: false,
     }
+  },
+  computed: mapState('app', ['scrollBlock']),
+  watch: {
+    scrollBlock(v) {
+      document.body.classList[v ? 'add' : 'remove']('noscroll')
+    },
   },
   methods: {
     ...mapActions('user', ['initGoogleAuth']),

@@ -77,6 +77,7 @@ export default new Component({
       this.$emit('input', e.target.value)
     },
     onEnter() {
+      this.$el.blur()
       this.$emit('submit')
     },
   },

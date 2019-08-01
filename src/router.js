@@ -34,6 +34,7 @@ router.beforeEach((to, from, next) => {
   store.dispatch('app/mergeAppBarAtTop', false)
   store.dispatch('app/setNavigation')
   store.dispatch('app/setPage', '')
+  store.dispatch('app/unlockScroll', '')
   next()
 })
 

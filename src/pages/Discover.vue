@@ -12,11 +12,13 @@ export default new Component({
     'showAppBar',
     'setCustomAppBar',
     'mergeAppBarAtTop',
+    'hideAppBarOnScroll',
   ]),
   created() {
     this.showAppBar()
     this.setCustomAppBar('podSearch')
     this.mergeAppBarAtTop()
+    this.hideAppBarOnScroll()
   },
 })
 </script>

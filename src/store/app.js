@@ -6,6 +6,8 @@ const types = {
   SET_PAGE_LOADING: 'SET_PAGE_LOADING',
   SET_NAVIGATION: 'SET_NAVIGATION',
   SET_CUSTOM_APPBAR: 'SET_CUSTOM_APPBAR',
+  LOCK_SCROLL: 'LOCK_SCROLL',
+  UNLOCK_SCROLL: 'UNLOCK_SCROLL',
 }
 
 export default {
@@ -18,6 +20,7 @@ export default {
     pageTitle: '',
     pageLoading: false,
     customAppBar: null,
+    scrollBlock: false,
   },
   mutations: {
     [types.SET_PAGE_TITLE]: (state, title) => {
@@ -40,6 +43,12 @@ export default {
     },
     [types.SET_CUSTOM_APPBAR]: (state, v) => {
       state.customAppBar = v
+    },
+    [types.LOCK_SCROLL]: state => {
+      state.scrollBlock = true
+    },
+    [types.UNLOCK_SCROLL]: state => {
+      state.scrollBlock = false
     },
   },
   actions: {
@@ -66,6 +75,12 @@ export default {
     },
     setCustomAppBar: ({ commit }, v = null) => {
       commit(types.SET_CUSTOM_APPBAR, v)
+    },
+    lockScroll: ({ commit }) => {
+      commit(types.LOCK_SCROLL)
+    },
+    unlockScroll: ({ commit }) => {
+      commit(types.UNLOCK_SCROLL)
     },
   },
 }

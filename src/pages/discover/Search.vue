@@ -2,16 +2,18 @@
   <div :class="getClass">
     <Input
       placeholder="Search podcast"
-      @focus="$parent.$emit('keyboard', true)"
+      @focus="inputStart"
       @blur="$parent.$emit('keyboard', false)"
+      @submit="submit"
     />
     <div class="input-shadow"></div>
-    <div class="expanded"></div>
+    <div class="result-pane"></div>
   </div>
 </template>
 
 <script>
 import Component from '~scripts/component'
+import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'Search',
@@ -20,12 +22,20 @@ export default new Component({
       active: false,
     }
   },
+  methods: {
+    ...mapActions('app', ['lockScroll', 'unlockScroll']),
+    submit() {},
+    inputStart() {
+      this.$parent.$emit('keyboard', true)
+      this.lockScroll()
+    },
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 @import '~/styles/shadows';
-$trans: 0.2s linear;
+$trans: 0.2s ease;
 
 .search {
   width: 100%;
@@ -41,11 +51,17 @@ $trans: 0.2s linear;
   }
 
   .input-shadow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform: translateY(-100%);
+    border-radius: 0.25rem;
     box-shadow: none;
     pointer-events: none;
   }
 
-  .expanded {
+  .result-pane {
     z-index: 3000;
     position: absolute;
     top: 100%;
@@ -57,8 +73,9 @@ $trans: 0.2s linear;
     transition: height $trans, transform $trans, width $trans,
       box-shadow 0s linear 0.2s;
     box-shadow: none;
+    will-change: height;
   }
-  .input:focus ~ .expanded {
+  .input:focus ~ .result-pane {
     transform: none;
     width: 100%;
     height: calc(100vh - 8rem);
@@ -69,14 +86,8 @@ $trans: 0.2s linear;
 
 .merged > .search {
   .input-shadow {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: block;
-    transform: translateY(-100%);
     box-shadow: shadow(2);
-    border-radius: 0.25rem;
-    transition: transform $trans, width $trans, height $trans,
+    transition: transform $trans, width $trans, height $trans, box-shadow $trans,
       border-radius 0s 0.2s;
   }
 
@@ -88,7 +99,7 @@ $trans: 0.2s linear;
     transition: transform $trans, width $trans, height $trans, border-radius 0s;
   }
 
-  .expanded {
+  .result-pane {
     width: calc(100% - 2rem);
     transform: translateX(1rem) translateY(-0.5rem);
   }
