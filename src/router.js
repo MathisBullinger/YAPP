@@ -1,5 +1,5 @@
 import Router from 'vue-router'
-import Home from '~/pages/Home'
+import Discover from '~/pages/Discover'
 import Profile from '~/pages/Profile'
 import SignIn from '~/pages/SignIn'
 import Demo from '~/pages/Demo'
@@ -13,7 +13,8 @@ import store from '~/store'
 const router = new Router({
   mode: 'history',
   routes: [
-    { path: '/', component: Home },
+    { path: '/', component: Library },
+    { path: '/discover', component: Discover },
     { path: '/podcast/:id', component: Podcast, props: true },
     { path: '/profile', component: Profile },
     { path: '/signin', component: SignIn },
@@ -21,7 +22,6 @@ const router = new Router({
     { path: '/demo', component: Demo },
     { path: '/demo/components', component: ComponentDemo },
     { path: '/debug', component: Debug },
-    { path: '/podcasts', component: Library },
     { path: '*', component: NotFound },
   ],
 })

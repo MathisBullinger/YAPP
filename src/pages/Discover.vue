@@ -9,7 +9,7 @@ import Component from '~/scripts/component'
 import SearchBar from '~/components/molecular/SearchBar'
 
 export default new Component({
-  name: 'Home',
+  name: 'Discover',
   components: {
     SearchBar,
   },

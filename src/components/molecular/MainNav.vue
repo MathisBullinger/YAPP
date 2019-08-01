@@ -1,8 +1,8 @@
 <template>
   <div :class="{ ...getClassObj, fixed: fixed && wasPortrait }" :style="fixPos">
-    <Icon name="library" @click="$router.push('/podcasts')"></Icon>
+    <Icon name="library" @click="$router.push('/')"></Icon>
     <Icon name="feed" @click="$router.push('/')"></Icon>
-    <Icon name="search" @click="$router.push('/')"></Icon>
+    <Icon name="search" @click="$router.push('/discover')"></Icon>
     <Icon name="account" @click="$router.push('/profile')"></Icon>
   </div>
 </template>
