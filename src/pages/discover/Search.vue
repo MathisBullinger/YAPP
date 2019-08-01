@@ -10,17 +10,27 @@
     <div class="input-shadow">
       <Icon name="nav_back" class="back" @click="back"></Icon>
     </div>
-    <div class="result-pane"></div>
+    <div class="result-pane">
+      <SearchResult
+        v-for="result in results"
+        :key="result.itunesId"
+        :podcast="result"
+      ></SearchResult>
+    </div>
   </div>
 </template>
 
 <script>
 import Component from '~scripts/component'
+import SearchResult from '~/components/molecular/SearchResult'
 import searchPodcastQuery from '~/gql/searchPodcast'
 import { mapActions } from 'vuex'
 
 export default new Component({
   name: 'Search',
+  components: {
+    SearchResult,
+  },
   data() {
     return {
       active: false,

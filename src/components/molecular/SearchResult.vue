@@ -2,8 +2,8 @@
   <div :class="getClass" @click="onClick">
     <img ref="thumbnail" :src="thumbnail" />
     <div class="text">
-      <Paragraph>{{ name }}</Paragraph>
-      <Paragraph>{{ creator }}</Paragraph>
+      <Paragraph>{{ podcast.name }}</Paragraph>
+      <Paragraph>{{ podcast.creator }}</Paragraph>
     </div>
   </div>
 </template>
@@ -15,41 +15,31 @@ import { mapActions } from 'vuex'
 export default new Component({
   name: 'SearchResult',
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    creator: {
-      type: String,
-      required: false,
-    },
-    artworks: {
-      type: Array,
-      default: () => [],
-    },
-    id: {
-      type: String,
+    podcast: {
+      type: Object,
       required: true,
     },
   },
   computed: {
     thumbnail() {
-      if (this.artworks.length === 0) return
+      if (this.podcast.artworks.length === 0) return
       const minSize =
         parseFloat(getComputedStyle(document.documentElement).fontSize) * 4
-      const sorted = this.artworks.sort((a, b) => a.size - b.size)
+      const sorted = this.podcast.artworks.sort((a, b) => a.size - b.size)
       return (sorted.find(art => art.size >= minSize) || sorted.pop()).url
     },
   },
   methods: {
     ...mapActions('podcasts', ['setPodcast']),
+    ...mapActions('app', ['unlockScroll']),
     onClick() {
       this.setPodcast({
-        id: this.id,
-        ...(this.name && { name: this.name }),
-        ...(this.creator && { creator: this.creator }),
+        id: this.podcast.itunesId,
+        ...(this.podcast.name && { name: this.podcast.name }),
+        ...(this.podcast.creator && { creator: this.podcast.creator }),
       })
-      this.$router.push(`/podcast/${this.id}`)
+      this.unlockScroll()
+      this.$router.push(`/podcast/${this.podcast.itunesId}`)
     },
   },
 })
