@@ -92,8 +92,9 @@ $trans: 0.2s ease;
     display: block;
     transform: translateY(-100%);
     border-radius: 0.25rem;
-    box-shadow: none;
     pointer-events: none;
+    transition: transform $trans, width $trans, height $trans, box-shadow $trans,
+      border-radius 0s 0.2s;
 
     .icon {
       position: absolute;
@@ -157,8 +158,6 @@ $trans: 0.2s ease;
 .merged > .search {
   .input-shadow {
     box-shadow: shadow(2);
-    transition: transform $trans, width $trans, height $trans, box-shadow $trans,
-      border-radius 0s 0.2s;
   }
 
   &:not(.expanded) > .result-pane {

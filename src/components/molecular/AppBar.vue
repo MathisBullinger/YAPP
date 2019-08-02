@@ -79,14 +79,20 @@ export default new Component({
       else setTimeout(() => (this.animated = true), 100)
     },
     hideAppBarOnScroll(v) {
-      if (v) scroll.addEventListener('dirchange', this.onScrollDirChange)
-      else scroll.removeEventListener('dirchange', this.onScrollDirChange)
+      scroll.removeFromAll(this.onScrollDirChange)
+      if (v)
+        scroll.addEventListener(
+          typeof this.hideAppBarOnScroll !== 'number'
+            ? 'dirchange'
+            : `above${this.hideAppBarOnScroll}`,
+          this.onScrollDirChange
+        )
     },
     mergeAppBarAtTop(v) {
       if (v) scroll.addEventListener('top', this.onScrollTop)
       else {
         this.merged = false
-        scroll.removeEventListener('top', this.onScrollTop)
+        scroll.removeFromAll(this.onScrollTop)
       }
     },
   },

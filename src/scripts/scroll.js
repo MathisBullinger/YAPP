@@ -11,10 +11,7 @@ class ScrollManager {
       leading: true,
       trailing: true,
     }).bind(this)
-    this._customListener = debounce(this._customListener, 50, {
-      leading: true,
-      trailing: true,
-    }).bind(this)
+    this._customListener = throttle(this._customListener, 1000 / 20).bind(this)
     this._customEdges = []
   }
 
@@ -83,7 +80,6 @@ class ScrollManager {
   }
 
   _initListener(event) {
-    console.log('start', event)
     switch (event) {
       case 'dirchange':
         this._lastScrollY = window.scrollY
@@ -100,6 +96,7 @@ class ScrollManager {
         break
       default:
         if (event.startsWith('above')) {
+          this._lastCustomY = window.scrollY
           window.addEventListener('scroll', this._customListener, {
             passive: true,
           })
@@ -120,6 +117,7 @@ class ScrollManager {
         break
       default:
         if (event.startsWith('above')) {
+          delete this._lastCustomY
           window.removeEventListener('scroll', this._customListener)
         }
     }
@@ -144,7 +142,13 @@ class ScrollManager {
   }
 
   _customListener() {
-    console.log(this._customEdges)
+    this._customEdges.forEach(edge => {
+      if (this._lastCustomY < edge && window.scrollY >= edge)
+        this._handlers[`above${edge}`].forEach(handler => handler(true))
+      else if (this._lastCustomY >= edge && window.scrollY < edge)
+        this._handlers[`above${edge}`].forEach(handler => handler(false))
+    })
+    this._lastCustomY = window.scrollY
   }
 
   _parseCustomScrollEvent(str) {
