@@ -1,4 +1,4 @@
-import { throttle, debounce } from 'lodash'
+import { throttle } from 'lodash'
 
 const DEBUG = process.env.NODE_ENV === 'development'
 
@@ -94,7 +94,70 @@ class ScrollMonitor {
 
 const scrollMonitor = new ScrollMonitor()
 
+class ScrollEvent {
+  constructor(listenTo) {
+    if (typeof this._action !== 'function')
+      throw Error('ScrollEvent must implement action')
+    this._listenTo = listenTo
+    this._subscribers = []
+    this._action = this._action.bind(this)
+  }
+
+  subscribe(handler) {
+    this._subscribers.push(handler)
+    if (this._subscribers.length === 1) this._startListening()
+  }
+  unsubscribe(handler) {
+    this._subscribers = this._subscribers.filter(sub => sub !== handler)
+    if (this._subscribers.length === 0) this._stopListening()
+  }
+
+  _startListening() {
+    scrollMonitor.subscribe(this._action, this._listenTo)
+  }
+  _stopListening() {
+    scrollMonitor.unsubscribe(this._action, this._listenTo)
+  }
+
+  _notify(event) {
+    this._subscribers.forEach(sub => sub(event))
+  }
+}
+
+class Scroll extends ScrollEvent {
+  constructor() {
+    super('scroll')
+  }
+  _action(e) {
+    this._notify(e)
+  }
+}
+
+class ScrollDir extends ScrollEvent {
+  constructor() {
+    super('dirChange')
+  }
+  _action(e) {
+    this._notify(e)
+  }
+}
+
+const events = [new Scroll(), new ScrollDir()]
+function getEvent(name) {
+  let event = events.find(
+    e => e.constructor.name.toLowerCase() === name.toLowerCase()
+  )
+  if (event) return event
+  throw Error(`unknown event ${name}`)
+}
+
 export default {
-  addEventListener: ({ event, handler }) => {},
-  removeEventListener: ({ event, handler }) => {},
+  addEventListener: ({ event, handler }) => {
+    if (!event) throw Error('must pass event & handler')
+    getEvent(event).subscribe(handler)
+  },
+  removeEventListener: ({ event, handler }) => {
+    if (event) getEvent(event).unsubscribe(handler)
+    else events.forEach(e => e.unsubscribe(handler))
+  },
 }
