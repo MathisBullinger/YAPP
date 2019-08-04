@@ -52,6 +52,10 @@ class ScrollMonitor {
     }
   }
 
+  get lastY() {
+    return this._lastY || 0
+  }
+
   _start() {
     this._lastY = window.scrollY
     this._lastDeltaY = 0
@@ -142,12 +146,29 @@ class ScrollDir extends ScrollEvent {
   }
 }
 
+class Above extends ScrollEvent {
+  constructor(edge) {
+    super('scroll')
+    if (typeof edge !== 'number') throw Error('must supply edge value')
+    this._edge = edge
+  }
+  _action({ y }) {
+    if (scrollMonitor.lastY < this._edge && y >= this._edge) this._notify(false)
+    else if (scrollMonitor.lastY >= this._edge && y < this._edge)
+      this._notify(true)
+  }
+}
+
 const events = [new Scroll(), new ScrollDir()]
 function getEvent(name) {
   let event = events.find(
-    e => e.constructor.name.toLowerCase() === name.toLowerCase()
+    e => (e.name || e.constructor.name.toLowerCase()) === name.toLowerCase()
   )
   if (event) return event
+  if (name.startsWith('above') && /^\d+$/.test(name.replace('above', ''))) {
+    events.push(new Above(parseInt(name.replace('above', ''), 10)))
+    return events[events.length - 1]
+  }
   throw Error(`unknown event ${name}`)
 }
 
