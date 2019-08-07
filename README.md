@@ -1,2 +1,1 @@
-# YAPP
-Yet Another Podcast Player
+## YAPP

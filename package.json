@@ -1,6 +1,4 @@
 {
-  "name": "yapp",
-  "version": "1.0.0",
   "description": "Yet Another Podcast Player",
   "main": "index.js",
   "scripts": {
