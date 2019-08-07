@@ -1,40 +1,10 @@
-import './compatibility'
-import Vue from 'vue'
-import * as Sentry from '@sentry/browser'
-import * as Integrations from '@sentry/integrations'
-import SvgIcon from 'vue-svgicon'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-if (!location.href.includes('localhost'))
-  Sentry.init({
-    dsn: 'https://f253732d670843f0b08015c64bb7587f@sentry.io/1500732',
-    integrations: [new Integrations.Vue({ Vue, attachProps: true })],
-  })
+class HelloMessage extends React.Component {
+  render() {
+    return <div>Hello, React!</div>
+  }
+}
 
-import VueRouter from 'vue-router'
-import App from '~/App'
-import VueApollo from 'vue-apollo'
-import router from '~/router'
-import defaultClient from '~/api'
-import store from '~/store'
-import '~/styles/master.scss'
-
-Vue.use(VueRouter)
-Vue.use(VueApollo)
-
-const atomic = require('./components/atomic/*.vue')
-Object.keys(atomic).forEach(name =>
-  Vue.component(name, atomic[name].default || atomic[name])
-)
-Vue.use(SvgIcon, {
-  tagName: 'SvgIcon',
-})
-
-const apolloProvider = new VueApollo({ defaultClient })
-
-new Vue({
-  el: '#app',
-  router,
-  apolloProvider,
-  store,
-  render: h => h(App),
-})
+ReactDOM.render(<HelloMessage name="Yomi" />, document.getElementById('app'))
