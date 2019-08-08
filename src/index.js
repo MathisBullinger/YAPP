@@ -1,10 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from "react";
+import ReactDOM from "react-dom";
+import Header from "~/components/Header";
 
-class HelloMessage extends React.Component {
+class App extends React.Component {
   render() {
-    return <div>Hello, React!</div>
+    return <Header>foo bar</Header>;
   }
 }
 
-ReactDOM.render(<HelloMessage name="Yomi" />, document.getElementById('app'))
+ReactDOM.render(<App />, document.getElementById("root"));
