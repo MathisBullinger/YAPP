@@ -17,7 +17,8 @@
     "~": "src",
     "react": "preact-compat",
     "react-dom": "preact-compat",
-    "atoms": "~/components/atomic"
+    "atoms": "~/components/atomic",
+    "molecules": "~/components/molecular"
   },
   "repository": {
     "type": "git",
@@ -46,7 +47,6 @@
   "dependencies": {
     "preact": "^8.5.1",
     "preact-compat": "^3.19.0",
-    "preact-dom": "^1.0.1",
     "react-router-dom": "^5.0.1",
     "styled-components": "^3.1.6"
   }
