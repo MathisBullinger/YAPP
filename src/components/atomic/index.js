@@ -9,4 +9,5 @@ const atoms = Object.fromEntries(
 const Text = atoms.Text
 const Page = atoms.Page
 const Title = atoms.Title
-export { Text, Page, Title }
+const Dropdown = atoms.Dropdown
+export { Text, Page, Title, Dropdown }
