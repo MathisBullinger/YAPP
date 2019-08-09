@@ -1,5 +1,6 @@
 const config = {
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier/react'],
+  plugins: ['prettier'],
   env: {
     browser: true,
   },
