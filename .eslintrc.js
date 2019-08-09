@@ -22,6 +22,7 @@ const config = {
   rules: {
     semi: ['error', 'never'],
     'react/prop-types': 0,
+    'no-console': 'warn',
   },
 }
 
