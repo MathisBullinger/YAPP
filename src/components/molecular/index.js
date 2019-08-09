@@ -8,4 +8,3 @@ const molecules = Object.fromEntries(
 
 const Mainnav = molecules.Mainnav
 export { Mainnav }
-
