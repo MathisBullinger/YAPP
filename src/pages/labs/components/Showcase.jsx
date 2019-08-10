@@ -18,7 +18,7 @@ export default class Showcase extends React.Component {
     return (
       <Case className="showcase">
         <div className="info">
-          <Title s2>
+          <Title s6>
             {this.props.name || this.props.children[0].nodeName.name}
           </Title>
           {this.state.child.nodeName.variants && (

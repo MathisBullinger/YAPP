@@ -7,4 +7,5 @@ const styles = Object.fromEntries(
 )
 
 const shadow = styles.shadow
-export { shadow }
+const typography = styles.typography
+export { shadow, typography }
