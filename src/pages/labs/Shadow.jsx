@@ -120,8 +120,6 @@ const ShadowPage = styled(Page).attrs(props => ({
   color: props.color,
 }))`
   background-color: ${props => props.color};
-  padding-left: 4rem;
-  padding-right: 4rem;
 
   .control-panel {
     position: absolute;

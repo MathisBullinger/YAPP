@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import Component from '~/utils/component'
 
 export default class Title extends Component {
-  private static variants = ['s1', 's2', 's3', 's4', 's5', 's6']
-  private static defaultVariant = 's1'
+  public static variants = ['s1', 's2', 's3', 's4', 's5', 's6']
+  public static defaultVariant = 's1'
 
   props: {
     children: any
@@ -16,7 +16,10 @@ export default class Title extends Component {
 
   render() {
     return (
-      <Header tag={this.variant.replace('s', 'h')} className={this.variant}>
+      <Header
+        tag={this.state.variant.replace('s', 'h')}
+        className={this.variant}
+      >
         {this.props.children}
       </Header>
     )

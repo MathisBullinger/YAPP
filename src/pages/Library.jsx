@@ -1,5 +1,9 @@
 import React from 'react'
-import { Text } from 'atoms'
+import { Page, Title } from 'atoms'
 
-const Library = () => <Text>Library</Text>
+const Library = () => (
+  <Page>
+    <Title>Library</Title>
+  </Page>
+)
 export default Library
