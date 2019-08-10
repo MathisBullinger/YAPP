@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"],
+      "react": ["./node_modules/preact-compat"],
+      "atoms": ["src/components/atomic/index.js"],
+      "molecules": ["src/components/molecular/index.js"]
+    }
+  }
+}

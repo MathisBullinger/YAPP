@@ -1,6 +1,7 @@
 const config = {
   extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier/react'],
-  plugins: ['prettier'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['prettier', '@typescript-eslint'],
   env: {
     browser: true,
   },
@@ -23,6 +24,7 @@ const config = {
     semi: ['error', 'never'],
     'react/prop-types': 0,
     'no-console': 'warn',
+    '@typescript-eslint/no-unused-vars': 'error',
   },
 }
 
