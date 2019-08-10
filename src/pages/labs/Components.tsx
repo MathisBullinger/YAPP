@@ -1,7 +1,7 @@
 import React from 'react'
 import Component from '~/utils/component'
 import styled from 'styled-components'
-import { Page, Title, Text } from 'atoms'
+import { Page, Title, Text, Switch, Checkbox, Dropdown, Card } from 'atoms'
 import Showcase from './components/Showcase'
 
 export default class Components extends Component {
@@ -14,11 +14,25 @@ export default class Components extends Component {
       <ComponentsPage>
         <Title s1>Components</Title>
         <div className="components">
-          <Showcase comp={Title}>
+          <Showcase>
             <Title>The quick brown fox jumps over the lazy dog</Title>
           </Showcase>
-          <Showcase comp={Text}>
+          <Showcase>
             <Text>The quick brown fox jumps over the lazy dog</Text>
+          </Showcase>
+          <Showcase>
+            <Switch />
+          </Showcase>
+          <Showcase>
+            <Checkbox />
+          </Showcase>
+          <Showcase>
+            <Dropdown
+              items={'The quick brown fox jumps over the lazy dog'.split(' ')}
+            />
+          </Showcase>
+          <Showcase name="Card">
+            <Card />
           </Showcase>
         </div>
       </ComponentsPage>

@@ -6,8 +6,8 @@ export default class Showcase extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      child: React.createElement(
-        this.props.comp,
+      child: React.cloneElement(
+        this.props.children[0],
         { [this.state.size]: true },
         this.props.children[0].children
       ),
@@ -18,7 +18,9 @@ export default class Showcase extends React.Component {
     return (
       <Case className="showcase">
         <div className="info">
-          <Title s2>{this.props.comp.name}</Title>
+          <Title s2>
+            {this.props.name || this.props.children[0].nodeName.name}
+          </Title>
           {this.state.child.nodeName.variants && (
             <Dropdown
               onInput={v => this.handleVariantChange(v)}
@@ -33,8 +35,8 @@ export default class Showcase extends React.Component {
 
   handleVariantChange(v) {
     this.setState({
-      child: React.createElement(
-        this.props.comp,
+      child: React.cloneElement(
+        this.props.children[0],
         { [v]: true, key: v },
         this.props.children[0].children
       ),
@@ -48,5 +50,19 @@ const Case = styled.div`
 
   *:not(.showcase) + & {
     border-top: 1px solid black;
+  }
+
+  .info {
+    h2 {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .info,
+  .comp {
+    & > * {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 `

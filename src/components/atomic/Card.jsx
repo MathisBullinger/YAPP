@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import shadow from '~/styles/shadow'
 
-const Card = ({ el = 10, children } = {}) => (
+const Card = ({ el = 3, children } = {}) => (
   <CardStyled {...{ el }}>{children}</CardStyled>
 )
 export default Card
