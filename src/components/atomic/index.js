@@ -10,4 +10,7 @@ const Text = atoms.Text
 const Page = atoms.Page
 const Title = atoms.Title
 const Dropdown = atoms.Dropdown
-export { Text, Page, Title, Dropdown }
+const Card = atoms.Card
+const Checkbox = atoms.Checkbox
+const Switch = atoms.Switch
+export { Text, Page, Title, Dropdown, Card, Checkbox, Switch }

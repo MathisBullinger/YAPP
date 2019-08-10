@@ -8,7 +8,10 @@ export default class Labeled extends React.Component {
 
   render() {
     return (
-      <LabelStyled>{this.props.children}{this.props.for}</LabelStyled>
+      <LabelStyled>
+        {this.props.children}
+        {this.props.for}
+      </LabelStyled>
     )
   }
 }

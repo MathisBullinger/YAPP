@@ -7,4 +7,5 @@ const molecules = Object.fromEntries(
 )
 
 const Mainnav = molecules.Mainnav
-export { Mainnav }
+const Labeled = molecules.Labeled
+export { Mainnav, Labeled }

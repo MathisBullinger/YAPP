@@ -7,7 +7,12 @@ export default class Checkbox extends React.Component {
 
   render() {
     return (
-      <input type="checkbox" onInput={e => this.props.onInput && this.props.onInput(e.target.checked)}></input>
+      <input
+        type="checkbox"
+        onInput={e =>
+          this.props.onInput && this.props.onInput(e.target.checked)
+        }
+      ></input>
     )
   }
 }
