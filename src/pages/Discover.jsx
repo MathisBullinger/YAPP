@@ -1,5 +1,9 @@
 import React from 'react'
-import { Text } from 'atoms'
+import { Page, Title } from 'atoms'
 
-const Discover = () => <Text>Library</Text>
+const Discover = () => (
+  <Page>
+    <Title>Discover</Title>
+  </Page>
+)
 export default Discover

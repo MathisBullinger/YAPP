@@ -1,7 +1,7 @@
 import React from 'react'
 import { Page, Title } from 'atoms'
 
-export default class Profile extends React.Component {
+export default class Feed extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -9,7 +9,7 @@ export default class Profile extends React.Component {
   render() {
     return (
       <Page>
-        <Title>Profile</Title>
+        <Title>Feed</Title>
       </Page>
     )
   }

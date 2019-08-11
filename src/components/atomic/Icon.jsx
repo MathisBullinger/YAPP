@@ -1,5 +1,5 @@
 import React from 'react'
-import icons from '~/../data/icons'
+import icons from 'data/icons'
 
 const Icon = name => (
   <svg
