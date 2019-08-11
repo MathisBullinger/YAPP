@@ -13,4 +13,5 @@ const Dropdown = atoms.Dropdown
 const Card = atoms.Card
 const Checkbox = atoms.Checkbox
 const Switch = atoms.Switch
-export { Text, Page, Title, Dropdown, Card, Checkbox, Switch }
+const Icon = atoms.Icon
+export { Text, Page, Title, Dropdown, Card, Checkbox, Switch, Icon }
