@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Page, Title } from 'atoms'
 
 export default class Profile extends React.Component {
@@ -8,9 +9,11 @@ export default class Profile extends React.Component {
 
   render() {
     return (
-      <Page>
+      <ProfilePage>
         <Title>Profile</Title>
-      </Page>
+      </ProfilePage>
     )
   }
 }
+
+const ProfilePage = styled(Page)``

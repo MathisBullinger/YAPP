@@ -10,7 +10,7 @@ export default class Item extends React.Component {
 
   render() {
     return (
-      <MenuItem to={this.props.to}>
+      <MenuItem to={this.props.to} className="menu-item">
         <Icon name={this.props.icon} />
         {this.props.children}
       </MenuItem>

@@ -8,4 +8,6 @@ const styles = Object.fromEntries(
 
 const shadow = styles.shadow
 const typography = styles.typography
-export { shadow, typography }
+const responsive = styles.responsive
+const layout = styles.layout
+export { shadow, typography, responsive, layout }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import shadow from '~/styles/shadow'
+import { shadow, responsive, layout } from '~/styles'
 import Item from './mainnav/Item'
 
 export default class Mainnav extends React.Component {
@@ -10,7 +10,7 @@ export default class Mainnav extends React.Component {
 
   render() {
     return (
-      <Bar>
+      <Bar responsive={responsive} layout={layout}>
         <Item to="/" icon="library">
           Library
         </Item>
@@ -41,4 +41,18 @@ const Bar = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  box-sizing: border-box;
+
+  @media ${({ responsive }) => responsive.navOnSide} {
+    height: 100vh;
+    width: ${({ layout }) => layout.desktop.navWidth};
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2rem;
+
+    .menu-item {
+      margin-bottom: 2rem;
+    }
+  }
 `
