@@ -56,4 +56,10 @@ const Bar = styled.div`
       margin-bottom: 2rem;
     }
   }
+
+  @media ${({ responsive }) => responsive.navCollapsed} {
+    width: ${({ layout }) => layout.desktop.navWidthCollapsed};
+    padding-left: 0;
+    align-items: center;
+  }
 `
