@@ -1,7 +1,7 @@
 import React from 'react'
 import Component from '~/utils/component'
 import styled from 'styled-components'
-import { Page, Title, Text, Switch, Checkbox, Dropdown, Card } from 'atoms'
+import { Title, Text, Switch, Checkbox, Dropdown, Card } from 'atoms'
 import Showcase from './components/Showcase'
 
 export default class Components extends Component {
@@ -40,7 +40,7 @@ export default class Components extends Component {
   }
 }
 
-const ComponentsPage: any = styled(Page)`
+const ComponentsPage: any = styled.div`
   .components {
     display: grid;
     grid-template-columns: auto 1fr;

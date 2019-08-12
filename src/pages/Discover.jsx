@@ -1,9 +1,9 @@
 import React from 'react'
-import { Page, Title } from 'atoms'
+import { Title } from 'atoms'
 
 const Discover = () => (
-  <Page>
+  <div>
     <Title>Discover</Title>
-  </Page>
+  </div>
 )
 export default Discover

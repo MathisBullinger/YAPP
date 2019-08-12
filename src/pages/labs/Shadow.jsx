@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Page, Title, Dropdown, Card, Switch, Text } from 'atoms'
+import { Title, Dropdown, Card, Switch, Text } from 'atoms'
 import { Labeled } from 'molecules'
 import { shadowConf } from '~styles/shadow'
 
@@ -20,38 +20,28 @@ export default class Shadow extends React.Component {
           <Dropdown
             items={['white', 'light grey', 'dark grey']}
             onInput={c => this.handleColorChange(c)}
-          ></Dropdown>
+          />
           <Labeled
             for={
-              <Switch
-                value={true}
-                onInput={v => this.toggleAmbientShadow(v)}
-              ></Switch>
+              <Switch value={true} onInput={v => this.toggleAmbientShadow(v)} />
             }
           >
             ambient
           </Labeled>
           <Labeled
             for={
-              <Switch
-                value={true}
-                onInput={v => this.toggleSpotShadow(v)}
-              ></Switch>
+              <Switch value={true} onInput={v => this.toggleSpotShadow(v)} />
             }
           >
             spot
           </Labeled>
           <Labeled
-            for={
-              <Switch value={true} onInput={v => this.toggleBlur(v)}></Switch>
-            }
+            for={<Switch value={true} onInput={v => this.toggleBlur(v)} />}
           >
             blur
           </Labeled>
           <Labeled
-            for={
-              <Switch value={true} onInput={v => this.toggleSpread(v)}></Switch>
-            }
+            for={<Switch value={true} onInput={v => this.toggleSpread(v)} />}
           >
             spread
           </Labeled>
@@ -60,7 +50,7 @@ export default class Shadow extends React.Component {
               <input
                 type="color"
                 onInput={e => this.changeShadowColor(e.target.value)}
-              ></input>
+              />
             }
           >
             shadow color
@@ -116,7 +106,7 @@ export default class Shadow extends React.Component {
   }
 }
 
-const ShadowPage = styled(Page).attrs(props => ({
+const ShadowPage = styled.div.attrs(props => ({
   color: props.color,
 }))`
   background-color: ${props => props.color};

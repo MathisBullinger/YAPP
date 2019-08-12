@@ -1,9 +1,9 @@
 import React from 'react'
-import { Page, Title } from 'atoms'
+import { Title } from 'atoms'
 
 const NotFound = () => (
-  <Page>
+  <div>
     <Title>404</Title>
-  </Page>
+  </div>
 )
 export default NotFound

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Page, Title } from 'atoms'
+import { Title } from 'atoms'
 
 export default class Feed extends React.Component {
   constructor(props) {
@@ -8,9 +8,9 @@ export default class Feed extends React.Component {
 
   render() {
     return (
-      <Page>
+      <div>
         <Title>Feed</Title>
-      </Page>
+      </div>
     )
   }
 }

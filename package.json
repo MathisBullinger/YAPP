@@ -19,7 +19,9 @@
     "react": "preact-compat",
     "react-dom": "preact-compat",
     "atoms": "~/components/atomic",
-    "molecules": "~/components/molecular"
+    "molecules": "~/components/molecular",
+    "organisms": "~/components/organisms",
+    "templates": "~/components/templates"
   },
   "repository": {
     "type": "git",

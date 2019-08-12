@@ -5,32 +5,35 @@ import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
 import Discover from '~/pages/Discover'
 import Profile from '~/pages/Profile'
-import { Mainnav } from 'molecules'
+import { Mainnav } from 'organisms'
 import Lab from '~/pages/Lab'
 import labs from './pages/labs/**.*sx'
 import NotFound from '~/pages/NotFound'
+import { Page } from 'templates'
 
 class App extends React.Component {
   render() {
     return (
       <Router>
         <Mainnav />
-        <Switch>
-          <Route path="/" exact component={Library} />
-          <Route path="/feed/" exact component={Feed} />
-          <Route path="/discover/" exact component={Discover} />
-          <Route path="/profile/" exact component={Profile} />
-          <Route path="/lab/" exact component={Lab} />
-          {Object.entries(labs).map(([k, v]) => (
-            <Route
-              key={k}
-              path={`/lab/${k.toLowerCase()}`}
-              exact
-              component={Object.values(v)[0].default}
-            />
-          ))}
-          <Route component={NotFound} />
-        </Switch>
+        <Page>
+          <Switch>
+            <Route path="/" exact component={Library} />
+            <Route path="/feed/" exact component={Feed} />
+            <Route path="/discover/" exact component={Discover} />
+            <Route path="/profile/" exact component={Profile} />
+            <Route path="/lab/" exact component={Lab} />
+            {Object.entries(labs).map(([k, v]) => (
+              <Route
+                key={k}
+                path={`/lab/${k.toLowerCase()}`}
+                exact
+                component={Object.values(v)[0].default}
+              />
+            ))}
+            <Route component={NotFound} />
+          </Switch>
+        </Page>
       </Router>
     )
   }

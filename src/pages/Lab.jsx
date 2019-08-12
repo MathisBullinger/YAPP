@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Page, Title } from 'atoms'
+import { Title } from 'atoms'
 import labs from './labs/**.*sx'
 import { Link } from 'react-router-dom'
 
@@ -17,7 +17,7 @@ const Lab = () => (
 
 export default Lab
 
-const LabPage = styled(Page)`
+const LabPage = styled.div`
   a {
     display: block;
     margin-bottom: 1rem;

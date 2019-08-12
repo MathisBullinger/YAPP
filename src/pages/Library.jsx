@@ -1,10 +1,9 @@
 import React from 'react'
-import { Page, Title } from 'atoms'
-import { responsive, layout } from '~/styles/'
+import { Title } from 'atoms'
 
 const Library = () => (
-  <Page responsive={responsive} layout={layout}>
+  <div>
     <Title>Library</Title>
-  </Page>
+  </div>
 )
 export default Library
