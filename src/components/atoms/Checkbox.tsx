@@ -1,18 +1,13 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 
-export default class Checkbox extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <input
-        type="checkbox"
-        onInput={e =>
-          this.props.onInput && this.props.onInput(e.target.checked)
-        }
-      ></input>
-    )
-  }
+interface Props {
+  onInput(v: boolean): void
 }
+
+const Checkbox: FunctionComponent<Props> = props => (
+  <input
+    type="checkbox"
+    onInput={e => props.onInput(e.currentTarget.checked)}
+  />
+)
+export default Checkbox
