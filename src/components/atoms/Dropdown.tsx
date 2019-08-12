@@ -1,25 +1,19 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
-export default class Dropdown extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <Select onInput={e => this.handleInput(e)}>
-        {this.props.items &&
-          this.props.items.map(item => <option key={item}>{item}</option>)}
-      </Select>
-    )
-  }
-
-  handleInput(e) {
-    if (typeof this.props.onInput !== 'function') return
-    this.props.onInput(e.target.value)
-  }
+interface Props {
+  items: string[]
+  onInput?(v: string): void
 }
+
+const Dropdown: FunctionComponent<Props> = ({ items, onInput }: Props) => (
+  <Select onChange={e => onInput && onInput(e.target.value)}>
+    {items.map(item => (
+      <option key={item}>{item}</option>
+    ))}
+  </Select>
+)
+export default Dropdown
 
 const Select = styled.select`
   display: block;
