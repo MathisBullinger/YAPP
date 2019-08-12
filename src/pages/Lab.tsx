@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Title } from 'atoms'
+import { Title } from '~/components/atoms'
 import labs from './labs/**.*sx'
 import { Link } from 'react-router-dom'
 

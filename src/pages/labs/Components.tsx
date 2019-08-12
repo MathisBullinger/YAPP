@@ -1,7 +1,14 @@
 import React from 'react'
 import Component from '~/utils/component'
 import styled from 'styled-components'
-import { Title, Text, Switch, Checkbox, Dropdown, Card } from 'atoms'
+import {
+  Title,
+  Text,
+  Switch,
+  Checkbox,
+  Dropdown,
+  Card,
+} from '~/components/atoms'
 import Showcase from './components/Showcase'
 
 export default class Components extends Component {

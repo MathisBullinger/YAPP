@@ -1,13 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
-import shadow from '~styles/shadow'
+import { shadow } from '~/styles'
+
+interface Props {
+  value: boolean
+}
+
+interface State {
+  on: boolean
+}
 
 export default class Switch extends React.Component {
+  props: Props
+
+  state: State = {
+    on: this.props.value || false,
+  }
+
   constructor(props) {
     super(props)
-    this.state = {
-      on: props.value || false,
-    }
   }
 
   render() {
@@ -15,9 +26,9 @@ export default class Switch extends React.Component {
       <SwitchStyled
         onClick={() => this.toggle()}
         role="switch"
-        aria-checked={this.state.on.toString()}
+        aria-checked={this.state.on}
       >
-        <div></div>
+        <div />
       </SwitchStyled>
     )
   }

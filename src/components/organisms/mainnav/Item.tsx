@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { Icon, Text } from 'atoms'
-import { responsive } from '~/styles'
+import { Icon, Text } from '~/components/atoms'
+import { responsive } from '~/styles/'
 
 export default class Item extends React.Component {
   constructor(props) {
@@ -29,6 +29,13 @@ const MenuItem = styled(NavLink)`
 
   .pageName {
     margin-left: 1rem;
+    display: none;
+  }
+
+  @media ${({ responsive }) => responsive.navOnSide} {
+    .pageName {
+      display: initial;
+    }
   }
 
   @media ${({ responsive }) => responsive.navCollapsed} {
@@ -36,6 +43,7 @@ const MenuItem = styled(NavLink)`
 
     .pageName {
       margin-left: 0;
+      display: initial;
     }
   }
 `

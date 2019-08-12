@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Title, Dropdown } from 'atoms'
+import { Title, Dropdown } from '~/components/atoms'
 
 export default class Showcase extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ export default class Showcase extends React.Component {
             <Dropdown
               onInput={v => this.handleVariantChange(v)}
               items={this.state.child.nodeName.variants}
-            ></Dropdown>
+            />
           )}
         </div>
         <div className="comp">{this.state.child}</div>

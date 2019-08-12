@@ -17,11 +17,7 @@
     "~": "src",
     "data": "./data",
     "react": "preact-compat",
-    "react-dom": "preact-compat",
-    "atoms": "~/components/atomic",
-    "molecules": "~/components/molecular",
-    "organisms": "~/components/organisms",
-    "templates": "~/components/templates"
+    "react-dom": "preact-compat"
   },
   "repository": {
     "type": "git",

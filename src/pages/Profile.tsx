@@ -1,7 +1,7 @@
 import React from 'react'
-import { Title } from 'atoms'
+import { Title } from '~/components/atoms'
 
-export default class Feed extends React.Component {
+export default class Profile extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -9,7 +9,7 @@ export default class Feed extends React.Component {
   render() {
     return (
       <div>
-        <Title>Feed</Title>
+        <Title>Profile</Title>
       </div>
     )
   }

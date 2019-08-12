@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { shadow, responsive, layout } from '~/styles'
+import { shadow, responsive, layout } from '~/styles/'
 import Item from './mainnav/Item'
 
 export default class Mainnav extends React.Component {

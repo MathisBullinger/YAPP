@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Title, Dropdown, Card, Switch, Text } from 'atoms'
-import { Labeled } from 'molecules'
+import { Title, Dropdown, Card, Switch, Text } from '~/components/atoms'
+import { Labeled } from '~/components/molecules'
 import { shadowConf } from '~styles/shadow'
 
 export default class Shadow extends React.Component {
