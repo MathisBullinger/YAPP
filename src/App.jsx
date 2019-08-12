@@ -23,14 +23,16 @@ class App extends React.Component {
             <Route path="/discover/" exact component={Discover} />
             <Route path="/profile/" exact component={Profile} />
             <Route path="/lab/" exact component={Lab} />
-            {Object.entries(labs).map(([k, v]) => (
-              <Route
-                key={k}
-                path={`/lab/${k.toLowerCase()}`}
-                exact
-                component={Object.values(v)[0].default}
-              />
-            ))}
+            {Object.values(labs)
+              .map(m => Object.values(m)[0].default)
+              .map(lab => (
+                <Route
+                  key={lab.name}
+                  path={`/lab/${lab.name.toLowerCase()}`}
+                  exact
+                  component={lab}
+                />
+              ))}
             <Route component={NotFound} />
           </Switch>
         </Page>

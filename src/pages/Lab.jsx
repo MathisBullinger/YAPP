@@ -7,11 +7,13 @@ import { Link } from 'react-router-dom'
 const Lab = () => (
   <LabPage>
     <Title>Labs</Title>
-    {Object.keys(labs).map(lab => (
-      <Link key={lab} to={lab.toLowerCase()}>
-        {lab}
-      </Link>
-    ))}
+    {Object.values(labs)
+      .map(m => Object.values(m)[0].default.name)
+      .map(lab => (
+        <Link key={lab} to={'lab/' + lab.toLowerCase()}>
+          {lab}
+        </Link>
+      ))}
   </LabPage>
 )
 
