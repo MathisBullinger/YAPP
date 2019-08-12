@@ -1,13 +1,15 @@
 import React, { FunctionComponent } from 'react'
 
 interface Props {
-  onInput(v: boolean): void
+  onInput?(v: boolean): void
 }
 
 const Checkbox: FunctionComponent<Props> = props => (
   <input
     type="checkbox"
-    onInput={e => props.onInput(e.currentTarget.checked)}
+    onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+      props.onInput && props.onInput(e.target.checked)
+    }
   />
 )
 export default Checkbox
