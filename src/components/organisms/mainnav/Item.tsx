@@ -16,7 +16,7 @@ export default class Item extends React.Component {
         to={this.props.to}
         className="menu-item"
       >
-        <Icon name={this.props.icon} />
+        <Icon icon={this.props.icon} />
         <Text className="pageName">{this.props.children}</Text>
       </MenuItem>
     )
