@@ -13,7 +13,10 @@ export default class Text extends Component {
 
   render() {
     return (
-      <Paragraph size={this.state.variant.replace('s', '')}>
+      <Paragraph
+        className={this.classStr()}
+        size={this.state.variant.replace('s', '')}
+      >
         {this.props.children}
       </Paragraph>
     )

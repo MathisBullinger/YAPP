@@ -30,6 +30,7 @@ export default class Mainnav extends React.Component {
 
 const Bar = styled.div`
   position: fixed;
+  box-sizing: border-box;
   bottom: 0;
   width: 100vw;
   height: 4rem;
@@ -41,7 +42,6 @@ const Bar = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  box-sizing: border-box;
 
   @media ${({ responsive }) => responsive.navOnSide} {
     height: 100vh;
@@ -49,7 +49,8 @@ const Bar = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 2rem;
+    padding-left: 1.5rem;
+    padding-top: 2rem;
 
     .menu-item {
       margin-bottom: 2rem;

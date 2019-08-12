@@ -1,5 +1,5 @@
 export default {
   desktop: {
-    navWidth: '10rem',
+    navWidth: '15rem',
   },
 }

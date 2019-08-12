@@ -4,6 +4,7 @@ import { assert } from '~/utils/debug'
 export default abstract class Component extends React.Component {
   protected props: {
     children: any
+    className: string
   }
   protected state: {
     variant?: string
@@ -30,4 +31,11 @@ export default abstract class Component extends React.Component {
   }
 
   abstract render()
+
+  protected classStr(...names: string[]): string {
+    return [
+      ...(!this.props.className ? [] : [this.props.className]),
+      ...(!names ? [] : typeof names === 'string' ? [names] : names),
+    ].join(' ')
+  }
 }

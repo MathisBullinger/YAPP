@@ -18,9 +18,9 @@ export default class Title extends Component {
   render() {
     return (
       <Header
+        className={this.classStr()}
         size={this.state.variant.replace('s', '')}
         tag={this.state.variant.replace('s', 'h')}
-        className={this.variant}
       >
         {this.props.children}
       </Header>

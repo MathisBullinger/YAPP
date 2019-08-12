@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { Icon } from 'atoms'
+import { Icon, Text } from 'atoms'
 
 export default class Item extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ export default class Item extends React.Component {
     return (
       <MenuItem to={this.props.to} className="menu-item">
         <Icon name={this.props.icon} />
-        {this.props.children}
+        <Text className="pageName">{this.props.children}</Text>
       </MenuItem>
     )
   }
@@ -21,4 +21,8 @@ export default class Item extends React.Component {
 const MenuItem = styled(NavLink)`
   display: flex;
   align-items: center;
+
+  .pageName {
+    margin-left: 1rem;
+  }
 `
