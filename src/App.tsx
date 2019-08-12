@@ -7,6 +7,7 @@ import Discover from '~/pages/Discover'
 import Profile from '~/pages/Profile'
 import { Mainnav } from 'organisms'
 import Lab from '~/pages/Lab'
+// @ts-ignore
 import labs from './pages/labs/**.*sx'
 import NotFound from '~/pages/NotFound'
 import { Page } from 'templates'
