@@ -26,4 +26,8 @@ const PageTag = styled.div`
   @media ${({ responsive }) => responsive.navOnSide} {
     margin-left: ${({ layout }) => layout.desktop.navWidth};
   }
+
+  @media ${({ responsive }) => responsive.navCollapsed} {
+    margin-left: ${({ layout }) => layout.desktop.navWidthCollapsed};
+  }
 `
