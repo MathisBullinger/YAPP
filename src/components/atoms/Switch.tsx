@@ -1,46 +1,30 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { shadow } from '~/styles'
 
 interface Props {
-  value: boolean
+  value: 'on' | 'off'
+  onInput?(v: boolean): void
 }
 
-interface State {
-  on: boolean
-}
-
-export default class Switch extends React.Component {
-  props: Props
-
-  state: State = {
-    on: this.props.value || false,
-  }
-
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <SwitchStyled
-        onClick={() => this.toggle()}
-        role="switch"
-        aria-checked={this.state.on}
-      >
-        <div />
-      </SwitchStyled>
-    )
-  }
-
-  toggle() {
-    this.setState({
-      on: !this.state.on,
-    })
-    if (typeof this.props.onInput === 'function')
-      this.props.onInput(this.state.on)
-  }
-}
+const Switch: FunctionComponent<Props> = ({
+  value = 'off',
+  onInput,
+}: Props) => (
+  <SwitchStyled
+    data-value={value}
+    aria-checked={value === 'on' ? 'true' : 'false'}
+    onClick={({ target }: { target: any }) => {
+      target.setAttribute(
+        'aria-checked',
+        target.dataset.value === 'on' ? 'false' : 'true'
+      )
+      target.dataset.value = target.dataset.value === 'on' ? 'off' : 'on'
+      if (onInput) onInput(target.dataset.value === 'on')
+    }}
+  />
+)
+export default Switch
 
 const activeColor = [56, 131, 131]
 const SwitchStyled = styled.div`
@@ -51,7 +35,9 @@ const SwitchStyled = styled.div`
   background-color: gray;
   cursor: pointer;
 
-  div {
+  &:after {
+    content: '';
+    display: block;
     margin: 0;
     margin-top: -0.1rem;
     width: 1rem;
@@ -62,10 +48,10 @@ const SwitchStyled = styled.div`
     transition: transform 0.15s ease;
   }
 
-  &[aria-checked='true'] {
+  &[data-value='on'] {
     background-color: rgba(${activeColor.join()}, 50%);
 
-    div {
+    &:after {
       transform: translateX(100%);
       background-color: rgb(${activeColor.join()});
     }
