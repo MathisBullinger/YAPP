@@ -10,4 +10,5 @@ const shadow = styles.shadow
 const typography = styles.typography
 const responsive = styles.responsive
 const layout = styles.layout
-export { shadow, typography, responsive, layout }
+const theme = styles.theme
+export { shadow, typography, responsive, layout, theme }

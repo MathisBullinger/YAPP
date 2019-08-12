@@ -22,9 +22,12 @@ const PageTag = styled.div`
   min-height: calc(100vh - 4rem);
   margin-bottom: 4rem;
   box-sizing: border-box;
+  background-color: ${({ theme }) => theme.clBackground};
 
   @media ${({ responsive }) => responsive.navOnSide} {
     margin-left: ${({ layout }) => layout.desktop.navWidth};
+    min-height: 100vh;
+    margin-bottom: 0;
   }
 
   @media ${({ responsive }) => responsive.navCollapsed} {
