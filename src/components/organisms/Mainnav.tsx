@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { shadow, responsive, layout } from '~/styles/'
 import Item from './mainnav/Item'
 
@@ -10,20 +10,22 @@ export default class Mainnav extends React.Component {
 
   render() {
     return (
-      <S.Mainnav>
-        <Item to="/" icon="library">
-          Library
-        </Item>
-        <Item to="/feed" icon="subscriptions">
-          Feed
-        </Item>
-        <Item to="/discover" icon="search">
-          Discover
-        </Item>
-        <Item to="/profile" icon="person">
-          Profile
-        </Item>
-      </S.Mainnav>
+      <ThemeProvider theme={{ topic: 'surface' }}>
+        <S.Mainnav>
+          <Item to="/" icon="library">
+            Library
+          </Item>
+          <Item to="/feed" icon="subscriptions">
+            Feed
+          </Item>
+          <Item to="/discover" icon="search">
+            Discover
+          </Item>
+          <Item to="/profile" icon="person">
+            Profile
+          </Item>
+        </S.Mainnav>
+      </ThemeProvider>
     )
   }
 }
@@ -36,7 +38,7 @@ namespace S {
     width: 100vw;
     height: 4rem;
     display: block;
-    background-color: ${({ theme }) => theme.surface.color};
+    background-color: ${({ theme }) => theme[theme.topic].color};
     box-shadow: ${shadow(4)};
 
     display: flex;

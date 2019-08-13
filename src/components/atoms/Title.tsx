@@ -33,5 +33,6 @@ namespace S {
     font-size: ${({ tt }) => tt.size}rem;
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing}rem;
+    color: ${({ theme }) => theme[theme.topic].on};
   `
 }

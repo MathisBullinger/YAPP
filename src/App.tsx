@@ -25,7 +25,9 @@ class App extends React.Component<Props> {
 
   render() {
     return (
-      <ThemeProvider theme={this.state.theme}>
+      <ThemeProvider
+        theme={{ ...this.state.theme, ...{ topic: 'background' } }}
+      >
         <Router>
           <Mainnav />
           <Page>

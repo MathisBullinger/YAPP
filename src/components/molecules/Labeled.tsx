@@ -23,5 +23,6 @@ namespace S {
       vertical-align: middle;
       margin-left: 1rem;
     }
+    color: ${({ theme }) => theme[theme.topic].on};
   `
 }

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { shadow } from '~/styles'
 
 interface Props {
@@ -7,7 +7,9 @@ interface Props {
 }
 
 const Card: FunctionComponent<Props> = ({ el = 3, children }) => (
-  <CardStyled {...{ el }}>{children}</CardStyled>
+  <ThemeProvider theme={{ topic: 'surface' }}>
+    <CardStyled {...{ el }}>{children}</CardStyled>
+  </ThemeProvider>
 )
 export default Card
 
@@ -18,7 +20,7 @@ const CardStyled = styled.div`
   margin-top: 2rem;
   margin-bottom: 2rem;
   box-shadow: ${({ el }: Props) => shadow(el)};
-  background-color: white;
+  background-color: ${({ theme }) => theme[theme.topic].color};
   border-radius: 0.25rem;
   box-sizing: border-box;
   padding: 1rem;

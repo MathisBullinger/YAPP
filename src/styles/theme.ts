@@ -27,11 +27,11 @@ const light: Theme = {
 
 const dark: Theme = {
   background: {
-    color: '#333',
+    color: '#32323b',
     on: '#fff',
   },
   surface: {
-    color: '#333',
+    color: '#222',
     on: '#fff',
   },
   primary: {
