@@ -13,7 +13,7 @@ interface Props {
 const Item: React.FunctionComponent<Props> = props => (
   <S.Item to={props.to} className="item">
     <Icon icon={props.icon} />
-    <Text>{props.children}</Text>
+    <Text className="pageName">{props.children}</Text>
   </S.Item>
 )
 export default Item

@@ -12,10 +12,10 @@ import labs from './pages/labs/**.*sx'
 import NotFound from '~/pages/NotFound'
 import { Page } from '~/components/templates'
 import { ThemeProvider } from 'styled-components'
-import theme, { Themes } from '~/styles/theme'
+import theme from '~/styles/theme'
 
 class App extends React.Component {
-  theme = theme(Themes.LIGHT)
+  theme = theme('light')
 
   render() {
     return (
@@ -47,7 +47,7 @@ class App extends React.Component {
     )
   }
 
-  changeTheme(name: Themes) {
+  changeTheme(name: 'light' | 'dark') {
     this.theme = theme(name)
     this.forceUpdate()
   }

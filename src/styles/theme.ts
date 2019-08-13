@@ -1,22 +1,48 @@
-export enum Themes {
-  LIGHT,
-  DARK,
-}
-
 interface Theme {
-  clBackground: string
+  background: Topic
+  surface: Topic
+  primary: Topic
+  secondary?: Topic
 }
 
-const themes: { [key: number]: Theme } = {
-  [Themes.LIGHT]: {
-    clBackground: '#fff',
+interface Topic {
+  color: string
+  on: string
+}
+
+const light: Theme = {
+  background: {
+    color: '#fff',
+    on: '#000',
   },
-  [Themes.DARK]: {
-    clBackground: '#333',
+  surface: {
+    color: '#fff',
+    on: '#000',
+  },
+  primary: {
+    color: '#55f',
+    on: '#000',
   },
 }
 
-export default (name: Themes): Theme => {
-  if (name in themes) return themes[name]
-  return themes[Themes.LIGHT]
+const dark: Theme = {
+  background: {
+    color: '#333',
+    on: '#fff',
+  },
+  surface: {
+    color: '#333',
+    on: '#fff',
+  },
+  primary: {
+    color: '#006',
+    on: '#fff',
+  },
 }
+
+const themes: { [key: string]: Theme } = {
+  light,
+  dark,
+}
+
+export default (theme: 'light' | 'dark'): Theme => themes[theme]
