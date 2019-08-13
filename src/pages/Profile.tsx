@@ -6,6 +6,7 @@ import { toggleDarkMode } from '~/store/actions'
 
 interface Props {
   toggleDarkMode(value?: boolean): void
+  theme: string
 }
 
 class Profile extends React.Component<Props> {
@@ -17,7 +18,14 @@ class Profile extends React.Component<Props> {
     return (
       <div>
         <Title>Profile</Title>
-        <Labeled for={<Switch onInput={v => this.toggleDarkMode(v)} />}>
+        <Labeled
+          for={
+            <Switch
+              value={this.props.theme === 'dark' ? 'on' : 'off'}
+              onInput={v => this.toggleDarkMode(v)}
+            />
+          }
+        >
           Dark mode
         </Labeled>
       </div>
@@ -30,6 +38,6 @@ class Profile extends React.Component<Props> {
 }
 
 export default connect(
-  null,
+  ({ theme }) => ({ theme }),
   { toggleDarkMode }
 )(Profile)
