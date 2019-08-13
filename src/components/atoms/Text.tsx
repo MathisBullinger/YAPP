@@ -1,30 +1,35 @@
-import React from 'react'
-import Component from '~/utils/component'
+import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { typography as sizes } from '~/styles'
+import { typography } from '~/styles'
 
-export default class Text extends Component {
-  public static variants = ['s1', 's2']
-  public static defaultVariant = 's1'
-
-  constructor(props) {
-    super(props, Text.variants, Text.defaultVariant)
-  }
-
-  render() {
-    return (
-      <Paragraph
-        className={this.classStr()}
-        size={this.state.variant.replace('s', '')}
-      >
-        {this.props.children}
-      </Paragraph>
-    )
-  }
+interface Props {
+  s1?: boolean
+  s2?: boolean
+  className?: string
 }
 
-const Paragraph: any = styled.p`
-  font-size: ${({ size }) => `${sizes[`text${size}`].size}rem`};
-  font-weight: ${({ size }) => sizes[`text${size}`].weight};
-  letter-spacing: ${({ size }) => `${sizes[`text${size}`].spacing}rem`};
-`
+const Text: FunctionComponent<Props> = props => (
+  <S.P
+    className={props.className}
+    typo={typography[`text${[1, 2].find(n => props[`s${n}`]) || 1}`]}
+  >
+    {props.children}
+  </S.P>
+)
+export default Text
+
+namespace S {
+  interface Props {
+    typo: {
+      size: string
+      weight: string
+      spacing: string
+    }
+  }
+
+  export const P: any = styled.div`
+    font-size: ${({ typo }: Props) => typo.size};
+    font-weight: ${({ typo }: Props) => typo.weight};
+    letter-spacing: ${({ typo }: Props) => typo.spacing};
+  `
+}

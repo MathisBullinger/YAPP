@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { shadow } from '~/styles'
 
 interface Props {
-  value: 'on' | 'off'
+  value?: 'on' | 'off'
   onInput?(v: boolean): void
 }
 
