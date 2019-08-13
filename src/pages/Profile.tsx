@@ -1,8 +1,14 @@
 import React from 'react'
 import { Title, Switch } from '~/components/atoms'
 import { Labeled } from '~/components/molecules'
+import { connect } from 'react-redux'
+import { toggleDarkMode } from '~/store/actions'
 
-export default class Profile extends React.Component {
+interface Props {
+  toggleDarkMode(value?: boolean): void
+}
+
+class Profile extends React.Component<Props> {
   constructor(props) {
     super(props)
   }
@@ -18,7 +24,12 @@ export default class Profile extends React.Component {
     )
   }
 
-  toggleDarkMode(v) {
-    console.log(v)
+  toggleDarkMode(v: boolean) {
+    this.props.toggleDarkMode(v)
   }
 }
+
+export default connect(
+  null,
+  { toggleDarkMode }
+)(Profile)

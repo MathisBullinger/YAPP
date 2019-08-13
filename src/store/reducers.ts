@@ -5,7 +5,11 @@ export function theme(state = 'light', action) {
     case SET_THEME:
       return action.theme
     case TOGGLE_DARK_MODE:
-      return state === 'light' ? 'dark' : 'light'
+      return (action.value
+      ? action.value
+      : state === 'light')
+        ? 'dark'
+        : 'light'
     default:
       return state
   }
