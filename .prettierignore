@@ -1,4 +1,6 @@
 .cache
-dist
+public
 node_modules
 data
+
+reset*css

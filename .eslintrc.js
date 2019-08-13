@@ -10,6 +10,11 @@ const config = {
     parser: 'babel-eslint',
     sourceType: 'module',
   },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   globals: {
     module: true,
     process: true,
