@@ -52,7 +52,7 @@ const Bar = styled.div`
     padding-left: 1.5rem;
     padding-top: 2rem;
 
-    .menu-item {
+    .item {
       margin-bottom: 2rem;
     }
   }
