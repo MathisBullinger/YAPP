@@ -1,12 +1,12 @@
-import { SET_THEME, TOGGLE_DARK_MODE } from './actions'
+import { actions } from './actions'
 
-export function theme(state = 'light', action) {
+export function theme(state = 'light', action: actions.Base) {
   switch (action.type) {
-    case SET_THEME:
-      return action.theme
-    case TOGGLE_DARK_MODE:
-      return (action.value
-      ? action.value
+    case 'SET_THEME':
+      return (action as actions.SetTheme).theme
+    case 'TOGGLE_DARK_MODE':
+      return ((action as actions.ToggleMode).value !== undefined
+      ? (action as actions.ToggleMode).value
       : state === 'light')
         ? 'dark'
         : 'light'
