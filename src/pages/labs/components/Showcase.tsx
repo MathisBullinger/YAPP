@@ -18,9 +18,7 @@ export default class Showcase extends React.Component {
     return (
       <Case className="showcase">
         <div className="info">
-          <Title s6>
-            {this.props.name || this.props.children[0].nodeName.name}
-          </Title>
+          <Title s6>{this.getCompName(this.props.children[0])}</Title>
           {this.state.child.nodeName.variants && (
             <Dropdown
               onInput={v => this.handleVariantChange(v)}
@@ -31,6 +29,12 @@ export default class Showcase extends React.Component {
         <div className="comp">{this.state.child}</div>
       </Case>
     )
+  }
+
+  getCompName(comp) {
+    return comp.nodeName.name === 'cl'
+      ? comp.nodeName.prototype.displayName
+      : comp.nodeName.name
   }
 
   handleVariantChange(v) {

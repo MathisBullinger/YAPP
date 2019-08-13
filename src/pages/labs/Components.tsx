@@ -8,6 +8,7 @@ import {
   Checkbox,
   Dropdown,
   Card,
+  Icon,
 } from '~/components/atoms'
 import Showcase from './components/Showcase'
 
@@ -38,8 +39,11 @@ export default class Components extends Component {
               items={'The quick brown fox jumps over the lazy dog'.split(' ')}
             />
           </Showcase>
-          <Showcase name="Card">
+          <Showcase>
             <Card />
+          </Showcase>
+          <Showcase>
+            <Icon />
           </Showcase>
         </div>
       </ComponentsPage>
