@@ -1,38 +1,37 @@
 import React from 'react'
 import styled from 'styled-components'
-import Component from '~/utils/component'
-import { typography as sizes } from '~/styles'
+import typography, { TextType } from '~/styles/typography'
 
-export default class Title extends Component {
-  public static variants = ['s1', 's2', 's3', 's4', 's5', 's6']
-  public static defaultVariant = 's5'
-
-  props: {
-    children: any
-  }
-
-  constructor(props) {
-    super(props, Title.variants, Title.defaultVariant)
-  }
-
-  render() {
-    return (
-      <Header
-        className={this.classStr()}
-        size={this.state.variant.replace('s', '')}
-        tag={this.state.variant.replace('s', 'h')}
-      >
-        {this.props.children}
-      </Header>
-    )
-  }
+interface Props {
+  s1?: boolean
+  s2?: boolean
+  s3?: boolean
+  s4?: boolean
+  s5?: boolean
+  s6?: boolean
+  className?: string
 }
 
-const Header: any = styled(({ tag = 'h2', children, ...props }) => {
-  return React.createElement(tag, props, children)
-})`
-  font-weight: 500;
-  font-size: ${({ size }) => `${sizes[`title${size}`].size}rem`};
-  font-weight: ${({ size }) => sizes[`title${size}`].weight};
-  letter-spacing: ${({ size }) => `${sizes[`title${size}`].spacing}rem`};
-`
+const Title: React.FunctionComponent<Props> = props => {
+  const size = [1, 2, 3, 4, 5, 6].find(n => props[`s${n}`]) || 2
+  return (
+    <S.Title
+      className={props.className}
+      tt={typography[`title${size}`]}
+      size={size}
+    >
+      {props.children}
+    </S.Title>
+  )
+}
+export default Title
+
+namespace S {
+  export const Title: any = styled(({ size, children, ...props }) =>
+    React.createElement(`h${size}`, props, children)
+  )<{ tt: TextType }>`
+    font-size: ${({ tt }) => tt.size}rem;
+    font-weight: ${({ tt }) => tt.weight};
+    letter-spacing: ${({ tt }) => tt.spacing}rem;
+  `
+}

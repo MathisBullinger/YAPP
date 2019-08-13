@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { typography } from '~/styles'
-import { TextType } from '~/styles/typography'
+import typography, { TextType } from '~/styles/typography'
 
 interface Props {
   s1?: boolean
@@ -12,7 +11,7 @@ interface Props {
 const Text: React.FunctionComponent<Props> = props => (
   <S.Text
     className={props.className}
-    typo={typography[`text${[1, 2].find(n => props[`s${n}`]) || 1}`]}
+    tt={typography[`text${[1, 2].find(n => props[`s${n}`]) || 1}`]}
   >
     {props.children}
   </S.Text>
