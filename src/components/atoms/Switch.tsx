@@ -7,10 +7,7 @@ interface Props {
   onInput?(v: boolean): void
 }
 
-const Switch: FunctionComponent<Props> = ({
-  value = 'off',
-  onInput,
-}: Props) => (
+const Switch: FunctionComponent<Props> = ({ value = 'off', onInput }) => (
   <SwitchStyled
     data-value={value}
     aria-checked={value === 'on' ? 'true' : 'false'}

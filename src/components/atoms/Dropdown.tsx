@@ -6,7 +6,7 @@ interface Props {
   onInput?(v: string): void
 }
 
-const Dropdown: FunctionComponent<Props> = ({ items, onInput }: Props) => (
+const Dropdown: FunctionComponent<Props> = ({ items, onInput }) => (
   <Select onChange={e => onInput && onInput(e.target.value)}>
     {items.map(item => (
       <option key={item}>{item}</option>

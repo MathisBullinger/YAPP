@@ -1,6 +1,7 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { typography } from '~/styles'
+import { TextType } from '~/styles/typography'
 
 interface Props {
   s1?: boolean
@@ -8,28 +9,20 @@ interface Props {
   className?: string
 }
 
-const Text: FunctionComponent<Props> = props => (
-  <S.P
+const Text: React.FunctionComponent<Props> = props => (
+  <S.Text
     className={props.className}
     typo={typography[`text${[1, 2].find(n => props[`s${n}`]) || 1}`]}
   >
     {props.children}
-  </S.P>
+  </S.Text>
 )
 export default Text
 
 namespace S {
-  interface Props {
-    typo: {
-      size: string
-      weight: string
-      spacing: string
-    }
-  }
-
-  export const P: any = styled.div`
-    font-size: ${({ typo }: Props) => typo.size};
-    font-weight: ${({ typo }: Props) => typo.weight};
-    letter-spacing: ${({ typo }: Props) => typo.spacing};
+  export const Text: any = styled.p<{ tt: TextType }>`
+    font-size: ${({ tt }) => tt.size};
+    font-weight: ${({ tt }) => tt.weight};
+    letter-spacing: ${({ tt }) => tt.spacing};
   `
 }

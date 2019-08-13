@@ -4,6 +4,12 @@ enum Weight {
   Medium = 500,
 }
 
+export interface TextType {
+  size: number
+  weight: Weight
+  spacing: number
+}
+
 const BASE = 16
 export default {
   title1: {
@@ -47,4 +53,6 @@ export default {
     weight: Weight.Regular,
     spacing: 0.25 / BASE,
   },
+} as {
+  [key: string]: TextType
 }
