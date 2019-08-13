@@ -1,2 +1,2 @@
 import 'preact/debug'
-import './App'
+import './Root'

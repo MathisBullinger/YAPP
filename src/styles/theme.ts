@@ -1,4 +1,4 @@
-interface Theme {
+export interface Theme {
   background: Topic
   surface: Topic
   primary: Topic

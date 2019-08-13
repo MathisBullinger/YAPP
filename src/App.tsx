@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
@@ -12,14 +11,21 @@ import labs from './pages/labs/**.*sx'
 import NotFound from '~/pages/NotFound'
 import { Page } from '~/components/templates'
 import { ThemeProvider } from 'styled-components'
-import theme from '~/styles/theme'
+import theme, { Theme } from '~/styles/theme'
+import { connect } from 'react-redux'
 
-class App extends React.Component {
-  theme = theme('light')
+interface Props {
+  theme: Theme
+}
+
+class App extends React.Component<Props> {
+  state = {
+    theme: theme('light'),
+  }
 
   render() {
     return (
-      <ThemeProvider theme={this.theme}>
+      <ThemeProvider theme={this.state.theme}>
         <Router>
           <Mainnav />
           <Page>
@@ -47,10 +53,11 @@ class App extends React.Component {
     )
   }
 
-  changeTheme(name: 'light' | 'dark') {
-    this.theme = theme(name)
-    this.forceUpdate()
+  static getDerivedStateFromProps(props) {
+    return {
+      theme: theme(props.theme),
+    }
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+export default connect(({ theme }) => ({ theme }))(App)

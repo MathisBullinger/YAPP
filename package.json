@@ -3,21 +3,19 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html --no-autoinstall",
-    "build": "rm -rf .cache/ dist/ && parcel build --no-source-maps src/index.html",
+    "build": "rm -rf .cache/ public/ && parcel build --no-source-maps src/index.html --out-dir public",
     "now-build": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format:check": "prettier --check \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
-    "format:write": "prettier --write \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
-    "lint:check": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:write": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "format-lint:check": "npm run lint:check && npm run format:check",
-    "format-lint:write": "npm run lint:write && npm run format:write"
+    "prettier:check": "prettier --check \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
+    "prettier:write": "prettier --write \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
+    "eslint:check": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "eslint:write": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "npm run eslint:check && npm run prettier:check",
+    "format": "npm run eslint:write && npm run prettier:write"
   },
   "alias": {
     "~": "src",
-    "data": "./data",
-    "react": "preact-compat",
-    "react-dom": "preact-compat"
+    "data": "./data"
   },
   "repository": {
     "type": "git",
@@ -52,8 +50,11 @@
   },
   "dependencies": {
     "preact": "^8.5.1",
-    "preact-compat": "^3.19.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
-    "styled-components": "^3.1.6"
+    "redux": "^4.0.4",
+    "styled-components": "^4.3.2"
   }
 }
