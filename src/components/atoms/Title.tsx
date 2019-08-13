@@ -27,7 +27,7 @@ const Title: React.FunctionComponent<Props> = props => {
 export default Title
 
 namespace S {
-  export const Title: any = styled(({ size, children, ...props }) =>
+  export const Title = styled(({ size, children, ...props }) =>
     React.createElement(`h${size}`, props, children)
   )<{ tt: TextType }>`
     font-size: ${({ tt }) => tt.size}rem;

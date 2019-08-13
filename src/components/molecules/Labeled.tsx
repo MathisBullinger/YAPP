@@ -1,29 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default class Labeled extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <LabelStyled>
-        {this.props.children}
-        {this.props.for}
-      </LabelStyled>
-    )
-  }
+interface Props {
+  for: JSX.Element
 }
 
-const LabelStyled = styled.label`
-  display: block;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  font-size: 1rem;
+const Labeled: React.FunctionComponent<Props> = props => (
+  <S.Labeled>
+    {props.children}
+    {props.for}
+  </S.Labeled>
+)
+export default Labeled
 
-  * {
-    vertical-align: middle;
-    margin-left: 1rem;
-  }
-`
+namespace S {
+  export const Labeled = styled.label`
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    * {
+      vertical-align: middle;
+      margin-left: 1rem;
+    }
+  `
+}

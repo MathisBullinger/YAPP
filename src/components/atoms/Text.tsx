@@ -19,7 +19,7 @@ const Text: React.FunctionComponent<Props> = props => (
 export default Text
 
 namespace S {
-  export const Text: any = styled.p<{ tt: TextType }>`
+  export const Text = styled.p<{ tt: TextType }>`
     font-size: ${({ tt }) => tt.size};
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing};
