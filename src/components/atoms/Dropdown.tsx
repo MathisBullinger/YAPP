@@ -16,7 +16,7 @@ const Dropdown: FunctionComponent<Props> = ({ items, onInput }) => (
 export default Dropdown
 
 const Select = styled.select`
-  display: block;
+  /* display: block; */
   margin-top: 2rem;
   margin-bottom: 2rem;
 `

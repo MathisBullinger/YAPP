@@ -1,4 +1,4 @@
-import { Theme } from '~/styles/theme'
+import { Themes } from '~/styles/theme'
 
 export type ActionType = 'SET_THEME' | 'TOGGLE_DARK_MODE'
 
@@ -8,7 +8,7 @@ export namespace actions {
   }
 
   export interface SetTheme extends Base {
-    theme: Theme
+    theme: Themes
   }
 
   export interface ToggleMode extends Base {
@@ -16,7 +16,7 @@ export namespace actions {
   }
 }
 
-export const setTheme = (theme: Theme): actions.SetTheme => ({
+export const setTheme = (theme: Themes): actions.SetTheme => ({
   type: 'SET_THEME',
   theme,
 })

@@ -17,6 +17,8 @@ interface Topic {
   on(emphasis: TextEmp): string
 }
 
+export type Themes = 'light' | 'dark' | 'black'
+
 //! all colors must be 6 or 8 digit hex strings
 
 namespace light {
@@ -69,9 +71,31 @@ namespace dark {
   }
 }
 
+namespace black {
+  const empOp = { high: 'de', medium: '99', disabled: '61' }
+  export const theme: Theme = {
+    name: 'black',
+    background: () => ({
+      color: '#000000',
+      on: (e = 'medium') => '#ffffff' + empOp[e],
+    }),
+    surface: () => ({
+      color: '#080808',
+      on: (e = 'medium') => '#ffffff' + empOp[e],
+    }),
+    primary: () => ({
+      color: '#4bb4b4',
+      on: (e = 'medium') => '#ffffff' + empOp[e],
+    }),
+    elevationMode: 'border',
+    invertAction: true,
+  }
+}
+
 const themes: { [key: string]: Theme } = {
   light: light.theme,
   dark: dark.theme,
+  black: black.theme,
 }
 
-export default (theme: 'light' | 'dark'): Theme => themes[theme]
+export default (theme: Themes): Theme => themes[theme]

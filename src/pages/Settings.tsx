@@ -1,6 +1,6 @@
 import React from 'React'
-import { Page } from '~/components/templates'
-import { Title } from '~/components/atoms'
+import { Title, Dropdown } from '~/components/atoms'
+import { Labeled } from '~/components/molecules'
 
 export default class Settings extends React.Component {
   constructor(props) {
@@ -9,9 +9,12 @@ export default class Settings extends React.Component {
 
   render() {
     return (
-      <Page>
-        <Title s4>Test</Title>
-      </Page>
+      <div>
+        <Title s4>Appearance</Title>
+        <Labeled for={<Dropdown items={['dark', 'black']} />}>
+          preferred darkmode
+        </Labeled>
+      </div>
     )
   }
 }
