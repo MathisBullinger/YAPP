@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Switch } from '~/components/atoms'
 import { connect } from 'react-redux'
 import { toggleDarkMode } from '~/store/actions'
+import { responsive } from '~/styles'
 
 interface Props {
   toggleDarkMode(value?: boolean): void
@@ -16,7 +17,7 @@ class DarkmodeSwitch extends React.Component<Props> {
 
   render() {
     return (
-      <S.Wrap>
+      <S.Wrap className="darkmode-switch">
         <Switch
           inset
           value={this.props.theme === 'dark' ? 'on' : 'off'}
@@ -39,12 +40,17 @@ namespace S {
   export const Wrap = styled.div`
     position: absolute;
     bottom: 1.5rem;
+    display: none;
 
-    div[data-value='on'].inset {
-      background-color: ${({ theme }) =>
-        theme[theme.topic](theme.variant)
-          .on('')
-          .substring(0, 7)}88;
+    @media ${() => responsive.navOnSide} {
+      display: initial;
+
+      div[data-value='on'].inset {
+        background-color: ${({ theme }) =>
+          theme[theme.topic](theme.variant)
+            .on('')
+            .substring(0, 7)}88;
+      }
     }
   `
 }

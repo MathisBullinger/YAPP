@@ -55,6 +55,7 @@ namespace S {
       .pageName {
         margin-left: 0;
         display: initial;
+        display: none;
       }
     }
   `
