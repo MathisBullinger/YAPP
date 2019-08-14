@@ -53,6 +53,17 @@ export default {
     weight: Weight.Regular,
     spacing: 0.25 / BASE,
   },
+
+  subtitle1: {
+    size: 1,
+    weight: Weight.Regular,
+    spacing: 0.15 / BASE,
+  },
+  subtitle2: {
+    size: 14 / BASE,
+    weight: Weight.Medium,
+    spacing: 0.25 / BASE,
+  },
 } as {
   [key: string]: TextType
 }
