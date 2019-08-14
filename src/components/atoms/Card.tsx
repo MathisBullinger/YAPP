@@ -20,7 +20,7 @@ const CardStyled = styled.div`
   margin-top: 2rem;
   margin-bottom: 2rem;
   box-shadow: ${({ el }: Props) => shadow(el)};
-  background-color: ${({ theme }) => theme[theme.topic].color};
+  background-color: ${({ theme }) => theme[theme.topic]().color};
   border-radius: 0.25rem;
   box-sizing: border-box;
   padding: 1rem;

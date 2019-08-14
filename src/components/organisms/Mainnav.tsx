@@ -60,6 +60,9 @@ namespace S {
       .item {
         margin-bottom: 2rem;
       }
+
+      ${({ theme }) =>
+        theme.name === 'light' && 'background-color: rgb(32, 33, 36);'}
     }
 
     @media ${() => responsive.navCollapsed} {

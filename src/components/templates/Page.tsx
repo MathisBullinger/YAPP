@@ -15,7 +15,7 @@ namespace S {
     padding: 2rem;
     min-height: calc(100vh - 4rem);
     margin-bottom: 4rem;
-    background-color: ${({ theme }) => theme[theme.topic].color};
+    background-color: ${({ theme }) => theme[theme.topic]().color};
     transition: background-color ${() => timing.colorSwap};
 
     @media ${() => responsive.navOnSide} {

@@ -32,7 +32,11 @@ const SwitchStyled = styled.div`
   border-radius: 0.4rem;
   cursor: pointer;
   transition: background-color ${() => timing.colorSwap};
-  background-color: ${({ theme }) => theme.surface.on().substring(0, 7)}88;
+  background-color: ${({ theme }) =>
+    theme
+      .surface()
+      .on()
+      .substring(0, 7)}88;
 
   &:after {
     content: '';
@@ -44,20 +48,25 @@ const SwitchStyled = styled.div`
     border-radius: 0.5rem;
     background-color: ${({ theme }) =>
       !theme.invertAction
-        ? theme.surface.color
-        : theme.surface.on().substring(0, 7)};
+        ? theme.surface().color
+        : theme
+            .surface()
+            .on()
+            .substring(0, 7)};
     box-shadow: ${shadow(1)};
     transition: transform 0.15s ease, background-color ${() => timing.colorSwap};
   }
 
   &[data-value='on'] {
     background-color: ${({ theme }) =>
-      `${theme[theme.topic].color}${theme.invertAction ? '88' : ''}`};
+      `${theme[theme.topic]().color}${theme.invertAction ? '88' : ''}`};
 
     &:after {
       transform: translateX(100%);
       background-color: ${({ theme }) =>
-        theme.invertAction ? theme[theme.topic].color : theme.surface.color};
+        theme.invertAction
+          ? theme[theme.topic]().color
+          : theme.surface().color};
     }
   }
 `

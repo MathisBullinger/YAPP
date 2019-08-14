@@ -13,7 +13,9 @@ interface Props {
 const Item: React.FunctionComponent<Props> = props => (
   <S.Item to={props.to} className="item">
     <Icon icon={props.icon} />
-    <Text className="pageName">{props.children}</Text>
+    <Text s2 emp="high" className="pageName">
+      {props.children}
+    </Text>
   </S.Item>
 )
 export default Item
@@ -22,6 +24,7 @@ namespace S {
   export const Item = styled(NavLink)`
     display: flex;
     align-items: center;
+    text-decoration: none;
 
     .pageName {
       margin-left: 1rem;
