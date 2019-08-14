@@ -59,13 +59,15 @@ const SwitchStyled = styled.div`
 
   &[data-value='on'] {
     background-color: ${({ theme }) =>
-      `${theme[theme.topic]().color}${theme.invertAction ? '88' : ''}`};
+      `${theme[theme.topic](theme.variant).color}${
+        theme.invertAction ? '88' : ''
+      }`};
 
     &:after {
       transform: translateX(100%);
       background-color: ${({ theme }) =>
         theme.invertAction
-          ? theme[theme.topic]().color
+          ? theme[theme.topic](theme.variant).color
           : theme.surface().color};
     }
   }

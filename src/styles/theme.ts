@@ -21,16 +21,24 @@ interface Topic {
 
 namespace light {
   const empOp = { high: 'de', medium: '99', disabled: '61' }
+  const empOpLight = { high: 'f2', medium: 'b3', disabled: '66' }
   export const theme: Theme = {
     name: 'light',
     background: () => ({
       color: '#ffffff',
       on: (e = 'medium') => '#000000' + empOp[e],
     }),
-    surface: () => ({
-      color: '#ffffff',
-      on: (e = 'medium') => '#000000' + empOp[e],
-    }),
+    surface: (v = 0) =>
+      [
+        {
+          color: '#ffffff',
+          on: (e = 'medium') => '#000000' + empOp[e],
+        },
+        {
+          color: '#202124',
+          on: (e = 'medium') => '#ffffff' + empOpLight[e],
+        },
+      ][Math.min(v, 1)],
     primary: () => ({
       color: '#2196f3',
       on: (e = 'medium') => '#000000' + empOp[e],

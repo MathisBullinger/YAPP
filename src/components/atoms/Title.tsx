@@ -36,7 +36,7 @@ namespace S {
     font-size: ${({ tt }) => tt.size}rem;
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing}rem;
-    color: ${({ theme, emp }) => theme[theme.topic]().on(emp)};
+    color: ${({ theme, emp }) => theme[theme.topic](theme.variant).on(emp)};
     transition: color ${() => timing.colorSwap};
   `
 }

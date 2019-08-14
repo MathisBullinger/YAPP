@@ -24,7 +24,7 @@ namespace S {
       vertical-align: middle;
       margin-left: 1rem;
     }
-    color: ${({ theme }) => theme[theme.topic]().on('medium')};
+    color: ${({ theme }) => theme[theme.topic](theme.variant).on('medium')};
     transition: color ${() => timing.colorSwap};
   `
 }

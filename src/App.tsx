@@ -29,7 +29,7 @@ class App extends React.Component<Props> {
   render() {
     return (
       <ThemeProvider
-        theme={{ ...this.state.theme, ...{ topic: 'background' } }}
+        theme={{ ...this.state.theme, ...{ topic: 'background', variant: 0 } }}
       >
         <Router>
           <Mainnav />
@@ -61,7 +61,7 @@ class App extends React.Component<Props> {
 
   static getDerivedStateFromProps(props) {
     const newTheme = theme(props.theme)
-    document.documentElement.style.backgroundColor = newTheme.background.color
+    document.documentElement.style.backgroundColor = newTheme.background().color
     return {
       theme: newTheme,
     }
