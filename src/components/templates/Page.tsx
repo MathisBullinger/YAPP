@@ -15,7 +15,6 @@ namespace S {
     padding: 2rem;
     min-height: calc(100vh - 4rem);
     margin-bottom: 4rem;
-    box-sizing: border-box;
     background-color: ${({ theme }) => theme[theme.topic].color};
     transition: background-color ${() => timing.colorSwap};
 

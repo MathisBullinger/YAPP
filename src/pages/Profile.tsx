@@ -28,6 +28,7 @@ class Profile extends React.Component<Props> {
         >
           Dark mode
         </Labeled>
+        <Switch />
       </div>
     )
   }

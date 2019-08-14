@@ -4,6 +4,7 @@ import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
 import Discover from '~/pages/Discover'
 import Profile from '~/pages/Profile'
+import Settings from '~/pages/Settings'
 import { Mainnav } from '~/components/organisms'
 import Lab from '~/pages/Lab'
 // @ts-ignore
@@ -38,6 +39,7 @@ class App extends React.Component<Props> {
               <Route path="/feed/" exact component={Feed} />
               <Route path="/discover/" exact component={Discover} />
               <Route path="/profile/" exact component={Profile} />
+              <Route path="/settings/" exact component={Settings} />
               <Route path="/lab/" exact component={Lab} />
               {Object.values(labs)
                 .map(m => Object.values(m)[0].default)
