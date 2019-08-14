@@ -34,7 +34,7 @@ const svgPaths = {
 
 namespace S {
   export const Path = styled.path`
-    fill: ${({ theme }) => theme[theme.topic].on};
+    fill: ${({ theme }) => theme[theme.topic].on('high')};
     transition: fill ${() => timing.colorSwap};
   `
 }

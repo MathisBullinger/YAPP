@@ -24,7 +24,7 @@ namespace S {
     font-size: ${({ tt }) => tt.size};
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing};
-    color: ${({ theme }) => theme[theme.topic].on};
+    color: ${({ theme }) => theme[theme.topic].on('medium')};
     transition: color ${() => timing.colorSwap};
   `
 }

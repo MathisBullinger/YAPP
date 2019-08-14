@@ -40,7 +40,8 @@ namespace S {
     display: block;
     background-color: ${({ theme }) => theme[theme.topic].color};
     transition: background-color ${() => timing.colorSwap};
-    box-shadow: ${shadow(4)};
+    ${({ theme }) =>
+      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(4)};` : ''}
 
     display: flex;
     flex-direction: row;
