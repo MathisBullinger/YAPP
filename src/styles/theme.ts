@@ -4,6 +4,7 @@ export interface Theme {
   primary: Topic
   secondary?: Topic
   elevationMode: 'shadow' | 'border'
+  invertAction: boolean
 }
 
 interface Topic {
@@ -14,38 +15,45 @@ interface Topic {
   on?: string
 }
 
+//! all colors must be 6 or 8 digit hex strings
 const light: Theme = {
   background: {
-    color: '#fff',
+    color: '#ffffff',
     onHigh: 'rgba(0, 0, 0, 87%)',
     onMedium: 'rgba(0, 0, 0, 60%)',
     onDisabled: 'rgba(0, 0, 0, 38%)',
   },
   surface: {
-    color: '#fff',
-    on: '#000',
+    color: '#ffffff',
+    on: '#000000',
   },
   primary: {
-    color: '#55f',
-    on: '#000',
+    color: '#2196f3',
+    on: '#000000',
   },
   elevationMode: 'shadow',
+  invertAction: false,
 }
 
 const dark: Theme = {
   background: {
-    color: '#32323b',
-    on: '#fff',
+    color: '#33333c',
+    onHigh: '#fffffff2',
+    onMedium: '#ffffffb3',
+    onDisabled: '#ffffff66',
   },
   surface: {
-    color: '#37373f',
-    on: '#fff',
+    color: '#373740',
+    onHigh: '#fffffff2',
+    onMedium: '#ffffffb3',
+    onDisabled: '#ffffff66',
   },
   primary: {
-    color: '#006',
-    on: '#fff',
+    color: '#4bb4b4',
+    on: '#ffffff',
   },
-  elevationMode: 'border',
+  elevationMode: 'shadow',
+  invertAction: true,
 }
 
 const themes: { [key: string]: Theme } = {
@@ -63,6 +71,7 @@ interface ThemeAPI {
   primary: TopicAPI
   secondary: TopicAPI
   elevationMode: 'shadow' | 'border'
+  invertAction: boolean
 }
 
 const mapTheme = (theme: Theme) =>
@@ -73,7 +82,7 @@ const mapTheme = (theme: Theme) =>
         typeof v === 'object'
           ? {
               color: v.color,
-              on: emp =>
+              on: (emp = 'high') =>
                 ({
                   high: v.onHigh || v.on,
                   medium: v.onMedium || v.on,

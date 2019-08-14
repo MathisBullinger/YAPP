@@ -28,6 +28,11 @@ namespace S {
       display: none;
     }
 
+    svg {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+
     @media ${() => responsive.navOnSide} {
       .pageName {
         display: initial;
