@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { timing } from '~/styles'
 
 interface Props {
   for: JSX.Element
@@ -24,5 +25,6 @@ namespace S {
       margin-left: 1rem;
     }
     color: ${({ theme }) => theme[theme.topic].on};
+    transition: color ${() => timing.colorSwap};
   `
 }

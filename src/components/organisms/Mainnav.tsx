@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { shadow, responsive, layout } from '~/styles/'
+import { shadow, responsive, layout, timing } from '~/styles'
 import Item from './mainnav/Item'
 
 export default class Mainnav extends React.Component {
@@ -39,6 +39,7 @@ namespace S {
     height: 4rem;
     display: block;
     background-color: ${({ theme }) => theme[theme.topic].color};
+    transition: background-color ${() => timing.colorSwap};
     box-shadow: ${shadow(4)};
 
     display: flex;

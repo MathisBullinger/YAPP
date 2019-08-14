@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { timing } from '~/styles'
 
 interface Props {
   icon: string
@@ -34,5 +35,6 @@ const svgPaths = {
 namespace S {
   export const Path = styled.path`
     fill: ${({ theme }) => theme[theme.topic].on};
+    transition: fill ${() => timing.colorSwap};
   `
 }

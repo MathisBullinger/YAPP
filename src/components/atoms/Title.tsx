@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import typography, { TextType } from '~/styles/typography'
+import { timing } from '~/styles'
 
 interface Props {
   s1?: boolean
@@ -34,5 +35,6 @@ namespace S {
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing}rem;
     color: ${({ theme }) => theme[theme.topic].on};
+    transition: color ${() => timing.colorSwap};
   `
 }

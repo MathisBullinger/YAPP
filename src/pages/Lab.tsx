@@ -10,7 +10,7 @@ const Lab = () => (
     {Object.values(labs)
       .map(m => Object.values(m)[0].default.name)
       .map(lab => (
-        <Link key={lab} to={'lab/' + lab.toLowerCase()}>
+        <Link key={lab} to={'/lab/' + lab.toLowerCase()}>
           {lab}
         </Link>
       ))}

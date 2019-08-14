@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { responsive, layout } from '~/styles'
+import { responsive, layout, timing } from '~/styles'
 import { ThemeProvider } from 'styled-components'
 
 const Page: React.FunctionComponent = props => (
@@ -12,12 +12,12 @@ export default Page
 
 namespace S {
   export const Page = styled.div`
-    padding: 4rem;
-    padding-top: 2rem;
+    padding: 2rem;
     min-height: calc(100vh - 4rem);
     margin-bottom: 4rem;
     box-sizing: border-box;
-    background-color: ${({ theme }) => theme.background.color};
+    background-color: ${({ theme }) => theme[theme.topic].color};
+    transition: background-color ${() => timing.colorSwap};
 
     @media ${() => responsive.navOnSide} {
       margin-left: ${() => layout.desktop.navWidth};
