@@ -11,11 +11,13 @@ import labs from './pages/labs/**.*sx'
 import NotFound from '~/pages/NotFound'
 import { Page } from '~/components/templates'
 import { ThemeProvider } from 'styled-components'
-import theme, { Theme } from '~/styles/theme'
+import theme from '~/styles/theme'
 import { connect } from 'react-redux'
+import { toggleDarkMode } from './store/actions'
 
 interface Props {
-  theme: Theme
+  theme: 'light' | 'dark'
+  toggleDarkMode(value?: boolean): void
 }
 
 class App extends React.Component<Props> {
@@ -62,6 +64,18 @@ class App extends React.Component<Props> {
       theme: newTheme,
     }
   }
+
+  componentDidMount() {
+    const matchSystem = ({ matches: dark }) => {
+      if ((this.props.theme === 'dark') !== dark) this.props.toggleDarkMode()
+    }
+    const mql = window.matchMedia('(prefers-color-scheme: dark)')
+    mql.onchange = matchSystem
+    matchSystem(mql)
+  }
 }
 
-export default connect(({ theme }) => ({ theme }))(App)
+export default connect(
+  ({ theme }) => ({ theme }),
+  { toggleDarkMode }
+)(App)
