@@ -13,7 +13,7 @@ interface Props {
 const Item: React.FunctionComponent<Props> = props => (
   <S.Item to={props.to} className="item">
     <Icon icon={props.icon} />
-    <Text s2 emp="high" className="pageName">
+    <Text s1 emp="high" className="pageName">
       {props.children}
     </Text>
   </S.Item>
@@ -37,8 +37,15 @@ namespace S {
     }
 
     @media ${() => responsive.navOnSide} {
+      margin-bottom: 1.5rem;
+
       .pageName {
         display: initial;
+      }
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
       }
     }
 

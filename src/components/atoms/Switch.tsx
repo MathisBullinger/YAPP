@@ -5,11 +5,17 @@ import { shadow, timing } from '~/styles'
 interface Props {
   value?: 'on' | 'off'
   onInput?(v: boolean): void
+  inset?: boolean
 }
 
-const Switch: FunctionComponent<Props> = ({ value = 'off', onInput }) => (
-  <ThemeProvider theme={{ topic: 'primary' }}>
+const Switch: FunctionComponent<Props> = ({
+  value = 'off',
+  onInput,
+  inset = false,
+}) => (
+  <ThemeProvider theme={{ ...(!inset && { topic: 'primary' }) }}>
     <SwitchStyled
+      className={inset ? 'inset' : ''}
       data-value={value}
       aria-checked={value === 'on' ? 'true' : 'false'}
       onClick={({ target }: { target: any }) => {
@@ -69,6 +75,33 @@ const SwitchStyled = styled.div`
         theme.invertAction
           ? theme[theme.topic](theme.variant).color
           : theme.surface().color};
+    }
+  }
+
+  &.inset {
+    height: 1.1rem;
+    width: 2.2rem;
+    border-radius: 0.6rem;
+    background-color: ${({ theme }) =>
+      theme[theme.topic](theme.variant).on('disabled')};
+
+    &:after {
+      height: 0.9rem;
+      width: 0.9rem;
+      border-radius: 0.45rem;
+      margin: 0.1rem;
+      box-shadow: none;
+      background-color: ${({ theme }) =>
+        theme[theme.topic](theme.variant).color};
+    }
+
+    &[data-value='on'] {
+      background-color: ${({ theme }) =>
+        theme[theme.topic](theme.variant).on('high')};
+
+      &:after {
+        transform: translateX(calc(100% + 0.2rem));
+      }
     }
   }
 `

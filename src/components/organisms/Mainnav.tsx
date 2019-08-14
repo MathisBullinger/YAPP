@@ -2,6 +2,7 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { shadow, responsive, layout, timing } from '~/styles'
 import Item from './mainnav/Item'
+import DarkmodeSwitch from './mainnav/DarkmodeSwitch'
 
 export default class Mainnav extends React.Component<{}, { onSide: boolean }> {
   constructor(props) {
@@ -37,6 +38,7 @@ export default class Mainnav extends React.Component<{}, { onSide: boolean }> {
           <Item to="/profile" icon="person">
             Profile
           </Item>
+          <DarkmodeSwitch />
         </S.Mainnav>
       </ThemeProvider>
     )
@@ -72,19 +74,14 @@ namespace S {
       justify-content: flex-start;
       align-items: flex-start;
       padding-left: 1.5rem;
-      padding-top: 2rem;
-
-      .item {
-        margin-bottom: 2rem;
-      }
-
-      /* ${({ theme }) =>
-        theme.name === 'light' && 'background-color: rgb(32, 33, 36);'} */
+      padding-right: 1.5rem;
+      padding-top: 4rem;
     }
 
     @media ${() => responsive.navCollapsed} {
       width: ${() => layout.desktop.navWidthCollapsed};
       padding-left: 0;
+      padding-right: 0;
       align-items: center;
     }
   `

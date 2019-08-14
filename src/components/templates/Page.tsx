@@ -22,6 +22,7 @@ namespace S {
       margin-left: ${() => layout.desktop.navWidth};
       min-height: 100vh;
       margin-bottom: 0;
+      padding-left: 4rem;
     }
 
     @media ${() => responsive.navCollapsed} {

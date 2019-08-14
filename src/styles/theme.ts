@@ -65,7 +65,7 @@ namespace dark {
       on: (e = 'medium') => '#ffffff' + empOp[e],
     }),
     elevationMode: 'shadow',
-    invertAction: false,
+    invertAction: true,
   }
 }
 
