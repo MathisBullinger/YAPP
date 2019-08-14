@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import typography, { TextType } from '~/styles/typography'
+import typography, { TextType, TextEmp } from '~/styles/typography'
 import { timing } from '~/styles'
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
   s5?: boolean
   s6?: boolean
   className?: string
+  emp?: TextEmp
 }
 
 const Title: React.FunctionComponent<Props> = props => {
@@ -20,6 +21,7 @@ const Title: React.FunctionComponent<Props> = props => {
       className={props.className}
       tt={typography[`title${size}`]}
       size={size}
+      emp={props.emp || 'high'}
     >
       {props.children}
     </S.Title>
@@ -30,11 +32,11 @@ export default Title
 namespace S {
   export const Title = styled(({ size, children, ...props }) =>
     React.createElement(`h${size}`, props, children)
-  )<{ tt: TextType }>`
+  )<{ tt: TextType; emp: TextEmp }>`
     font-size: ${({ tt }) => tt.size}rem;
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing}rem;
-    color: ${({ theme }) => theme[theme.topic].on('high')};
+    color: ${({ theme, emp }) => theme[theme.topic].on(emp)};
     transition: color ${() => timing.colorSwap};
   `
 }

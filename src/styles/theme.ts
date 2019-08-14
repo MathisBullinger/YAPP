@@ -1,3 +1,5 @@
+import { TextEmp } from './typography'
+
 export interface Theme {
   background: Topic
   surface: Topic
@@ -19,13 +21,15 @@ interface Topic {
 const light: Theme = {
   background: {
     color: '#ffffff',
-    onHigh: 'rgba(0, 0, 0, 87%)',
-    onMedium: 'rgba(0, 0, 0, 60%)',
-    onDisabled: 'rgba(0, 0, 0, 38%)',
+    onHigh: '#000000de',
+    onMedium: '#00000099',
+    onDisabled: '#00000061',
   },
   surface: {
     color: '#ffffff',
-    on: '#000000',
+    onHigh: '#000000de',
+    onMedium: '#00000099',
+    onDisabled: '#00000061',
   },
   primary: {
     color: '#2196f3',
@@ -63,7 +67,7 @@ const themes: { [key: string]: Theme } = {
 
 interface TopicAPI {
   color: string
-  on(emphasis: 'hight' | 'medium' | 'disabled'): string
+  on(emphasis: TextEmp): string
 }
 interface ThemeAPI {
   background: TopicAPI
@@ -82,7 +86,7 @@ const mapTheme = (theme: Theme) =>
         typeof v === 'object'
           ? {
               color: v.color,
-              on: (emp = 'high') =>
+              on: (emp: TextEmp = 'high') =>
                 ({
                   high: v.onHigh || v.on,
                   medium: v.onMedium || v.on,

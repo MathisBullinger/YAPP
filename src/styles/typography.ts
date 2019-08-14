@@ -10,6 +10,8 @@ export interface TextType {
   spacing: number
 }
 
+export type TextEmp = 'high' | 'medium' | 'disabled'
+
 const BASE = 16
 export default {
   title1: {
