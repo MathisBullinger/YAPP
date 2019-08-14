@@ -21,9 +21,9 @@ export default Subtitle
 
 namespace S {
   export const Subtitle = styled.h6<{ tt: TextType }>`
-    font-size: ${({ tt }) => tt.size};
+    font-size: ${({ tt }) => tt.size}rem;
     font-weight: ${({ tt }) => tt.weight};
-    letter-spacing: ${({ tt }) => tt.spacing};
+    letter-spacing: ${({ tt }) => tt.spacing}rem;
     color: ${({ theme }) => theme[theme.topic].on('medium')};
     transition: color ${() => timing.colorSwap};
   `
