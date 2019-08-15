@@ -4,7 +4,7 @@
   "scripts": {
     "start": "parcel src/index.html --no-autoinstall --out-dir public",
     "build": "rm -rf .cache/ public/ && parcel build --no-source-maps src/index.html --out-dir public",
-    "now-build": "npm run build",
+    "now-build": "parcel build --no-source-maps src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier:check": "prettier --check \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
     "prettier:write": "prettier --write \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
