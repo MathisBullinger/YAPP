@@ -1,2 +1,3 @@
 import Labeled from './Labeled'
-export { Labeled }
+import StackedList from './StackedList'
+export { Labeled, StackedList }

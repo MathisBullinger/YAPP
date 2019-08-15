@@ -38,9 +38,11 @@ export default class Mainnav extends React.Component<{}, { onSide: boolean }> {
           <Item to="/profile" icon="person">
             Profile
           </Item>
-          <Item to="/settings" icon="settings">
-            Settings
-          </Item>
+          {this.state.onSide && (
+            <Item to="/settings" icon="settings">
+              Settings
+            </Item>
+          )}
           <DarkmodeSwitch />
         </S.Mainnav>
       </ThemeProvider>

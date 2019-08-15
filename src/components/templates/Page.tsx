@@ -13,14 +13,15 @@ export default Page
 namespace S {
   export const Page = styled.div`
     padding: 2rem;
-    min-height: calc(100vh - 4rem);
+    height: calc(100vh - 4rem);
+    overflow: scroll;
     margin-bottom: 4rem;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
 
     @media ${() => responsive.navOnSide} {
       margin-left: ${() => layout.desktop.navWidth};
-      min-height: 100vh;
+      height: 100vh;
       margin-bottom: 0;
       padding-left: 4rem;
     }

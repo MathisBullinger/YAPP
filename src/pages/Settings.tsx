@@ -1,6 +1,6 @@
 import React from 'react'
-import { Title, Switch } from '~/components/atoms'
-import { Labeled } from '~/components/molecules'
+import { Text } from '~/components/atoms'
+import { StackedList } from '~/components/molecules'
 import styled from 'styled-components'
 
 export default class Settings extends React.Component {
@@ -11,9 +11,22 @@ export default class Settings extends React.Component {
   render() {
     return (
       <S.Settings>
-        <Title s4>Appearance</Title>
-        <Labeled for={<Switch />}>amoled dark mode</Labeled>
-        <Labeled for={<Switch />}>use dark theme at night</Labeled>
+        <StackedList
+          sections={[
+            {
+              title: 'Appearance',
+              items: Array(15)
+                .fill(0)
+                .map((_, i) => <Text key={i}>item {i}</Text>),
+            },
+            {
+              title: 'Playback',
+              items: Array(100)
+                .fill(0)
+                .map((_, i) => <Text key={i}>item {i}</Text>),
+            },
+          ]}
+        />
       </S.Settings>
     )
   }
