@@ -1,23 +1,21 @@
 {
-  "name": "yapp",
-  "version": "1.0.0",
   "description": "Yet Another Podcast Player",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html --no-autoinstall",
-    "build": "npm run svg && parcel build --no-source-maps src/index.html",
-    "svg": "vsvg -s data/icons -t src/components/icons",
+    "start": "parcel src/index.html --no-autoinstall --out-dir public",
+    "build": "rm -rf .cache/ public/ && parcel build --no-source-maps src/index.html --out-dir public",
     "now-build": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format:check": "prettier --check \"./*.{js,vue,html}\" \"./**/*.{js,vue,html}\"",
-    "format:write": "prettier --write \"./*.{js,vue,html}\" \"./**/*.{js,vue,html}\"",
-    "lint:check": "eslint . --ext .js,.vue",
-    "lint:write": "eslint . --ext .js,.vue --fix",
-    "format-lint:check": "npm run lint:check && npm run format:check",
-    "format-lint:write": "npm run lint:write && npm run format:write"
+    "prettier:check": "prettier --check \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
+    "prettier:write": "prettier --write \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
+    "eslint:check": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "eslint:write": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "npm run eslint:check && npm run prettier:check",
+    "format": "npm run eslint:write && npm run prettier:write"
   },
   "alias": {
-    "~": "src"
+    "~": "src",
+    "data": "./data"
   },
   "repository": {
     "type": "git",
@@ -30,39 +28,33 @@
   },
   "homepage": "https://github.com/MathisBullinger/YAPP#readme",
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-pipeline-operator": "^7.3.2",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "@vue/component-compiler-utils": "*",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.9.1",
+    "@types/react-dom": "^16.8.5",
+    "@types/react-router-dom": "^4.3.4",
+    "@types/styled-components": "^4.1.18",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-styled-components": "^1.10.6",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "eslint": "*",
     "eslint-config-prettier": "*",
-    "eslint-plugin-vue": "*",
-    "graphql": "^14.4.0",
-    "graphql-tag": "^2.10.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
     "parcel-bundler": "*",
-    "prettier": "*",
-    "sass": "^1.22.7",
-    "vue-template-compiler": "*"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "@sentry/browser": "^5.5.0",
-    "@sentry/integrations": "^5.5.0",
-    "apollo-cache-inmemory": "^1.6.2",
-    "apollo-client": "^2.6.3",
-    "apollo-link-error": "^1.1.11",
-    "apollo-link-http": "^1.5.15",
-    "icons": "^1.0.0",
-    "object.fromentries": "^2.0.0",
-    "unfetch": "^4.1.0",
-    "vue": "*",
-    "vue-apollo": "^3.0.0-rc.1",
-    "vue-hot-reload-api": "*",
-    "vue-router": "*",
-    "vue-svgicon": "^3.2.6",
-    "vuex": "^3.1.1"
-  },
-  "posthtml": {
-    "recognizeSelfClosing": true
+    "preact": "^8.5.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "redux": "^4.0.4",
+    "styled-components": "^4.3.2"
   }
 }

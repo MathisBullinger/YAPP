@@ -3,6 +3,7 @@ const config = {
   singleQuote: true,
   trailingComma: 'es5',
   htmlWhitespaceSensitivity: 'ignore',
+  bracketSpacing: true,
 }
 
 module.exports = config

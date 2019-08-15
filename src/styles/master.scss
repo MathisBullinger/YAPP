@@ -1,29 +1,13 @@
-@import '~/styles/reset';
-@import '~/styles/fluid';
-@import '~/styles/text';
-@import '~/styles/icons';
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+@import './reset';
 
 :root {
-  margin: 0;
-  padding: 0;
-  @include fluid(font-size, $rem-min, $rem-max, $fs-min-screen, $fs-max-screen);
-  @include fluid(
-    --baseline-raw,
-    $rem-min * 1.5,
-    $rem-max * 1.5,
-    $fs-min-screen,
-    $fs-max-screen
-  );
-  --baseline: var(--baseline-raw);
-  line-height: var(--baseline);
-  font-family: $font-primary;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
-  padding: 0;
-
-  &.noscroll {
-    overflow-y: hidden;
-  }
+  overflow-x: hidden;
 }

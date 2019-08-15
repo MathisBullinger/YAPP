@@ -1,6 +1,6 @@
 .cache
-dist
+public
 node_modules
-package-lock.json
+data
 
-reset*.scss
+reset*css
