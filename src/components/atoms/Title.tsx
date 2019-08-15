@@ -30,13 +30,15 @@ const Title: React.FunctionComponent<Props> = props => {
 export default Title
 
 namespace S {
-  export const Title = styled(({ size, children, ...props }) =>
-    React.createElement(`h${size}`, props, children)
+  export const Title = styled(({ size, children, className }) =>
+    React.createElement(`h${size}`, { className }, children)
   )<{ tt: TextType; emp: TextEmp }>`
     font-size: ${({ tt }) => tt.size}rem;
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing}rem;
     color: ${({ theme, emp }) => theme[theme.topic](theme.variant).on(emp)};
     transition: color ${() => timing.colorSwap};
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   `
 }

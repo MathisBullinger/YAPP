@@ -8,6 +8,7 @@ interface Props {
   s2?: boolean
   className?: string
   emp?: TextEmp
+  label?: string
 }
 
 const Text: React.FunctionComponent<Props> = props => (
@@ -15,6 +16,8 @@ const Text: React.FunctionComponent<Props> = props => (
     className={props.className}
     tt={typography[`text${[1, 2].find(n => props[`s${n}`]) || 1}`]}
     emp={props.emp || props.s1 ? 'high' : 'medium'}
+    isLabel={props.label}
+    htmlFor={props.label}
   >
     {props.children}
   </S.Text>
@@ -22,11 +25,19 @@ const Text: React.FunctionComponent<Props> = props => (
 export default Text
 
 namespace S {
-  export const Text = styled.p<{ tt: TextType; emp: TextEmp }>`
+  export const Text = styled(({ isLabel, children, className, htmlFor }) =>
+    React.createElement(
+      !isLabel ? 'p' : 'label',
+      { className, htmlFor },
+      children
+    )
+  )<{ tt: TextType; emp: TextEmp }>`
     font-size: ${({ tt }) => tt.size}rem;
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing}rem;
     color: ${({ theme, emp }) => theme[theme.topic](theme.variant).on(emp)};
     transition: color ${() => timing.colorSwap};
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   `
 }

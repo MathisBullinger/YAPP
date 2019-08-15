@@ -22,7 +22,9 @@ const Subtitle: React.FunctionComponent<Props> = props => (
 export default Subtitle
 
 namespace S {
-  export const Subtitle = styled.h6<{ tt: TextType; emp: TextEmp }>`
+  export const Subtitle = styled(({ children, className }) =>
+    React.createElement('h6', { className }, children)
+  )<{ tt: TextType; emp: TextEmp }>`
     font-size: ${({ tt }) => tt.size}rem;
     font-weight: ${({ tt }) => tt.weight};
     letter-spacing: ${({ tt }) => tt.spacing}rem;
