@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-
+import { connect } from 'react-redux'
+import { toggleAppbar } from '~/store/actions'
 import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
 import Discover from '~/pages/Discover'
@@ -11,25 +12,47 @@ import Lab from '~/pages/Lab'
 import labs from './pages/labs/**.*sx'
 import NotFound from '~/pages/NotFound'
 
-const Routes: React.FunctionComponent = () => (
-  <Switch>
-    <Route path="/" exact component={Library} />
-    <Route path="/feed/" exact component={Feed} />
-    <Route path="/discover/" exact component={Discover} />
-    <Route path="/profile/" exact component={Profile} />
-    <Route path="/settings/" exact component={Settings} />
-    <Route path="/lab/" exact component={Lab} />
-    {Object.values(labs)
-      .map(m => Object.values(m)[0].default)
-      .map(lab => (
-        <Route
-          key={lab.name}
-          path={`/lab/${lab.name.toLowerCase()}`}
-          exact
-          component={lab}
-        />
-      ))}
-    <Route component={NotFound} />
-  </Switch>
-)
-export default Routes
+interface Props {
+  toggleAppbar(v?: boolean): void
+}
+
+class Routes extends React.Component<Props> {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <Switch>
+        <Route path="/" exact render={() => this.preRoute(Library)} />
+        <Route path="/feed/" exact render={() => this.preRoute(Feed)} />
+        <Route path="/discover/" exact render={() => this.preRoute(Discover)} />
+        <Route path="/profile/" exact render={() => this.preRoute(Profile)} />
+        <Route path="/settings/" exact render={() => this.preRoute(Settings)} />
+        <Route path="/lab/" exact render={() => this.preRoute(Lab)} />
+        {Object.values(labs)
+          .map(m => Object.values(m)[0].default)
+          .map(lab => (
+            <Route
+              key={lab.name}
+              path={`/lab/${lab.name.toLowerCase()}`}
+              exact
+              render={() => this.preRoute(lab)}
+            />
+          ))}
+        <Route render={() => this.preRoute(NotFound)} />
+      </Switch>
+    )
+  }
+
+  preRoute(component: React.ComponentClass | React.FunctionComponent) {
+    // @ts-ignore
+    const config = component.pageConf || {}
+    this.props.toggleAppbar(config.showAppbar || false)
+    return React.createElement(component, {}, null)
+  }
+}
+export default connect(
+  null,
+  { toggleAppbar }
+)(Routes)

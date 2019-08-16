@@ -5,12 +5,17 @@ export function theme(state = 'light', action: actions.Base) {
     case 'SET_THEME':
       return (action as actions.SetTheme).theme
     case 'TOGGLE_DARK_MODE':
-      return ((action as actions.ToggleMode).value !== undefined
-      ? (action as actions.ToggleMode).value
+      return ((action as actions.ToggleAction).value !== undefined
+      ? (action as actions.ToggleAction).value
       : state === 'light')
         ? 'dark'
         : 'light'
     default:
       return state
   }
+}
+
+export function appbarVisible(state = 'false', action: actions.ToggleAction) {
+  if (action.type !== 'TOGGLE_APPBAR') return state
+  return action.value !== undefined ? action.value : !state
 }

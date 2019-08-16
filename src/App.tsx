@@ -13,17 +13,20 @@ interface Props {
   theme: 'light' | 'dark'
   toggleDarkMode(value?: boolean): void
   setTheme(value: Themes): void
+  showAppbar: boolean
 }
 
 interface State {
   theme: Theme
-  appbar: boolean
+  allowAppbar: boolean
+  showAppbar: boolean
 }
 
 class App extends React.Component<Props, State> {
   state = {
     theme: theme('light'),
-    appbar: true,
+    allowAppbar: true,
+    showAppbar: true,
   }
 
   render() {
@@ -31,7 +34,11 @@ class App extends React.Component<Props, State> {
       <ThemeProvider
         theme={{
           ...this.state.theme,
-          ...{ topic: 'background', variant: 0, appbar: this.state.appbar },
+          ...{
+            topic: 'background',
+            variant: 0,
+            appbar: this.state.allowAppbar && this.state.showAppbar,
+          },
         }}
       >
         <Router>
@@ -50,6 +57,7 @@ class App extends React.Component<Props, State> {
     document.documentElement.style.backgroundColor = newTheme.background().color
     return {
       theme: newTheme,
+      showAppbar: props.showAppbar,
     }
   }
 
@@ -61,8 +69,8 @@ class App extends React.Component<Props, State> {
     colorScheme.onchange = matchSystem
     matchSystem(colorScheme)
 
-    const setAppbar = ({ matches: visible }) => {
-      this.setState({ appbar: visible })
+    const setAppbar = ({ matches }) => {
+      this.setState({ allowAppbar: matches })
     }
     const appbar = window.matchMedia(responsive.appbarVisible)
     appbar.onchange = setAppbar
@@ -71,6 +79,6 @@ class App extends React.Component<Props, State> {
 }
 
 export default connect(
-  ({ theme }) => ({ theme }),
+  ({ theme, appbarVisible }) => ({ theme, showAppbar: appbarVisible }),
   { toggleDarkMode, setTheme }
 )(App)

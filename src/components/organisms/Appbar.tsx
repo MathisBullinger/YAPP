@@ -2,22 +2,14 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
 
-interface State {
-  visible: boolean
-}
-
-export default class Appbar extends React.Component<{}, State> {
-  state = {
-    visible: true,
-  }
-
+export default class Appbar extends React.Component {
   constructor(props) {
     super(props)
   }
 
   render() {
     return (
-      <ThemeProvider theme={{ topic: 'surface', visible: this.state.visible }}>
+      <ThemeProvider theme={{ topic: 'surface' }}>
         <S.Appbar />
       </ThemeProvider>
     )
@@ -38,6 +30,13 @@ namespace S {
 
     @media ${() => responsive.appbarVisible} {
       display: block;
+      ${({ theme }) =>
+        theme.appbar
+          ? ''
+          : `
+          transform: translateY(-100%);
+          box-shadow: none;
+        `}
     }
   `
 }
