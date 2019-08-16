@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Title } from '~/components/atoms'
+import { timing } from '~/styles'
 
 interface Props {
   sections: Section[]
@@ -15,7 +16,7 @@ const StackedList: React.FunctionComponent<Props> = props => (
   <S.List>
     {props.sections
       .map((section, i) => [
-        ...(i === 0 ? [] : [<div className="buffer" />]),
+        ...(i === 0 ? [] : [<div className="buffer" key={`buffer${i}`} />]),
         <Title className="section-title" s4 key={section.title}>
           {section.title}
         </Title>,
@@ -49,6 +50,7 @@ namespace S {
         top: 0;
         background-color: ${({ theme }) =>
           theme[theme.topic](theme.variant).color};
+        transition: background-color ${() => timing.colorSwap};
       }
 
       &:after {
@@ -62,6 +64,7 @@ namespace S {
           ${({ theme }) =>
             theme[theme.topic](theme.variant).color.substring(0, 7)}00
         );
+        transition: background-color ${() => timing.colorSwap};
       }
     }
 
@@ -79,6 +82,7 @@ namespace S {
         ${({ theme }) =>
           theme[theme.topic](theme.variant).color.substring(0, 7)}
       );
+      transition: background-color ${() => timing.colorSwap};
     }
   `
 }

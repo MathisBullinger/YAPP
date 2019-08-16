@@ -5,7 +5,7 @@ import Feed from '~/pages/Feed'
 import Discover from '~/pages/Discover'
 import Profile from '~/pages/Profile'
 import Settings from '~/pages/Settings'
-import { Mainnav } from '~/components/organisms'
+import { Mainnav, Appbar } from '~/components/organisms'
 import Lab from '~/pages/Lab'
 // @ts-ignore
 import labs from './pages/labs/**.*sx'
@@ -36,6 +36,7 @@ class App extends React.Component<Props> {
         }}
       >
         <Router>
+          <Appbar />
           <Mainnav />
           <Page>
             <Switch>

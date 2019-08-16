@@ -17,13 +17,13 @@ export default class Settings extends React.Component {
               title: 'Appearance',
               items: Array(15)
                 .fill(0)
-                .map((_, i) => <Text key={i}>item {i}</Text>),
+                .map((_, i) => <Text key={`item${i}`}>item {i}</Text>),
             },
             {
               title: 'Playback',
               items: Array(100)
                 .fill(0)
-                .map((_, i) => <Text key={i}>item {i}</Text>),
+                .map((_, i) => <Text key={`item2${i}`}>item {i}</Text>),
             },
           ]}
         />

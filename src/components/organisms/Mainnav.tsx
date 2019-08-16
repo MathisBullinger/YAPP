@@ -56,11 +56,12 @@ export default class Mainnav extends React.Component<{}, { onSide: boolean }> {
 
 namespace S {
   export const Mainnav = styled.div`
+    z-index: 2000;
     position: fixed;
     box-sizing: border-box;
     bottom: 0;
     width: 100vw;
-    height: 4rem;
+    height: ${() => layout.mobile.navHeight};
     display: block;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};

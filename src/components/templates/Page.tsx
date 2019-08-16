@@ -13,9 +13,9 @@ export default Page
 namespace S {
   export const Page = styled.div`
     padding: 2rem;
-    height: calc(100vh - 4rem);
+    height: calc(100vh - ${() => layout.mobile.navHeight});
     overflow: scroll;
-    margin-bottom: 4rem;
+    margin-bottom: ${() => layout.mobile.navHeight};
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
 
