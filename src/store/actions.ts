@@ -5,6 +5,7 @@ export type ActionType =
   | 'TOGGLE_DARK_MODE'
   | 'TOGGLE_APPBAR'
   | 'TOGGLE_PREFER_AMOLED'
+  | 'TOGGLE_DARK_AT_NIGHT'
 
 export namespace actions {
   export interface Base {
@@ -37,5 +38,10 @@ export const toggleAppbar = (value?: boolean): actions.ToggleAction => ({
 
 export const togglePreferAmoled = (value?: boolean): actions.ToggleAction => ({
   type: 'TOGGLE_PREFER_AMOLED',
+  value,
+})
+
+export const toggleDarkAtNight = (value?: boolean): actions.ToggleAction => ({
+  type: 'TOGGLE_DARK_AT_NIGHT',
   value,
 })

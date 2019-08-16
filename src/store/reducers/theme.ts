@@ -1,15 +1,15 @@
-import { actions as a } from './actions'
+import { actions as a } from '../actions'
+import State from '../state'
 
-export function appbarVisible(state = true, action: a.ToggleAction) {
-  if (action.type !== 'TOGGLE_APPBAR') return state
-  return action.value !== undefined ? action.value : !state
-}
-
-const defaultTheme = {
+const defaultTheme: State['theme'] = {
   current: 'light',
   useAmoled: false,
+  darkAtNight: false,
 }
-export function theme(state = defaultTheme, action: a.Base) {
+export default function theme(
+  state: State['theme'] = defaultTheme,
+  action: a.Base
+): State['theme'] {
   switch (action.type) {
     case 'SET_THEME':
       return {
@@ -31,9 +31,7 @@ export function theme(state = defaultTheme, action: a.Base) {
       }
     }
     case 'TOGGLE_PREFER_AMOLED': {
-      const v = (action as a.ToggleAction).value
-        ? (action as a.ToggleAction).value
-        : !state.useAmoled
+      const v = getToggleValue(action, state.useAmoled)
       let current = state.current
       if (state.current === 'dark' && v) current = 'black'
       else if (state.current === 'black' && !v) current = 'dark'
@@ -43,7 +41,17 @@ export function theme(state = defaultTheme, action: a.Base) {
         useAmoled: v,
       }
     }
+    case 'TOGGLE_DARK_AT_NIGHT':
+      return {
+        ...state,
+        darkAtNight: getToggleValue(action, state.darkAtNight),
+      }
     default:
       return state
   }
 }
+
+const getToggleValue = (action: a.Base, state: boolean): boolean =>
+  (action as a.ToggleAction).value !== undefined
+    ? (action as a.ToggleAction).value
+    : !state

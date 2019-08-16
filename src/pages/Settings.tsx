@@ -1,19 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, Switch } from '~/components/atoms'
+import { Text } from '~/components/atoms'
 import { StackedList } from '~/components/molecules'
 import styled from 'styled-components'
-import Item from './settings/Item'
-import { toggleDarkMode, togglePreferAmoled } from '~/store/actions'
-import { Themes } from '~/styles/theme'
+import SwitchItem from './settings/SwitchItem'
+import {
+  toggleDarkMode,
+  togglePreferAmoled,
+  toggleDarkAtNight,
+} from '~/store/actions'
+import State from '~/store/state'
 
 interface Props {
-  theme: {
-    current: Themes
-    useAmoled: boolean
-  }
+  theme: State['theme']
   toggleDarkMode(v?: boolean): void
   togglePreferAmoled(v?: boolean): void
+  toggleDarkAtNight(v?: boolean): void
 }
 
 class Settings extends React.Component<Props> {
@@ -29,31 +31,26 @@ class Settings extends React.Component<Props> {
             {
               title: 'Appearance',
               items: [
-                <Item
-                  key="dark"
-                  name="darkmode"
+                <SwitchItem
                   text="dark mode"
-                  action={
-                    <Switch
-                      id="darkmode"
-                      value={
-                        this.props.theme.current !== 'light' ? 'on' : 'off'
-                      }
-                      onInput={v => this.props.toggleDarkMode(v)}
-                    />
-                  }
+                  key="darkmode"
+                  name="darkmode"
+                  value={this.props.theme.current !== 'light'}
+                  onInput={v => this.props.toggleDarkMode(v)}
                 />,
-                <Item
+                <SwitchItem
+                  text="use AMOLED dark mode"
                   key="amoled"
                   name="amoled"
-                  text="use AMOLED dark mode"
-                  action={
-                    <Switch
-                      id="amoled"
-                      value={this.props.theme.useAmoled ? 'on' : 'off'}
-                      onInput={v => this.props.togglePreferAmoled(v)}
-                    />
-                  }
+                  value={this.props.theme.useAmoled}
+                  onInput={v => this.props.togglePreferAmoled(v)}
+                />,
+                <SwitchItem
+                  text="use dark mode at night"
+                  key="night"
+                  name="night"
+                  value={this.props.theme.darkAtNight}
+                  onInput={v => this.props.toggleDarkAtNight(v)}
                 />,
               ],
             },
@@ -71,7 +68,7 @@ class Settings extends React.Component<Props> {
 }
 export default connect(
   ({ theme }) => ({ theme }),
-  { toggleDarkMode, togglePreferAmoled }
+  { toggleDarkMode, togglePreferAmoled, toggleDarkAtNight }
 )(Settings)
 
 namespace S {
