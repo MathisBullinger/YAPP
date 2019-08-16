@@ -13,9 +13,14 @@ export default Page
 namespace S {
   export const Page = styled.div`
     padding: 2rem;
-    height: calc(100vh - ${() => layout.mobile.navHeight});
-    overflow: scroll;
+    // prettier-ignore
+    height: calc(100vh - ${() => layout.mobile.navHeight} - ${({ theme }) =>
+    theme.appbar ? layout.mobile.appbarHeight : 0});
+    ${({ theme }) =>
+      !theme.appbar ? '' : `margin-top: ${layout.mobile.appbarHeight};`}
     margin-bottom: ${() => layout.mobile.navHeight};
+    flex-grow: 1;
+    overflow: scroll;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
 

@@ -14,7 +14,8 @@ import { Page } from '~/components/templates'
 import { ThemeProvider } from 'styled-components'
 import { connect } from 'react-redux'
 import { toggleDarkMode, setTheme } from './store/actions'
-import theme, { Themes } from './styles/theme'
+import { Themes, Theme } from './styles/theme'
+import { theme, responsive } from '~/styles'
 
 interface Props {
   theme: 'light' | 'dark'
@@ -22,9 +23,15 @@ interface Props {
   setTheme(value: Themes): void
 }
 
-class App extends React.Component<Props> {
+interface State {
+  theme: Theme
+  appbar: boolean
+}
+
+class App extends React.Component<Props, State> {
   state = {
     theme: theme('light'),
+    appbar: true,
   }
 
   render() {
@@ -32,7 +39,7 @@ class App extends React.Component<Props> {
       <ThemeProvider
         theme={{
           ...this.state.theme,
-          ...{ topic: 'background', variant: 0 },
+          ...{ topic: 'background', variant: 0, appbar: this.state.appbar },
         }}
       >
         <Router>
@@ -76,9 +83,16 @@ class App extends React.Component<Props> {
     const matchSystem = ({ matches: dark }) => {
       if ((this.props.theme === 'dark') !== dark) this.props.toggleDarkMode()
     }
-    const mql = window.matchMedia('(prefers-color-scheme: dark)')
-    mql.onchange = matchSystem
-    matchSystem(mql)
+    const colorScheme = window.matchMedia('(prefers-color-scheme: dark)')
+    colorScheme.onchange = matchSystem
+    matchSystem(colorScheme)
+
+    const setAppbar = ({ matches: visible }) => {
+      this.setState({ appbar: visible })
+    }
+    const appbar = window.matchMedia(responsive.appbarVisible)
+    appbar.onchange = setAppbar
+    setAppbar(appbar)
   }
 }
 
