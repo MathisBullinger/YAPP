@@ -53,7 +53,7 @@ class App extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props) {
-    const newTheme = theme(props.theme)
+    const newTheme = theme(props.theme.current)
     document.documentElement.style.backgroundColor = newTheme.background().color
     return {
       theme: newTheme,

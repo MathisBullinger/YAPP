@@ -4,13 +4,24 @@ import { Switch } from '~/components/atoms'
 import { connect } from 'react-redux'
 import { toggleDarkMode } from '~/store/actions'
 import { responsive } from '~/styles'
+import { Themes } from '~/styles/theme'
 
 interface Props {
   toggleDarkMode(value?: boolean): void
-  theme: string
+  theme: {
+    current: Themes
+  }
 }
 
-class DarkmodeSwitch extends React.Component<Props> {
+interface State {
+  value: boolean
+}
+
+class DarkmodeSwitch extends React.Component<Props, State> {
+  state = {
+    value: false,
+  }
+
   constructor(props) {
     super(props)
   }
@@ -20,7 +31,7 @@ class DarkmodeSwitch extends React.Component<Props> {
       <S.Wrap className="darkmode-switch">
         <Switch
           inset
-          value={this.props.theme === 'dark' ? 'on' : 'off'}
+          value={this.state.value ? 'on' : 'off'}
           onInput={v => this.toggleDarkMode(v)}
         />
       </S.Wrap>
@@ -29,6 +40,12 @@ class DarkmodeSwitch extends React.Component<Props> {
 
   toggleDarkMode(v: boolean) {
     this.props.toggleDarkMode(v)
+  }
+
+  static getDerivedStateFromProps(props) {
+    return {
+      value: props.theme.current !== 'light',
+    }
   }
 }
 export default connect(

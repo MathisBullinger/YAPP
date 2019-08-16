@@ -1,6 +1,10 @@
 import { Themes } from '~/styles/theme'
 
-export type ActionType = 'SET_THEME' | 'TOGGLE_DARK_MODE' | 'TOGGLE_APPBAR'
+export type ActionType =
+  | 'SET_THEME'
+  | 'TOGGLE_DARK_MODE'
+  | 'TOGGLE_APPBAR'
+  | 'TOGGLE_PREFER_AMOLED'
 
 export namespace actions {
   export interface Base {
@@ -28,5 +32,10 @@ export const toggleDarkMode = (value?: boolean): actions.ToggleAction => ({
 
 export const toggleAppbar = (value?: boolean): actions.ToggleAction => ({
   type: 'TOGGLE_APPBAR',
+  value,
+})
+
+export const togglePreferAmoled = (value?: boolean): actions.ToggleAction => ({
+  type: 'TOGGLE_PREFER_AMOLED',
   value,
 })

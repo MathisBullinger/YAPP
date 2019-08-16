@@ -6,7 +6,7 @@ interface Props {
   value?: 'on' | 'off'
   onInput?(v: boolean): void
   inset?: boolean
-  name?: string
+  id?: string
 }
 
 const Switch: FunctionComponent<Props> = props => (
@@ -15,7 +15,7 @@ const Switch: FunctionComponent<Props> = props => (
       className={props.inset ? 'inset' : ''}
       data-value={props.value || 'off'}
       aria-checked={props.value === 'on' ? 'true' : 'false'}
-      name={props.name}
+      id={props.id}
       onClick={({ target }: { target: any }) => {
         target.setAttribute(
           'aria-checked',

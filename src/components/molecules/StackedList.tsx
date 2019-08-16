@@ -37,6 +37,7 @@ namespace S {
       overflow: hidden;
       z-index: 500;
       margin-top: 0;
+      pointer-events: none;
 
       &:before {
         content: '';
@@ -51,6 +52,7 @@ namespace S {
         background-color: ${({ theme }) =>
           theme[theme.topic](theme.variant).color};
         transition: background-color ${() => timing.colorSwap};
+        pointer-events: all;
       }
 
       &:after {

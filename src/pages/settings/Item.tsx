@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Text } from '~/components/atoms'
 
 interface Props {
@@ -8,9 +9,22 @@ interface Props {
 }
 
 const Item: React.FunctionComponent<Props> = props => (
-  <div>
-    <Text>{props.text}</Text>
+  <S.Item>
+    <Text label={props.name}>{props.text}</Text>
     {props.action}
-  </div>
+  </S.Item>
 )
 export default Item
+
+namespace S {
+  export const Item = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    margin-bottom: 2rem;
+
+    & > * {
+      margin: 0;
+    }
+  `
+}

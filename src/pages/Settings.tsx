@@ -1,9 +1,22 @@
 import React from 'react'
-import { Text } from '~/components/atoms'
+import { connect } from 'react-redux'
+import { Text, Switch } from '~/components/atoms'
 import { StackedList } from '~/components/molecules'
 import styled from 'styled-components'
+import Item from './settings/Item'
+import { toggleDarkMode, togglePreferAmoled } from '~/store/actions'
+import { Themes } from '~/styles/theme'
 
-export default class Settings extends React.Component {
+interface Props {
+  theme: {
+    current: Themes
+    useAmoled: boolean
+  }
+  toggleDarkMode(v?: boolean): void
+  togglePreferAmoled(v?: boolean): void
+}
+
+class Settings extends React.Component<Props> {
   constructor(props) {
     super(props)
   }
@@ -15,9 +28,34 @@ export default class Settings extends React.Component {
           sections={[
             {
               title: 'Appearance',
-              items: Array(15)
-                .fill(0)
-                .map((_, i) => <Text key={`item${i}`}>item {i}</Text>),
+              items: [
+                <Item
+                  key="dark"
+                  name="darkmode"
+                  text="dark mode"
+                  action={
+                    <Switch
+                      id="darkmode"
+                      value={
+                        this.props.theme.current !== 'light' ? 'on' : 'off'
+                      }
+                      onInput={v => this.props.toggleDarkMode(v)}
+                    />
+                  }
+                />,
+                <Item
+                  key="amoled"
+                  name="amoled"
+                  text="use AMOLED dark mode"
+                  action={
+                    <Switch
+                      id="amoled"
+                      value={this.props.theme.useAmoled ? 'on' : 'off'}
+                      onInput={v => this.props.togglePreferAmoled(v)}
+                    />
+                  }
+                />,
+              ],
             },
             {
               title: 'Playback',
@@ -31,6 +69,10 @@ export default class Settings extends React.Component {
     )
   }
 }
+export default connect(
+  ({ theme }) => ({ theme }),
+  { toggleDarkMode, togglePreferAmoled }
+)(Settings)
 
 namespace S {
   export const Settings = styled.div``
