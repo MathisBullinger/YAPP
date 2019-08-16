@@ -31,13 +31,15 @@ namespace S {
   export const List = styled.div`
     * {
       position: sticky;
-      top: 0;
+      top: 10px;
     }
     .section-title {
+      top: 0;
       overflow: hidden;
       z-index: 500;
       margin-top: 0;
       pointer-events: none;
+      margin-right: -1rem;
 
       &:before {
         content: '';
