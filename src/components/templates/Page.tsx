@@ -15,7 +15,7 @@ namespace S {
     padding: 2rem;
     // prettier-ignore
     height: calc(100vh - ${() => layout.mobile.navHeight} - ${({ theme }) =>
-    theme.appbar ? layout.mobile.appbarHeight : 0});
+    theme.appbar ? layout.mobile.appbarHeight : '0rem'});
     ${({ theme }) =>
       !theme.appbar ? '' : `margin-top: ${layout.mobile.appbarHeight};`}
     margin-bottom: ${() => layout.mobile.navHeight};
