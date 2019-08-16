@@ -20,7 +20,7 @@ namespace S {
       !theme.appbar ? '' : `margin-top: ${layout.mobile.appbarHeight};`}
     margin-bottom: ${() => layout.mobile.navHeight};
     flex-grow: 1;
-    overflow: scroll;
+    overflow: auto;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
 
