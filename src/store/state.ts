@@ -6,5 +6,8 @@ export default interface State {
     useAmoled: boolean
     darkAtNight: boolean
   }
-  appbarVisible: boolean
+  appbar: {
+    visible: boolean
+    title: string
+  }
 }

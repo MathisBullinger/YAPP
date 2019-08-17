@@ -6,6 +6,7 @@ export type ActionType =
   | 'TOGGLE_APPBAR'
   | 'TOGGLE_PREFER_AMOLED'
   | 'TOGGLE_DARK_AT_NIGHT'
+  | 'SET_APPBAR_TITLE'
 
 export namespace actions {
   export interface Base {
@@ -18,6 +19,10 @@ export namespace actions {
 
   export interface ToggleAction extends Base {
     value?: boolean
+  }
+
+  export interface StringAction extends Base {
+    value: string
   }
 }
 
@@ -43,5 +48,10 @@ export const togglePreferAmoled = (value?: boolean): actions.ToggleAction => ({
 
 export const toggleDarkAtNight = (value?: boolean): actions.ToggleAction => ({
   type: 'TOGGLE_DARK_AT_NIGHT',
+  value,
+})
+
+export const setAppbarTitle = (value: string): actions.StringAction => ({
+  type: 'SET_APPBAR_TITLE',
   value,
 })

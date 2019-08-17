@@ -8,5 +8,6 @@ const Library = () => (
 )
 Library.pageConf = {
   showAppbar: true,
+  appbarTitle: 'Library',
 }
 export default Library

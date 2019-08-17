@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { toggleAppbar } from '~/store/actions'
+import { toggleAppbar, setAppbarTitle } from '~/store/actions'
 import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
 import Discover from '~/pages/Discover'
@@ -14,6 +14,7 @@ import NotFound from '~/pages/NotFound'
 
 interface Props {
   toggleAppbar(v?: boolean): void
+  setAppbarTitle(v: string): void
 }
 
 class Routes extends React.Component<Props> {
@@ -49,10 +50,11 @@ class Routes extends React.Component<Props> {
     // @ts-ignore
     const config = component.pageConf || {}
     this.props.toggleAppbar(config.showAppbar || false)
+    this.props.setAppbarTitle(config.appbarTitle || '')
     return React.createElement(component, {}, null)
   }
 }
 export default connect(
   null,
-  { toggleAppbar }
+  { toggleAppbar, setAppbarTitle }
 )(Routes)

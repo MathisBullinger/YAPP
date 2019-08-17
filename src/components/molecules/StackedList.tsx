@@ -44,7 +44,7 @@ namespace S {
       &:before {
         content: '';
         width: 100%;
-        height: calc(100% - 4.5rem);
+        height: calc(100% - 2rem);
         display: block;
         background: red;
         position: absolute;
@@ -62,7 +62,7 @@ namespace S {
         display: block;
         margin-top: 0.5rem;
         width: 100%;
-        height: 5rem;
+        height: 2rem;
         background: linear-gradient(
           ${({ theme }) => theme[theme.topic](theme.variant).color},
           ${({ theme }) =>
@@ -75,9 +75,9 @@ namespace S {
     .buffer {
       display: block;
       width: 100%;
-      height: 4rem;
+      height: 2rem;
       z-index: 500;
-      top: -4rem;
+      top: -2rem;
       background: linear-gradient(
         ${({ theme }) =>
           theme[theme.topic](theme.variant).color.substring(0, 7)}00,

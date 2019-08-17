@@ -79,6 +79,6 @@ class App extends React.Component<Props, State> {
 }
 
 export default connect(
-  ({ theme, appbarVisible }) => ({ theme, showAppbar: appbarVisible }),
+  ({ theme, appbar }) => ({ theme, showAppbar: appbar.visible }),
   { toggleDarkMode, setTheme }
 )(App)

@@ -1,5 +1,6 @@
 import { actions as a } from '../actions'
 import State from '../state'
+import { getToggleValue } from './utils'
 
 const defaultTheme: State['theme'] = {
   current: 'light',
@@ -50,8 +51,3 @@ export default function theme(
       return state
   }
 }
-
-const getToggleValue = (action: a.Base, state: boolean): boolean =>
-  (action as a.ToggleAction).value !== undefined
-    ? (action as a.ToggleAction).value
-    : !state

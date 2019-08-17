@@ -1,4 +1,4 @@
-import { appbarVisible } from './other'
 import theme from './theme'
+import appbar from './appbar'
 
-export { theme, appbarVisible }
+export { theme, appbar }

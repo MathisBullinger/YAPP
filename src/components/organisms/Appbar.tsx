@@ -1,8 +1,14 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
+import { Title } from '~/components/atoms'
+import { connect } from 'react-redux'
 
-export default class Appbar extends React.Component {
+interface Props {
+  title: string
+}
+
+class Appbar extends React.Component<Props> {
   constructor(props) {
     super(props)
   }
@@ -10,11 +16,15 @@ export default class Appbar extends React.Component {
   render() {
     return (
       <ThemeProvider theme={{ topic: 'surface' }}>
-        <S.Appbar />
+        <S.Appbar>
+          <Title s5>{this.props.title}</Title>
+        </S.Appbar>
       </ThemeProvider>
     )
   }
 }
+
+export default connect(({ appbar }) => appbar)(Appbar)
 
 namespace S {
   export const Appbar = styled.div`
@@ -27,9 +37,17 @@ namespace S {
       theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(4)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
     transition: background-color ${() => timing.colorSwap};
+    overflow: hidden;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 2rem;
+
+    & > * {
+      margin: 0;
+    }
 
     @media ${() => responsive.appbarVisible} {
-      display: block;
+      display: flex;
       ${({ theme }) =>
         theme.appbar
           ? ''
