@@ -6,4 +6,8 @@ const Profile = () => (
     <Title>Profile</Title>
   </div>
 )
+Profile.pageConf = {
+  showAppbar: true,
+  appbarTitle: 'Profile',
+}
 export default Profile

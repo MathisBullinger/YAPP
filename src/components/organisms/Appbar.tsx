@@ -34,7 +34,7 @@ namespace S {
     width: 100vw;
     height: ${() => layout.mobile.appbarHeight};
     ${({ theme }) =>
-      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(4)};` : ''}
+      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
     transition: background-color ${() => timing.colorSwap};
     overflow: hidden;

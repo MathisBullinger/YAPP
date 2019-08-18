@@ -1,7 +1,7 @@
 import React from 'react'
 import { Title } from '~/components/atoms'
 
-export default class Feed extends React.Component {
+class Feed extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -14,3 +14,8 @@ export default class Feed extends React.Component {
     )
   }
 }
+Feed.pageConf = {
+  showAppbar: true,
+  appbarTitle: 'Feed',
+}
+export default Feed

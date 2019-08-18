@@ -6,4 +6,8 @@ const Discover = () => (
     <Title>Discover</Title>
   </div>
 )
+Discover.pageConf = {
+  showAppbar: true,
+  appbarTitle: 'Discover',
+}
 export default Discover
