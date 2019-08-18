@@ -8,10 +8,16 @@ import { LocationDescriptor } from 'history'
 interface Props {
   to: LocationDescriptor<any>
   icon: string
+  exact?: boolean
 }
 
 const Item: React.FunctionComponent<Props> = props => (
-  <S.Item to={props.to} className="item">
+  <S.Item
+    to={props.to}
+    className="item"
+    activeClassName="active"
+    exact={props.exact}
+  >
     <Icon icon={props.icon} />
     <Text s1 emp="high" className="pageName">
       {props.children}
@@ -25,6 +31,20 @@ namespace S {
     display: flex;
     align-items: center;
     text-decoration: none;
+    width: 100%;
+
+    * {
+      color: ${({ theme }) => theme[theme.topic](theme.variant).on('medium')};
+      fill: ${({ theme }) => theme[theme.topic](theme.variant).on('medium')};
+    }
+
+    &:hover,
+    &.active {
+      * {
+        color: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
+        fill: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
+      }
+    }
 
     .pageName {
       margin-left: 1rem;

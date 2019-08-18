@@ -80,7 +80,7 @@ namespace black {
       on: (e = 'medium') => '#ffffff' + empOp[e],
     }),
     surface: () => ({
-      color: '#222222',
+      color: '#111111',
       on: (e = 'medium') => '#ffffff' + empOp[e],
     }),
     primary: () => ({

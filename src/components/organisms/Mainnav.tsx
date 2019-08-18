@@ -26,7 +26,7 @@ export default class Mainnav extends React.Component<{}, { onSide: boolean }> {
         }}
       >
         <S.Mainnav>
-          <Item to="/" icon="library">
+          <Item to="/" exact icon="library">
             Library
           </Item>
           <Item to="/feed" icon="subscriptions">
