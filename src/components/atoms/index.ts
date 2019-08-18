@@ -6,5 +6,16 @@ import Switch from './Switch'
 import Text from './Text'
 import Title from './Title'
 import Subtitle from './Subtitle'
+import IconButton from './IconButton'
 
-export { Text, Title, Dropdown, Card, Checkbox, Switch, Icon, Subtitle }
+export {
+  Text,
+  Title,
+  Dropdown,
+  Card,
+  Checkbox,
+  Switch,
+  Icon,
+  Subtitle,
+  IconButton,
+}
