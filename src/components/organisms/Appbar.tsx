@@ -8,7 +8,10 @@ import ReduxState from '~/store/state'
 // @ts-ignore
 import actionImport from './appbar/**.*'
 const actions = Object.fromEntries(
-  Object.entries(actionImport).map(([k, v]) => [k, Object.values(v)[0].default])
+  Object.entries(actionImport).map(([k, v]) => [
+    k.toLowerCase(),
+    Object.values(v)[0].default,
+  ])
 )
 
 interface Props {
@@ -22,22 +25,34 @@ class Appbar extends React.Component<Props> {
   }
 
   render() {
+    const [actionsLeft, actionsRight] = this.props.actions.reduce(
+      (a, c) =>
+        !(c.name.toLowerCase() in actions)
+          ? a
+          : [
+              [...a[0], ...(c.align === 'left' ? [c.name.toLowerCase()] : [])],
+              [...a[1], ...(c.align === 'right' ? [c.name.toLowerCase()] : [])],
+            ],
+      [[], []]
+    )
     return (
       <ThemeProvider theme={{ topic: 'surface' }}>
         <S.Appbar>
+          {actionsLeft.map(action =>
+            React.createElement(
+              actions[action],
+              { key: action, align: 'left' },
+              null
+            )
+          )}
           <Title s5>{this.props.title}</Title>
-          {/* {Object.values(actions).map(action =>
-            React.createElement(action, { key: action.name }, null)
-          )} */}
-          {this.props.actions
-            .filter(action => action.name in actions)
-            .map(action =>
-              React.createElement(
-                actions[action.name],
-                { key: action.name },
-                null
-              )
-            )}
+          {actionsRight.map(action =>
+            React.createElement(
+              actions[action],
+              { key: action, align: 'right' },
+              null
+            )
+          )}
         </S.Appbar>
       </ThemeProvider>
     )
@@ -60,11 +75,16 @@ namespace S {
     overflow: hidden;
     flex-direction: row;
     align-items: center;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 
-    .action:first-of-type {
+    .action.right:first-of-type {
       margin-left: auto;
+    }
+
+    .action.left {
+      margin-left: -.5rem;
+      margin-right: 1rem;
     }
 
     & > * {

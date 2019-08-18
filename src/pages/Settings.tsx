@@ -66,6 +66,12 @@ class Settings extends React.Component<Props> {
     )
   }
 }
+// @ts-ignore
+Settings.pageConf = {
+  showAppbar: true,
+  appbarTitle: 'Settings',
+  appbarActions: [{ name: 'back', align: 'left' }],
+}
 export default connect(
   ({ theme }) => ({ theme }),
   { toggleDarkMode, togglePreferAmoled, toggleDarkAtNight }

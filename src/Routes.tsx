@@ -20,7 +20,7 @@ import NotFound from '~/pages/NotFound'
 interface Props {
   toggleAppbar(v?: boolean): void
   setAppbarTitle(v: string): void
-  addAppbarAction(name: string): void
+  addAppbarAction(name: string, align: 'left' | 'right'): void
   resetAppbarActions(): void
 }
 
@@ -60,7 +60,7 @@ class Routes extends React.Component<Props> {
     this.props.toggleAppbar(config.showAppbar || false)
     this.props.setAppbarTitle(config.appbarTitle || '')
     ;(config.appbarActions || []).forEach(action =>
-      this.props.addAppbarAction(action.name)
+      this.props.addAppbarAction(action.name, action.align)
     )
     return React.createElement(component, {}, null)
   }
