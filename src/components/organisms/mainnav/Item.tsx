@@ -31,20 +31,6 @@ namespace S {
     display: flex;
     align-items: center;
     text-decoration: none;
-    width: 100%;
-
-    * {
-      color: ${({ theme }) => theme[theme.topic](theme.variant).on('medium')};
-      fill: ${({ theme }) => theme[theme.topic](theme.variant).on('medium')};
-    }
-
-    &:hover,
-    &.active {
-      * {
-        color: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
-        fill: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
-      }
-    }
 
     .pageName {
       margin-left: 1rem;
@@ -58,6 +44,20 @@ namespace S {
 
     @media ${() => responsive.navOnSide} {
       margin-bottom: 1.5rem;
+      width: 100%;
+
+      * {
+        color: ${({ theme }) => theme[theme.topic](theme.variant).on('medium')};
+        fill: ${({ theme }) => theme[theme.topic](theme.variant).on('medium')};
+      }
+
+      &:hover,
+      &.active {
+        * {
+          color: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
+          fill: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
+        }
+      }
 
       .pageName {
         display: initial;
