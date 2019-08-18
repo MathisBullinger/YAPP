@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Title } from '~/components/atoms'
+// @ts-ignore
 import labs from './labs/**.*sx'
 import { Link } from 'react-router-dom'
 

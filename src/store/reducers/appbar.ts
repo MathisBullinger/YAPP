@@ -5,6 +5,7 @@ import { getToggleValue } from './utils'
 const defaultState: State['appbar'] = {
   visible: true,
   title: '',
+  actions: [],
 }
 export default function appbar(
   state: State['appbar'] = defaultState,
@@ -20,6 +21,23 @@ export default function appbar(
       return {
         ...state,
         title: (action as a.StringAction).value,
+      }
+    case 'ADD_APPBAR_ACTION':
+      return {
+        ...state,
+        ...{
+          actions: [
+            {
+              name: (action as a.AppbarAction).name,
+              align: (action as a.AppbarAction).align,
+            },
+          ],
+        },
+      }
+    case 'RESET_APPBAR_ACTIONS':
+      return {
+        ...state,
+        ...{ actions: [] },
       }
     default:
       return state

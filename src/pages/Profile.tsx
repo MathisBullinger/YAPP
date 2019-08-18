@@ -9,5 +9,6 @@ const Profile = () => (
 Profile.pageConf = {
   showAppbar: true,
   appbarTitle: 'Profile',
+  appbarActions: [{ name: 'Settings', align: 'right' }],
 }
 export default Profile

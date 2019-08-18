@@ -1,5 +1,10 @@
 import { Themes } from '~/styles/theme'
 
+interface AppbarAction {
+  name: string
+  align: 'left' | 'right'
+}
+
 export default interface State {
   theme: {
     current: Themes
@@ -9,5 +14,6 @@ export default interface State {
   appbar: {
     visible: boolean
     title: string
+    actions: AppbarAction[]
   }
 }

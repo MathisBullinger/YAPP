@@ -3,9 +3,17 @@ import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
 import { Title } from '~/components/atoms'
 import { connect } from 'react-redux'
+import ReduxState from '~/store/state'
+
+// @ts-ignore
+import actionImport from './appbar/**.*'
+const actions = Object.fromEntries(
+  Object.entries(actionImport).map(([k, v]) => [k, Object.values(v)[0].default])
+)
 
 interface Props {
   title: string
+  actions: ReduxState['appbar']['actions']
 }
 
 class Appbar extends React.Component<Props> {
@@ -18,6 +26,18 @@ class Appbar extends React.Component<Props> {
       <ThemeProvider theme={{ topic: 'surface' }}>
         <S.Appbar>
           <Title s5>{this.props.title}</Title>
+          {/* {Object.values(actions).map(action =>
+            React.createElement(action, { key: action.name }, null)
+          )} */}
+          {this.props.actions
+            .filter(action => action.name in actions)
+            .map(action =>
+              React.createElement(
+                actions[action.name],
+                { key: action.name },
+                null
+              )
+            )}
         </S.Appbar>
       </ThemeProvider>
     )
@@ -41,6 +61,11 @@ namespace S {
     flex-direction: row;
     align-items: center;
     padding-left: 2rem;
+    padding-right: 2rem;
+
+    .action:first-of-type {
+      margin-left: auto;
+    }
 
     & > * {
       margin: 0;
