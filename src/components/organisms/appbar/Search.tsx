@@ -7,11 +7,11 @@ interface Props extends RouteComponentProps {
   align: 'left' | 'right'
 }
 
-const Back: React.FunctionComponent<Props> = props => (
+const Search: React.FunctionComponent<Props> = props => (
   <IconButton
     className={`action ${props.align}`}
-    icon="arrow_back"
-    onClick={() => props.history.goBack()}
+    icon="search"
+    onClick={alert}
   />
 )
-export default withRouter(Back)
+export default withRouter(Search)

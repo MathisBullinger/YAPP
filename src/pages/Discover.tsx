@@ -9,5 +9,6 @@ const Discover = () => (
 Discover.pageConf = {
   showAppbar: true,
   appbarTitle: 'Discover',
+  appbarActions: [{ name: 'search', align: 'right' }],
 }
 export default Discover
