@@ -7,6 +7,7 @@ import Text from './Text'
 import Title from './Title'
 import Subtitle from './Subtitle'
 import IconButton from './IconButton'
+import Input from './Input'
 
 export {
   Text,
@@ -18,4 +19,5 @@ export {
   Icon,
   Subtitle,
   IconButton,
+  Input,
 }
