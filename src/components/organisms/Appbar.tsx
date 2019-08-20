@@ -72,7 +72,6 @@ namespace S {
       theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
     transition: background-color ${() => timing.colorSwap};
-    overflow: hidden;
     flex-direction: row;
     align-items: center;
     padding-left: 1.5rem;

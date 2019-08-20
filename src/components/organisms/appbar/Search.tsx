@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { IconButton, Input } from '~/components/atoms'
 import { withRouter } from 'react-router-dom'
 import { RouteComponentProps } from 'react-router'
+import { layout, shadow } from '~/styles'
 
 interface Props extends RouteComponentProps {
   align: 'left' | 'right'
@@ -36,6 +37,7 @@ class Search extends React.Component<Props, State> {
             onClick={() => this.toggleExpand()}
           />
           <Input placeholder="Search podcast" />
+          <S.ResultPane />
         </S.Expanded>
       </S.Search>
     )
@@ -56,7 +58,11 @@ class Search extends React.Component<Props, State> {
 export default withRouter(Search)
 
 namespace S {
-  export const Search = styled.div``
+  const transitionTime = '0.2s'
+
+  export const Search = styled.div`
+    display: block;
+  `
 
   export const Expanded = styled.div`
     position: absolute;
@@ -64,27 +70,30 @@ namespace S {
     top: 0;
     height: 100%;
     width: 100%;
-    transition: transform 0.5s ease, visibility 0s 0.5s;
+    transition: transform ${transitionTime} ease,
+      visibility 0s ${transitionTime};
     visibility: hidden;
     display: flex;
     flex-direction: row;
     align-items: center;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
+    transition-delay: ${transitionTime};
 
     input,
     svg {
-      transition: transform 0.5s ease;
+      transition: transform ${transitionTime} ease;
     }
 
     input {
       margin-left: 1rem;
       opacity: 0;
-      transition: opacity 0.5s ease-in;
     }
 
     &.active {
       visibility: visible;
-      transition: transform 0.5s ease;
+      transition: transform ${transitionTime} ease;
+      transition-delay: 0s;
+      box-shadow: ${shadow(2)};
 
       // @ts-ignore
       ${({ forwardedRef: { current: ref } }) => {
@@ -102,6 +111,26 @@ namespace S {
           }
         `
       }}
+    }
+  `
+
+  export const ResultPane = styled.div`
+    position: absolute;
+    display: block;
+    top: 100%;
+    visibility: hidden;
+    width: 100%;
+    left: 0;
+    background-color: inherit;
+    height: 2rem;
+    transition: all ${transitionTime} ease;
+    box-shadow: ${shadow(1)};
+    z-index: -1;
+
+    .active > & {
+      transition-delay: ${transitionTime};
+      visibility: visible;
+      height: calc(100vh - 100% - ${layout.mobile.navHeight});
     }
   `
 }
