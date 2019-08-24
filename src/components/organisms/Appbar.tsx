@@ -6,13 +6,15 @@ import { connect } from 'react-redux'
 import ReduxState from '~/store/state'
 
 // @ts-ignore
-import actionImport from './appbar/**.*'
+import actionImport from './appbarActions/**.*'
 const actions = Object.fromEntries(
   Object.entries(actionImport).map(([k, v]) => [
     k.toLowerCase(),
     Object.values(v)[0].default,
   ])
 )
+
+console.log(actionImport)
 
 interface Props {
   title: string

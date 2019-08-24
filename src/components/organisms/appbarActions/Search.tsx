@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { IconButton, Input } from '~/components/atoms'
 import { withRouter } from 'react-router-dom'
 import { RouteComponentProps } from 'react-router'
-import { layout, shadow } from '~/styles'
+import { shadow } from '~/styles'
+import ResultPane from './search/ResultPane'
 
 interface Props extends RouteComponentProps {
   align: 'left' | 'right'
@@ -37,7 +38,7 @@ class Search extends React.Component<Props, State> {
             onClick={() => this.toggleExpand()}
           />
           <Input placeholder="Search podcast" />
-          <S.ResultPane />
+          <ResultPane />
         </S.Expanded>
       </S.Search>
     )
@@ -111,26 +112,6 @@ namespace S {
           }
         `
       }}
-    }
-  `
-
-  export const ResultPane = styled.div`
-    position: absolute;
-    display: block;
-    top: 100%;
-    visibility: hidden;
-    width: 100%;
-    left: 0;
-    background-color: inherit;
-    height: 2rem;
-    transition: all ${transitionTime} ease;
-    box-shadow: ${shadow(1)};
-    z-index: -1;
-
-    .active > & {
-      transition-delay: ${transitionTime};
-      visibility: visible;
-      height: calc(100vh - 100% - ${layout.mobile.navHeight});
     }
   `
 }
