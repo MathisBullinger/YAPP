@@ -71,18 +71,19 @@ namespace S {
     top: 0;
     height: 100%;
     width: 100%;
-    transition: transform ${transitionTime} ease,
-      visibility 0s ${transitionTime};
     visibility: hidden;
     display: flex;
     flex-direction: row;
     align-items: center;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
-    transition-delay: ${transitionTime};
+
+    transition: transform ${transitionTime} ease ${transitionTime},
+      visibility 0s linear calc(${transitionTime} * 2);
 
     input,
     svg {
       transition: transform ${transitionTime} ease;
+      transition-delay: ${transitionTime};
     }
 
     input {
@@ -92,18 +93,20 @@ namespace S {
 
     &.active {
       visibility: visible;
-      transition: transform ${transitionTime} ease;
-      transition-delay: 0s;
       box-shadow: ${shadow(2)};
+
+      transition: transform ${transitionTime} ease, visibility 0s;
+      transition-delay: 0s;
 
       // @ts-ignore
       ${({ forwardedRef: { current: ref } }) => {
         if (!ref) return
         return `
           transform: translateX(${-ref.offsetLeft}px);
-
+          
           input, svg {
             transform: translateX(1rem);
+            transition-delay: 0s;
           }
 
           input {
