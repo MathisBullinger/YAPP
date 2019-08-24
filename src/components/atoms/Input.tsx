@@ -27,5 +27,10 @@ namespace S {
     &:focus {
       outline: none;
     }
+
+    &::selection {
+      background-color: ${({ theme }) => theme.primary(theme.variant).color};
+      color: ${({ theme }) => theme.primary(theme.variant).on('high')};
+    }
   `
 }

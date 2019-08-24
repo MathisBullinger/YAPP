@@ -43,7 +43,7 @@ namespace light {
       ][Math.min(v, 1)],
     primary: () => ({
       color: '#2196f3',
-      on: (e = 'medium') => '#000000' + empOp[e],
+      on: (e = 'medium') => '#ffffff' + empOpLight[e],
     }),
     elevationMode: 'shadow',
     invertAction: false,
@@ -52,6 +52,7 @@ namespace light {
 
 namespace dark {
   const empOp = { high: 'f2', medium: 'b3', disabled: '66' }
+  const empOpDark = { high: 'de', medium: '99', disabled: '61' }
   export const theme: Theme = {
     name: 'dark',
     background: () => ({
@@ -64,7 +65,7 @@ namespace dark {
     }),
     primary: () => ({
       color: '#4bb4b4',
-      on: (e = 'medium') => '#ffffff' + empOp[e],
+      on: (e = 'medium') => '#000000' + empOpDark[e],
     }),
     elevationMode: 'shadow',
     invertAction: true,
