@@ -33,10 +33,7 @@ class Search extends React.Component<Props, State> {
           ref={this.expandedRef}
           className={[...(this.state.expanded ? ['active'] : [])].join(' ')}
         >
-          <IconButton
-            icon={this.state.expanded ? 'arrow_back' : 'search'}
-            onClick={() => this.toggleExpand()}
-          />
+          <IconButton icon="arrow_back" onClick={() => this.toggleExpand()} />
           <Input placeholder="Search podcast" />
           <ResultPane />
         </S.Expanded>
