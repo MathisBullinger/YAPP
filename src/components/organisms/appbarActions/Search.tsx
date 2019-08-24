@@ -15,11 +15,13 @@ interface Props extends RouteComponentProps {
 
 interface State {
   expanded: boolean
+  value: string
 }
 
 class Search extends React.Component<Props, State> {
   state = {
     expanded: false,
+    value: '',
   }
   expandedRef: React.RefObject<HTMLDivElement>
 
@@ -45,8 +47,12 @@ class Search extends React.Component<Props, State> {
             icon="arrow_back"
             onClick={() => this.toggleExpand()}
           />
-          <form action="" onSubmit={e => e.preventDefault()}>
-            <Input placeholder="Search podcast" />
+          <form action="" onSubmit={e => this.search(e)}>
+            <Input
+              placeholder="Search podcast"
+              value={this.state.value}
+              onChange={e => this.handleChange(e)}
+            />
           </form>
           <ResultPane />
         </S.Expanded>
@@ -63,12 +69,24 @@ class Search extends React.Component<Props, State> {
       )
     } else {
       this.setState({ expanded: false })
+      this.props.toggleAppbarLoading(false)
     }
   }
 
-  componentDidMount() {
+  search(e: React.SyntheticEvent) {
+    e.preventDefault()
     this.props.toggleAppbarLoading(true)
-    setTimeout(this.props.toggleAppbarLoading, 3000)
+    setTimeout(() => this.props.toggleAppbarLoading(false), 3000)
+  }
+
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({
+      value: e.target.value,
+    })
+  }
+
+  componentWillUnmount() {
+    this.props.toggleAppbarLoading(false)
   }
 }
 export default connect(

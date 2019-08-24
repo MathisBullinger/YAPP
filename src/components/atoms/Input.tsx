@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 interface Props {
   placeholder?: string
+  value?: string
+  onChange(e: React.ChangeEvent<HTMLInputElement>): void
 }
 
 class Input extends React.Component<Props> {
@@ -11,7 +13,14 @@ class Input extends React.Component<Props> {
   }
 
   render() {
-    return <S.Input placeholder={this.props.placeholder} type="text" />
+    return (
+      <S.Input
+        placeholder={this.props.placeholder}
+        type="text"
+        value={this.props.value}
+        onChange={this.props.onChange}
+      />
+    )
   }
 }
 export default Input
