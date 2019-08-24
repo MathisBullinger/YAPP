@@ -2,13 +2,31 @@ import React from 'react'
 import styled from 'styled-components'
 import { timing } from '~/styles'
 
-class Progress extends React.Component {
+interface Props {
+  active: boolean
+}
+
+interface State {
+  active: boolean
+}
+
+class Progress extends React.Component<Props, State> {
+  state = {
+    active: true,
+  }
+
   constructor(props) {
     super(props)
   }
 
   render() {
-    return <S.Bar />
+    return <S.Bar className={!this.state.active && 'collapsed'} />
+  }
+
+  static getDerivedStateFromProps({ active = true }: Props) {
+    return {
+      active,
+    }
   }
 }
 export default Progress
@@ -25,6 +43,10 @@ namespace S {
 
     transition: height 0.5s ease, background-color ${() => timing.colorSwap};
     background-color: ${({ theme }) => theme.primary().color.substring(0, 7)}66;
+
+    &.collapsed {
+      height: 0;
+    }
 
     &:before,
     &:after {

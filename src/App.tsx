@@ -8,6 +8,7 @@ import { toggleDarkMode, setTheme } from './store/actions'
 import { Themes, Theme } from './styles/theme'
 import { theme, responsive } from '~/styles'
 import Routes from './Routes'
+import ReduxState from '~/store/state'
 
 interface Props {
   theme: 'light' | 'dark'
@@ -79,6 +80,6 @@ class App extends React.Component<Props, State> {
 }
 
 export default connect(
-  ({ theme, appbar }) => ({ theme, showAppbar: appbar.visible }),
+  ({ theme, appbar }: ReduxState) => ({ theme, showAppbar: appbar.visible }),
   { toggleDarkMode, setTheme }
 )(App)

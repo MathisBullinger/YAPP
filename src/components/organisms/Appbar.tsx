@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
-import { Title } from '~/components/atoms'
+import { Title, Progress } from '~/components/atoms'
 import { connect } from 'react-redux'
 import ReduxState from '~/store/state'
 
@@ -14,15 +14,14 @@ const actions = Object.fromEntries(
   ])
 )
 
-console.log(actionImport)
-
 interface Props {
   title: string
   actions: ReduxState['appbar']['actions']
+  loading: boolean
 }
 
 class Appbar extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
   }
 
@@ -55,13 +54,14 @@ class Appbar extends React.Component<Props> {
               null
             )
           )}
+          <Progress active={this.props.loading} />
         </S.Appbar>
       </ThemeProvider>
     )
   }
 }
 
-export default connect(({ appbar }) => appbar)(Appbar)
+export default connect(({ appbar }: ReduxState) => appbar)(Appbar)
 
 namespace S {
   export const Appbar = styled.div`

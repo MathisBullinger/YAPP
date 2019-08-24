@@ -5,9 +5,12 @@ import { withRouter } from 'react-router-dom'
 import { RouteComponentProps } from 'react-router'
 import { shadow } from '~/styles'
 import ResultPane from './search/ResultPane'
+import { connect } from 'react-redux'
+import { toggleAppbarLoading } from '~/store/actions'
 
 interface Props extends RouteComponentProps {
   align: 'left' | 'right'
+  toggleAppbarLoading: typeof toggleAppbarLoading
 }
 
 interface State {
@@ -52,8 +55,16 @@ class Search extends React.Component<Props, State> {
       this.setState({ expanded: false })
     }
   }
+
+  componentDidMount() {
+    this.props.toggleAppbarLoading(true)
+    setTimeout(this.props.toggleAppbarLoading, 3000)
+  }
 }
-export default withRouter(Search)
+export default connect(
+  null,
+  { toggleAppbarLoading }
+)(withRouter(Search))
 
 namespace S {
   const transitionTime = '0.2s'
