@@ -21,6 +21,8 @@ namespace S {
     font: inherit;
     height: 2rem;
     border: none;
+    background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
+    color: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
 
     &:focus {
       outline: none;
