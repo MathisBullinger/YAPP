@@ -9,6 +9,7 @@ interface Props {
   to: LocationDescriptor<any>
   icon: string
   exact?: boolean
+  label: string
 }
 
 const Item: React.FunctionComponent<Props> = props => (
@@ -17,6 +18,7 @@ const Item: React.FunctionComponent<Props> = props => (
     className="item"
     activeClassName="active"
     exact={props.exact}
+    aria-label={props.label}
   >
     <Icon icon={props.icon} />
     <Text s1 emp="high" className="pageName">

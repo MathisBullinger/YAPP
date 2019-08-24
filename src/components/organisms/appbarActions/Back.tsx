@@ -9,6 +9,7 @@ interface Props extends RouteComponentProps {
 
 const Back: React.FunctionComponent<Props> = props => (
   <IconButton
+    label="go back"
     className={`action ${props.align}`}
     icon="arrow_back"
     onClick={() => props.history.goBack()}

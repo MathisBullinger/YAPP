@@ -6,10 +6,11 @@ interface Props {
   icon: string
   onClick(): void
   className?: string
+  label: string
 }
 
 const IconButton: React.FunctionComponent<Props> = props => (
-  <S.Button onClick={props.onClick}>
+  <S.Button onClick={props.onClick} aria-label={props.label}>
     <Icon icon={props.icon} className={props.className} />
   </S.Button>
 )

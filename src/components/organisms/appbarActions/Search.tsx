@@ -31,13 +31,23 @@ class Search extends React.Component<Props, State> {
   render() {
     return (
       <S.Search className={`action ${this.props.align}`}>
-        <IconButton icon="search" onClick={() => this.toggleExpand()} />
+        <IconButton
+          label="search podcast"
+          icon="search"
+          onClick={() => this.toggleExpand()}
+        />
         <S.Expanded
           ref={this.expandedRef}
-          className={[...(this.state.expanded ? ['active'] : [])].join(' ')}
+          className={this.state.expanded && 'active'}
         >
-          <IconButton icon="arrow_back" onClick={() => this.toggleExpand()} />
-          <Input placeholder="Search podcast" />
+          <IconButton
+            label="close search"
+            icon="arrow_back"
+            onClick={() => this.toggleExpand()}
+          />
+          <form action="" onSubmit={e => e.preventDefault()}>
+            <Input placeholder="Search podcast" />
+          </form>
           <ResultPane />
         </S.Expanded>
       </S.Search>

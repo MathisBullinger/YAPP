@@ -11,7 +11,7 @@ class Input extends React.Component<Props> {
   }
 
   render() {
-    return <S.Input placeholder={this.props.placeholder} />
+    return <S.Input placeholder={this.props.placeholder} type="text" />
   }
 }
 export default Input
