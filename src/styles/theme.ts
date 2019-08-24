@@ -42,7 +42,7 @@ namespace light {
         },
       ][Math.min(v, 1)],
     primary: () => ({
-      color: '#2196f3',
+      color: '#fb8c00',
       on: (e = 'medium') => '#ffffff' + empOpLight[e],
     }),
     elevationMode: 'shadow',

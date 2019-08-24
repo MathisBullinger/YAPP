@@ -8,6 +8,7 @@ import Title from './Title'
 import Subtitle from './Subtitle'
 import IconButton from './IconButton'
 import Input from './Input'
+import Progress from './Progress'
 
 export {
   Text,
@@ -20,4 +21,5 @@ export {
   Subtitle,
   IconButton,
   Input,
+  Progress,
 }
