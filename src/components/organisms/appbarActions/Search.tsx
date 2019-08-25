@@ -22,6 +22,10 @@ export default function Search(props: Props) {
         search(name: $name) {
           name
           creator
+          artworks {
+            url
+            size
+          }
         }
       }
     `,
