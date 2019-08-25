@@ -1,3 +1,4 @@
 import Mainnav from './Mainnav'
 import Appbar from './Appbar'
-export { Mainnav, Appbar }
+import Toolbar from './Toolbar'
+export { Mainnav, Appbar, Toolbar }

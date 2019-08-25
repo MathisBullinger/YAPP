@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Mainnav, Appbar } from '~/components/organisms'
+import { Mainnav, Appbar, Toolbar } from '~/components/organisms'
 import { Page } from '~/components/templates'
 import { ThemeProvider } from 'styled-components'
 import { connect } from 'react-redux'
@@ -44,6 +44,7 @@ class App extends React.Component<Props, State> {
       >
         <Router>
           <Appbar />
+          <Toolbar />
           <Mainnav />
           <Page>
             <Routes />

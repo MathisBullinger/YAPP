@@ -7,4 +7,5 @@ export default {
     navHeight: '4rem',
     appbarHeight: '3.5rem',
   },
+  toolbarHeight: '4rem',
 }
