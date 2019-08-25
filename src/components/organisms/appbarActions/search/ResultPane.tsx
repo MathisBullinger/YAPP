@@ -3,14 +3,19 @@ import styled from 'styled-components'
 import { layout, shadow } from '~/styles'
 import { Text } from '~/components/atoms'
 
+interface Podcast {
+  name: string
+  creator: string
+}
+
 interface Props {
-  podcasts: string[]
+  podcasts: Podcast[]
 }
 
 const ResultPane: React.FunctionComponent<Props> = props => (
   <S.Pane>
     {(props.podcasts || []).map(podcast => (
-      <Text key={podcast}>{podcast}</Text>
+      <Text key={podcast.name + podcast.creator}>{podcast.name}</Text>
     ))}
   </S.Pane>
 )

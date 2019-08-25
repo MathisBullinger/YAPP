@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
+import { useQuery } from '@apollo/react-hooks'
+import { gql } from 'apollo-boost'
 import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
@@ -13,10 +15,30 @@ export default function Search(props: Props) {
   const [value, setValue] = useState('')
   const dispatch = useDispatch()
   const inputEl = useRef(null)
+  const [searchStr, setSearchStr] = useState('')
+  const { loading, error, data } = useQuery(
+    gql`
+      query searchPodcast($name: String!) {
+        search(name: $name) {
+          name
+          creator
+        }
+      }
+    `,
+    { variables: { name: searchStr }, skip: searchStr.length < 3 }
+  )
+
+  if (error) throw Error(error.message)
+
+  if (loading)
+    dispatch({
+      type: 'TOGGLE_APPBAR_LOADING',
+      value: true,
+    })
+  else dispatch({ type: 'TOGGLE_APPBAR_LOADING', value: false })
 
   function toggleExpand() {
     if (!expanded) setTimeout(() => inputEl.current.focus(), 200)
-    else dispatch({ type: 'TOGGLE_APPBAR_LOADING', value: false })
     setExpanded(!expanded)
   }
 
@@ -26,11 +48,7 @@ export default function Search(props: Props) {
 
   function search(e: React.SyntheticEvent) {
     e.preventDefault()
-    dispatch({ type: 'TOGGLE_APPBAR_LOADING', value: true })
-    setTimeout(
-      () => dispatch({ type: 'TOGGLE_APPBAR_LOADING', value: false }),
-      3000
-    )
+    setSearchStr(value)
   }
 
   return (
@@ -50,7 +68,7 @@ export default function Search(props: Props) {
             inputRef={inputEl}
           />
         </form>
-        <ResultPane podcasts={['a', 'b', 'c']} />
+        <ResultPane podcasts={!data ? [] : data.search} />
       </S.Expanded>
     </S.Search>
   )
