@@ -1,156 +1,57 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
-import { withRouter } from 'react-router-dom'
-import { RouteComponentProps } from 'react-router'
-import { shadow } from '~/styles'
 import ResultPane from './search/ResultPane'
-import { connect } from 'react-redux'
-import { toggleAppbarLoading } from '~/store/actions'
 
-interface Props extends RouteComponentProps {
+interface Props {
   align: 'left' | 'right'
-  toggleAppbarLoading: typeof toggleAppbarLoading
 }
 
-interface State {
-  expanded: boolean
-  value: string
-}
+export default function Search(props: Props) {
+  const [expanded, setExpanded] = useState(false)
+  const [value, setValue] = useState('')
+  const dispatch = useDispatch()
+  const inputEl = useRef(null)
 
-class Search extends React.Component<Props, State> {
-  state = {
-    expanded: false,
-    value: '',
-  }
-  expandedRef: React.RefObject<HTMLDivElement>
-
-  constructor(props) {
-    super(props)
-    this.expandedRef = React.createRef()
+  function toggleExpand() {
+    if (!expanded) setTimeout(() => inputEl.current.focus(), 200)
+    else dispatch({ type: 'TOGGLE_APPBAR_LOADING', value: false })
+    setExpanded(!expanded)
   }
 
-  render() {
-    return (
-      <S.Search className={`action ${this.props.align}`}>
-        <IconButton
-          label="search podcast"
-          icon="search"
-          onClick={() => this.toggleExpand()}
-        />
-        <S.Expanded
-          ref={this.expandedRef}
-          className={this.state.expanded && 'active'}
-        >
-          <IconButton
-            label="close search"
-            icon="arrow_back"
-            onClick={() => this.toggleExpand()}
-          />
-          <form action="" onSubmit={e => this.search(e)}>
-            <Input
-              placeholder="Search podcast"
-              value={this.state.value}
-              onChange={e => this.handleChange(e)}
-            />
-          </form>
-          <ResultPane />
-        </S.Expanded>
-      </S.Search>
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setValue(e.target.value)
+  }
+
+  function search(e: React.SyntheticEvent) {
+    e.preventDefault()
+    dispatch({ type: 'TOGGLE_APPBAR_LOADING', value: true })
+    setTimeout(
+      () => dispatch({ type: 'TOGGLE_APPBAR_LOADING', value: false }),
+      3000
     )
   }
 
-  toggleExpand() {
-    if (!this.state.expanded) {
-      this.setState({ expanded: true })
-      setTimeout(
-        () => this.expandedRef.current.querySelector('input').focus(),
-        200
-      )
-    } else {
-      this.setState({ expanded: false })
-      this.props.toggleAppbarLoading(false)
-    }
-  }
-
-  search(e: React.SyntheticEvent) {
-    e.preventDefault()
-    this.props.toggleAppbarLoading(true)
-    setTimeout(() => this.props.toggleAppbarLoading(false), 3000)
-  }
-
-  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      value: e.target.value,
-    })
-  }
-
-  componentWillUnmount() {
-    this.props.toggleAppbarLoading(false)
-  }
-}
-export default connect(
-  null,
-  { toggleAppbarLoading }
-)(withRouter(Search))
-
-namespace S {
-  const transitionTime = '0.2s'
-
-  export const Search = styled.div`
-    display: block;
-  `
-
-  export const Expanded = styled.div`
-    position: absolute;
-    transition: all 1s;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    visibility: hidden;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
-
-    transition: transform ${transitionTime} ease ${transitionTime},
-      visibility 0s linear calc(${transitionTime} * 2);
-
-    input,
-    svg {
-      transition: transform ${transitionTime} ease;
-      transition-delay: ${transitionTime};
-    }
-
-    input {
-      margin-left: 1rem;
-      opacity: 0;
-    }
-
-    &.active {
-      visibility: visible;
-      box-shadow: ${shadow(2)};
-
-      transition: transform ${transitionTime} ease, visibility 0s;
-      transition-delay: 0s;
-
-      // @ts-ignore
-      ${({ forwardedRef: { current: ref } }) => {
-        if (!ref) return
-        return `
-          transform: translateX(${-ref.offsetLeft}px);
-          
-          input, svg {
-            transform: translateX(1rem);
-            transition-delay: 0s;
-          }
-
-          input {
-            opacity: 1;
-            transition: none;
-          }
-        `
-      }}
-    }
-  `
+  return (
+    <S.Search className={'action ' + props.align}>
+      <IconButton label="search podcast" icon="search" onClick={toggleExpand} />
+      <S.Expanded className={expanded && 'active'}>
+        <IconButton
+          label="close search"
+          icon="arrow_back"
+          onClick={toggleExpand}
+        />
+        <form action="" onSubmit={e => search(e)}>
+          <Input
+            placeholder="Search podcast"
+            value={value}
+            onChange={handleChange}
+            inputRef={inputEl}
+          />
+        </form>
+        <ResultPane podcasts={['a', 'b', 'c']} />
+      </S.Expanded>
+    </S.Search>
+  )
 }

@@ -5,6 +5,7 @@ interface Props {
   placeholder?: string
   value?: string
   onChange(e: React.ChangeEvent<HTMLInputElement>): void
+  inputRef?: React.RefObject<HTMLInputElement>
 }
 
 class Input extends React.Component<Props> {
@@ -19,6 +20,7 @@ class Input extends React.Component<Props> {
         type="text"
         value={this.props.value}
         onChange={this.props.onChange}
+        ref={this.props.inputRef}
       />
     )
   }
