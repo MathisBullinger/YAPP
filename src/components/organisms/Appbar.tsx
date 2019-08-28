@@ -1,8 +1,8 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { layout, shadow, responsive, timing } from '~/styles'
+import { layout, shadow, timing } from '~/styles'
 import { Title, Progress } from '~/components/atoms'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import ReduxState from '~/store/state'
 
 // @ts-ignore
@@ -14,19 +14,13 @@ const actions = Object.fromEntries(
   ])
 )
 
-interface Props {
-  title: string
-  actions: ReduxState['appbar']['actions']
-  loading: boolean
-}
+export default function Appbar() {
+  const title = useSelector((state: ReduxState) => state.appbar.title)
+  const barActions = useSelector((state: ReduxState) => state.appbar.actions)
+  const loading = useSelector((state: ReduxState) => state.appbar.loading)
 
-class Appbar extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props)
-  }
-
-  render() {
-    const [actionsLeft, actionsRight] = this.props.actions.reduce(
+  const [left, right] = barActions
+    .reduce(
       (a, c) =>
         !(c.name.toLowerCase() in actions)
           ? a
@@ -36,38 +30,32 @@ class Appbar extends React.Component<Props> {
             ],
       [[], []]
     )
-    return (
-      <ThemeProvider theme={{ topic: 'surface' }}>
-        <S.Appbar>
-          {actionsLeft.map(action =>
-            React.createElement(
-              actions[action],
-              { key: action, align: 'left' },
-              null
-            )
-          )}
-          <Title s5>{this.props.title}</Title>
-          {actionsRight.map(action =>
-            React.createElement(
-              actions[action],
-              { key: action, align: 'right' },
-              null
-            )
-          )}
-          <Progress active={this.props.loading} />
-        </S.Appbar>
-      </ThemeProvider>
+    .map((arr, right) =>
+      arr.map(action =>
+        React.createElement(actions[action], {
+          key: action,
+          align: right ? 'right' : 'left',
+        })
+      )
     )
-  }
-}
 
-export default connect(({ appbar }: ReduxState) => appbar)(Appbar)
+  return (
+    <ThemeProvider theme={{ topic: 'surface' }}>
+      <S.Appbar>
+        {left}
+        <Title s5>{title}</Title>
+        {right}
+        <Progress active={loading}></Progress>
+      </S.Appbar>
+    </ThemeProvider>
+  )
+}
 
 namespace S {
   export const Appbar = styled.div`
     z-index: 2000;
     position: fixed;
-    display: none;
+    display: flex;
     width: 100vw;
     height: ${() => layout.mobile.appbarHeight};
     ${({ theme }) =>
@@ -91,16 +79,7 @@ namespace S {
     & > * {
       margin: 0;
     }
-
-    @media ${() => responsive.appbarVisible} {
-      display: flex;
-      ${({ theme }) =>
-        theme.appbar
-          ? ''
-          : `
-          transform: translateY(-100%);
-          box-shadow: none;
-        `}
-    }
   `
 }
+const StyledBar = S.Appbar
+export { StyledBar }
