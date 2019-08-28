@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { Mainnav, Appbar } from '~/components/organisms'
@@ -8,25 +8,12 @@ import getTheme from '~/styles/theme'
 import { responsive } from '~/styles'
 import State from './store/state'
 import { useSelector } from 'react-redux'
+import { useMatchMedia } from '~/utils/hooks'
 
 export default function App() {
   const theme = useSelector((state: State) => state.theme.current)
-  const [appbarAllowed, setAppbarAllowed] = useState(true)
   const appbarRequested = useSelector((state: State) => state.appbar.visible)
-
-  useEffect(() => {
-    const mql = window.matchMedia(responsive.appbarVisible)
-    toggleAppbar(mql.matches)
-    mql.onchange = ({ matches }: MediaQueryListEvent) => toggleAppbar(matches)
-
-    return () => {
-      mql.onchange = null
-    }
-  })
-
-  function toggleAppbar(v?: boolean) {
-    setAppbarAllowed(v)
-  }
+  const appbarAllowed = useMatchMedia(responsive.appbarVisible)
 
   return (
     <ThemeProvider
