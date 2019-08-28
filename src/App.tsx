@@ -1,86 +1,44 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Mainnav, Appbar, Toolbar } from '~/components/organisms'
-import { Page } from '~/components/templates'
 import { ThemeProvider } from 'styled-components'
-import { connect } from 'react-redux'
-import { toggleDarkMode, setTheme } from './store/actions'
-import { Themes, Theme } from './styles/theme'
-import { theme, responsive } from '~/styles'
-import Routes from './Routes'
-import ReduxState from '~/store/state'
+import { Mainnav, Appbar } from '~/components/organisms'
+import { Page } from '~/components/templates'
+import Routes from './routes'
+import getTheme from '~/styles/theme'
+import { responsive } from '~/styles'
+import State from './store/state'
+import { useSelector } from 'react-redux'
 
-interface Props {
-  theme: 'light' | 'dark'
-  toggleDarkMode(value?: boolean): void
-  setTheme(value: Themes): void
-  showAppbar: boolean
-}
+export default function App() {
+  const theme = useSelector((state: State) => state.theme.current)
+  const [appbarAllowed, setAppbarAllowed] = useState(true)
+  const appbarRequested = useSelector((state: State) => state.appbar.visible)
 
-interface State {
-  theme: Theme
-  allowAppbar: boolean
-  showAppbar: boolean
-}
+  useEffect(() => {
+    const mql = window.matchMedia(responsive.appbarVisible)
+    toggleAppbar(mql.matches)
+    mql.onchange = ({ matches }: MediaQueryListEvent) => toggleAppbar(matches)
 
-class App extends React.Component<Props, State> {
-  state = {
-    theme: theme('light'),
-    allowAppbar: true,
-    showAppbar: true,
-  }
-
-  render() {
-    return (
-      <ThemeProvider
-        theme={{
-          ...this.state.theme,
-          ...{
-            topic: 'background',
-            variant: 0,
-            appbar: this.state.allowAppbar && this.state.showAppbar,
-          },
-        }}
-      >
-        <Router>
-          <Appbar />
-          <Toolbar />
-          <Mainnav />
-          <Page>
-            <Routes />
-          </Page>
-        </Router>
-      </ThemeProvider>
-    )
-  }
-
-  static getDerivedStateFromProps(props) {
-    const newTheme = theme(props.theme.current)
-    document.documentElement.style.backgroundColor = newTheme.background().color
-    return {
-      theme: newTheme,
-      showAppbar: props.showAppbar,
+    return () => {
+      mql.onchange = null
     }
+  })
+
+  function toggleAppbar(v?: boolean) {
+    setAppbarAllowed(v)
   }
 
-  componentDidMount() {
-    const matchSystem = ({ matches: dark }) => {
-      if ((this.props.theme === 'dark') !== dark) this.props.toggleDarkMode()
-    }
-    const colorScheme = window.matchMedia('(prefers-color-scheme: dark)')
-    colorScheme.onchange = matchSystem
-    matchSystem(colorScheme)
-
-    const setAppbar = ({ matches }) => {
-      this.setState({ allowAppbar: matches })
-    }
-    const appbar = window.matchMedia(responsive.appbarVisible)
-    appbar.onchange = setAppbar
-    setAppbar(appbar)
-  }
+  return (
+    <ThemeProvider
+      theme={{ ...getTheme(theme), topic: 'background', variant: 0 }}
+    >
+      <Router>
+        {appbarAllowed && appbarRequested && <Appbar />}
+        <Mainnav />
+        <Page>
+          <Routes />
+        </Page>
+      </Router>
+    </ThemeProvider>
+  )
 }
-
-export default connect(
-  ({ theme, appbar }: ReduxState) => ({ theme, showAppbar: appbar.visible }),
-  { toggleDarkMode, setTheme }
-)(App)
