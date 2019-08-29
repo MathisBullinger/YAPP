@@ -15,6 +15,11 @@ export default function toolbar(
         ...state,
         visible: getToggleValue(action, state.visible),
       }
+    case 'SET_TOOLBAR_TITLE':
+      return {
+        ...state,
+        title: (action as a.StringAction).value,
+      }
     default:
       return state
   }

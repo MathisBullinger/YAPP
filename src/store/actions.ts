@@ -11,6 +11,7 @@ export type ActionType =
   | 'RESET_APPBAR_ACTIONS'
   | 'TOGGLE_APPBAR_LOADING'
   | 'TOGGLE_TOOLBAR'
+  | 'SET_TOOLBAR_TITLE'
 
 export namespace actions {
   export interface Base {
@@ -85,5 +86,10 @@ export const toggleAppbarLoading = (value?: boolean): actions.ToggleAction => ({
 
 export const toggleToolbar = (value?: boolean): actions.ToggleAction => ({
   type: 'TOGGLE_TOOLBAR',
+  value,
+})
+
+export const setToolbarTitle = (value: string): actions.StringAction => ({
+  type: 'SET_TOOLBAR_TITLE',
   value,
 })

@@ -1,9 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 import { responsive, layout } from '~/styles'
+import { useSelector } from 'react-redux'
+import State from '~/store/state'
+import { Title } from '~/components/atoms'
 
 export default function Toolbar() {
-  return <S.Toolbar>Toolbar</S.Toolbar>
+  const title = useSelector((data: State) => data.toolbar.title)
+
+  return (
+    <S.Toolbar>
+      <Title s4>{title}</Title>
+    </S.Toolbar>
+  )
 }
 
 namespace S {
@@ -14,7 +23,16 @@ namespace S {
     left: var(--nav-width);
     width: calc(100vw - var(--nav-width));
     height: ${layout.toolbarHeight};
-    background-color: yellow;
+    border-bottom: 1px dotted red;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    & > * {
+      margin: 0;
+    }
 
     @media ${responsive.navOnSide} {
       --nav-width: ${layout.desktop.navWidth};

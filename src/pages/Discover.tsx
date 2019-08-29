@@ -6,5 +6,6 @@ Discover.pageConf = {
   appbarTitle: 'Discover',
   appbarActions: [{ name: 'search', align: 'right' }],
   showToolbar: true,
+  toolbarTitle: 'Discover',
 }
 export default Discover

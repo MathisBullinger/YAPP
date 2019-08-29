@@ -7,6 +7,7 @@ import {
   addAppbarAction,
   resetAppbarActions,
   toggleToolbar,
+  setToolbarTitle,
 } from '~/store/actions'
 import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
@@ -24,6 +25,7 @@ interface Props {
   addAppbarAction(name: string, align: 'left' | 'right'): void
   resetAppbarActions(): void
   toggleToolbar: typeof toggleToolbar
+  setToolbarTitle: typeof setToolbarTitle
 }
 
 class Routes extends React.Component<Props> {
@@ -64,6 +66,7 @@ class Routes extends React.Component<Props> {
       this.props.addAppbarAction(action.name, action.align)
     )
     this.props.toggleToolbar(config.showToolbar || false)
+    this.props.setToolbarTitle(config.toolbarTitle || '')
     return React.createElement(component, {}, null)
   }
 }
@@ -75,5 +78,6 @@ export default connect(
     addAppbarAction,
     resetAppbarActions,
     toggleToolbar,
+    setToolbarTitle,
   }
 )(Routes)
