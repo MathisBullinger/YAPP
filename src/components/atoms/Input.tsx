@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, ChangeEvent, KeyboardEvent } from 'react'
 import styled from 'styled-components'
 import { filterObj } from '~/utils'
 
@@ -6,28 +6,46 @@ interface Props {
   type?: 'text'
   placeholder?: string
   value?: string
-  onChange?(e: React.ChangeEvent<HTMLInputElement>): void
+  onChange?(v: string): void
   elRef?: React.RefObject<HTMLInputElement>
   merge?: boolean
   block?: boolean
+  onFocus?(): void
+  onBlur?(): void
+  onEscape?(): void
 }
 
 export default function Input(props: Props) {
+  const [value, setValue] = useState('')
+  if (props.value !== undefined && props.value !== value) setValue(props.value)
+
   const { merge, block } = props
   const select = Object.keys(filterObj({ merge, block }, (k, v) => v))
-  const Tag =
+  const Tag: typeof S.Input =
     {
       merge: S.Merged,
       block: S.Block,
     }[select && select[0]] || S.Input
 
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setValue(e.target.value)
+    if (props.onChange) props.onChange(e.target.value)
+  }
+
+  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Escape' && props.onEscape) props.onEscape()
+  }
+
   return (
     <Tag
       type={props.type || 'text'}
       placeholder={props.placeholder}
-      value={props.value}
-      onChange={props.onChange}
+      value={value}
+      onChange={handleChange}
       ref={props.elRef}
+      onFocus={props.onFocus}
+      onBlur={props.onBlur}
+      onKeyDown={props.onEscape && handleKeyDown}
     />
   )
 }

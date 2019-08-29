@@ -35,10 +35,6 @@ export default function Search(props: Props) {
     setExpanded(!expanded)
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setValue(e.target.value)
-  }
-
   function search(e: React.SyntheticEvent) {
     e.preventDefault()
     setSearchStr(value)
@@ -56,8 +52,8 @@ export default function Search(props: Props) {
         <form action="" onSubmit={e => search(e)}>
           <Input
             placeholder="Search podcast"
+            onChange={setValue}
             value={value}
-            onChange={handleChange}
             elRef={inputEl}
             merge={true}
           />
