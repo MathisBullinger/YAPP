@@ -1,3 +1,3 @@
-import { mapObj, mapKeys, mapValues } from './object'
+import { mapObj, mapKeys, mapValues, filterObj } from './object'
 
-export { mapObj, mapKeys, mapValues }
+export { mapObj, mapKeys, mapValues, filterObj }

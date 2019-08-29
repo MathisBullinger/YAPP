@@ -1,47 +1,52 @@
 import React from 'react'
 import styled from 'styled-components'
+import { filterObj } from '~/utils'
 
 interface Props {
+  type?: 'text'
   placeholder?: string
   value?: string
-  onChange(e: React.ChangeEvent<HTMLInputElement>): void
-  inputRef?: React.RefObject<HTMLInputElement>
+  onChange?(e: React.ChangeEvent<HTMLInputElement>): void
+  elRef?: React.RefObject<HTMLInputElement>
+  merge?: boolean
 }
 
-class Input extends React.Component<Props> {
-  constructor(props) {
-    super(props)
-  }
+export default function Input(props: Props) {
+  const { merge } = props
+  const select = Object.keys(filterObj({ merge }, (k, v) => v))
+  const Tag =
+    {
+      merge: S.Merged,
+    }[select && select[0]] || S.Input
 
-  render() {
-    return (
-      <S.Input
-        placeholder={this.props.placeholder}
-        type="text"
-        value={this.props.value}
-        onChange={this.props.onChange}
-        ref={this.props.inputRef}
-      />
-    )
-  }
+  return (
+    <Tag
+      type={props.type || 'text'}
+      placeholder={props.placeholder}
+      value={props.value}
+      onChange={props.onChange}
+      ref={props.elRef}
+    />
+  )
 }
-export default Input
 
 namespace S {
   export const Input = styled.input`
     font: inherit;
-    height: 2rem;
-    border: none;
-    background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
-    color: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
-
-    &:focus {
-      outline: none;
-    }
 
     &::selection {
       background-color: ${({ theme }) => theme.primary(theme.variant).color};
       color: ${({ theme }) => theme.primary(theme.variant).on('high')};
+    }
+  `
+
+  export const Merged = styled(Input)`
+    height: 2rem;
+    border: none;
+    background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
+    color: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
+    &:focus {
+      outline: none;
     }
   `
 }
