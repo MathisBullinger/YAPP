@@ -27,8 +27,9 @@ namespace S {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-left: 4rem;
-    padding-right: 4rem;
+    --side-padding: 2rem;
+    padding-left: var(--side-padding);
+    padding-right: var(--side-padding);
 
     & > * {
       margin: 0;
@@ -36,6 +37,7 @@ namespace S {
 
     @media ${responsive.navOnSide} {
       --nav-width: ${layout.desktop.navWidth};
+      --side-padding: 4rem;
     }
 
     @media ${responsive.navCollapsed} {
