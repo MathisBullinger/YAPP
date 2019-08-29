@@ -10,6 +10,10 @@ import IconButton from './IconButton'
 import Input from './Input'
 import Progress from './Progress'
 
+import { InputStyle } from './Input'
+
+const styles = { Input: InputStyle }
+
 export {
   Text,
   Title,
@@ -22,4 +26,5 @@ export {
   IconButton,
   Input,
   Progress,
+  styles,
 }
