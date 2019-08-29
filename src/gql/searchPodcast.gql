@@ -1,0 +1,10 @@
+query searchPodcast($name: String!) {
+  search(name: $name) {
+    name
+    creator
+    artworks {
+      url
+      size
+    }
+  }
+}

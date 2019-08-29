@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useQuery } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
 import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
+import searchQuery from '~/gql/searchPodcast.gql'
 
 interface Props {
   align: 'left' | 'right'
@@ -16,21 +16,10 @@ export default function Search(props: Props) {
   const dispatch = useDispatch()
   const inputEl = useRef(null)
   const [searchStr, setSearchStr] = useState('')
-  const { loading, error, data } = useQuery(
-    gql`
-      query searchPodcast($name: String!) {
-        search(name: $name) {
-          name
-          creator
-          artworks {
-            url
-            size
-          }
-        }
-      }
-    `,
-    { variables: { name: searchStr }, skip: searchStr.length < 3 }
-  )
+  const { loading, error, data } = useQuery(searchQuery, {
+    variables: { name: searchStr },
+    skip: searchStr.length < 3,
+  })
 
   if (error) throw Error(error.message)
 
@@ -69,7 +58,8 @@ export default function Search(props: Props) {
             placeholder="Search podcast"
             value={value}
             onChange={handleChange}
-            inputRef={inputEl}
+            elRef={inputEl}
+            merge={true}
           />
         </form>
         <ResultPane podcasts={!data ? [] : data.search} />
