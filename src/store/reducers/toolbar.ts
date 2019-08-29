@@ -5,6 +5,7 @@ import { getToggleValue } from './utils'
 const defaultState: State['toolbar'] = {
   visible: false,
   title: '',
+  actions: [],
 }
 export default function toolbar(
   state: State['toolbar'] = defaultState,
@@ -20,6 +21,16 @@ export default function toolbar(
       return {
         ...state,
         title: (action as a.StringAction).value,
+      }
+    case 'ADD_TOOLBAR_ACTION':
+      return {
+        ...state,
+        actions: [...state.actions, (action as a.StringAction).value],
+      }
+    case 'RESET_TOOLBAR_ACTIONS':
+      return {
+        ...state,
+        actions: [],
       }
     default:
       return state

@@ -4,13 +4,25 @@ import { responsive, layout } from '~/styles'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
 import { Title } from '~/components/atoms'
+import { mapObj } from '~/utils'
+// @ts-ignore
+import actImp from './toolbarActions/**.tsx'
+
+const toolActions = mapObj(actImp, (k, v) => ({ [k.toLowerCase()]: v.default }))
 
 export default function Toolbar() {
   const title = useSelector((data: State) => data.toolbar.title)
+  const actions = useSelector((data: State) => data.toolbar.actions)
 
   return (
     <S.Toolbar>
       <Title s4>{title}</Title>
+      {actions
+        .map(a => a.toLowerCase())
+        .filter(a => a in toolActions)
+        .map(action =>
+          React.createElement(toolActions[action], { key: action })
+        )}
     </S.Toolbar>
   )
 }
@@ -42,6 +54,10 @@ namespace S {
 
     @media ${responsive.navCollapsed} {
       --nav-width: ${layout.desktop.navWidthCollapsed};
+    }
+
+    .action:first-of-type {
+      margin-left: auto;
     }
   `
 }

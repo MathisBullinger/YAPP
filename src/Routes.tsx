@@ -8,6 +8,8 @@ import {
   resetAppbarActions,
   toggleToolbar,
   setToolbarTitle,
+  addToolbarAction,
+  resetToolbarActions,
 } from '~/store/actions'
 import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
@@ -26,6 +28,8 @@ interface Props {
   resetAppbarActions(): void
   toggleToolbar: typeof toggleToolbar
   setToolbarTitle: typeof setToolbarTitle
+  addToolbarAction: typeof addToolbarAction
+  resetToolbarActions: typeof resetToolbarActions
 }
 
 class Routes extends React.Component<Props> {
@@ -60,6 +64,7 @@ class Routes extends React.Component<Props> {
   preRoute(component: React.ComponentClass | React.FunctionComponent) {
     const config = (component as any).pageConf || {}
     this.props.resetAppbarActions()
+    this.props.resetToolbarActions()
     this.props.toggleAppbar(config.showAppbar || false)
     this.props.setAppbarTitle(config.appbarTitle || '')
     ;(config.appbarActions || []).forEach(action =>
@@ -67,6 +72,9 @@ class Routes extends React.Component<Props> {
     )
     this.props.toggleToolbar(config.showToolbar || false)
     this.props.setToolbarTitle(config.toolbarTitle || '')
+    ;(config.toolbarActions || []).forEach(action =>
+      this.props.addToolbarAction(action)
+    )
     return React.createElement(component, {}, null)
   }
 }
@@ -79,5 +87,7 @@ export default connect(
     resetAppbarActions,
     toggleToolbar,
     setToolbarTitle,
+    addToolbarAction,
+    resetToolbarActions,
   }
 )(Routes)

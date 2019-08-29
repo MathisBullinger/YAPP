@@ -20,5 +20,6 @@ export default interface State {
   toolbar: {
     visible: boolean
     title: string
+    actions: string[]
   }
 }
