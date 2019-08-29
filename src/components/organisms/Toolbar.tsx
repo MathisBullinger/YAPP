@@ -13,13 +13,8 @@ namespace S {
     --nav-width: 0px;
     left: var(--nav-width);
     width: calc(100vw - var(--nav-width));
-    display: block;
     height: ${layout.toolbarHeight};
     background-color: yellow;
-
-    @media ${responsive.toolbarVisible} {
-      display: block;
-    }
 
     @media ${responsive.navOnSide} {
       --nav-width: ${layout.desktop.navWidth};

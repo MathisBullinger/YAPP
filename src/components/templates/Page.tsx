@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { responsive, layout, timing } from '~/styles'
 import { ThemeProvider } from 'styled-components'
+import { StyledBar } from '~/components/organisms/Appbar'
 
 const Page: React.FunctionComponent = props => (
   <ThemeProvider theme={{ topic: 'background' }}>
@@ -16,8 +17,6 @@ namespace S {
     // prettier-ignore
     height: calc(100vh - ${() => layout.mobile.navHeight} - ${({ theme }) =>
     theme.appbar ? layout.mobile.appbarHeight : '0rem'});
-    ${({ theme }) =>
-      !theme.appbar ? '' : `margin-top: ${layout.mobile.appbarHeight};`}
     margin-bottom: ${() => layout.mobile.navHeight};
     flex-grow: 1;
     overflow: auto;
@@ -31,8 +30,17 @@ namespace S {
       padding-left: 4rem;
     }
 
+    ${StyledBar} ~ & {
+      margin-top: ${layout.mobile.appbarHeight};
+    }
+
     @media ${() => responsive.navCollapsed} {
       margin-left: ${() => layout.desktop.navWidthCollapsed};
+    }
+
+    @media ${responsive.toolbarVisible} {
+      ${({ theme }) =>
+        theme.toolbar ? `margin-top: ${layout.toolbarHeight};` : ''}
     }
   `
 }

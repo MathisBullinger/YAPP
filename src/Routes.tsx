@@ -6,6 +6,7 @@ import {
   setAppbarTitle,
   addAppbarAction,
   resetAppbarActions,
+  toggleToolbar,
 } from '~/store/actions'
 import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
@@ -22,6 +23,7 @@ interface Props {
   setAppbarTitle(v: string): void
   addAppbarAction(name: string, align: 'left' | 'right'): void
   resetAppbarActions(): void
+  toggleToolbar: typeof toggleToolbar
 }
 
 class Routes extends React.Component<Props> {
@@ -54,18 +56,24 @@ class Routes extends React.Component<Props> {
   }
 
   preRoute(component: React.ComponentClass | React.FunctionComponent) {
-    // @ts-ignore
-    const config = component.pageConf || {}
+    const config = (component as any).pageConf || {}
     this.props.resetAppbarActions()
     this.props.toggleAppbar(config.showAppbar || false)
     this.props.setAppbarTitle(config.appbarTitle || '')
     ;(config.appbarActions || []).forEach(action =>
       this.props.addAppbarAction(action.name, action.align)
     )
+    this.props.toggleToolbar(config.showToolbar || false)
     return React.createElement(component, {}, null)
   }
 }
 export default connect(
   null,
-  { toggleAppbar, setAppbarTitle, addAppbarAction, resetAppbarActions }
+  {
+    toggleAppbar,
+    setAppbarTitle,
+    addAppbarAction,
+    resetAppbarActions,
+    toggleToolbar,
+  }
 )(Routes)
