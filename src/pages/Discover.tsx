@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Discover = () => <div />
+const Discover = () => <div>some text</div>
 Discover.pageConf = {
   showAppbar: true,
   appbarTitle: 'Discover',

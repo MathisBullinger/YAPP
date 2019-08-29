@@ -4,6 +4,7 @@ import { getToggleValue } from './utils'
 
 const defaultState: State['toolbar'] = {
   visible: false,
+  title: '',
 }
 export default function toolbar(
   state: State['toolbar'] = defaultState,

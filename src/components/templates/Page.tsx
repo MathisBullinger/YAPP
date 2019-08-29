@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { responsive, layout, timing } from '~/styles'
 import { ThemeProvider } from 'styled-components'
-import { StyledBar } from '~/components/organisms/Appbar'
+import { StyledBar as Appbar } from '~/components/organisms/Appbar'
+import { StyledBar as Toolbar } from '~/components/organisms/Toolbar'
 
 const Page: React.FunctionComponent = props => (
   <ThemeProvider theme={{ topic: 'background' }}>
@@ -30,17 +31,20 @@ namespace S {
       padding-left: 4rem;
     }
 
-    ${StyledBar} ~ & {
+    ${Appbar} ~ & {
       margin-top: ${layout.mobile.appbarHeight};
+      height: calc(100vh - ${layout.mobile.appbarHeight} - ${
+    layout.mobile.navHeight
+  });
+    }
+
+    ${Toolbar} ~ & {
+      margin-top: ${layout.toolbarHeight};
+      height: calc(100vh - ${layout.toolbarHeight});
     }
 
     @media ${() => responsive.navCollapsed} {
       margin-left: ${() => layout.desktop.navWidthCollapsed};
-    }
-
-    @media ${responsive.toolbarVisible} {
-      ${({ theme }) =>
-        theme.toolbar ? `margin-top: ${layout.toolbarHeight};` : ''}
     }
   `
 }

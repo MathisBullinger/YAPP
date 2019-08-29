@@ -71,6 +71,8 @@ Settings.pageConf = {
   showAppbar: true,
   appbarTitle: 'Settings',
   appbarActions: [{ name: 'back', align: 'left' }],
+  showToolbar: true,
+  toolbarTitle: 'Settings',
 }
 export default connect(
   ({ theme }) => ({ theme }),

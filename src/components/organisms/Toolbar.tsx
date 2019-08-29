@@ -27,8 +27,8 @@ namespace S {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
 
     & > * {
       margin: 0;
@@ -43,3 +43,5 @@ namespace S {
     }
   `
 }
+const StyledBar = S.Toolbar
+export { StyledBar }
