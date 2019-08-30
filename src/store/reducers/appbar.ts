@@ -6,6 +6,7 @@ const defaultState: State['appbar'] = {
   visible: true,
   title: '',
   actions: [],
+  loading: false,
 }
 export default function appbar(
   state: State['appbar'] = defaultState,
@@ -38,6 +39,11 @@ export default function appbar(
       return {
         ...state,
         ...{ actions: [] },
+      }
+    case 'TOGGLE_APPBAR_LOADING':
+      return {
+        ...state,
+        loading: getToggleValue(action, state.loading),
       }
     default:
       return state

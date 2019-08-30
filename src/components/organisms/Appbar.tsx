@@ -1,12 +1,12 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { layout, shadow, responsive, timing } from '~/styles'
-import { Title } from '~/components/atoms'
-import { connect } from 'react-redux'
+import { layout, shadow, timing } from '~/styles'
+import { Title, Progress } from '~/components/atoms'
+import { useSelector } from 'react-redux'
 import ReduxState from '~/store/state'
 
 // @ts-ignore
-import actionImport from './appbar/**.*'
+import actionImport from './appbarActions/**.*'
 const actions = Object.fromEntries(
   Object.entries(actionImport).map(([k, v]) => [
     k.toLowerCase(),
@@ -14,18 +14,13 @@ const actions = Object.fromEntries(
   ])
 )
 
-interface Props {
-  title: string
-  actions: ReduxState['appbar']['actions']
-}
+export default function Appbar() {
+  const title = useSelector((state: ReduxState) => state.appbar.title)
+  const barActions = useSelector((state: ReduxState) => state.appbar.actions)
+  const loading = useSelector((state: ReduxState) => state.appbar.loading)
 
-class Appbar extends React.Component<Props> {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const [actionsLeft, actionsRight] = this.props.actions.reduce(
+  const [left, right] = barActions
+    .reduce(
       (a, c) =>
         !(c.name.toLowerCase() in actions)
           ? a
@@ -35,44 +30,38 @@ class Appbar extends React.Component<Props> {
             ],
       [[], []]
     )
-    return (
-      <ThemeProvider theme={{ topic: 'surface' }}>
-        <S.Appbar>
-          {actionsLeft.map(action =>
-            React.createElement(
-              actions[action],
-              { key: action, align: 'left' },
-              null
-            )
-          )}
-          <Title s5>{this.props.title}</Title>
-          {actionsRight.map(action =>
-            React.createElement(
-              actions[action],
-              { key: action, align: 'right' },
-              null
-            )
-          )}
-        </S.Appbar>
-      </ThemeProvider>
+    .map((arr, right) =>
+      arr.map(action =>
+        React.createElement(actions[action], {
+          key: action,
+          align: right ? 'right' : 'left',
+        })
+      )
     )
-  }
-}
 
-export default connect(({ appbar }) => appbar)(Appbar)
+  return (
+    <ThemeProvider theme={{ topic: 'surface' }}>
+      <S.Appbar>
+        {left}
+        <Title s5>{title}</Title>
+        {right}
+        <Progress active={loading} />
+      </S.Appbar>
+    </ThemeProvider>
+  )
+}
 
 namespace S {
   export const Appbar = styled.div`
     z-index: 2000;
     position: fixed;
-    display: none;
+    display: flex;
     width: 100vw;
     height: ${() => layout.mobile.appbarHeight};
     ${({ theme }) =>
       theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
     transition: background-color ${() => timing.colorSwap};
-    overflow: hidden;
     flex-direction: row;
     align-items: center;
     padding-left: 1.5rem;
@@ -90,16 +79,7 @@ namespace S {
     & > * {
       margin: 0;
     }
-
-    @media ${() => responsive.appbarVisible} {
-      display: flex;
-      ${({ theme }) =>
-        theme.appbar
-          ? ''
-          : `
-          transform: translateY(-100%);
-          box-shadow: none;
-        `}
-    }
   `
 }
+const StyledBar = S.Appbar
+export { StyledBar }

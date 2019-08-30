@@ -26,20 +26,20 @@ export default class Mainnav extends React.Component<{}, { onSide: boolean }> {
         }}
       >
         <S.Mainnav>
-          <Item to="/" exact icon="library">
+          <Item to="/" exact icon="library" label="library">
             Library
           </Item>
-          <Item to="/feed" icon="subscriptions">
+          <Item to="/feed" icon="subscriptions" label="feed">
             Feed
           </Item>
-          <Item to="/discover" icon="search">
+          <Item to="/discover" icon="search" label="discover">
             Discover
           </Item>
-          <Item to="/profile" icon="person">
+          <Item to="/profile" icon="person" label="profile">
             Profile
           </Item>
           {this.state.onSide && (
-            <Item to="/settings" icon="settings">
+            <Item to="/settings" icon="settings" label="settings">
               Settings
             </Item>
           )}

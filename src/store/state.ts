@@ -1,6 +1,6 @@
 import { Themes } from '~/styles/theme'
 
-interface AppbarAction {
+export interface AppbarAction {
   name: string
   align: 'left' | 'right'
 }
@@ -15,5 +15,11 @@ export default interface State {
     visible: boolean
     title: string
     actions: AppbarAction[]
+    loading: boolean
+  }
+  toolbar: {
+    visible: boolean
+    title: string
+    actions: string[]
   }
 }

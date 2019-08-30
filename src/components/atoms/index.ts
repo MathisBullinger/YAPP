@@ -7,6 +7,12 @@ import Text from './Text'
 import Title from './Title'
 import Subtitle from './Subtitle'
 import IconButton from './IconButton'
+import Input from './Input'
+import Progress from './Progress'
+
+import { InputStyle } from './Input'
+
+const styles = { Input: InputStyle }
 
 export {
   Text,
@@ -18,4 +24,7 @@ export {
   Icon,
   Subtitle,
   IconButton,
+  Input,
+  Progress,
+  styles,
 }

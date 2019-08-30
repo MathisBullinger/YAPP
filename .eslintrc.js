@@ -1,7 +1,7 @@
 const config = {
   extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier/react'],
   parser: '@typescript-eslint/parser',
-  plugins: ['prettier', '@typescript-eslint'],
+  plugins: ['prettier', '@typescript-eslint', 'react-hooks'],
   env: {
     browser: true,
   },
@@ -30,6 +30,15 @@ const config = {
     'react/prop-types': 0,
     'no-console': 'warn',
     '@typescript-eslint/no-unused-vars': 'error',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'react/self-closing-comp': [
+      'error',
+      {
+        component: true,
+        html: true,
+      },
+    ],
   },
 }
 

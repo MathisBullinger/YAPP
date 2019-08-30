@@ -1,13 +1,12 @@
 import React from 'react'
-import { Title } from '~/components/atoms'
 
-const Discover = () => (
-  <div>
-    <Title>Discover</Title>
-  </div>
-)
+const Discover = () => <div>some text</div>
 Discover.pageConf = {
   showAppbar: true,
   appbarTitle: 'Discover',
+  appbarActions: [{ name: 'search', align: 'right' }],
+  showToolbar: true,
+  toolbarTitle: 'Discover',
+  toolbarActions: ['search'],
 }
 export default Discover

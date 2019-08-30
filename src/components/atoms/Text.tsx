@@ -15,7 +15,7 @@ const Text: React.FunctionComponent<Props> = props => (
   <S.Text
     className={props.className}
     tt={typography[`text${[1, 2].find(n => props[`s${n}`]) || 1}`]}
-    emp={props.emp || props.s1 ? 'high' : 'medium'}
+    emp={props.emp || (props.s1 ? 'high' : 'medium')}
     isLabel={props.label}
     htmlFor={props.label}
   >

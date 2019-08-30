@@ -1,5 +1,4 @@
 import React from 'react'
-import Component from '~/utils/component'
 import styled from 'styled-components'
 import {
   Title,
@@ -12,7 +11,7 @@ import {
 } from '~/components/atoms'
 import Showcase from './components/Showcase'
 
-export default class Components extends Component {
+export default class Components extends React.Component {
   constructor(props) {
     super(props)
   }

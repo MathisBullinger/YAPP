@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { responsive, layout, timing } from '~/styles'
 import { ThemeProvider } from 'styled-components'
+import { StyledBar as Appbar } from '~/components/organisms/Appbar'
+import { StyledBar as Toolbar } from '~/components/organisms/Toolbar'
 
 const Page: React.FunctionComponent = props => (
   <ThemeProvider theme={{ topic: 'background' }}>
@@ -16,19 +18,35 @@ namespace S {
     // prettier-ignore
     height: calc(100vh - ${layout.mobile.navHeight} - ${({ theme }) =>
     theme.appbar ? layout.mobile.appbarHeight : '0rem'});
-    ${({ theme }) =>
-      !theme.appbar ? '' : `margin-top: ${layout.mobile.appbarHeight};`}
     margin-bottom: ${layout.mobile.navHeight};
     flex-grow: 1;
     overflow: auto;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
-    transition: background-color ${() => timing.colorSwap};
+    transition: background-color ${timing.colorSwap};
 
     @media ${responsive.navOnSide} {
       margin-left: ${layout.desktop.navWidth};
       height: 100vh;
       margin-bottom: 0;
       padding-left: 4rem;
+    }
+
+    ${Appbar} ~ & {
+      margin-top: ${layout.mobile.appbarHeight};
+      height: calc(100vh - ${layout.mobile.appbarHeight} - ${
+    layout.mobile.navHeight
+  });
+    }
+
+    ${Toolbar} ~ & {
+      margin-top: ${layout.toolbarHeight};
+      height: calc(100vh - ${layout.toolbarHeight} - ${
+    layout.mobile.navHeight
+  });
+
+      @media ${responsive.navOnSide} {
+        height: calc(100vh - ${layout.toolbarHeight});
+      }
     }
 
     @media ${responsive.navCollapsed} {
