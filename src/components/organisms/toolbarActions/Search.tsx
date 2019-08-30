@@ -1,14 +1,27 @@
 import React, { useState, useRef, SyntheticEvent } from 'react'
 import styled from 'styled-components'
+import { useQuery } from '@apollo/react-hooks'
 import { Input, styles } from '~/components/atoms'
+import searchQuery from '~/gql/searchPodcast.gql'
+import MiniResult from './search/MiniResult'
 
 export default function Search() {
   const [active, setActive] = useState(false)
   const [value, setValue] = useState('')
   const inputRef = useRef(null)
+  const [searchStr, setSearchStr] = useState('')
+  const { data } = useQuery(searchQuery, {
+    variables: { name: searchStr },
+    skip: searchStr.length < 3,
+  })
+
+  if (data) console.log({ data })
+
+  const results = data && data.search
 
   function search(e: SyntheticEvent) {
-    console.log(e.preventDefault())
+    e.preventDefault()
+    setSearchStr(value)
   }
 
   function toggleActive(v: boolean = !active) {
@@ -36,12 +49,15 @@ export default function Search() {
         onChange={setValue}
         elRef={inputRef}
       />
+      {active && results && <MiniResult podcasts={results} />}
     </S.Search>
   )
 }
 
 namespace S {
   export const Search = styled.form`
+    position: relative;
+
     ${styles.Input} {
       width: 13rem;
       text-align: center;
@@ -50,7 +66,7 @@ namespace S {
 
     &.active {
       ${styles.Input} {
-        width: 20rem;
+        width: 24rem;
         text-align: left;
       }
     }

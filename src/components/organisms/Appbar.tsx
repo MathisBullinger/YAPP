@@ -45,7 +45,7 @@ export default function Appbar() {
         {left}
         <Title s5>{title}</Title>
         {right}
-        <Progress active={loading}></Progress>
+        <Progress active={loading} />
       </S.Appbar>
     </ThemeProvider>
   )

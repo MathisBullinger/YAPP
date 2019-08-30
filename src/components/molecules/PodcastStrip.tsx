@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text } from '~/components/atoms'
+import { Rem } from '~/utils/css'
 
 interface Props {
   name: string
@@ -9,9 +10,21 @@ interface Props {
 }
 
 export default function Result(props: Props) {
+  const imgSize = new Rem(1).toPx().value * 3.5
+
+  let thumbnail = null
+  if (props.artworks) {
+    let thumbSize = Math.min(
+      ...props.artworks.filter(a => a.size >= imgSize).map(a => a.size)
+    )
+    if (thumbSize === Infinity)
+      thumbSize = Math.max(...props.artworks.map(a => a.size))
+    thumbnail = props.artworks.find(a => a.size === thumbSize).url
+  }
+
   return (
     <S.Result>
-      <img src={props.artworks.length && props.artworks[0].url} />
+      <img src={thumbnail} />
       <div>
         <Text emp="high">{props.name}</Text>
         <Text emp="medium">{props.creator}</Text>
@@ -33,6 +46,7 @@ namespace S {
 
     img {
       height: 3.5rem;
+      width: 3.5rem;
       border-radius: 0.25rem;
     }
 

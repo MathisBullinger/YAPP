@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { layout, shadow } from '~/styles'
-import Result from './Result'
+import { PodcastStrip } from '~/components/molecules'
 
 interface Podcast {
   name: string
@@ -16,7 +16,7 @@ interface Props {
 const ResultPane: React.FunctionComponent<Props> = props => (
   <S.Pane>
     {(props.podcasts || []).map(podcast => (
-      <Result key={podcast.name + podcast.creator} {...podcast} />
+      <PodcastStrip key={podcast.name + podcast.creator} {...podcast} />
     ))}
   </S.Pane>
 )
