@@ -43,6 +43,7 @@ namespace S {
       height: calc(100vh - ${layout.toolbarHeight} - ${
     layout.mobile.navHeight
   });
+
       @media ${responsive.navOnSide} {
         height: calc(100vh - ${layout.toolbarHeight});
       }
