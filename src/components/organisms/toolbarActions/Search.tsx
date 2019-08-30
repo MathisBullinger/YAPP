@@ -15,8 +15,6 @@ export default function Search() {
     skip: searchStr.length < 3,
   })
 
-  if (data) console.log({ data })
-
   const results = data && data.search
 
   function search(e: SyntheticEvent) {

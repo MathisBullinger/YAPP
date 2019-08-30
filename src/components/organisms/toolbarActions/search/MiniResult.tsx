@@ -14,7 +14,6 @@ interface Props {
 }
 
 export default function MiniResult({ podcasts }: Props) {
-  console.log({ podcasts })
   return (
     <S.Result>
       {podcasts.map(podcast => (

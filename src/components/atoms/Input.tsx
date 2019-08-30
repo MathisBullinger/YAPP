@@ -57,6 +57,11 @@ namespace S {
     font-size: 0.9rem;
     padding-left: 1rem;
     padding-right: 1rem;
+    color: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
+
+    &::placeholder {
+      color: ${({ theme }) => theme[theme.topic](theme.variant).on('disabled')};
+    }
 
     &:focus {
       outline: none;

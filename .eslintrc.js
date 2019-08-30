@@ -32,6 +32,13 @@ const config = {
     '@typescript-eslint/no-unused-vars': 'error',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/self-closing-comp': [
+      'error',
+      {
+        component: true,
+        html: true,
+      },
+    ],
   },
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { responsive, layout } from '~/styles'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
@@ -15,15 +15,17 @@ export default function Toolbar() {
   const actions = useSelector((data: State) => data.toolbar.actions)
 
   return (
-    <S.Toolbar>
-      <Title s4>{title}</Title>
-      {actions
-        .map(a => a.toLowerCase())
-        .filter(a => a in toolActions)
-        .map(action =>
-          React.createElement(toolActions[action], { key: action })
-        )}
-    </S.Toolbar>
+    <ThemeProvider theme={{ topic: 'surface' }}>
+      <S.Toolbar>
+        <Title s4>{title}</Title>
+        {actions
+          .map(a => a.toLowerCase())
+          .filter(a => a in toolActions)
+          .map(action =>
+            React.createElement(toolActions[action], { key: action })
+          )}
+      </S.Toolbar>
+    </ThemeProvider>
   )
 }
 
@@ -42,6 +44,7 @@ namespace S {
     --side-padding: 2rem;
     padding-left: var(--side-padding);
     padding-right: var(--side-padding);
+    background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
 
     & > * {
       margin: 0;
