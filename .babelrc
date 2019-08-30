@@ -5,13 +5,15 @@
     "@babel/preset-react"
   ],
   "plugins": [
-    "babel-plugin-styled-components",
     [
-      "@babel/plugin-transform-typescript",
+      "babel-plugin-styled-components",
       {
-        "allowNamespaces": true
+        "minify": true,
+        "transpileTemplateLiterals": true,
+        "pure": true
       }
     ],
+    "@babel/plugin-transform-typescript",
     "@babel/plugin-proposal-class-properties",
     "@babel/proposal-object-rest-spread"
   ]

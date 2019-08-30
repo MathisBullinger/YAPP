@@ -1,8 +1,9 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const merge = require('webpack-merge')
 
-module.exports = env => deepMerge(baseConfig, require(`./webpack.${env}.js`))
+module.exports = env => merge(baseConfig, require(`./webpack.${env}.js`))
 
 const baseConfig = {
   target: 'web',
@@ -58,13 +59,4 @@ const baseConfig = {
       template: './src/index.html',
     }),
   ],
-}
-
-function deepMerge(a, b) {
-  Object.entries(b).forEach(([k, v]) => {
-    if (!(k in a) || typeof v !== 'object') a[k] = v
-    else if (Array.isArray(v)) a[k] = [...a[k], ...v]
-    else deepMerge(a[k], v)
-  })
-  return a
 }
