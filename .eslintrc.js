@@ -24,6 +24,7 @@ const config = {
     it: true,
     expect: true,
     gapi: 'readonly',
+    __dirname: 'readonly',
   },
   rules: {
     semi: ['error', 'never'],

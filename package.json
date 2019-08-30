@@ -1,9 +1,10 @@
 {
   "description": "Yet Another Podcast Player",
+  "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html --no-autoinstall --out-dir public",
-    "build": "rm -rf .cache/ public/ && parcel build --no-source-maps src/index.html --out-dir public",
+    "start": "",
+    "build": "npx webpack --config webpack.config.js",
     "now-build": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier:check": "prettier --check \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
@@ -47,8 +48,10 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
-    "parcel-bundler": "*",
-    "typescript": "^3.5.3"
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.0.1",
