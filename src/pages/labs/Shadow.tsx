@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Title, Dropdown, Card, Switch, Text } from '~/components/atoms'
 import { Labeled } from '~/components/molecules'
-import { shadowConf } from '~styles/shadow'
+import { shadowConf } from '~/styles/shadow'
 
 export default class Shadow extends React.Component {
   constructor(props) {
@@ -14,34 +14,30 @@ export default class Shadow extends React.Component {
 
   render() {
     return (
-      <ShadowPage color={this.state.backgroundColor}>
+      <ShadowPage>
         <Title>Shadow Demo</Title>
         <div className="control-panel">
-          <Dropdown
-            items={['white', 'light grey', 'dark grey']}
-            onInput={c => this.handleColorChange(c)}
-          />
           <Labeled
             for={
-              <Switch value={true} onInput={v => this.toggleAmbientShadow(v)} />
+              <Switch value={'on'} onInput={v => this.toggleAmbientShadow(v)} />
             }
           >
             ambient
           </Labeled>
           <Labeled
             for={
-              <Switch value={true} onInput={v => this.toggleSpotShadow(v)} />
+              <Switch value={'on'} onInput={v => this.toggleSpotShadow(v)} />
             }
           >
             spot
           </Labeled>
           <Labeled
-            for={<Switch value={true} onInput={v => this.toggleBlur(v)} />}
+            for={<Switch value={'on'} onInput={v => this.toggleBlur(v)} />}
           >
             blur
           </Labeled>
           <Labeled
-            for={<Switch value={true} onInput={v => this.toggleSpread(v)} />}
+            for={<Switch value={'on'} onInput={v => this.toggleSpread(v)} />}
           >
             spread
           </Labeled>
@@ -49,7 +45,7 @@ export default class Shadow extends React.Component {
             for={
               <input
                 type="color"
-                onInput={e => this.changeShadowColor(e.target.value)}
+                onInput={e => this.changeShadowColor((e.target as any).value)}
               />
             }
           >
@@ -57,7 +53,7 @@ export default class Shadow extends React.Component {
           </Labeled>
         </div>
         <div className="card-wrap">
-          {new Array(20).fill().map((e, i) => (
+          {new Array(20).fill(0).map((e, i) => (
             <Card el={i + 1} key={i}>
               <Text>{i + 1}</Text>
             </Card>
@@ -65,16 +61,6 @@ export default class Shadow extends React.Component {
         </div>
       </ShadowPage>
     )
-  }
-
-  handleColorChange(color) {
-    this.setState({
-      backgroundColor:
-        {
-          'light grey': 'rgb(229, 229, 229)',
-          'dark grey': 'rgb(51, 51, 51)',
-        }[color] || color,
-    })
   }
 
   toggleAmbientShadow(v) {
@@ -106,11 +92,7 @@ export default class Shadow extends React.Component {
   }
 }
 
-const ShadowPage = styled.div.attrs(props => ({
-  color: props.color,
-}))`
-  background-color: ${props => props.color};
-
+const ShadowPage = styled.div`
   .control-panel {
     position: absolute;
     padding: 2rem;

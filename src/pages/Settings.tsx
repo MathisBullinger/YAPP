@@ -75,7 +75,7 @@ Settings.pageConf = {
   toolbarTitle: 'Settings',
 }
 export default connect(
-  ({ theme }) => ({ theme }),
+  ({ theme }: any) => ({ theme }),
   { toggleDarkMode, togglePreferAmoled, toggleDarkAtNight }
 )(Settings)
 

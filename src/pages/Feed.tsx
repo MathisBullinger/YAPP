@@ -14,7 +14,7 @@ class Feed extends React.Component {
     )
   }
 }
-Feed.pageConf = {
+;(Feed as any).pageConf = {
   showAppbar: true,
   appbarTitle: 'Feed',
 }
