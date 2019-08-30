@@ -49,7 +49,7 @@ class Routes extends React.Component<Props> {
           path="/lab/shadow"
           exact
           render={() => this.preRoute(ShadowLab)}
-        ></Route>
+        />
         <Route render={() => this.preRoute(NotFound)} />
       </Switch>
     )

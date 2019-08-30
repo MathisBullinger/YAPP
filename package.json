@@ -3,7 +3,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot --no-info --env dev",
+    "start": "webpack-dev-server --env dev",
     "build": "npx webpack --env prod --config webpack.config.js",
     "build:dev": "npx webpack --env dev --config webpack.config.js",
     "now-build": "npm run build",
@@ -15,10 +15,6 @@
     "lint": "npm run eslint:check && npm run prettier:check",
     "format": "npm run eslint:write && npm run prettier:write",
     "size": "npm run --silent build -- --profile --json > stats.json && npx webpack-bundle-analyzer stats.json"
-  },
-  "alias": {
-    "~": "src",
-    "data": "./data"
   },
   "repository": {
     "type": "git",
@@ -56,6 +52,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
+    "fork-ts-checker-webpack-plugin": "^1.5.0",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",

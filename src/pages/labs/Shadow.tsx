@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Title, Dropdown, Card, Switch, Text } from '~/components/atoms'
+import { Title, Card, Switch, Text } from '~/components/atoms'
 import { Labeled } from '~/components/molecules'
 import { shadowConf } from '~/styles/shadow'
 

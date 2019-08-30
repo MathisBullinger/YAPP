@@ -6,8 +6,10 @@ const config = {
     browser: true,
   },
   parserOptions: {
-    ecmaVersion: 2018,
     parser: 'babel-eslint',
+    project: path.resolve(__dirname, './tsconfig.json'),
+    tsconfigRootDir: __dirname,
+    ecmaVersion: 2018,
     sourceType: 'module',
   },
   settings: {
