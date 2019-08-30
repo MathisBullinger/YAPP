@@ -12,7 +12,8 @@
     "eslint:check": "eslint . --ext .js,.jsx,.ts,.tsx",
     "eslint:write": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lint": "npm run eslint:check && npm run prettier:check",
-    "format": "npm run eslint:write && npm run prettier:write"
+    "format": "npm run eslint:write && npm run prettier:write",
+    "size": "npm run --silent build -- --profile --json > stats.json && npx webpack-bundle-analyzer stats.json"
   },
   "alias": {
     "~": "src",
@@ -60,6 +61,7 @@
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
     "webpack": "^4.39.3",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
   },
