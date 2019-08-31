@@ -14,7 +14,6 @@ namespace S {
     cards: i,
     break: firstBreak + (lastBreak - firstBreak) / (i + 1),
   }))
-  console.log(steps)
 
   export const Grid = styled.div`
     display: grid;
