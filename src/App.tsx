@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { Mainnav, Appbar, Toolbar } from '~/components/organisms'
@@ -9,6 +9,7 @@ import { responsive } from '~/styles'
 import State from './store/state'
 import { useSelector } from 'react-redux'
 import { useMatchMedia } from '~/utils/hooks'
+import { startScrollMonitor, stopScrollMonitor } from '~/utils/scroll'
 
 export default function App() {
   const theme = useSelector((state: State) => state.theme.current)
@@ -16,6 +17,11 @@ export default function App() {
   const appbarRequested = useSelector((state: State) => state.appbar.visible)
   const toolbarAllowed = useMatchMedia(responsive.toolbarVisible)
   const toolbarRequested = useSelector((state: State) => state.toolbar.visible)
+
+  useEffect(() => {
+    startScrollMonitor()
+    return stopScrollMonitor
+  }, [])
 
   return (
     <ThemeProvider

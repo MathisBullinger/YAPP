@@ -14,6 +14,7 @@ export type ActionType =
   | 'SET_TOOLBAR_TITLE'
   | 'ADD_TOOLBAR_ACTION'
   | 'RESET_TOOLBAR_ACTIONS'
+  | 'SET_SCROLL_DIRECTION'
 
 export namespace actions {
   export interface Base {
@@ -35,6 +36,10 @@ export namespace actions {
   export interface AppbarAction extends Base {
     name: string
     align: 'left' | 'right'
+  }
+
+  export interface ScrollDirAction extends Base {
+    value: 'up' | 'down'
   }
 }
 
@@ -103,4 +108,11 @@ export const addToolbarAction = (value: string): actions.StringAction => ({
 
 export const resetToolbarActions = (): actions.Base => ({
   type: 'RESET_TOOLBAR_ACTIONS',
+})
+
+export const setScrollDirection = (
+  value: 'up' | 'down'
+): actions.ScrollDirAction => ({
+  type: 'SET_SCROLL_DIRECTION',
+  value,
 })

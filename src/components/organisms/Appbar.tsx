@@ -15,6 +15,8 @@ export default function Appbar() {
   const title = useSelector((state: ReduxState) => state.appbar.title)
   const barActions = useSelector((state: ReduxState) => state.appbar.actions)
   const loading = useSelector((state: ReduxState) => state.appbar.loading)
+  const scrollDir = useSelector((state: ReduxState) => state.scroll.direction)
+  console.log({ scrollDir })
 
   const [left, right] = barActions
     .reduce(
