@@ -8,13 +8,6 @@ const CardGrid: React.FunctionComponent = ({ children }) => (
 export default CardGrid
 
 namespace S {
-  const firstBreak = 500
-  const lastBreak = 1000
-  const steps = new Array(3).fill(0).map((_, i) => ({
-    cards: i,
-    break: firstBreak + (lastBreak - firstBreak) / (i + 1),
-  }))
-
   export const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);

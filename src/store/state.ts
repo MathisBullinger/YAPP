@@ -22,4 +22,7 @@ export default interface State {
     title: string
     actions: string[]
   }
+  scroll: {
+    direction: 'up' | 'down'
+  }
 }

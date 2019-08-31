@@ -4,12 +4,19 @@ import { responsive, layout, timing } from '~/styles'
 import { ThemeProvider } from 'styled-components'
 import { StyledBar as Appbar } from '~/components/organisms/Appbar'
 import { StyledBar as Toolbar } from '~/components/organisms/Toolbar'
+import handleScroll from '~/utils/scroll'
 
-const Page: React.FunctionComponent = props => (
-  <ThemeProvider theme={{ topic: 'background' }}>
-    <S.Page>{props.children}</S.Page>
-  </ThemeProvider>
-)
+const Page: React.FunctionComponent = props => {
+  return (
+    <ThemeProvider theme={{ topic: 'background' }}>
+      <S.Page
+        onScroll={e => handleScroll((e.target as HTMLDivElement).scrollTop)}
+      >
+        {props.children}
+      </S.Page>
+    </ThemeProvider>
+  )
+}
 export default Page
 
 namespace S {
@@ -32,10 +39,16 @@ namespace S {
     }
 
     ${Appbar} ~ & {
-      margin-top: ${layout.mobile.appbarHeight};
-      height: calc(100vh - ${layout.mobile.appbarHeight} - ${
-    layout.mobile.navHeight
-  });
+      padding-top: calc(2rem + ${layout.mobile.appbarHeight});
+      transition: background-color ${timing.colorSwap}, transform ${
+    timing.appbarHidden
+  } ease, height 0s ${timing.appbarHidden};}
+    ${Appbar}[data-hidden="true"] ~ & {
+      transform: translateY(-${layout.mobile.appbarHeight});
+      height: 100vh;
+      transition: background-color ${timing.colorSwap}, transform ${
+    timing.appbarHidden
+  } ease;
     }
 
     ${Toolbar} ~ & {

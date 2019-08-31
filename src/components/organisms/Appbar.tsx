@@ -15,6 +15,7 @@ export default function Appbar() {
   const title = useSelector((state: ReduxState) => state.appbar.title)
   const barActions = useSelector((state: ReduxState) => state.appbar.actions)
   const loading = useSelector((state: ReduxState) => state.appbar.loading)
+  const scrollDir = useSelector((state: ReduxState) => state.scroll.direction)
 
   const [left, right] = barActions
     .reduce(
@@ -38,7 +39,7 @@ export default function Appbar() {
 
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
-      <S.Appbar>
+      <S.Appbar data-hidden={(scrollDir || 'up') === 'down'}>
         {left}
         <Title s5>{title}</Title>
         {right}
@@ -54,11 +55,13 @@ namespace S {
     position: fixed;
     display: flex;
     width: 100vw;
-    height: ${() => layout.mobile.appbarHeight};
+    height: ${layout.mobile.appbarHeight};
     ${({ theme }) =>
       theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
-    transition: background-color ${() => timing.colorSwap};
+    transition: background-color ${timing.colorSwap}, transform ${
+    timing.appbarHidden
+  };
     flex-direction: row;
     align-items: center;
     padding-left: 1.5rem;
@@ -75,6 +78,10 @@ namespace S {
 
     & > * {
       margin: 0;
+    }
+
+    &[data-hidden="true"] {
+      transform: translateY(-100%);
     }
   `
 }
