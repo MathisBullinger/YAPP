@@ -4,12 +4,19 @@ import { responsive, layout, timing } from '~/styles'
 import { ThemeProvider } from 'styled-components'
 import { StyledBar as Appbar } from '~/components/organisms/Appbar'
 import { StyledBar as Toolbar } from '~/components/organisms/Toolbar'
+import handleScroll from '~/utils/scroll'
 
-const Page: React.FunctionComponent = props => (
-  <ThemeProvider theme={{ topic: 'background' }}>
-    <S.Page>{props.children}</S.Page>
-  </ThemeProvider>
-)
+const Page: React.FunctionComponent = props => {
+  return (
+    <ThemeProvider theme={{ topic: 'background' }}>
+      <S.Page
+        onScroll={e => handleScroll((e.target as HTMLDivElement).scrollTop)}
+      >
+        {props.children}
+      </S.Page>
+    </ThemeProvider>
+  )
+}
 export default Page
 
 namespace S {
