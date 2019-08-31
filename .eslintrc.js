@@ -1,3 +1,5 @@
+const path = require('path')
+
 const config = {
   extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier/react'],
   parser: '@typescript-eslint/parser',

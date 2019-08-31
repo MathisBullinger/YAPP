@@ -13,8 +13,7 @@
     "eslint:check": "eslint . --ext .js,.jsx,.ts,.tsx",
     "eslint:write": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lint": "npm run eslint:check && npm run prettier:check",
-    "format": "npm run eslint:write && npm run prettier:write",
-    "size": "npm run --silent build -- --profile --json > stats.json && npx webpack-bundle-analyzer stats.json"
+    "format": "npm run eslint:write && npm run prettier:write"
   },
   "repository": {
     "type": "git",
@@ -46,6 +45,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^3.0.0",
+    "compression-webpack-plugin": "^3.0.0",
     "css-loader": "^3.2.0",
     "eslint": "*",
     "eslint-config-prettier": "*",
@@ -53,9 +53,11 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
     "fork-ts-checker-webpack-plugin": "^1.5.0",
+    "graphql": "^14.5.4",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
+    "source-map-explorer": "^2.0.1",
     "style-loader": "^1.0.0",
     "terser-webpack-plugin": "^1.4.1",
     "ts-loader": "^6.0.4",
@@ -69,7 +71,6 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.0.1",
     "apollo-boost": "^0.4.4",
-    "graphql": "^14.5.3",
     "preact": "^8.5.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",

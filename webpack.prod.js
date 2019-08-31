@@ -1,4 +1,5 @@
 const TerserPlugin = require('terser-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = {
   mode: 'production',
@@ -18,4 +19,5 @@ module.exports = {
       }),
     ],
   },
+  plugins: [new CompressionPlugin()],
 }
