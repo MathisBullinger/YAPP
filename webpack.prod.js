@@ -6,9 +6,10 @@ module.exports = {
   devtool: 'source-map',
   resolve: {
     alias: {
-      react: 'preact/compat',
-      'react-dom/test-utils': 'preact/test-utils',
-      'react-dom': 'preact/compat',
+      // ! preact x currenly not working with react router
+      // react: 'preact/compat',
+      // 'react-dom/test-utils': 'preact/test-utils',
+      // 'react-dom': 'preact/compat',
     },
   },
   optimization: {
