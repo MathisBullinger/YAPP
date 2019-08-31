@@ -4,15 +4,12 @@ import { layout, shadow, timing } from '~/styles'
 import { Title, Progress } from '~/components/atoms'
 import { useSelector } from 'react-redux'
 import ReduxState from '~/store/state'
+import Back from './appbarActions/Back'
+import Search from './appbarActions/Search'
+import Settings from './appbarActions/Settings'
+import { mapKeys } from '~/utils'
 
-// @ts-ignore
-import actionImport from './appbarActions/**.*'
-const actions = Object.fromEntries(
-  Object.entries(actionImport).map(([k, v]) => [
-    k.toLowerCase(),
-    Object.values(v)[0].default,
-  ])
-)
+const actions = mapKeys({ Back, Search, Settings }, k => k.toLowerCase())
 
 export default function Appbar() {
   const title = useSelector((state: ReduxState) => state.appbar.title)

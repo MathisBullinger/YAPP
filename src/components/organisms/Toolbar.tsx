@@ -4,11 +4,10 @@ import { responsive, layout } from '~/styles'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
 import { Title } from '~/components/atoms'
-import { mapObj } from '~/utils'
-// @ts-ignore
-import actImp from './toolbarActions/**.tsx'
+import { mapKeys } from '~/utils'
+import Search from './toolbarActions/Search'
 
-const toolActions = mapObj(actImp, (k, v) => ({ [k.toLowerCase()]: v.default }))
+const toolActions = mapKeys({ Search }, k => k.toLowerCase())
 
 export default function Toolbar() {
   const title = useSelector((data: State) => data.toolbar.title)

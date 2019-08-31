@@ -1,3 +1,5 @@
+const path = require('path')
+
 const config = {
   extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier/react'],
   parser: '@typescript-eslint/parser',
@@ -6,8 +8,10 @@ const config = {
     browser: true,
   },
   parserOptions: {
-    ecmaVersion: 2018,
     parser: 'babel-eslint',
+    project: path.resolve(__dirname, './tsconfig.json'),
+    tsconfigRootDir: __dirname,
+    ecmaVersion: 2018,
     sourceType: 'module',
   },
   settings: {
@@ -24,6 +28,7 @@ const config = {
     it: true,
     expect: true,
     gapi: 'readonly',
+    __dirname: 'readonly',
   },
   rules: {
     semi: ['error', 'never'],

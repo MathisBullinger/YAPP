@@ -17,9 +17,8 @@ import Discover from '~/pages/Discover'
 import Profile from '~/pages/Profile'
 import Settings from '~/pages/Settings'
 import Lab from '~/pages/Lab'
-// @ts-ignore
-import labs from './pages/labs/**.*sx'
 import NotFound from '~/pages/NotFound'
+import ShadowLab from '~/pages/labs/Shadow'
 
 interface Props {
   toggleAppbar(v?: boolean): void
@@ -46,16 +45,11 @@ class Routes extends React.Component<Props> {
         <Route path="/profile/" exact render={() => this.preRoute(Profile)} />
         <Route path="/settings/" exact render={() => this.preRoute(Settings)} />
         <Route path="/lab/" exact render={() => this.preRoute(Lab)} />
-        {Object.values(labs)
-          .map(m => Object.values(m)[0].default)
-          .map(lab => (
-            <Route
-              key={lab.name}
-              path={`/lab/${lab.name.toLowerCase()}`}
-              exact
-              render={() => this.preRoute(lab)}
-            />
-          ))}
+        <Route
+          path="/lab/shadow"
+          exact
+          render={() => this.preRoute(ShadowLab)}
+        />
         <Route render={() => this.preRoute(NotFound)} />
       </Switch>
     )

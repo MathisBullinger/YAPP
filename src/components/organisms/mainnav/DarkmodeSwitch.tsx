@@ -49,7 +49,7 @@ class DarkmodeSwitch extends React.Component<Props, State> {
   }
 }
 export default connect(
-  ({ theme }) => ({ theme }),
+  ({ theme }: any) => ({ theme }),
   { toggleDarkMode }
 )(DarkmodeSwitch)
 

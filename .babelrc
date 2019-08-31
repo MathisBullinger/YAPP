@@ -1,4 +1,20 @@
 {
-  "presets": ["@babel/preset-env", "@babel/preset-react"],
-  "plugins": ["babel-plugin-styled-components"]
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-typescript",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "minify": true,
+        "transpileTemplateLiterals": true,
+        "pure": true
+      }
+    ],
+    "@babel/plugin-transform-typescript",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/proposal-object-rest-spread"
+  ]
 }

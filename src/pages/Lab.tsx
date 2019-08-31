@@ -1,20 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Title } from '~/components/atoms'
-// @ts-ignore
-import labs from './labs/**.*sx'
 import { Link } from 'react-router-dom'
 
 const Lab = () => (
   <LabPage>
     <Title>Labs</Title>
-    {Object.values(labs)
-      .map(m => Object.values(m)[0].default.name)
-      .map(lab => (
-        <Link key={lab} to={'/lab/' + lab.toLowerCase()}>
-          {lab}
-        </Link>
-      ))}
+    <Link to={'lab/shadow'}>Shadow</Link>
   </LabPage>
 )
 
