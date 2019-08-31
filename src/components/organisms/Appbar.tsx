@@ -55,11 +55,13 @@ namespace S {
     position: fixed;
     display: flex;
     width: 100vw;
-    height: ${() => layout.mobile.appbarHeight};
+    height: ${layout.mobile.appbarHeight};
     ${({ theme }) =>
       theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
-    transition: background-color ${() => timing.colorSwap}, transform 0.3s ease;
+    transition: background-color ${timing.colorSwap}, transform ${
+    timing.appbarHidden
+  };
     flex-direction: row;
     align-items: center;
     padding-left: 1.5rem;

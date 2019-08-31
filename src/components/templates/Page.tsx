@@ -40,7 +40,15 @@ namespace S {
 
     ${Appbar} ~ & {
       padding-top: calc(2rem + ${layout.mobile.appbarHeight});
-      height: calc(100vh - ${layout.mobile.navHeight});
+      transition: background-color ${timing.colorSwap}, transform ${
+    timing.appbarHidden
+  } ease, height 0s ${timing.appbarHidden};}
+    ${Appbar}[data-hidden="true"] ~ & {
+      transform: translateY(-${layout.mobile.appbarHeight});
+      height: 100vh;
+      transition: background-color ${timing.colorSwap}, transform ${
+    timing.appbarHidden
+  } ease;
     }
 
     ${Toolbar} ~ & {
