@@ -39,10 +39,8 @@ namespace S {
     }
 
     ${Appbar} ~ & {
-      margin-top: ${layout.mobile.appbarHeight};
-      height: calc(100vh - ${layout.mobile.appbarHeight} - ${
-    layout.mobile.navHeight
-  });
+      padding-top: calc(2rem + ${layout.mobile.appbarHeight});
+      height: calc(100vh - ${layout.mobile.navHeight});
     }
 
     ${Toolbar} ~ & {

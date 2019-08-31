@@ -2,7 +2,7 @@ import store from '~/store'
 import { setScrollDirection } from '~/store/actions'
 import { throttle } from 'lodash'
 
-const MIN_STEP = 50
+const MIN_STEP = 20
 let lastOffY: number = null
 let lastDY: number = null
 
