@@ -20,6 +20,7 @@ import Settings from '~/pages/Settings'
 import Lab from '~/pages/Lab'
 import NotFound from '~/pages/NotFound'
 import ShadowLab from '~/pages/labs/Shadow'
+import Podcast from '~/pages/Podcast'
 
 interface Props {
   toggleAppbar(v?: boolean): void
@@ -52,6 +53,12 @@ class Routes extends React.Component<Props> {
           exact
           render={() => this.preRoute(ShadowLab)}
         />
+        <Route
+          path="/podcast/:id"
+          exact
+          render={() => this.preRoute(Podcast)}
+        ></Route>
+        }>
         <Route render={() => this.preRoute(NotFound)} />
       </Switch>
     )

@@ -26,8 +26,10 @@ export default function Search() {
     if (v) setActive(true)
     else {
       setValue('')
-      setActive(false)
       inputRef.current.blur()
+      setTimeout(() => {
+        if (this) setActive(false)
+      }, 100)
     }
   }
 
