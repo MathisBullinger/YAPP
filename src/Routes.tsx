@@ -10,6 +10,7 @@ import {
   setToolbarTitle,
   addToolbarAction,
   resetToolbarActions,
+  toggleHideAppbarOnScroll,
 } from '~/store/actions'
 import Library from '~/pages/Library'
 import Feed from '~/pages/Feed'
@@ -29,6 +30,7 @@ interface Props {
   setToolbarTitle: typeof setToolbarTitle
   addToolbarAction: typeof addToolbarAction
   resetToolbarActions: typeof resetToolbarActions
+  toggleHideAppbarOnScroll: typeof toggleHideAppbarOnScroll
 }
 
 class Routes extends React.Component<Props> {
@@ -64,6 +66,7 @@ class Routes extends React.Component<Props> {
     ;(config.appbarActions || []).forEach(action =>
       this.props.addAppbarAction(action.name, action.align)
     )
+    this.props.toggleHideAppbarOnScroll(config.hideAppbarOnScroll || false)
     this.props.toggleToolbar(config.showToolbar || false)
     this.props.setToolbarTitle(config.toolbarTitle || '')
     ;(config.toolbarActions || []).forEach(action =>
@@ -83,5 +86,6 @@ export default connect(
     setToolbarTitle,
     addToolbarAction,
     resetToolbarActions,
+    toggleHideAppbarOnScroll,
   }
 )(Routes)

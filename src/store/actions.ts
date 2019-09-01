@@ -9,6 +9,7 @@ export type ActionType =
   | 'SET_APPBAR_TITLE'
   | 'ADD_APPBAR_ACTION'
   | 'RESET_APPBAR_ACTIONS'
+  | 'TOGGLE_HIDE_APPBAR_ON_SCROLL'
   | 'TOGGLE_APPBAR_LOADING'
   | 'TOGGLE_TOOLBAR'
   | 'SET_TOOLBAR_TITLE'
@@ -88,6 +89,13 @@ export const resetAppbarActions = (): actions.Base => ({
 
 export const toggleAppbarLoading = (value?: boolean): actions.ToggleAction => ({
   type: 'TOGGLE_APPBAR_LOADING',
+  value,
+})
+
+export const toggleHideAppbarOnScroll = (
+  value?: boolean
+): actions.ToggleAction => ({
+  type: 'TOGGLE_HIDE_APPBAR_ON_SCROLL',
   value,
 })
 

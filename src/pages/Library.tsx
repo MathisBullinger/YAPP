@@ -27,6 +27,7 @@ class Library extends React.Component {
 Library.pageConf = {
   showAppbar: true,
   appbarTitle: 'Library',
+  hideAppbarOnScroll: true,
 }
 export default Library
 

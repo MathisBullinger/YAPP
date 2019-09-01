@@ -16,6 +16,7 @@ export default interface State {
     title: string
     actions: AppbarAction[]
     loading: boolean
+    hideOnScroll: boolean
   }
   toolbar: {
     visible: boolean

@@ -7,6 +7,7 @@ const defaultState: State['appbar'] = {
   title: '',
   actions: [],
   loading: false,
+  hideOnScroll: false,
 }
 export default function appbar(
   state: State['appbar'] = defaultState,
@@ -44,6 +45,11 @@ export default function appbar(
       return {
         ...state,
         loading: getToggleValue(action, state.loading),
+      }
+    case 'TOGGLE_HIDE_APPBAR_ON_SCROLL':
+      return {
+        ...state,
+        hideOnScroll: getToggleValue(action, state.hideOnScroll),
       }
     default:
       return state

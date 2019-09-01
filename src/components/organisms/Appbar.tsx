@@ -16,6 +16,9 @@ export default function Appbar() {
   const barActions = useSelector((state: ReduxState) => state.appbar.actions)
   const loading = useSelector((state: ReduxState) => state.appbar.loading)
   const scrollDir = useSelector((state: ReduxState) => state.scroll.direction)
+  const hideOnScroll = useSelector(
+    (state: ReduxState) => state.appbar.hideOnScroll
+  )
 
   const [left, right] = barActions
     .reduce(
@@ -39,7 +42,7 @@ export default function Appbar() {
 
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
-      <S.Appbar data-hidden={(scrollDir || 'up') === 'down'}>
+      <S.Appbar data-hidden={hideOnScroll && (scrollDir || 'up') === 'down'}>
         {left}
         <Title s5>{title}</Title>
         {right}
