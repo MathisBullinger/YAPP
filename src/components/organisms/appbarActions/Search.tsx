@@ -4,8 +4,8 @@ import { useQuery } from '@apollo/react-hooks'
 import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
-import searchQuery from '~/gql/searchPodcast.gql'
-import { SearchPodcast, SearchPodcastVariables } from '~/gqlTypes/searchPodcast'
+import SearchQuery from '~/gql/SearchPodcast.gql'
+import { SearchPodcast, SearchPodcastVariables } from '~/gqlTypes/SearchPodcast'
 
 interface Props {
   align: 'left' | 'right'
@@ -20,7 +20,7 @@ export default function Search(props: Props) {
   const { loading, error, data } = useQuery<
     SearchPodcast,
     SearchPodcastVariables
-  >(searchQuery, {
+  >(SearchQuery, {
     variables: { name: searchStr },
     skip: searchStr.length < 3,
   })

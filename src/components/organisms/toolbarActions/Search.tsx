@@ -2,7 +2,7 @@ import React, { useState, useRef, SyntheticEvent } from 'react'
 import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import { Input, styles } from '~/components/atoms'
-import searchQuery from '~/gql/searchPodcast.gql'
+import SearchQuery from '~/gql/SearchPodcast.gql'
 import MiniResult from './search/MiniResult'
 
 export default function Search() {
@@ -10,7 +10,7 @@ export default function Search() {
   const [value, setValue] = useState('')
   const inputRef = useRef(null)
   const [searchStr, setSearchStr] = useState('')
-  const { data } = useQuery(searchQuery, {
+  const { data } = useQuery(SearchQuery, {
     variables: { name: searchStr },
     skip: searchStr.length < 3,
   })
