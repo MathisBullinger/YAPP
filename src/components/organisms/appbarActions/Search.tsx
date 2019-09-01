@@ -5,6 +5,7 @@ import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
 import searchQuery from '~/gql/searchPodcast.gql'
+import { SearchPodcast, SearchPodcastVariables } from '~/gqlTypes/searchPodcast'
 
 interface Props {
   align: 'left' | 'right'
@@ -16,7 +17,10 @@ export default function Search(props: Props) {
   const dispatch = useDispatch()
   const inputEl = useRef(null)
   const [searchStr, setSearchStr] = useState('')
-  const { loading, error, data } = useQuery(searchQuery, {
+  const { loading, error, data } = useQuery<
+    SearchPodcast,
+    SearchPodcastVariables
+  >(searchQuery, {
     variables: { name: searchStr },
     skip: searchStr.length < 3,
   })

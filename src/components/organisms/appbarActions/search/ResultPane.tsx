@@ -2,15 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { layout, shadow } from '~/styles'
 import { PodcastStrip } from '~/components/molecules'
-
-interface Podcast {
-  name: string
-  creator: string
-  artworks: { url: string; size: number }[]
-}
+import { SearchPodcast_search } from '~/gqlTypes/SearchPodcast'
 
 interface Props {
-  podcasts: Podcast[]
+  podcasts: SearchPodcast_search[]
 }
 
 const ResultPane: React.FunctionComponent<Props> = props => (

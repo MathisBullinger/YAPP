@@ -3,14 +3,8 @@ import styled from 'styled-components'
 import { shadow } from '~/styles'
 import { PodcastStrip } from '~/components/molecules'
 
-interface Podcast {
-  name: string
-  creator: string
-  artworks: { url: string; size: number }[]
-}
-
 interface Props {
-  podcasts: Podcast[]
+  podcasts: any[]
 }
 
 export default function MiniResult({ podcasts }: Props) {

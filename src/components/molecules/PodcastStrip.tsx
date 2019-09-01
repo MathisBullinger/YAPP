@@ -2,12 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Text } from '~/components/atoms'
 import { Rem } from '~/utils/css'
-
-interface Props {
-  name: string
-  creator: string
-  artworks: { url: string; size: number }[]
-}
+import { Link } from 'react-router-dom'
+import { SearchPodcast_search as Props } from '~/gqlTypes/SearchPodcast'
 
 export default function Result(props: Props) {
   const imgSize = new Rem(1).toPx().value * 3.5
@@ -23,7 +19,7 @@ export default function Result(props: Props) {
   }
 
   return (
-    <S.Result>
+    <S.Result to={`/podcast/${props.itunesId}`}>
       <img src={thumbnail} />
       <div>
         <Text emp="high">{props.name}</Text>
@@ -34,11 +30,12 @@ export default function Result(props: Props) {
 }
 
 namespace S {
-  const ResultBase = styled.div`
+  const ResultBase = styled(Link)`
     display: flex;
     flex-direction: row;
     height: 3.5rem;
     align-items: center;
+    text-decoration: none;
 
     * {
       margin: 0;

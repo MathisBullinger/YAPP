@@ -3,9 +3,9 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --env dev",
-    "build": "npx webpack --env prod --config webpack.config.js",
-    "build:dev": "npx webpack --env dev --config webpack.config.js",
+    "start": "npm run apollo:gen && webpack-dev-server --env dev",
+    "build": "npm run apollo:gen && npx webpack --env prod --config webpack.config.js",
+    "build:dev": "npm run apollo:gen && npx webpack --env dev --config webpack.config.js",
     "now-build": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier:check": "prettier --check \"./*.{js,jsx,ts,tsx,html}\" \"./**/*.{js,jsx,ts,tsx,html}\"",
@@ -13,7 +13,8 @@
     "eslint:check": "eslint . --ext .js,.jsx,.ts,.tsx",
     "eslint:write": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lint": "npm run eslint:check && npm run prettier:check",
-    "format": "npm run eslint:write && npm run prettier:write"
+    "format": "npm run eslint:write && npm run prettier:write",
+    "apollo:gen": "npx apollo client:codegen --target typescript --outputFlat src/gqlTypes"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "@types/styled-components": "^4.1.18",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
+    "apollo": "^2.18.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
