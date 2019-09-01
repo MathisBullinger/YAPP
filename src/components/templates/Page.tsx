@@ -49,6 +49,7 @@ namespace S {
       transition: background-color ${timing.colorSwap}, transform ${
     timing.appbarHidden
   } ease;
+      margin-bottom: 0;
     }
 
     ${Toolbar} ~ & {

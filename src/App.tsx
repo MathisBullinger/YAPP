@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { Mainnav, Appbar, Toolbar } from '~/components/organisms'
@@ -16,6 +16,10 @@ export default function App() {
   const appbarRequested = useSelector((state: State) => state.appbar.visible)
   const toolbarAllowed = useMatchMedia(responsive.toolbarVisible)
   const toolbarRequested = useSelector((state: State) => state.toolbar.visible)
+
+  useEffect(() => {
+    document.body.style.backgroundColor = getTheme(theme).background().color
+  })
 
   return (
     <ThemeProvider

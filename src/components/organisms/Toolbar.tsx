@@ -14,7 +14,7 @@ export default function Toolbar() {
   const actions = useSelector((data: State) => data.toolbar.actions)
 
   return (
-    <ThemeProvider theme={{ topic: 'surface' }}>
+    <ThemeProvider theme={{ topic: 'background' }}>
       <S.Toolbar>
         <Title s4>{title}</Title>
         {actions
