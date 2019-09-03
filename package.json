@@ -1,9 +1,8 @@
 {
   "description": "Yet Another Podcast Player",
   "private": true,
-  "main": "index.js",
   "scripts": {
-    "start": "npm run apollo:gen && webpack-dev-server --env dev",
+    "start": "npm run apollo:gen && npx webpack-dev-server --env dev",
     "build": "npm run apollo:gen && npx webpack --env prod --config webpack.config.js",
     "build:dev": "npm run apollo:gen && npx webpack --env dev --config webpack.config.js",
     "now-build": "npm run build",
@@ -14,7 +13,8 @@
     "eslint:write": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lint": "npm run eslint:check && npm run prettier:check",
     "format": "npm run eslint:write && npm run prettier:write",
-    "apollo:gen": "npx apollo client:codegen --target typescript --outputFlat src/gqlTypes"
+    "apollo:gen": "npx apollo client:codegen --target typescript --outputFlat src/gqlTypes",
+    "mapsize": "npx source-map-explorer public/*.js*"
   },
   "repository": {
     "type": "git",
@@ -85,6 +85,7 @@
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^4.3.2"
   }
 }
