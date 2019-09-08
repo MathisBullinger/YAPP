@@ -29,7 +29,7 @@ export default function Search() {
       setValue('')
       inputRef.current.blur()
       setTimeout(() => {
-        if (this) setActive(false)
+        if (inputRef.current) setActive(false)
       }, 100)
     }
   }

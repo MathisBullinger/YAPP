@@ -1,0 +1,11 @@
+query FetchPodcast($id: ID!) {
+  podcast(itunesId: $id) {
+    itunesId
+    name
+    creator
+    artworks {
+      url
+      size
+    }
+  }
+}
