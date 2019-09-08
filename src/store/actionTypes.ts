@@ -1,4 +1,5 @@
 import { Themes } from '~/styles/theme'
+import { Podcast } from './state'
 
 export type ActionType =
   | 'SET_THEME'
@@ -17,6 +18,8 @@ export type ActionType =
   | 'RESET_TOOLBAR_ACTIONS'
   | 'SET_SCROLL_DIRECTION'
   | 'SEARCH_PODCAST'
+  | 'ADD_PODCAST'
+  | 'ADD_SEARCH_RESULTS'
 
 export interface Base {
   type: ActionType
@@ -41,4 +44,13 @@ export interface AppbarAction extends Base {
 
 export interface ScrollDirAction extends Base {
   value: 'up' | 'down'
+}
+
+export interface PodcastAction extends Base {
+  value: Podcast
+}
+
+export interface SearchResultAction extends Base {
+  search: string
+  results: string[]
 }

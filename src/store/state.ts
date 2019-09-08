@@ -26,4 +26,16 @@ export default interface State {
   scroll: {
     direction: 'up' | 'down'
   }
+  podcasts: {
+    byId: { [key: string]: Podcast }
+    searches: { [key: string]: string[] }
+  }
+}
+
+export interface Podcast {
+  itunesId: string
+  name: string
+  creator: string
+  feed: string
+  description: string
 }

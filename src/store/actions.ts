@@ -1,5 +1,6 @@
 import { Themes } from '~/styles/theme'
 import * as a from './actionTypes'
+import { Podcast } from './state'
 
 const action = (type: a.ActionType) => (): a.Base => ({ type })
 const toggleAction = (type: a.ActionType) => (
@@ -47,4 +48,18 @@ export const setScrollDirection = (
 ): a.ScrollDirAction => ({
   type: 'SET_SCROLL_DIRECTION',
   value,
+})
+
+export const addPodcast = (value: Podcast): a.PodcastAction => ({
+  type: 'ADD_PODCAST',
+  value,
+})
+
+export const addSearchResults = (
+  search: string,
+  results: string[]
+): a.SearchResultAction => ({
+  type: 'ADD_SEARCH_RESULTS',
+  search,
+  results,
 })
