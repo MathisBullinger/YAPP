@@ -17,7 +17,7 @@ const baseConfig = {
     alias: {
       '~': path.resolve(__dirname, 'src'),
     },
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.scss'],
   },
   module: {
     rules: [

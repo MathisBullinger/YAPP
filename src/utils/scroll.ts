@@ -1,6 +1,6 @@
 import store from '~/store'
 import { setScrollDirection } from '~/store/actions'
-import { throttle } from 'lodash'
+import throttle from 'lodash/throttle'
 
 const MIN_STEP = 20
 let lastOffY: number = null

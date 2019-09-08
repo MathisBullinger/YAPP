@@ -44,35 +44,36 @@ export namespace actions {
   }
 }
 
+const action = (type: ActionType) => (): actions.Base => ({ type })
+const toggleAction = (type: ActionType) => (
+  value?: boolean
+): actions.ToggleAction => ({
+  type,
+  value,
+})
+const stringAction = (type: ActionType) => (
+  value: string
+): actions.StringAction => ({ type, value })
+
 export const setTheme = (theme: Themes): actions.SetTheme => ({
   type: 'SET_THEME',
   theme,
 })
 
-export const toggleDarkMode = (value?: boolean): actions.ToggleAction => ({
-  type: 'TOGGLE_DARK_MODE',
-  value,
-})
-
-export const toggleAppbar = (value?: boolean): actions.ToggleAction => ({
-  type: 'TOGGLE_APPBAR',
-  value,
-})
-
-export const togglePreferAmoled = (value?: boolean): actions.ToggleAction => ({
-  type: 'TOGGLE_PREFER_AMOLED',
-  value,
-})
-
-export const toggleDarkAtNight = (value?: boolean): actions.ToggleAction => ({
-  type: 'TOGGLE_DARK_AT_NIGHT',
-  value,
-})
-
-export const setAppbarTitle = (value: string): actions.StringAction => ({
-  type: 'SET_APPBAR_TITLE',
-  value,
-})
+export const toggleDarkMode = toggleAction('TOGGLE_DARK_MODE')
+export const toggleAppbar = toggleAction('TOGGLE_APPBAR')
+export const togglePreferAmoled = toggleAction('TOGGLE_PREFER_AMOLED')
+export const toggleDarkAtNight = toggleAction('TOGGLE_DARK_AT_NIGHT')
+export const setAppbarTitle = stringAction('SET_APPBAR_TITLE')
+export const resetAppbarActions = action('RESET_APPBAR_ACTIONS')
+export const toggleAppbarLoading = toggleAction('TOGGLE_APPBAR_LOADING')
+export const toggleHideAppbarOnScroll = toggleAction(
+  'TOGGLE_HIDE_APPBAR_ON_SCROLL'
+)
+export const toggleToolbar = toggleAction('TOGGLE_TOOLBAR')
+export const setToolbarTitle = stringAction('SET_TOOLBAR_TITLE')
+export const addToolbarAction = stringAction('ADD_TOOLBAR_ACTION')
+export const resetToolbarActions = action('RESET_TOOLBAR_ACTIONS')
 
 export const addAppbarAction = (
   name: string,
@@ -81,41 +82,6 @@ export const addAppbarAction = (
   type: 'ADD_APPBAR_ACTION',
   name,
   align,
-})
-
-export const resetAppbarActions = (): actions.Base => ({
-  type: 'RESET_APPBAR_ACTIONS',
-})
-
-export const toggleAppbarLoading = (value?: boolean): actions.ToggleAction => ({
-  type: 'TOGGLE_APPBAR_LOADING',
-  value,
-})
-
-export const toggleHideAppbarOnScroll = (
-  value?: boolean
-): actions.ToggleAction => ({
-  type: 'TOGGLE_HIDE_APPBAR_ON_SCROLL',
-  value,
-})
-
-export const toggleToolbar = (value?: boolean): actions.ToggleAction => ({
-  type: 'TOGGLE_TOOLBAR',
-  value,
-})
-
-export const setToolbarTitle = (value: string): actions.StringAction => ({
-  type: 'SET_TOOLBAR_TITLE',
-  value,
-})
-
-export const addToolbarAction = (value: string): actions.StringAction => ({
-  type: 'ADD_TOOLBAR_ACTION',
-  value,
-})
-
-export const resetToolbarActions = (): actions.Base => ({
-  type: 'RESET_TOOLBAR_ACTIONS',
 })
 
 export const setScrollDirection = (
