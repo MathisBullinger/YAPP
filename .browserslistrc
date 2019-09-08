@@ -1,6 +1,5 @@
 [production]
-> 1%
-ie 10
+> 2%
 
 [development]
 last 1 chrome version

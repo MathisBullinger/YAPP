@@ -4,7 +4,6 @@ import { withRouter, RouteComponentProps } from 'react-router'
 interface RouteParams {
   id: string
 }
-
 interface Props extends RouteComponentProps<RouteParams> {}
 
 function Podcast(props: Props) {

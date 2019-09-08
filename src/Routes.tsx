@@ -57,8 +57,7 @@ class Routes extends React.Component<Props> {
           path="/podcast/:id"
           exact
           render={() => this.preRoute(Podcast)}
-        ></Route>
-        }>
+        />
         <Route render={() => this.preRoute(NotFound)} />
       </Switch>
     )
@@ -82,6 +81,7 @@ class Routes extends React.Component<Props> {
     return React.createElement(component, {}, null)
   }
 }
+
 export default connect(
   null,
   {

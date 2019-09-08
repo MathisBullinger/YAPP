@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { Input, styles } from '~/components/atoms'
 import SearchQuery from '~/gql/SearchPodcast.gql'
 import MiniResult from './search/MiniResult'
+import { useDispatch } from 'react-redux'
 
 export default function Search() {
   const [active, setActive] = useState(false)
@@ -14,12 +15,17 @@ export default function Search() {
     variables: { name: searchStr },
     skip: searchStr.length < 3,
   })
+  const dispatch = useDispatch()
 
   const results = data && data.search
 
   function search(e: SyntheticEvent) {
     e.preventDefault()
     setSearchStr(value)
+    dispatch({
+      type: 'SEARCH_PODCAST',
+      value: 'hello',
+    })
   }
 
   function toggleActive(v: boolean = !active) {
