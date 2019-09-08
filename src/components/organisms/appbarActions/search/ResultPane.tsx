@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { layout, shadow } from '~/styles'
 import { PodcastStrip } from '~/components/molecules'
-import { SearchPodcast_search } from '~/gqlTypes/SearchPodcast'
+import { Podcast } from '~/store/state'
 
 interface Props {
-  podcasts: SearchPodcast_search[]
+  podcasts: Podcast[]
 }
 
 const ResultPane: React.FunctionComponent<Props> = props => (

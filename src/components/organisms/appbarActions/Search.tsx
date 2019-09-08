@@ -1,11 +1,10 @@
 import React, { useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { useQuery } from '@apollo/react-hooks'
 import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
-import SearchQuery from '~/gql/SearchPodcast.gql'
-import { SearchPodcast, SearchPodcastVariables } from '~/gqlTypes/SearchPodcast'
+import { useSelector } from 'react-redux'
+import State from '~/store/state'
 
 interface Props {
   align: 'left' | 'right'
@@ -14,25 +13,10 @@ interface Props {
 export default function Search(props: Props) {
   const [expanded, setExpanded] = useState(false)
   const [value, setValue] = useState('')
-  const dispatch = useDispatch()
   const inputEl = useRef(null)
   const [searchStr, setSearchStr] = useState('')
-  const { loading, error, data } = useQuery<
-    SearchPodcast,
-    SearchPodcastVariables
-  >(SearchQuery, {
-    variables: { name: searchStr },
-    skip: searchStr.length < 3,
-  })
-
-  if (error) throw Error(error.message)
-
-  if (loading)
-    dispatch({
-      type: 'TOGGLE_APPBAR_LOADING',
-      value: true,
-    })
-  else dispatch({ type: 'TOGGLE_APPBAR_LOADING', value: false })
+  const dispatch = useDispatch()
+  const podData = useSelector((state: State) => state.podcasts)
 
   function toggleExpand() {
     if (!expanded) setTimeout(() => inputEl.current.focus(), 200)
@@ -42,6 +26,10 @@ export default function Search(props: Props) {
   function search(e: React.SyntheticEvent) {
     e.preventDefault()
     setSearchStr(value)
+    dispatch({
+      type: 'SEARCH_PODCAST',
+      value: value,
+    })
   }
 
   return (
@@ -62,7 +50,11 @@ export default function Search(props: Props) {
             merge={true}
           />
         </form>
-        <ResultPane podcasts={!data ? [] : data.search} />
+        {podData.searches[searchStr] && (
+          <ResultPane
+            podcasts={podData.searches[searchStr].map(id => podData.byId[id])}
+          />
+        )}
       </S.Expanded>
     </S.Search>
   )

@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { Text } from '~/components/atoms'
 import { Rem } from '~/utils/css'
 import { Link } from 'react-router-dom'
-import { SearchPodcast_search as Props } from '~/gqlTypes/SearchPodcast'
+import { Podcast } from '~/store/state'
 
-export default function Result(props: Props) {
+export default function Result(props: Podcast) {
   const imgSize = new Rem(1).toPx().value * 3.5
 
   let thumbnail = null
-  if (props.artworks) {
+  if (props.artworks.length) {
     let thumbSize = Math.min(
       ...props.artworks.filter(a => a.size >= imgSize).map(a => a.size)
     )

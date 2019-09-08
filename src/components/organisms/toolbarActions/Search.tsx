@@ -1,30 +1,25 @@
 import React, { useState, useRef, SyntheticEvent } from 'react'
 import styled from 'styled-components'
-import { useQuery } from '@apollo/react-hooks'
 import { Input, styles } from '~/components/atoms'
-import SearchQuery from '~/gql/SearchPodcast.gql'
 import MiniResult from './search/MiniResult'
 import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import State from '~/store/state'
 
 export default function Search() {
   const [active, setActive] = useState(false)
   const [value, setValue] = useState('')
   const inputRef = useRef(null)
   const [searchStr, setSearchStr] = useState('')
-  const { data } = useQuery(SearchQuery, {
-    variables: { name: searchStr },
-    skip: searchStr.length < 3,
-  })
   const dispatch = useDispatch()
-
-  const results = data && data.search
+  const podData = useSelector((state: State) => state.podcasts)
 
   function search(e: SyntheticEvent) {
     e.preventDefault()
     setSearchStr(value)
     dispatch({
       type: 'SEARCH_PODCAST',
-      value: 'hello',
+      value: value,
     })
   }
 
@@ -55,7 +50,11 @@ export default function Search() {
         onChange={setValue}
         elRef={inputRef}
       />
-      {active && results && <MiniResult podcasts={results} />}
+      {active && podData.searches[searchStr] && (
+        <MiniResult
+          podcasts={podData.searches[searchStr].map(id => podData.byId[id])}
+        />
+      )}
     </S.Search>
   )
 }

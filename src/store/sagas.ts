@@ -18,6 +18,7 @@ export function* searchPodcast(action: StringAction) {
         creator: podcast.creator,
         feed: '',
         description: '',
+        artworks: podcast.artworks,
       })
     )
   }

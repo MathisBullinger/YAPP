@@ -38,4 +38,10 @@ export interface Podcast {
   creator: string
   feed: string
   description: string
+  artworks: Artwork[]
+}
+
+interface Artwork {
+  size: number
+  url: string
 }
