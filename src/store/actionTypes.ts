@@ -20,6 +20,7 @@ export type ActionType =
   | 'SEARCH_PODCAST'
   | 'ADD_PODCAST'
   | 'ADD_SEARCH_RESULTS'
+  | 'TOGGLE_PODCAST_FETCHING'
 
 export interface Base {
   type: ActionType

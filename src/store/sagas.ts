@@ -3,9 +3,10 @@ import { StringAction } from './actionTypes'
 import api from '~/api'
 import SearchQuery from '~/gql/SearchPodcast.gql'
 import { SearchPodcast, SearchPodcastVariables } from '~/gqlTypes/SearchPodcast'
-import { addPodcast, addSearchResults } from './actions'
+import { addPodcast, addSearchResults, togglePodcastFetching } from './actions'
 
 export function* searchPodcast(action: StringAction) {
+  yield put(togglePodcastFetching(true))
   const result = yield api.query<SearchPodcast, SearchPodcastVariables>({
     query: SearchQuery,
     variables: { name: action.value },
@@ -28,6 +29,7 @@ export function* searchPodcast(action: StringAction) {
       (result.data as SearchPodcast).search.map(podcast => podcast.itunesId)
     )
   )
+  yield put(togglePodcastFetching(false))
 }
 
 export default function*() {

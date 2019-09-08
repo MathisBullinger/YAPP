@@ -1,7 +1,12 @@
 import State from '../state'
 import * as a from '../actionTypes'
+import { getToggleValue } from './utils'
 
-const defaultState: State['podcasts'] = { byId: {}, searches: {} }
+const defaultState: State['podcasts'] = {
+  byId: {},
+  searches: {},
+  fetching: false,
+}
 
 export default function(
   state: State['podcasts'] = defaultState,
@@ -25,6 +30,11 @@ export default function(
           [(action as a.SearchResultAction)
             .search]: (action as a.SearchResultAction).results,
         },
+      }
+    case 'TOGGLE_PODCAST_FETCHING':
+      return {
+        ...state,
+        fetching: getToggleValue(action, state.fetching),
       }
     default:
       return state

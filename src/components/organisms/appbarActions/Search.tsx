@@ -32,6 +32,11 @@ export default function Search(props: Props) {
     })
   }
 
+  dispatch({
+    type: 'TOGGLE_APPBAR_LOADING',
+    value: podData.fetching,
+  })
+
   return (
     <S.Search className={'action ' + props.align}>
       <IconButton label="search podcast" icon="search" onClick={toggleExpand} />
@@ -50,11 +55,12 @@ export default function Search(props: Props) {
             merge={true}
           />
         </form>
-        {podData.searches[searchStr] && (
-          <ResultPane
-            podcasts={podData.searches[searchStr].map(id => podData.byId[id])}
-          />
-        )}
+        <ResultPane
+          podcasts={(podData.searches[searchStr] || []).map(
+            id => podData.byId[id]
+          )}
+        />
+        )
       </S.Expanded>
     </S.Search>
   )

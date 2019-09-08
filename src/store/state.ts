@@ -29,6 +29,7 @@ export default interface State {
   podcasts: {
     byId: { [key: string]: Podcast }
     searches: { [key: string]: string[] }
+    fetching: boolean
   }
 }
 
