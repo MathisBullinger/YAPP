@@ -1,4 +1,4 @@
-import { actions as a } from '../actions'
+import * as a from '../actionTypes'
 import State from '../state'
 
 const defaultState: State['scroll'] = {
