@@ -4,7 +4,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
 import styled from 'styled-components'
 import { Rem } from '~/utils/css'
-import { Title, Subtitle } from '~/components/atoms'
+import { Title, Subtitle, Text } from '~/components/atoms'
+import { responsive } from '~/styles'
+import { useMatchMedia } from '~/utils/hooks'
 
 interface RouteParams {
   id: string
@@ -22,9 +24,11 @@ function Podcast(props: Props) {
       value: props.match.params.id,
     })
 
+  const desktop = useMatchMedia(responsive.navOnSide)
+
   let thumbnail = null
   if (podcast && podcast.artworks.length) {
-    const imgSize = new Rem(1).toPx().value * 6
+    const imgSize = new Rem(1).toPx().value * (desktop ? 12 : 6)
     thumbnail = podcast.artworks[0]
     for (const art of podcast.artworks) {
       if (thumbnail.size < imgSize && art.size > thumbnail.size) thumbnail = art
@@ -42,8 +46,13 @@ function Podcast(props: Props) {
     <div>
       <S.Head>
         <div>
-          <Title s5>{podcast && podcast.name}</Title>
-          <Subtitle s2>{podcast && podcast.creator}</Subtitle>
+          <Title s4={desktop} s5={!desktop}>
+            {podcast && podcast.name}
+          </Title>
+          <Subtitle s1={desktop} s2={!desktop}>
+            {podcast && podcast.creator}
+          </Subtitle>
+          {desktop && <Text>{podcast && podcast.description}</Text>}
         </div>
         <img src={thumbnail} />
       </S.Head>
@@ -73,6 +82,20 @@ const S = {
       width: 6rem;
       flex-shrink: 0;
       border-radius: 0.25rem;
+    }
+
+    @media ${responsive.navOnSide} {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+
+      div {
+        padding-left: 3rem;
+      }
+
+      img {
+        height: 12rem;
+        width: 12rem;
+      }
     }
   `,
 }

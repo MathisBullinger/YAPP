@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { shadow } from '~/styles'
 import { PodcastStrip } from '~/components/molecules'
 
@@ -9,11 +9,13 @@ interface Props {
 
 export default function MiniResult({ podcasts }: Props) {
   return (
-    <S.Result>
-      {podcasts.map(podcast => (
-        <PodcastStrip key={podcast.name + podcast.creator} {...podcast} />
-      ))}
-    </S.Result>
+    <ThemeProvider theme={{ topic: 'surface' }}>
+      <S.Result>
+        {podcasts.map(podcast => (
+          <PodcastStrip key={podcast.name + podcast.creator} {...podcast} />
+        ))}
+      </S.Result>
+    </ThemeProvider>
   )
 }
 

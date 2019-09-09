@@ -47,7 +47,7 @@ export function* fetchPodcast(action: StringAction) {
       name: podcast.name,
       creator: podcast.creator,
       feed: '',
-      description: '',
+      description: podcast.description,
       artworks: podcast.artworks,
     })
   )

@@ -3,6 +3,7 @@ query FetchPodcast($id: ID!) {
     itunesId
     name
     creator
+    description
     artworks {
       url
       size
