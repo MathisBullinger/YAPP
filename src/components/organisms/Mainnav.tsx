@@ -66,7 +66,7 @@ namespace S {
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
     ${({ theme }) =>
-      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(4)};` : ''}
+      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
 
     display: flex;
     flex-direction: row;

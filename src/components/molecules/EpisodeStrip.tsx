@@ -11,7 +11,7 @@ interface Props {
 export default function EpisodeStrip(props: Props) {
   return (
     <S.Episode>
-      <Text>{props.episode.title}</Text>
+      <Text emp="high">{props.episode.title || 'no title available'}</Text>
     </S.Episode>
   )
 }

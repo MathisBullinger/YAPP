@@ -60,7 +60,7 @@ namespace S {
     width: 100vw;
     height: ${layout.mobile.appbarHeight};
     ${({ theme }) =>
-      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
+      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(0.8)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
     transition: background-color ${timing.colorSwap}, transform ${
     timing.appbarHidden

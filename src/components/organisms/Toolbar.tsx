@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { responsive, layout } from '~/styles'
+import { responsive, layout, timing } from '~/styles'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
 import { Title } from '~/components/atoms'
@@ -44,6 +44,7 @@ namespace S {
     padding-left: var(--side-padding);
     padding-right: var(--side-padding);
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
+    transition: background-color ${timing.colorSwap};
 
     & > * {
       margin: 0;
