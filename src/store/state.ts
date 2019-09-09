@@ -40,9 +40,14 @@ export interface Podcast {
   feed: string
   description: string
   artworks: Artwork[]
+  episodes: Episode[]
 }
 
 interface Artwork {
   size: number
   url: string
+}
+
+export interface Episode {
+  title: string
 }

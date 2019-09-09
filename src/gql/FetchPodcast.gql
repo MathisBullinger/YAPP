@@ -8,5 +8,8 @@ query FetchPodcast($id: ID!) {
       url
       size
     }
+    episodes {
+      title
+    }
   }
 }

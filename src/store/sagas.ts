@@ -22,6 +22,7 @@ export function* searchPodcast(action: StringAction) {
         feed: '',
         description: '',
         artworks: podcast.artworks,
+        episodes: [],
       })
     )
   }
@@ -49,6 +50,7 @@ export function* fetchPodcast(action: StringAction) {
       feed: '',
       description: podcast.description,
       artworks: podcast.artworks,
+      episodes: podcast.episodes.map(episode => ({ title: episode.title })),
     })
   )
   yield put(togglePodcastFetching(false))

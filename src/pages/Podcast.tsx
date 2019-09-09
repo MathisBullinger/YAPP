@@ -5,6 +5,7 @@ import State from '~/store/state'
 import styled from 'styled-components'
 import { Rem } from '~/utils/css'
 import { Title, Subtitle, Text } from '~/components/atoms'
+import { EpisodeList } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
 
@@ -18,7 +19,7 @@ function Podcast(props: Props) {
     (state: State) => state.podcasts.byId[props.match.params.id]
   )
   const dispatch = useDispatch()
-  if (!podcast)
+  if (!podcast || !podcast.episodes.length)
     dispatch({
       type: 'FETCH_PODCAST',
       value: props.match.params.id,
@@ -56,6 +57,9 @@ function Podcast(props: Props) {
         </div>
         <img src={thumbnail} />
       </S.Head>
+      <EpisodeList
+        episodes={podcast && podcast.episodes ? podcast.episodes : []}
+      />
     </div>
   )
 }
@@ -66,6 +70,7 @@ const S = {
   Head: styled.header`
     display: flex;
     justify-content: space-between;
+    margin-bottom: 3rem;
 
     div {
       overflow-x: hidden;
