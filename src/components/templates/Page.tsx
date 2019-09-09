@@ -36,6 +36,7 @@ namespace S {
       height: 100vh;
       margin-bottom: 0;
       padding-left: 4rem;
+      padding-right: 4rem;
     }
 
     ${Appbar} ~ & {

@@ -21,3 +21,6 @@ namespace S {
     display: contents;
   `
 }
+
+const StyledIconButton = S.Button
+export { StyledIconButton }

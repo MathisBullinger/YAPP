@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Episode } from '~/store/state'
 import { Text } from '~/components/atoms'
+import { InlinePlayButton } from '.'
 import { responsive } from '~/styles'
 
 interface Props {
@@ -12,19 +13,21 @@ export default function EpisodeStrip(props: Props) {
   return (
     <S.Episode>
       <Text emp="high">{props.episode.title || 'no title available'}</Text>
+      <InlinePlayButton progress={Math.random()} />
     </S.Episode>
   )
 }
 
 const S = {
   Episode: styled.li`
-    height: 3rem;
+    height: 4rem;
     display: flex;
     align-items: center;
     margin-left: -2rem;
     margin-right: -2rem;
     padding-left: 2rem;
     padding-right: 2rem;
+    justify-content: space-between;
 
     & > * {
       margin: 0;
