@@ -28,7 +28,7 @@ function Podcast(props: Props) {
   const desktop = useMatchMedia(responsive.navOnSide)
 
   let thumbnail = null
-  if (podcast && podcast.artworks.length) {
+  if (podcast && podcast.artworks) {
     const imgSize = new Rem(1).toPx().value * (desktop ? 12 : 6)
     thumbnail = podcast.artworks[0]
     for (const art of podcast.artworks) {

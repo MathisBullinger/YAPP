@@ -9,7 +9,7 @@ export default function Result(props: Podcast) {
   const imgSize = new Rem(1).toPx().value * 3.5
 
   let thumbnail = null
-  if (props.artworks.length) {
+  if (props.artworks) {
     let thumbSize = Math.min(
       ...props.artworks.filter(a => a.size >= imgSize).map(a => a.size)
     )
