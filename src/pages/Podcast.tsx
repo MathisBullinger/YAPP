@@ -70,7 +70,9 @@ const S = {
 
     picture {
       flex-shrink: 0;
-      border-radius: 0.25rem;
+      img {
+        border-radius: 0.25rem;
+      }
     }
 
     @media ${responsive.navOnSide} {
