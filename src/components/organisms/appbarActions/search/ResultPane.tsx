@@ -9,7 +9,6 @@ interface Props {
 }
 
 const ResultPane: React.FunctionComponent<Props> = props => {
-  // console.log(props.podcasts)
   return (
     <S.Pane>
       {(props.podcasts || []).map(podcast => (
