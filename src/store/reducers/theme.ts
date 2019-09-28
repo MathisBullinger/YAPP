@@ -6,6 +6,7 @@ const defaultTheme: State['theme'] = {
   current: 'light',
   useAmoled: false,
   darkAtNight: false,
+  manualOverride: false,
 }
 export default function theme(
   state: State['theme'] = defaultTheme,
@@ -46,6 +47,11 @@ export default function theme(
       return {
         ...state,
         darkAtNight: getToggleValue(action, state.darkAtNight),
+      }
+    case 'MANUAL_DARK_MODE':
+      return {
+        ...state,
+        manualOverride: true,
       }
     default:
       return state
