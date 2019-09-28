@@ -11,7 +11,7 @@ export default function EpisodeList(props: Props) {
   return (
     <S.List>
       {props.episodes.map(episode => (
-        <EpisodeStrip key={episode.title} episode={episode} />
+        <EpisodeStrip key={episode.title + episode.file} episode={episode} />
       ))}
     </S.List>
   )

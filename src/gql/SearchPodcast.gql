@@ -6,6 +6,7 @@ query SearchPodcast($name: String!) {
     artworks {
       url
       size
+      type
     }
   }
 }

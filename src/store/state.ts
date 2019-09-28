@@ -43,11 +43,14 @@ export interface Podcast {
   episodes: Episode[]
 }
 
-interface Artwork {
-  size: number
-  url: string
-}
-
 export interface Episode {
   title: string
+  artworks: Artwork[]
+  file: string
+}
+
+export interface Artwork {
+  size: number
+  url: string
+  type: string
 }
