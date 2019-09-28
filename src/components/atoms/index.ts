@@ -9,6 +9,8 @@ import Subtitle from './Subtitle'
 import IconButton from './IconButton'
 import Input from './Input'
 import Progress from './Progress'
+import Artwork from './Artwork'
+import Dynamic from './Dynamic'
 
 import { InputStyle } from './Input'
 
@@ -26,5 +28,7 @@ export {
   IconButton,
   Input,
   Progress,
+  Artwork,
+  Dynamic,
   styles,
 }

@@ -50,7 +50,12 @@ export function* fetchPodcast(action: StringAction) {
       feed: '',
       description: podcast.description,
       artworks: podcast.artworks,
-      episodes: podcast.episodes.map(episode => ({ title: episode.title })),
+      episodes: podcast.episodes.map(episode => ({
+        title: episode.title,
+        artworks: episode.artworks,
+        file: episode.file,
+        date: parseInt(episode.date, 10),
+      })),
     })
   )
   yield put(togglePodcastFetching(false))

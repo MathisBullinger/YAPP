@@ -8,6 +8,7 @@ import {
   toggleDarkMode,
   togglePreferAmoled,
   toggleDarkAtNight,
+  manualDarkmode,
 } from '~/store/actions'
 import State from '~/store/state'
 
@@ -16,6 +17,7 @@ interface Props {
   toggleDarkMode(v?: boolean): void
   togglePreferAmoled(v?: boolean): void
   toggleDarkAtNight(v?: boolean): void
+  manualDarkmode: typeof manualDarkmode
 }
 
 class Settings extends React.Component<Props> {
@@ -36,7 +38,10 @@ class Settings extends React.Component<Props> {
                   key="darkmode"
                   name="darkmode"
                   value={this.props.theme.current !== 'light'}
-                  onInput={v => this.props.toggleDarkMode(v)}
+                  onInput={v =>
+                    void (this.props.toggleDarkMode(v),
+                    this.props.manualDarkmode())
+                  }
                 />,
                 <SwitchItem
                   text="use AMOLED dark mode"
@@ -77,7 +82,7 @@ Settings.pageConf = {
 }
 export default connect(
   ({ theme }: any) => ({ theme }),
-  { toggleDarkMode, togglePreferAmoled, toggleDarkAtNight }
+  { toggleDarkMode, togglePreferAmoled, toggleDarkAtNight, manualDarkmode }
 )(Settings)
 
 namespace S {

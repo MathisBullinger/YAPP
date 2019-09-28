@@ -10,6 +10,7 @@ export default interface State {
     current: Themes
     useAmoled: boolean
     darkAtNight: boolean
+    manualOverride: boolean
   }
   appbar: {
     visible: boolean
@@ -43,11 +44,15 @@ export interface Podcast {
   episodes: Episode[]
 }
 
-interface Artwork {
-  size: number
-  url: string
-}
-
 export interface Episode {
   title: string
+  artworks: Artwork[]
+  file: string
+  date: number
+}
+
+export interface Artwork {
+  size: number
+  url: string
+  type: string
 }

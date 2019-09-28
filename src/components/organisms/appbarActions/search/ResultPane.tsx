@@ -8,13 +8,18 @@ interface Props {
   podcasts: Podcast[]
 }
 
-const ResultPane: React.FunctionComponent<Props> = props => (
-  <S.Pane>
-    {(props.podcasts || []).map(podcast => (
-      <PodcastStrip key={podcast.name + podcast.creator} {...podcast} />
-    ))}
-  </S.Pane>
-)
+const ResultPane: React.FunctionComponent<Props> = props => {
+  return (
+    <S.Pane>
+      {(props.podcasts || []).map(podcast => (
+        <PodcastStrip
+          key={podcast.feed || Math.random().toString()}
+          {...podcast}
+        />
+      ))}
+    </S.Pane>
+  )
+}
 export default ResultPane
 
 namespace S {
