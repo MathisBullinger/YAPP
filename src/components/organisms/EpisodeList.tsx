@@ -10,9 +10,11 @@ interface Props {
 export default function EpisodeList(props: Props) {
   return (
     <S.List>
-      {props.episodes.map(episode => (
-        <EpisodeStrip key={episode.title + episode.file} episode={episode} />
-      ))}
+      {props.episodes
+        .sort((a, b) => b.date - a.date)
+        .map(episode => (
+          <EpisodeStrip key={episode.title + episode.file} episode={episode} />
+        ))}
     </S.List>
   )
 }

@@ -47,6 +47,7 @@ export interface Episode {
   title: string
   artworks: Artwork[]
   file: string
+  date: number
 }
 
 export interface Artwork {

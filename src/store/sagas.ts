@@ -54,6 +54,7 @@ export function* fetchPodcast(action: StringAction) {
         title: episode.title,
         artworks: episode.artworks,
         file: episode.file,
+        date: parseInt(episode.date, 10),
       })),
     })
   )
