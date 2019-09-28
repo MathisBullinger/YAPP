@@ -39,5 +39,6 @@ namespace S {
     transition: color ${() => timing.colorSwap};
     margin-top: 1rem;
     margin-bottom: 1rem;
+    line-height: 1.5rem;
   `
 }

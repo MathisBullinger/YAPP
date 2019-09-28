@@ -30,5 +30,7 @@ namespace S {
     letter-spacing: ${({ tt }) => tt.spacing}rem;
     color: ${({ theme, emp }) => theme[theme.topic](theme.variant).on(emp)};
     transition: color ${() => timing.colorSwap};
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   `
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
-import { Mainnav, Appbar, Toolbar } from '~/components/organisms'
+import { Mainnav, Appbar, Toolbar, Player } from '~/components/organisms'
 import { Page } from '~/components/templates'
 import Routes from './Routes'
 import getTheme from '~/styles/theme'
@@ -39,6 +39,7 @@ export default function App() {
         <Page>
           <Routes />
         </Page>
+        <Player />
       </Router>
     </ThemeProvider>
   )
