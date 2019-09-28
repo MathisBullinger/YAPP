@@ -3,7 +3,7 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
 import styled from 'styled-components'
-import { Title, Subtitle, Text, Artwork } from '~/components/atoms'
+import { Title, Subtitle, Text, Artwork, Dynamic } from '~/components/atoms'
 import { EpisodeList } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
@@ -26,6 +26,9 @@ function Podcast(props: Props) {
 
   const desktop = useMatchMedia(responsive.navOnSide)
 
+  const description = podcast && podcast.description
+  const Descr = description && description.startsWith('\u200c') ? Dynamic : Text
+
   return (
     <div>
       <S.Head>
@@ -36,7 +39,7 @@ function Podcast(props: Props) {
           <Subtitle s1={desktop} s2={!desktop}>
             {podcast && podcast.creator}
           </Subtitle>
-          {desktop && <Text>{podcast && podcast.description}</Text>}
+          {desktop && <Descr>{description}</Descr>}
         </div>
         <Artwork
           artworks={podcast && podcast.artworks}
