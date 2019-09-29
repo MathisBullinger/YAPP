@@ -32,6 +32,9 @@ export default interface State {
     searches: { [key: string]: string[] }
     fetching: boolean
   }
+  player: {
+    active: boolean
+  }
 }
 
 export interface Podcast {
