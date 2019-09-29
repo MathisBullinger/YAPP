@@ -33,7 +33,8 @@ export default interface State {
     fetching: boolean
   }
   player: {
-    active: boolean
+    visible: boolean
+    playing: boolean
   }
 }
 

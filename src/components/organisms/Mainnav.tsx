@@ -9,7 +9,7 @@ import State from '~/store/state'
 
 export default function Mainnav() {
   const onSide = useMatchMedia(responsive.navOnSide)
-  const playerVisible = useSelector((state: State) => state.player.active)
+  const playerVisible = useSelector((state: State) => state.player.visible)
 
   return (
     <ThemeProvider
@@ -62,6 +62,8 @@ const S = {
     align-items: center;
 
     @media ${responsive.navOnSide} {
+      top: 0;
+      bottom: initial;
       height: 100vh;
       width: ${layout.desktop.navWidth};
       flex-direction: column;
@@ -79,14 +81,19 @@ const S = {
       align-items: center;
     }
 
-    @media ${responsive.navOnBottom} {
-      ${props =>
-        props['data-player'] &&
-        `box-shadow: none;
-        outline: 1px solid
-            ${props.theme[props.theme.topic](props.theme.variant)
-              .on()
-              .substring(0, 7)}22;`}
-    }
+    ${props =>
+      props['data-player'] &&
+      `
+      @media ${responsive.navOnBottom} {
+        box-shadow: none;
+        outline: 1px solid ${props.theme[props.theme.topic](props.theme.variant)
+          .on()
+          .substring(0, 7)}22;
+      }
+
+      @media ${responsive.navOnSide} {
+        height: calc(100vh - ${layout.desktop.playerHeight});
+      }
+    `}
   `,
 }

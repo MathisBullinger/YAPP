@@ -36,7 +36,8 @@ export const resetToolbarActions = action('RESET_TOOLBAR_ACTIONS')
 export const searchPodcast = stringAction('SEARCH_PODCAST')
 export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
 export const fetchPodcast = stringAction('FETCH_PODCAST')
-export const togglePlayer = toggleAction('TOGGLE_PLAYER')
+export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
+export const togglePlaying = toggleAction('TOGGLE_PLAYING')
 
 export const addAppbarAction = (
   name: string,

@@ -1,18 +1,30 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
+import { togglePlaying } from '~/store/actions'
 import PlayButton from './player/PlayButton'
+import { useMatchMedia } from '~/utils/hooks'
 
 export default function Player() {
-  const active = useSelector((state: State) => state.player.active)
+  const visible = useSelector((state: State) => state.player.visible)
+  const dispatch = useDispatch()
+  const navOnSide = useMatchMedia(responsive.navOnSide)
+
+  function pause() {
+    dispatch(togglePlaying(false))
+  }
+
+  function play() {
+    dispatch(togglePlaying(true))
+  }
 
   return (
-    <ThemeProvider theme={{ topic: 'surface' }}>
-      {active && (
+    <ThemeProvider theme={{ topic: 'surface', variant: navOnSide ? 1 : 0 }}>
+      {visible && (
         <S.Player>
-          <PlayButton playing={true} />
+          <PlayButton togglePlayer={v => (v ? play() : pause())} />
         </S.Player>
       )}
     </ThemeProvider>
@@ -30,20 +42,14 @@ const S = {
     width: 100vw;
     height: ${layout.mobile.playerHeight};
     ${({ theme }) =>
-      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(0.8)};` : ''}
-    background-color: ${({ theme }) => theme[theme.topic]().color};
+      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
+    background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
 
     @media ${responsive.navOnSide} {
       bottom: 0;
-      left: ${layout.desktop.navWidth};
-      width: calc(100vw - ${layout.desktop.navWidth});
-      height: 6rem;
-    }
-
-    @media ${responsive.navCollapsed} {
-      left: ${layout.desktop.navWidthCollapsed};
-      width: calc(100vw - ${layout.desktop.navWidthCollapsed});
+      height: ${layout.desktop.playerHeight};
+      z-index: 2100;
     }
   `,
 }

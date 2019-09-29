@@ -23,7 +23,8 @@ export type ActionType =
   | 'ADD_SEARCH_RESULTS'
   | 'TOGGLE_PODCAST_FETCHING'
   | 'FETCH_PODCAST'
-  | 'TOGGLE_PLAYER'
+  | 'TOGGLE_PLAYER_VISIBLE'
+  | 'TOGGLE_PLAYING'
 
 export interface Base {
   type: ActionType
