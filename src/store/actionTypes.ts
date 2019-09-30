@@ -26,6 +26,8 @@ export type ActionType =
   | 'TOGGLE_PLAYER_VISIBLE'
   | 'TOGGLE_PLAYING'
   | 'SET_CURRENT_EPISODE'
+  | 'SET_PLAYER_LENGTH'
+  | 'SET_PLAYER_PROGRESS'
 
 export interface Base {
   type: ActionType
@@ -41,6 +43,10 @@ export interface ToggleAction extends Base {
 
 export interface StringAction extends Base {
   value: string
+}
+
+export interface NumberAction extends Base {
+  value: number
 }
 
 export interface AppbarAction extends Base {

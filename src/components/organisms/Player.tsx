@@ -9,6 +9,7 @@ import Audio from '~/systems/audio'
 import { register, send } from '~/systems'
 import PlayButton from './player/PlayButton'
 import Volume from './player/Volume'
+import Progress from './player/Progress'
 
 export default function Player() {
   const dispatch = useDispatch()
@@ -30,6 +31,7 @@ export default function Player() {
         <div className="left" />
         <div className="center">
           <PlayButton />
+          <Progress />
         </div>
         <div className="right">
           <Volume handleChange={v => send('audio', 'setVolume', v)} />
@@ -54,22 +56,36 @@ const S = {
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
 
+
     @media ${responsive.navOnSide} {
       bottom: 0;
       height: ${layout.desktop.playerHeight};
       z-index: 2100;
+    }
 
-      .left {
-        margin-right: auto;
-      }
+    .left {
+      margin-right: auto;
+    }
 
-      .right {
-        margin-left: auto;
-      }
+    .right {
+      margin-left: auto;
+    }
 
-      .left, .right {
-        width: 200px;
-      }
+    .left, .right {
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .center {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      margin-left: 2rem;
+      margin-right: 2rem;
     }
   `,
 }

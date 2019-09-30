@@ -6,6 +6,8 @@ const defaultState: State['player'] = {
   visible: false,
   playing: false,
   currentEpisode: null,
+  progress: 0,
+  length: 0,
 }
 export default function player(
   state: State['player'] = defaultState,
@@ -26,6 +28,16 @@ export default function player(
       return {
         ...state,
         currentEpisode: (action as a.StringAction).value,
+      }
+    case 'SET_PLAYER_LENGTH':
+      return {
+        ...state,
+        length: (action as a.NumberAction).value,
+      }
+    case 'SET_PLAYER_PROGRESS':
+      return {
+        ...state,
+        progress: (action as a.NumberAction).value,
       }
     default:
       return state
