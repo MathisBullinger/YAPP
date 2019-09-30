@@ -8,6 +8,7 @@ export default class Audio implements System {
   private audioContext: AudioContext
   private audioRef: MutableRefObject<HTMLAudioElement>
   private track: MediaElementAudioSourceNode
+  private gainNode: GainNode
 
   constructor(audioRef: MutableRefObject<HTMLAudioElement>) {
     this.audioRef = audioRef
@@ -23,7 +24,8 @@ export default class Audio implements System {
     this.track = this.audioContext.createMediaElementSource(
       this.audioRef.current
     )
-    this.track.connect(this.audioContext.destination)
+    this.gainNode = this.audioContext.createGain()
+    this.track.connect(this.gainNode).connect(this.audioContext.destination)
   }
 
   private play(episodeId: string) {
@@ -46,12 +48,19 @@ export default class Audio implements System {
   }
 
   private pause() {
+    if (!this.audioRef.current) return
     this.audioRef.current.pause()
     store.dispatch(togglePlaying(false))
   }
 
   private resume() {
+    if (!this.audioRef.current) return
     this.audioRef.current.play()
     store.dispatch(togglePlaying(true))
+  }
+
+  private setVolume(v: number) {
+    if (!this.gainNode) return
+    this.gainNode.gain.value = v
   }
 }

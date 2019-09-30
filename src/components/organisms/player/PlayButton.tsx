@@ -13,7 +13,7 @@ export default function PlayButton() {
     <S.PlayButton
       icon={playing ? 'pauseCircle' : 'playCircle'}
       label={playing ? 'pause' : 'resume'}
-      onClick={() => send('audio', playing ? 'pause' : 'play')}
+      onClick={() => send('audio', playing ? 'pause' : 'resume')}
     />
   )
 }

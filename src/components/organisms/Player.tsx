@@ -3,11 +3,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
 import State from '~/store/state'
-import PlayButton from './player/PlayButton'
 import { useMatchMedia } from '~/utils/hooks'
 import { togglePlayerVisible } from '~/store/actions'
 import Audio from '~/systems/audio'
-import { register } from '~/systems'
+import { register, send } from '~/systems'
+import PlayButton from './player/PlayButton'
+import Volume from './player/Volume'
 
 export default function Player() {
   const dispatch = useDispatch()
@@ -26,7 +27,13 @@ export default function Player() {
     <ThemeProvider theme={{ topic: 'surface', variant: navOnSide ? 1 : 0 }}>
       <S.Player hidden={!visible}>
         <audio ref={audioRef} crossOrigin="anonymous" />
-        <PlayButton />
+        <div className="left" />
+        <div className="center">
+          <PlayButton />
+        </div>
+        <div className="right">
+          <Volume handleChange={v => send('audio', 'setVolume', v)} />
+        </div>
       </S.Player>
     </ThemeProvider>
   )
@@ -51,6 +58,18 @@ const S = {
       bottom: 0;
       height: ${layout.desktop.playerHeight};
       z-index: 2100;
+
+      .left {
+        margin-right: auto;
+      }
+
+      .right {
+        margin-left: auto;
+      }
+
+      .left, .right {
+        width: 200px;
+      }
     }
   `,
 }
