@@ -13,6 +13,8 @@ query FetchPodcast($id: ID!) {
       title
       file
       date
+      id
+      duration
       artworks {
         url
         size

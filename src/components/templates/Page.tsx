@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components'
 import { StyledBar as Appbar } from '~/components/organisms/Appbar'
 import { StyledBar as Toolbar } from '~/components/organisms/Toolbar'
 import handleScroll from '~/utils/scroll'
+import store from '~/store'
 
 const Page: React.FunctionComponent = props => {
   return (
@@ -23,9 +24,12 @@ namespace S {
   export const Page = styled.div`
     padding: 2rem;
     // prettier-ignore
-    height: calc(100vh - ${layout.mobile.navHeight} - ${({ theme }) =>
-    theme.appbar ? layout.mobile.appbarHeight : '0rem'});
-    margin-bottom: ${layout.mobile.navHeight};
+    height: calc(100vh - ${layout.mobile.navHeight} - ${
+    store.getState().player.visible ? layout.mobile.playerHeight : '0rem'
+  });
+    margin-bottom: calc(${layout.mobile.navHeight} + ${
+    store.getState().player.visible ? layout.mobile.playerHeight : '0rem'
+  });
     flex-grow: 1;
     overflow: auto;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
@@ -33,9 +37,14 @@ namespace S {
 
     @media ${responsive.navOnSide} {
       margin-left: ${layout.desktop.navWidth};
-      height: 100vh;
-      margin-bottom: 0;
+      height: calc(100vh - ${
+        store.getState().player.visible ? layout.desktop.playerHeight : '0rem'
+      });
+      margin-bottom: ${
+        store.getState().player.visible ? layout.desktop.playerHeight : '0rem'
+      };
       padding-left: 4rem;
+      padding-right: 4rem;
     }
 
     ${Appbar} ~ & {
@@ -56,10 +65,14 @@ namespace S {
       margin-top: ${layout.toolbarHeight};
       height: calc(100vh - ${layout.toolbarHeight} - ${
     layout.mobile.navHeight
+  } - ${
+    store.getState().player.visible ? layout.desktop.playerHeight : '0rem'
   });
 
       @media ${responsive.navOnSide} {
-        height: calc(100vh - ${layout.toolbarHeight});
+        height: calc(100vh - ${layout.toolbarHeight} - ${
+    store.getState().player.visible ? layout.desktop.playerHeight : '0rem'
+  });
       }
     }
 

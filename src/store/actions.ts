@@ -12,6 +12,9 @@ const toggleAction = (type: a.ActionType) => (
 const stringAction = (type: a.ActionType) => (
   value: string
 ): a.StringAction => ({ type, value })
+const numberAction = (type: a.ActionType) => (
+  value: number
+): a.NumberAction => ({ type, value })
 
 export const setTheme = (theme: Themes): a.SetTheme => ({
   type: 'SET_THEME',
@@ -36,6 +39,11 @@ export const resetToolbarActions = action('RESET_TOOLBAR_ACTIONS')
 export const searchPodcast = stringAction('SEARCH_PODCAST')
 export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
 export const fetchPodcast = stringAction('FETCH_PODCAST')
+export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
+export const togglePlaying = toggleAction('TOGGLE_PLAYING')
+export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
+export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
+export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
 
 export const addAppbarAction = (
   name: string,

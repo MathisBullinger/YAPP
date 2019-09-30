@@ -6,6 +6,7 @@ const config = {
   plugins: ['prettier', '@typescript-eslint', 'react-hooks'],
   env: {
     browser: true,
+    es6: true,
   },
   parserOptions: {
     parser: 'babel-eslint',

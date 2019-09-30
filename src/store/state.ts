@@ -32,6 +32,13 @@ export default interface State {
     searches: { [key: string]: string[] }
     fetching: boolean
   }
+  player: {
+    visible: boolean
+    playing: boolean
+    currentEpisode: string
+    length: number
+    progress: number
+  }
 }
 
 export interface Podcast {
@@ -49,6 +56,8 @@ export interface Episode {
   artworks: Artwork[]
   file: string
   date: number
+  id: string
+  duration: number
 }
 
 export interface Artwork {
