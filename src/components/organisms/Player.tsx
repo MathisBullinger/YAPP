@@ -1,39 +1,40 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
-import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
-import { togglePlaying } from '~/store/actions'
 import PlayButton from './player/PlayButton'
 import { useMatchMedia } from '~/utils/hooks'
+import { togglePlayerVisible } from '~/store/actions'
+import Audio from '~/systems/audio'
+import { register } from '~/systems'
 
 export default function Player() {
-  const visible = useSelector((state: State) => state.player.visible)
   const dispatch = useDispatch()
+  const visible = useSelector((state: State) => state.player.visible)
+  const current = useSelector((state: State) => state.player.currentEpisode)
   const navOnSide = useMatchMedia(responsive.navOnSide)
+  const audioRef = useRef(null)
 
-  function pause() {
-    dispatch(togglePlaying(false))
-  }
+  useEffect(() => {
+    register(new Audio(audioRef))
+  }, [])
 
-  function play() {
-    dispatch(togglePlaying(true))
-  }
+  if (!!current !== visible) dispatch(togglePlayerVisible(!!current))
 
   return (
     <ThemeProvider theme={{ topic: 'surface', variant: navOnSide ? 1 : 0 }}>
-      {visible && (
-        <S.Player>
-          <PlayButton togglePlayer={v => (v ? play() : pause())} />
-        </S.Player>
-      )}
+      <S.Player hidden={!visible}>
+        <audio ref={audioRef} crossOrigin="anonymous" />
+        <PlayButton />
+      </S.Player>
     </ThemeProvider>
   )
 }
 
 const S = {
   Player: styled.div`
-    display: flex;
+    display: ${({ hidden }) => (hidden ? 'hidden' : 'flex')};
     justify-content: space-around;
     align-items: center;
     z-index: 1900;

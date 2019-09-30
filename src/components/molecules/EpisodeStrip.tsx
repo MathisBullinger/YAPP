@@ -1,19 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Episode } from '~/store/state'
+import State, { Episode } from '~/store/state'
 import { Text } from '~/components/atoms'
 import { InlinePlayButton } from '.'
 import { responsive } from '~/styles'
+import { useSelector } from 'react-redux'
+import { send } from '~/systems'
 
 interface Props {
   episode: Episode
 }
 
 export default function EpisodeStrip(props: Props) {
+  const player = useSelector((state: State) => state.player)
+
+  function togglePlay() {
+    if (player.currentEpisode !== props.episode.id)
+      send('audio', 'play', props.episode.id)
+    else send('audio', player.playing ? 'pause' : 'resume')
+  }
+
   return (
     <S.Episode>
       <Text emp="high">{props.episode.title || 'no title available'}</Text>
-      <InlinePlayButton progress={Math.random()} />
+      <InlinePlayButton
+        playing={player.currentEpisode === props.episode.id && player.playing}
+        progress={Math.random()}
+        onClick={togglePlay}
+      />
     </S.Episode>
   )
 }

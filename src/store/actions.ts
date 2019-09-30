@@ -38,6 +38,7 @@ export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
 export const fetchPodcast = stringAction('FETCH_PODCAST')
 export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
 export const togglePlaying = toggleAction('TOGGLE_PLAYING')
+export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
 
 export const addAppbarAction = (
   name: string,

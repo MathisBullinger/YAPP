@@ -25,6 +25,7 @@ export type ActionType =
   | 'FETCH_PODCAST'
   | 'TOGGLE_PLAYER_VISIBLE'
   | 'TOGGLE_PLAYING'
+  | 'SET_CURRENT_EPISODE'
 
 export interface Base {
   type: ActionType

@@ -4,19 +4,16 @@ import { IconButton } from '~/components/atoms'
 import { layout } from '~/styles'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
+import { send } from '~/systems'
 
-interface Props {
-  togglePlayer(v: boolean): void
-}
-
-export default function PlayButton({ togglePlayer }: Props) {
+export default function PlayButton() {
   const playing = useSelector((state: State) => state.player.playing)
 
   return (
     <S.PlayButton
       icon={playing ? 'pauseCircle' : 'playCircle'}
       label={playing ? 'pause' : 'resume'}
-      onClick={() => togglePlayer(!playing)}
+      onClick={() => send('audio', playing ? 'pause' : 'play')}
     />
   )
 }

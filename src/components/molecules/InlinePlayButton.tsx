@@ -5,15 +5,22 @@ import { StyledIconButton as BtStyled } from '~/components/atoms/IconButton'
 
 interface Props {
   progress: number
+  onClick(): void
+  playing: boolean
 }
 
-export default function InlinePlayButton(props: Props) {
+export default function InlinePlayButton({
+  playing,
+  progress,
+  onClick,
+}: Props) {
+  progress = 0
   return (
     <S.Button>
       <IconButton
-        icon="play"
+        icon={playing ? 'pause' : 'play'}
         label="play episode"
-        onClick={() => console.log('click')}
+        onClick={onClick}
       />
       <S.ProgressCircle viewBox="0 0 30 30">
         <circle cx="15" cy="15" r="13" />
@@ -22,7 +29,7 @@ export default function InlinePlayButton(props: Props) {
           cx="15"
           cy="15"
           r="13"
-          strokeDashoffset={props.progress * 81.68141 * -1}
+          strokeDashoffset={progress * 81.68141 * -1}
         />
       </S.ProgressCircle>
     </S.Button>

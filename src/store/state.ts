@@ -35,6 +35,7 @@ export default interface State {
   player: {
     visible: boolean
     playing: boolean
+    currentEpisode: string
   }
 }
 
@@ -53,6 +54,7 @@ export interface Episode {
   artworks: Artwork[]
   file: string
   date: number
+  id: string
 }
 
 export interface Artwork {

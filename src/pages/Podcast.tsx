@@ -62,7 +62,6 @@ const S = {
     margin-bottom: 3rem;
 
     div {
-      user-select: text;
       overflow-x: hidden;
       padding-right: 1rem;
 

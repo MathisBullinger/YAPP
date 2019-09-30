@@ -55,6 +55,8 @@ export function* fetchPodcast(action: StringAction) {
         artworks: episode.artworks,
         file: episode.file,
         date: parseInt(episode.date, 10),
+        // @ts-ignore
+        id: `${podcast.itunesId} ${episode.id}`,
       })),
     })
   )
