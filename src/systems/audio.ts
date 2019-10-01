@@ -78,6 +78,13 @@ export default class Audio implements System {
     this.gainNode.gain.value = v
   }
 
+  private jump(direction: 'forward' | 'backward') {
+    if (!this.audioRef.current) return
+    const newPos =
+      this.audioRef.current.currentTime + (direction === 'forward' ? 30 : -10)
+    this.audioRef.current.currentTime = newPos
+  }
+
   updateInterval: number
   private updateProgress() {
     if (!this.audioRef.current) return

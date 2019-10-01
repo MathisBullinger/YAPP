@@ -8,6 +8,7 @@ import { togglePlayerVisible } from '~/store/actions'
 import Audio from '~/systems/audio'
 import { register, send } from '~/systems'
 import PlayButton from './player/PlayButton'
+import ControlButton from './player/ControlButton'
 import Volume from './player/Volume'
 import Progress from './player/Progress'
 
@@ -30,7 +31,19 @@ export default function Player() {
         <audio ref={audioRef} crossOrigin="anonymous" />
         <div className="left" />
         <div className="center">
-          <PlayButton />
+          <div className="ctrlBtGroup">
+            <ControlButton
+              label="jump backward"
+              icon="jumpBack"
+              handleClick={() => send('audio', 'jump', 'backward')}
+            />
+            <PlayButton />
+            <ControlButton
+              label="jump forward"
+              icon="jumpForward"
+              handleClick={() => send('audio', 'jump', 'forward')}
+            />
+          </div>
           <Progress />
         </div>
         <div className="right">
@@ -61,6 +74,17 @@ const S = {
       bottom: 0;
       height: ${layout.desktop.playerHeight};
       z-index: 2100;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    & > div {
+      height: 100%;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
     }
 
     .left {
@@ -73,19 +97,19 @@ const S = {
 
     .left, .right {
       width: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
     .center {
       flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
       margin-left: 2rem;
       margin-right: 2rem;
+
+      .ctrlBtGroup {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+      }
     }
   `,
 }
