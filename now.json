@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "YAPP",
-  "alias": ["react.podcast.bullinger.dev"],
+  "alias": ["podcast.bullinger.dev"],
   "build": {
     "env": {
       "ENGINE_API_KEY": "@engine_api_key"
