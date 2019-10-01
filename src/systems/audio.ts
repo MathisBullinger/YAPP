@@ -48,7 +48,8 @@ export default class Audio implements System {
     store.dispatch(setCurrentEpisode(episodeId))
 
     if (!this.audioContext) this.init()
-    this.audioRef.current.src = episode.file
+    this.audioRef.current.src =
+      'http://ec2-54-210-249-115.compute-1.amazonaws.com/' + episode.file
 
     if (this.audioContext.state === 'suspended') this.audioContext.resume()
     this.audioRef.current.play()
