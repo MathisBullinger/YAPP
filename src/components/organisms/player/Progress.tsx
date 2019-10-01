@@ -6,8 +6,9 @@ import State from '~/store/state'
 export default function Progress() {
   const length = useSelector((state: State) => state.player.length)
   const epiProgress = useSelector((state: State) => state.player.progress)
-  const playing = useSelector((state: State) => state.player.playing)
+  const playerState = useSelector((state: State) => state.player.state)
   const [progress, setProgress] = useState(epiProgress)
+  const playing = playerState === 'playing'
 
   let timeoutId
   if (playing) timeoutId = setTimeout(() => setProgress(progress + 0.5), 500)

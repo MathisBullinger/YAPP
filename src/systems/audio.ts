@@ -2,7 +2,7 @@ import { System } from '.'
 import { MutableRefObject } from 'react'
 import store from '~/store'
 import {
-  togglePlaying,
+  setPlayerState,
   setCurrentEpisode,
   setPlayerLength,
   setPlayerProgress,
@@ -34,9 +34,25 @@ export default class Audio implements System {
     )
     this.gainNode = this.audioContext.createGain()
     this.track.connect(this.gainNode).connect(this.audioContext.destination)
+    this.gainNode.gain.value = 0.1
+
+    this.audioRef.current.addEventListener('play', () => {
+      if (this.audioRef.current.readyState === 4) return
+      store.dispatch(setPlayerState('loading'))
+      this.stopUpdateProgress()
+    })
+    this.audioRef.current.addEventListener('playing', () => {
+      store.dispatch(setPlayerState('playing'))
+      store.dispatch(setPlayerLength(this.episode.duration))
+      this.startUpdateProgress()
+    })
+    this.audioRef.current.addEventListener('pause', () => {
+      store.dispatch(setPlayerState('paused'))
+      this.stopUpdateProgress()
+    })
   }
 
-  private play(episodeId: string) {
+  private async play(episodeId: string) {
     if (!episodeId) return
     const [podId, epId] = episodeId.split(' ')
     const episode = store
@@ -51,26 +67,22 @@ export default class Audio implements System {
     this.audioRef.current.src =
       'http://ec2-54-210-249-115.compute-1.amazonaws.com/' + episode.file
 
-    if (this.audioContext.state === 'suspended') this.audioContext.resume()
-    this.audioRef.current.play()
+    this.audioRef.current.load()
 
-    store.dispatch(setPlayerLength(episode.duration))
-    store.dispatch(togglePlaying(true))
-    this.startUpdateProgress()
+    if (this.audioContext.state === 'suspended')
+      await this.audioContext.resume()
+
+    await this.audioRef.current.play()
   }
 
   private pause() {
     if (!this.audioRef.current) return
     this.audioRef.current.pause()
-    store.dispatch(togglePlaying(false))
-    this.stopUpdateProgress()
   }
 
   private resume() {
     if (!this.audioRef.current) return
     this.audioRef.current.play()
-    store.dispatch(togglePlaying(true))
-    this.startUpdateProgress()
   }
 
   private setVolume(v: number) {
@@ -81,14 +93,14 @@ export default class Audio implements System {
   private jump(direction: 'forward' | 'backward') {
     if (!this.audioRef.current) return
     const newPos =
-      this.audioRef.current.currentTime + (direction === 'forward' ? 30 : -10)
+      this.audioContext.currentTime + (direction === 'forward' ? 30 : -10)
     this.audioRef.current.currentTime = newPos
   }
 
   updateInterval: number
   private updateProgress() {
     if (!this.audioRef.current) return
-    store.dispatch(setPlayerProgress(this.audioRef.current.currentTime))
+    store.dispatch(setPlayerProgress(this.audioContext.currentTime))
   }
   private startUpdateProgress() {
     if (this.updateInterval) this.stopUpdateProgress()
@@ -96,6 +108,7 @@ export default class Audio implements System {
     this.updateInterval = setInterval(this.updateProgress, 5000)
   }
   private stopUpdateProgress() {
+    if (!this.updateInterval) return
     clearInterval(this.updateInterval)
     this.updateInterval = null
   }

@@ -4,7 +4,7 @@ import { getToggleValue } from './utils'
 
 const defaultState: State['player'] = {
   visible: false,
-  playing: false,
+  state: 'idle',
   currentEpisode: null,
   progress: 0,
   length: 0,
@@ -19,10 +19,10 @@ export default function player(
         ...state,
         visible: getToggleValue(action, state.visible),
       }
-    case 'TOGGLE_PLAYING':
+    case 'SET_PLAYER_STATE':
       return {
         ...state,
-        playing: getToggleValue(action, state.playing),
+        state: (action as a.PlayerStateAction).value,
       }
     case 'SET_CURRENT_EPISODE':
       return {

@@ -13,18 +13,19 @@ interface Props {
 
 export default function EpisodeStrip(props: Props) {
   const player = useSelector((state: State) => state.player)
+  const playing = player.state === 'playing' || player.state === 'loading'
 
   function togglePlay() {
     if (player.currentEpisode !== props.episode.id)
       send('audio', 'play', props.episode.id)
-    else send('audio', player.playing ? 'pause' : 'resume')
+    else send('audio', playing ? 'pause' : 'resume')
   }
 
   return (
     <S.Episode>
       <Text emp="high">{props.episode.title || 'no title available'}</Text>
       <InlinePlayButton
-        playing={player.currentEpisode === props.episode.id && player.playing}
+        playing={player.currentEpisode === props.episode.id && playing}
         progress={Math.random()}
         onClick={togglePlay}
       />

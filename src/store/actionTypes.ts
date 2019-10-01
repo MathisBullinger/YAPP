@@ -1,5 +1,6 @@
 import { Themes } from '~/styles/theme'
 import { Podcast } from './state'
+import State from '~/store/state'
 
 export type ActionType =
   | 'SET_THEME'
@@ -24,7 +25,7 @@ export type ActionType =
   | 'TOGGLE_PODCAST_FETCHING'
   | 'FETCH_PODCAST'
   | 'TOGGLE_PLAYER_VISIBLE'
-  | 'TOGGLE_PLAYING'
+  | 'SET_PLAYER_STATE'
   | 'SET_CURRENT_EPISODE'
   | 'SET_PLAYER_LENGTH'
   | 'SET_PLAYER_PROGRESS'
@@ -65,4 +66,8 @@ export interface PodcastAction extends Base {
 export interface SearchResultAction extends Base {
   search: string
   results: string[]
+}
+
+export interface PlayerStateAction extends Base {
+  value: State['player']['state']
 }
