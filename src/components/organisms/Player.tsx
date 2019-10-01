@@ -80,7 +80,6 @@ const S = {
 
     & > div {
       height: 100%;
-      overflow: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
