@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "YAPP",
-  "alias": ["podcast.bullinger.dev"],
+  "alias": ["vue.podcast.bullinger.dev"],
   "builds": [
     {
       "src": "package.json",
