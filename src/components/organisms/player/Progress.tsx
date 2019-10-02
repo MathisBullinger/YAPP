@@ -1,17 +1,17 @@
 import React, { useRef, useEffect, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { useSize } from '~/utils/hooks'
+import { useCanvasSize } from '~/utils/hooks'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
 import store from '~/store'
+import { blendHexColorString } from '~/utils'
 
 export default function Progress() {
   const canvasRef = useRef(null)
   const theme = useContext(ThemeContext)
   const totalLength = useSelector((state: State) => state.player.length)
   const playState = useSelector((state: State) => state.player.state)
-  const playing = playState === 'playing'
-  const [width, height] = useSize(canvasRef)
+  const [width, height] = useCanvasSize(canvasRef)
 
   useEffect(() => {
     if (width === 0 || height === 0) return
@@ -19,31 +19,78 @@ export default function Progress() {
     const canvas = canvasRef.current as HTMLCanvasElement
     const ctx = canvas.getContext('2d')
 
-    const lastKnownProgress = store.getState().player.progress
-    let t0 = performance.now()
+    let progress = store.getState().player.progress / totalLength
 
-    let shouldUpdate = playing
-    const renderProgress = () => {
-      ctx.clearRect(0, 0, width, height)
-
-      const progress =
-        (lastKnownProgress + (performance.now() - t0) / 1000) / totalLength
-
-      ctx.fillStyle = `${theme[theme.topic](theme.variant)
+    const loadingColor =
+      theme[theme.topic](theme.variant)
         .on()
-        .substring(0, 7)}DD`
-      ctx.fillRect(0, 0, width * progress, height)
+        .substring(0, 7) + '33'
 
-      if (shouldUpdate) requestAnimationFrame(renderProgress)
+    const progressColor = blendHexColorString(
+      loadingColor,
+      theme[theme.topic](theme.variant).color
+    )
+
+    let shouldUpdateProgress = playState === 'playing'
+    let tl = performance.now()
+    const renderProgress = () => {
+      if (shouldUpdateProgress) {
+        const tn = performance.now()
+        progress = (progress * totalLength + (tn - tl) / 1000) / totalLength
+        tl = tn
+      }
+
+      ctx.fillStyle = progressColor
+      ctx.fillRect(0, 0, width * progress - height / 2, height)
+      ctx.beginPath()
+      ctx.arc(
+        width * progress - height / 2,
+        height / 2,
+        height / 2,
+        -Math.PI / 2,
+        Math.PI / 2
+      )
+      ctx.fill()
     }
 
-    renderProgress()
+    let shouldUpdateLoading = playState === 'loading'
+    const renderLoading = () => {
+      if (playState !== 'loading') return
+      ctx.fillStyle = loadingColor
+      const spacing = width / ((width / 30) | 0)
+      const offset = ((performance.now() % 30000) / 30000) * width
+      for (let i = 0; i < width / spacing; i++) {
+        let posX = (i * spacing - offset) % width
+        if (posX < 0) posX += width
+        ctx.beginPath()
+        ctx.arc(posX, height / 2, height / 3, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
 
-    return () => (shouldUpdate = false)
-  }, [width, height, theme, totalLength, playing])
+    const render = () => {
+      ctx.clearRect(0, 0, width, height)
+      renderLoading()
+      renderProgress()
+      if (shouldUpdateProgress || shouldUpdateLoading)
+        requestAnimationFrame(render)
+    }
+
+    render()
+
+    return () => {
+      shouldUpdateProgress = false
+      shouldUpdateLoading = false
+    }
+  }, [width, height, theme, totalLength, playState])
 
   return (
-    <S.Bar ref={canvasRef} width={`${width}px`} height={`${height}px`}></S.Bar>
+    <S.Bar
+      ref={canvasRef}
+      width={`${width}px`}
+      height={`${height}px`}
+      aria-busy={playState === 'loading'}
+    ></S.Bar>
   )
 }
 
@@ -56,5 +103,11 @@ const S = {
       theme[theme.topic](theme.variant)
         .on()
         .substring(0, 7)}33;
+
+    transition: background-color 0.5s ease;
+
+    &[aria-busy='true'] {
+      background-color: transparent;
+    }
   `,
 }

@@ -21,14 +21,14 @@ export function useMatchMedia(query: string) {
   return match
 }
 
-export function useSize(ref: MutableRefObject<any>) {
+export function useCanvasSize(ref: MutableRefObject<any>) {
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
 
   const handleChange = debounce(
     ([entry]) => {
-      setWidth(entry.contentRect.width)
-      setHeight(entry.contentRect.height)
+      setWidth(entry.contentRect.width * devicePixelRatio)
+      setHeight(entry.contentRect.height * devicePixelRatio)
     },
     200,
     { leading: false, trailing: true }
