@@ -13,9 +13,9 @@ import Volume from './player/Volume'
 import Progress from './player/Progress'
 
 export default function Player() {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const visible = useSelector((state: State) => state.player.visible)
-  const current = useSelector((state: State) => state.player.currentEpisode)
+  // const current = useSelector((state: State) => state.player.currentEpisode)
   const navOnSide = useMatchMedia(responsive.navOnSide)
   const audioRef = useRef(null)
 
@@ -23,7 +23,7 @@ export default function Player() {
     register(new Audio(audioRef))
   }, [])
 
-  if (!!current !== visible) dispatch(togglePlayerVisible(!!current))
+  // if (!!current !== visible) dispatch(togglePlayerVisible(!!current))
 
   return (
     <ThemeProvider theme={{ topic: 'surface', variant: navOnSide ? 1 : 0 }}>
@@ -57,7 +57,7 @@ export default function Player() {
 const S = {
   Player: styled.div`
     display: ${({ hidden }) => (hidden ? 'hidden' : 'flex')};
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     z-index: 1900;
     position: fixed;
@@ -68,7 +68,8 @@ const S = {
       theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
-
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 
     @media ${responsive.navOnSide} {
       bottom: 0;
@@ -82,31 +83,25 @@ const S = {
       height: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: space-around;
-    }
-
-    .left {
-      margin-right: auto;
-    }
-
-    .right {
-      margin-left: auto;
+      align-content: center;
     }
 
     .left, .right {
       width: 200px;
+      flex-shrink: 0;
     }
 
     .center {
       flex-grow: 1;
-      margin-left: 2rem;
-      margin-right: 2rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      max-width: 750px;
 
       .ctrlBtGroup {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
       }
     }

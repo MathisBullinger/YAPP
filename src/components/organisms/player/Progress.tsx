@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux'
 import State from '~/store/state'
 import store from '~/store'
 import { blendHexColorString } from '~/utils'
+import Total from './progress/Total'
+import Current from './progress/Current'
 
 export default function Progress() {
   const canvasRef = useRef(null)
@@ -85,18 +87,30 @@ export default function Progress() {
   }, [width, height, theme, totalLength, playState])
 
   return (
-    <S.Bar
-      ref={canvasRef}
-      width={`${width}px`}
-      height={`${height}px`}
-      aria-busy={playState === 'loading'}
-    ></S.Bar>
+    <S.Progress>
+      <Current />
+      <S.Bar
+        ref={canvasRef}
+        width={`${width}px`}
+        height={`${height}px`}
+        aria-busy={playState === 'loading'}
+      ></S.Bar>
+      <Total />
+    </S.Progress>
   )
 }
 
 const S = {
-  Bar: styled.canvas`
+  Progress: styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     width: 100%;
+  `,
+
+  Bar: styled.canvas`
+    width: calc(100% - 10rem);
     height: 0.4rem;
     border-radius: 0.2rem;
     background-color: ${({ theme }) =>
