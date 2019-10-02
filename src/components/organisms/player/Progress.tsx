@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
 
 export default function Progress() {
   const length = useSelector((state: State) => state.player.length)
-  const epiProg = useSelector((state: State) => state.player.progress)
-  const playerState = useSelector((state: State) => state.player.state)
-  const playing = playerState === 'playing'
-  const [progress, setProgress] = useState(epiProg)
-
-  let guessTimeout: number
-  useEffect(() => () => guessTimeout && clearTimeout(guessTimeout))
-
-  if (playing && Math.abs(epiProg - progress) < 5)
-    guessTimeout = setTimeout(() => setProgress(progress + 1), 1000)
-  else if (progress !== epiProg) setProgress(epiProg)
+  const progress = useSelector((state: State) => state.player.progress)
 
   return (
     <S.Progress

@@ -16,7 +16,11 @@ export default class Audio implements System {
   private track: MediaElementAudioSourceNode
   private gainNode: GainNode
   private episode: Episode
-  private episodeT0 = 0
+
+  private playing = false
+  private playbackTime: number
+  private lastTimeUpdate: number
+  private isNew = false
 
   constructor(audioRef: MutableRefObject<HTMLAudioElement>) {
     this.audioRef = audioRef
@@ -40,16 +44,27 @@ export default class Audio implements System {
     this.audioRef.current.addEventListener('play', () => {
       if (this.audioRef.current.readyState === 4) return
       store.dispatch(setPlayerState('loading'))
+      this.playing = false
       this.stopUpdateProgress()
     })
     this.audioRef.current.addEventListener('playing', () => {
+      this.playing = true
+      if (this.isNew) {
+        this.isNew = false
+        this.playbackTime = 0
+      }
+      this.lastTimeUpdate = this.audioContext.currentTime
+
       store.dispatch(setPlayerState('playing'))
-      this.episodeT0 = this.audioContext.currentTime
       store.dispatch(setPlayerLength(this.episode.duration))
       this.startUpdateProgress()
     })
+
     this.audioRef.current.addEventListener('pause', () => {
-      store.dispatch(setPlayerState('paused'))
+      if (this.playing) store.dispatch(setPlayerState('paused'))
+      this.playing = false
+      this.playbackTime += this.audioContext.currentTime - this.lastTimeUpdate
+
       this.stopUpdateProgress()
     })
   }
@@ -61,6 +76,7 @@ export default class Audio implements System {
       .getState()
       .podcasts.byId[podId].episodes.find(({ id }) => id === `${podId} ${epId}`)
     if (!episode || !episode.file) return
+    this.isNew = true
     this.episode = episode
 
     store.dispatch(setCurrentEpisode(episodeId))
@@ -92,28 +108,56 @@ export default class Audio implements System {
     this.gainNode.gain.value = v
   }
 
+  private blockJump = false
   private jump(direction: 'forward' | 'backward') {
-    if (!this.audioRef.current) return
-    const newPos =
-      this.audioContext.currentTime + (direction === 'forward' ? 30 : -10)
-    this.audioRef.current.currentTime = newPos
+    if (
+      this.blockJump ||
+      !this.audioRef.current ||
+      this.audioRef.current.readyState < 4
+    )
+      return
+
+    let dt = direction === 'forward' ? 30 : -10
+    this.audioRef.current.currentTime += dt
+    this.playbackTime += dt
+    this.lastTimeUpdate = this.audioContext.currentTime
+    this.updateProgress()
+
+    if (this.audioRef.current.readyState <= 2) {
+      this.blockJump = true
+      store.dispatch(setPlayerState('loading'))
+      this.playing = false
+      this.audioRef.current.pause()
+      const onCanPlay = () => {
+        this.blockJump = false
+        this.audioRef.current.play()
+        this.audioRef.current.removeEventListener('canplay', onCanPlay)
+      }
+      this.audioRef.current.addEventListener('canplay', onCanPlay)
+    }
   }
 
   updateInterval: number
   private updateProgress() {
     if (!this.audioRef.current) return
     store.dispatch(
-      setPlayerProgress(this.audioContext.currentTime - this.episodeT0)
+      setPlayerProgress(
+        this.playing
+          ? this.playbackTime +
+              (this.audioContext.currentTime - this.lastTimeUpdate)
+          : this.playbackTime
+      )
     )
   }
   private startUpdateProgress() {
     if (this.updateInterval) this.stopUpdateProgress()
     if (!this.episode.duration) return
     this.updateProgress()
-    this.updateInterval = setInterval(this.updateProgress, 5000)
+    this.updateInterval = setInterval(this.updateProgress, 1000)
   }
   private stopUpdateProgress() {
     if (!this.updateInterval) return
+    this.updateProgress()
     clearInterval(this.updateInterval)
     this.updateInterval = null
   }
