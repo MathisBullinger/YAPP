@@ -38,10 +38,12 @@ function formatTime(totalSeconds: number, crop = false): string {
 
 let _tstr: string
 const S = {
+  // prettier-ignore
   Progress: styled.div`
     width: 100%;
     height: 0.4rem;
-    background-color: gray;
+    border-radius: 0.2rem;
+    background-color: ${({theme}) => theme[theme.topic](theme.variant).on().substring(0, 7)}33;
     position: relative;
     margin-left: 2rem;
     margin-right: 2rem;
@@ -56,17 +58,12 @@ const S = {
     }
 
     &::before {
-      content: "${props =>
-        formatTime(props['aria-valuenow']).substr(
-          -((_tstr && _tstr.length) || 4)
-        )}";
+      content: "${props => formatTime(props['aria-valuenow']).substr(-((_tstr && _tstr.length) || 4))}";
       left: -1rem;
       transform: translateX(-100%) translateY(-50%);
     }
     &::after {
-      content: "${props => (
-        (_tstr = formatTime(props['aria-valuemax'], true)), _tstr
-      )}";
+      content: "${props => ((_tstr = formatTime(props['aria-valuemax'], true)), _tstr)}";
       left: calc(100% + 1rem);
       transform: translateY(-50%);
     }
@@ -77,9 +74,10 @@ const S = {
       top: 0;
       left: 0;
       height: 100%;
+      border-radius: 0.2rem;
       width: ${props =>
         (props['aria-valuenow'] / props['aria-valuemax']) * 100}%;
-      background-color: blue;
+      background-color: ${({ theme }) => theme.primary(theme.variant).color};
     }
-  `,
+  `
 }
