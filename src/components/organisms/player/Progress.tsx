@@ -5,14 +5,17 @@ import State from '~/store/state'
 
 export default function Progress() {
   const length = useSelector((state: State) => state.player.length)
-  const epiProgress = useSelector((state: State) => state.player.progress)
+  const epiProg = useSelector((state: State) => state.player.progress)
   const playerState = useSelector((state: State) => state.player.state)
-  const [progress, setProgress] = useState(epiProgress)
   const playing = playerState === 'playing'
+  const [progress, setProgress] = useState(epiProg)
 
-  let timeoutId
-  if (playing) timeoutId = setTimeout(() => setProgress(progress + 0.5), 500)
-  useEffect(() => () => clearTimeout(timeoutId))
+  let guessTimeout: number
+  useEffect(() => () => guessTimeout && clearTimeout(guessTimeout))
+
+  if (playing && Math.abs(epiProg - progress) < 5)
+    guessTimeout = setTimeout(() => setProgress(progress + 1), 1000)
+  else if (progress !== epiProg) setProgress(epiProg)
 
   return (
     <S.Progress

@@ -16,6 +16,7 @@ export default class Audio implements System {
   private track: MediaElementAudioSourceNode
   private gainNode: GainNode
   private episode: Episode
+  private episodeT0 = 0
 
   constructor(audioRef: MutableRefObject<HTMLAudioElement>) {
     this.audioRef = audioRef
@@ -43,6 +44,7 @@ export default class Audio implements System {
     })
     this.audioRef.current.addEventListener('playing', () => {
       store.dispatch(setPlayerState('playing'))
+      this.episodeT0 = this.audioContext.currentTime
       store.dispatch(setPlayerLength(this.episode.duration))
       this.startUpdateProgress()
     })
@@ -100,11 +102,14 @@ export default class Audio implements System {
   updateInterval: number
   private updateProgress() {
     if (!this.audioRef.current) return
-    store.dispatch(setPlayerProgress(this.audioContext.currentTime))
+    store.dispatch(
+      setPlayerProgress(this.audioContext.currentTime - this.episodeT0)
+    )
   }
   private startUpdateProgress() {
     if (this.updateInterval) this.stopUpdateProgress()
     if (!this.episode.duration) return
+    this.updateProgress()
     this.updateInterval = setInterval(this.updateProgress, 5000)
   }
   private stopUpdateProgress() {
