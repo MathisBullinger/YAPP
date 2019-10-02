@@ -108,14 +108,9 @@ export default class Audio implements System {
     this.gainNode.gain.value = v
   }
 
-  private blockJump = false
+  private attached = false
   private jump(direction: 'forward' | 'backward') {
-    if (
-      this.blockJump ||
-      !this.audioRef.current ||
-      this.audioRef.current.readyState < 4
-    )
-      return
+    if (!this.audioRef.current) return
 
     let dt = direction === 'forward' ? 30 : -10
     this.audioRef.current.currentTime += dt
@@ -124,16 +119,18 @@ export default class Audio implements System {
     this.updateProgress()
 
     if (this.audioRef.current.readyState <= 2) {
-      this.blockJump = true
       store.dispatch(setPlayerState('loading'))
       this.playing = false
       this.audioRef.current.pause()
-      const onCanPlay = () => {
-        this.blockJump = false
-        this.audioRef.current.play()
-        this.audioRef.current.removeEventListener('canplay', onCanPlay)
+
+      if (!this.attached) {
+        const onCanPlay = () => {
+          this.attached = false
+          this.audioRef.current.play()
+          this.audioRef.current.removeEventListener('canplay', onCanPlay)
+        }
+        this.audioRef.current.addEventListener('canplay', onCanPlay)
       }
-      this.audioRef.current.addEventListener('canplay', onCanPlay)
     }
   }
 
