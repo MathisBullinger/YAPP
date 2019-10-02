@@ -41,7 +41,7 @@ export function useSize(ref: MutableRefObject<any>) {
     sizeOb.observe(ref.current)
 
     return () => sizeOb.disconnect()
-  }, [ref])
+  }, [handleChange, ref])
 
   return [width, height]
 }

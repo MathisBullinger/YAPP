@@ -1,83 +1,60 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useRef, useEffect, useContext } from 'react'
+import styled, { ThemeContext } from 'styled-components'
+import { useSize } from '~/utils/hooks'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
+import store from '~/store'
 
 export default function Progress() {
-  const length = useSelector((state: State) => state.player.length)
-  const progress = useSelector((state: State) => state.player.progress)
+  const canvasRef = useRef(null)
+  const theme = useContext(ThemeContext)
+  const totalLength = useSelector((state: State) => state.player.length)
+  const playState = useSelector((state: State) => state.player.state)
+  const playing = playState === 'playing'
+  const [width, height] = useSize(canvasRef)
+
+  useEffect(() => {
+    if (width === 0 || height === 0) return
+
+    const canvas = canvasRef.current as HTMLCanvasElement
+    const ctx = canvas.getContext('2d')
+
+    const lastKnownProgress = store.getState().player.progress
+    let t0 = performance.now()
+
+    let shouldUpdate = playing
+    const renderProgress = () => {
+      ctx.clearRect(0, 0, width, height)
+
+      const progress =
+        (lastKnownProgress + (performance.now() - t0) / 1000) / totalLength
+
+      ctx.fillStyle = `${theme[theme.topic](theme.variant)
+        .on()
+        .substring(0, 7)}DD`
+      ctx.fillRect(0, 0, width * progress, height)
+
+      if (shouldUpdate) requestAnimationFrame(renderProgress)
+    }
+
+    renderProgress()
+
+    return () => (shouldUpdate = false)
+  }, [width, height, theme, totalLength, playing])
 
   return (
-    <S.Progress
-      role="progressbar"
-      aria-valuemin={0}
-      aria-valuemax={length}
-      aria-valuenow={progress}
-    >
-      <div />
-    </S.Progress>
+    <S.Bar ref={canvasRef} width={`${width}px`} height={`${height}px`}></S.Bar>
   )
 }
 
-function formatTime(totalSeconds: number, crop = false): string {
-  totalSeconds |= 0
-  const seconds = totalSeconds % 60
-  const minutes = ((totalSeconds - seconds) / 60) % 60
-  const hours = (totalSeconds - minutes * 60 - seconds) / 60 ** 2
-
-  let timeStr = [hours, minutes, seconds]
-    .map(n => ('0' + n).substr(-2))
-    .join(':')
-
-  if (crop)
-    while (timeStr.length && ['0', ':'].includes(timeStr[0]))
-      timeStr = timeStr.substring(1)
-
-  return timeStr
-}
-
-let _tstr: string
 const S = {
-  // prettier-ignore
-  Progress: styled.div`
+  Bar: styled.canvas`
     width: 100%;
     height: 0.4rem;
     border-radius: 0.2rem;
-    background-color: ${({theme}) => theme[theme.topic](theme.variant).on().substring(0, 7)}33;
-    position: relative;
-    margin-left: 2rem;
-    margin-right: 2rem;
-
-    &::before,
-    &::after {
-      color: ${({ theme }) => theme[theme.topic](theme.variant).on()};
-      font-size: 0.8rem;
-      position: absolute;
-      display: block;
-      top: 50%;
-    }
-
-    &::before {
-      content: "${props => formatTime(props['aria-valuenow']).substr(-((_tstr && _tstr.length) || 4))}";
-      left: -1rem;
-      transform: translateX(-100%) translateY(-50%);
-    }
-    &::after {
-      content: "${props => ((_tstr = formatTime(props['aria-valuemax'], true)), _tstr)}";
-      left: calc(100% + 1rem);
-      transform: translateY(-50%);
-    }
-
-    & > div {
-      position: absolute;
-      display: block;
-      top: 0;
-      left: 0;
-      height: 100%;
-      border-radius: 0.2rem;
-      width: ${props =>
-        (props['aria-valuenow'] / props['aria-valuemax']) * 100}%;
-      background-color: ${({ theme }) => theme.primary(theme.variant).color};
-    }
-  `
+    background-color: ${({ theme }) =>
+      theme[theme.topic](theme.variant)
+        .on()
+        .substring(0, 7)}33;
+  `,
 }
