@@ -3,11 +3,12 @@ import State from '../state'
 import { getToggleValue } from './utils'
 
 const defaultState: State['player'] = {
-  visible: false,
+  visible: true,
   state: 'idle',
   currentEpisode: null,
   progress: 0,
   length: 0,
+  buffered: 0,
 }
 export default function player(
   state: State['player'] = defaultState,
@@ -38,6 +39,11 @@ export default function player(
       return {
         ...state,
         progress: (action as a.NumberAction).value,
+      }
+    case 'SET_PLAYER_BUFFERED':
+      return {
+        ...state,
+        buffered: (action as a.NumberAction).value,
       }
     default:
       return state

@@ -43,6 +43,7 @@ export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
 export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
 export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
 export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
+export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
 
 export const addAppbarAction = (
   name: string,

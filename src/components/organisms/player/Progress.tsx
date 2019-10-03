@@ -13,6 +13,7 @@ export default function Progress() {
   const theme = useContext(ThemeContext)
   const totalLength = useSelector((state: State) => state.player.length)
   const playState = useSelector((state: State) => state.player.state)
+  const buffered = useSelector((state: State) => state.player.buffered)
   const [width, height] = useCanvasSize(canvasRef)
 
   useEffect(() => {
@@ -28,8 +29,12 @@ export default function Progress() {
         .on()
         .substring(0, 7) + '33'
 
-    const progressColor = blendHexColorString(
-      loadingColor,
+    const progressColor = theme.primary().color
+
+    const bufferColor = blendHexColorString(
+      theme[theme.topic](theme.variant)
+        .on()
+        .substring(0, 7) + '4A',
       theme[theme.topic](theme.variant).color
     )
 
@@ -70,8 +75,23 @@ export default function Progress() {
       }
     }
 
+    const renderBuffer = () => {
+      ctx.fillStyle = bufferColor
+      ctx.fillRect(0, 0, (buffered / totalLength) * width, height)
+      ctx.beginPath()
+      ctx.arc(
+        (buffered / totalLength) * width,
+        height / 2,
+        height / 2,
+        -Math.PI / 2,
+        Math.PI / 2
+      )
+      ctx.fill()
+    }
+
     const render = () => {
       ctx.clearRect(0, 0, width, height)
+      renderBuffer()
       renderLoading()
       renderProgress()
       if (shouldUpdateProgress || shouldUpdateLoading)
@@ -84,7 +104,7 @@ export default function Progress() {
       shouldUpdateProgress = false
       shouldUpdateLoading = false
     }
-  }, [width, height, theme, totalLength, playState])
+  }, [width, height, theme, totalLength, playState, buffered])
 
   return (
     <S.Progress>

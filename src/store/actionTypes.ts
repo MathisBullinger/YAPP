@@ -29,6 +29,7 @@ export type ActionType =
   | 'SET_CURRENT_EPISODE'
   | 'SET_PLAYER_LENGTH'
   | 'SET_PLAYER_PROGRESS'
+  | 'SET_PLAYER_BUFFERED'
 
 export interface Base {
   type: ActionType

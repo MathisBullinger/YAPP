@@ -12,13 +12,15 @@ export function blendHexColorString(
   const clf = split(foreground)
   const a = parseInt(foreground.substr(-2), 16) / 255
 
-  return (
-    '#' +
-    clb
-      .map((_, i) => [clf[i], clb[i]])
-      .map(([f, b]) =>
-        (b * a + f * (1.0 - a) * 255).toString(16).substring(0, 2)
-      )
-      .join('')
-  )
+  const blend = new Array(3)
+    .fill(0)
+    .map((_, i) => clb[i] + (clf[i] - clb[i]) * a)
+    .map(n =>
+      n
+        .toString(16)
+        .split('.')
+        .shift()
+    )
+
+  return '#' + blend.join('')
 }

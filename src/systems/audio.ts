@@ -6,6 +6,7 @@ import {
   setCurrentEpisode,
   setPlayerLength,
   setPlayerProgress,
+  setPlayerBuffered,
 } from '~/store/actions'
 import { Episode } from '~/store/state'
 
@@ -22,9 +23,12 @@ export default class Audio implements System {
   private lastTimeUpdate: number
   private isNew = false
 
+  private buffers = []
+
   constructor(audioRef: MutableRefObject<HTMLAudioElement>) {
     this.audioRef = audioRef
     this.updateProgress = this.updateProgress.bind(this)
+    this.updatePlayerBuffered = this.updatePlayerBuffered.bind(this)
   }
 
   public msg(action: string, ...payload: any) {
@@ -47,6 +51,7 @@ export default class Audio implements System {
       this.playing = false
       this.stopUpdateProgress()
     })
+
     this.audioRef.current.addEventListener('playing', () => {
       this.playing = true
       if (this.isNew) {
@@ -67,6 +72,11 @@ export default class Audio implements System {
 
       this.stopUpdateProgress()
     })
+
+    this.audioRef.current.addEventListener(
+      'progress',
+      this.updatePlayerBuffered
+    )
   }
 
   private async play(episodeId: string) {
@@ -80,6 +90,8 @@ export default class Audio implements System {
     this.episode = episode
 
     store.dispatch(setCurrentEpisode(episodeId))
+    store.dispatch(setPlayerLength(null))
+    store.dispatch(setPlayerProgress(null))
 
     if (!this.audioContext) this.init()
     this.audioRef.current.src =
@@ -157,5 +169,17 @@ export default class Audio implements System {
     this.updateProgress()
     clearInterval(this.updateInterval)
     this.updateInterval = null
+  }
+
+  private updatePlayerBuffered() {
+    const buffered = this.audioRef.current.buffered
+    store.dispatch(
+      setPlayerBuffered(
+        Math.max(
+          0,
+          ...new Array(buffered.length).fill(0).map((_, i) => buffered.end(i))
+        )
+      )
+    )
   }
 }
