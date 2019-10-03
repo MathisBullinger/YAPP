@@ -33,28 +33,29 @@ export default function Progress() {
           .substring(0, 7) + '4A',
         theme[theme.topic](theme.variant).color
       ),
-      loading:
+      background:
         theme[theme.topic](theme.variant)
           .on()
           .substring(0, 7) + '33',
     }
 
-    let progress = store.getState().player.progress / totalLength
+    const progLastUp = store.getState().player.progLastUpdate
+    let progress =
+      store.getState().player.progress +
+      (!shouldUpdateProgress ? 0 : (performance.now() - progLastUp) / 1000)
     let tl = performance.now()
     function update() {
-      if (shouldUpdateProgress) {
-        const tn = performance.now()
-        progress = (progress * totalLength + (tn - tl) / 1000) / totalLength
-        tl = tn
-      }
+      const tn = performance.now()
+      progress += (tn - tl) / 1000
+      tl = tn
     }
 
     const render = () => {
-      update()
+      if (shouldUpdateProgress) update()
       ctx.clearRect(0, 0, width, height)
-      renderer.bar(buffered / totalLength, color.buffer)
-      if (shouldUpdateLoading) renderer.loading(color.loading)
-      renderer.bar(progress, color.progress)
+      if (shouldUpdateLoading) renderer.loading(color.background)
+      else renderer.bar(1, color.background)
+      renderer.bar(progress / totalLength, color.progress)
       if (shouldUpdateProgress || shouldUpdateLoading)
         requestAnimationFrame(render)
     }
@@ -94,11 +95,6 @@ const S = {
     position: relative;
     width: calc(100% - 10rem);
     height: 1.2rem;
-    border-radius: 0.2rem;
-    /* background-color: ${({ theme }) =>
-      theme[theme.topic](theme.variant)
-        .on()
-        .substring(0, 7)}33; */
 
     transition: background-color 0.5s ease;
 

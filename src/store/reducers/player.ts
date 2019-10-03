@@ -9,6 +9,7 @@ const defaultState: State['player'] = {
   progress: 0,
   length: 0,
   buffered: 0,
+  progLastUpdate: 0,
 }
 export default function player(
   state: State['player'] = defaultState,
@@ -39,6 +40,7 @@ export default function player(
       return {
         ...state,
         progress: (action as a.NumberAction).value,
+        progLastUpdate: performance.now(),
       }
     case 'SET_PLAYER_BUFFERED':
       return {

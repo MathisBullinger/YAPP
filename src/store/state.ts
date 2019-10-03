@@ -38,6 +38,7 @@ export default interface State {
     currentEpisode: string
     length: number
     progress: number
+    progLastUpdate: number
     buffered: number
   }
 }
