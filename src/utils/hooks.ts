@@ -1,5 +1,6 @@
 import { useState, useEffect, MutableRefObject } from 'react'
 import debounce from 'lodash/debounce'
+import ResObs from 'resize-observer-polyfill'
 
 export function useMatchMedia(query: string) {
   const [match, setMatch] = useState(true)
@@ -36,7 +37,7 @@ export function useCanvasSize(ref: MutableRefObject<any>) {
 
   useEffect(() => {
     // @ts-ignore
-    const sizeOb = new ResizeObserver(handleChange)
+    const sizeOb = new (window.ResizeObserver || ResObs)(handleChange)
 
     sizeOb.observe(ref.current)
 
