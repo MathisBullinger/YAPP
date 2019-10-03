@@ -3,7 +3,7 @@ import State from '../state'
 import { getToggleValue } from './utils'
 
 const defaultState: State['player'] = {
-  visible: true,
+  visible: false,
   state: 'idle',
   currentEpisode: null,
   progress: 0,

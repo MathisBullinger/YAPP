@@ -12,23 +12,28 @@ import ControlButton from './player/ControlButton'
 import Volume from './player/Volume'
 import Progress from './player/Progress'
 
+const alwaysVisible = true
+
 export default function Player() {
-  // const dispatch = useDispatch()
-  const visible = useSelector((state: State) => state.player.visible)
-  // const current = useSelector((state: State) => state.player.currentEpisode)
+  const dispatch = useDispatch()
+  let visible = useSelector((state: State) => state.player.visible)
+  const current = useSelector((state: State) => state.player.currentEpisode)
   const navOnSide = useMatchMedia(responsive.navOnSide)
   const audioRef = useRef(null)
+
+  if (alwaysVisible) visible = true
 
   useEffect(() => {
     register(new Audio(audioRef))
   }, [])
 
-  // if (!!current !== visible) dispatch(togglePlayerVisible(!!current))
+  if (!alwaysVisible)
+    if (!!current !== visible) dispatch(togglePlayerVisible(!!current))
 
   return (
     <ThemeProvider theme={{ topic: 'surface', variant: navOnSide ? 1 : 0 }}>
       <S.Player hidden={!visible}>
-        <audio ref={audioRef} crossOrigin="anonymous" />
+        <audio ref={audioRef} crossOrigin="anonymous" preload="auto" />
         <div className="left" />
         <div className="center">
           <div className="ctrlBtGroup">
