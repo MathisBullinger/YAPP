@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from 'react'
+import React, { useRef, useEffect, useContext, useState } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { useCanvasSize } from '~/utils/hooks'
 import { useSelector } from 'react-redux'
@@ -16,6 +16,7 @@ export default function Progress() {
   const playState = useSelector((state: State) => state.player.state)
   const buffered = useSelector((state: State) => state.player.buffered)
   const [width, height] = useCanvasSize(canvasRef)
+  const [hovered, setHovered] = useState(false)
 
   useEffect(() => {
     if (width === 0 || height === 0) return
@@ -26,7 +27,9 @@ export default function Progress() {
     let shouldUpdateLoading = playState === 'loading'
 
     const color = {
-      progress: theme.primary().color,
+      progress: !hovered
+        ? theme[theme.topic](theme.variant).on('high')
+        : theme.primary().color,
       buffer: blendHexColorString(
         theme[theme.topic](theme.variant)
           .on()
@@ -37,6 +40,7 @@ export default function Progress() {
         theme[theme.topic](theme.variant)
           .on()
           .substring(0, 7) + '33',
+      knob: theme[theme.topic](theme.variant).on('high'),
     }
 
     const progLastUp = store.getState().player.progLastUpdate
@@ -56,6 +60,8 @@ export default function Progress() {
       if (shouldUpdateLoading) renderer.loading(color.background)
       else renderer.bar(1, color.background)
       renderer.bar(progress / totalLength, color.progress)
+      if (hovered)
+        renderer.circle(color.knob, progress / totalLength, height / 3)
       if (shouldUpdateProgress || shouldUpdateLoading)
         requestAnimationFrame(render)
     }
@@ -66,7 +72,7 @@ export default function Progress() {
       shouldUpdateProgress = false
       shouldUpdateLoading = false
     }
-  }, [width, height, theme, totalLength, playState, buffered])
+  }, [width, height, theme, totalLength, playState, buffered, hovered])
 
   return (
     <S.Progress>
@@ -76,6 +82,8 @@ export default function Progress() {
         width={`${width}px`}
         height={`${height}px`}
         aria-busy={playState === 'loading'}
+        onMouseOver={() => setHovered(true)}
+        onMouseOut={() => setHovered(false)}
       ></S.Bar>
       <Total />
     </S.Progress>
@@ -95,11 +103,5 @@ const S = {
     position: relative;
     width: calc(100% - 10rem);
     height: 1.2rem;
-
-    transition: background-color 0.5s ease;
-
-    &[aria-busy='true'] {
-      background-color: transparent;
-    }
   `,
 }
