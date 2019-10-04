@@ -44,6 +44,7 @@ export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
 export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
 export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
 export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
+export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
 
 export const addAppbarAction = (
   name: string,

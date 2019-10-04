@@ -21,11 +21,21 @@ export default function Player() {
   const navOnSide = useMatchMedia(responsive.navOnSide)
   const audioRef = useRef(null)
 
-  if (alwaysVisible) visible = true
+  if (alwaysVisible) {
+    visible = true
+    dispatch(togglePlayerVisible(true))
+  }
 
   useEffect(() => {
-    register(new Audio(audioRef))
+    register(new Audio())
   }, [])
+
+  const audioEl = audioRef.current
+  useEffect(() => {
+    if (!audioEl) return
+    send('audio', 'connect', audioEl)
+    return () => send('audio', 'disconnect')
+  }, [audioEl])
 
   if (!alwaysVisible)
     if (!!current !== visible) dispatch(togglePlayerVisible(!!current))

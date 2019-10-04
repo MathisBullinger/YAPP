@@ -30,6 +30,7 @@ export type ActionType =
   | 'SET_PLAYER_LENGTH'
   | 'SET_PLAYER_PROGRESS'
   | 'SET_PLAYER_BUFFERED'
+  | 'SET_PLAYER_FETCHING'
 
 export interface Base {
   type: ActionType

@@ -13,7 +13,7 @@ interface Props {
 
 export default function EpisodeStrip(props: Props) {
   const player = useSelector((state: State) => state.player)
-  const playing = player.state === 'playing' || player.state === 'loading'
+  const playing = player.state === 'playing' || player.state === 'waiting'
 
   function togglePlay() {
     if (player.currentEpisode !== props.episode.id)

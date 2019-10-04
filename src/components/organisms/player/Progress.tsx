@@ -14,6 +14,7 @@ export default function Progress() {
   const theme = useContext(ThemeContext)
   const totalLength = useSelector((state: State) => state.player.length)
   const playState = useSelector((state: State) => state.player.state)
+  const fetching = useSelector((state: State) => state.player.fetching)
   const buffered = useSelector((state: State) => state.player.buffered)
   const [width, height] = useCanvasSize(canvasRef)
   const [hovered, setHovered] = useState(false)
@@ -24,7 +25,7 @@ export default function Progress() {
     const ctx = (canvasRef.current as HTMLCanvasElement).getContext('2d')
     const renderer = createRenderer(ctx, width, height)
     let shouldUpdateProgress = playState === 'playing'
-    let shouldUpdateLoading = playState === 'loading'
+    let shouldUpdateLoading = fetching
 
     const color = {
       progress: !hovered
@@ -72,7 +73,16 @@ export default function Progress() {
       shouldUpdateProgress = false
       shouldUpdateLoading = false
     }
-  }, [width, height, theme, totalLength, playState, buffered, hovered])
+  }, [
+    width,
+    height,
+    theme,
+    totalLength,
+    playState,
+    buffered,
+    hovered,
+    fetching,
+  ])
 
   return (
     <S.Progress>
@@ -81,7 +91,7 @@ export default function Progress() {
         ref={canvasRef}
         width={`${width}px`}
         height={`${height}px`}
-        aria-busy={playState === 'loading'}
+        aria-busy={fetching}
         onMouseOver={() => setHovered(true)}
         onMouseOut={() => setHovered(false)}
       ></S.Bar>

@@ -8,7 +8,7 @@ import { send } from '~/systems'
 
 export default function PlayButton() {
   const playerState = useSelector((state: State) => state.player.state)
-  const playing = playerState === 'playing' || playerState === 'loading'
+  const playing = playerState === 'playing' || playerState === 'waiting'
 
   return (
     <S.PlayButton
