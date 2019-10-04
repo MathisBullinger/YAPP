@@ -18,7 +18,14 @@ export default IconButton
 
 namespace S {
   export const Button = styled.button`
-    display: contents;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+
+    &:focus {
+      outline: none;
+    }
   `
 }
 

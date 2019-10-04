@@ -19,11 +19,17 @@ export default function Progress() {
   const buffered = useSelector((state: State) => state.player.buffered)
   const [width, height] = useCanvasSize(canvasRef)
   const [hovered, setHovered] = useState(false)
+  const [ctx, setCtx] = useState(null)
+
+  const canvas = canvasRef.current
+  useEffect(() => {
+    if (canvas)
+      setCtx((canvasRef.current as HTMLCanvasElement).getContext('2d'))
+  }, [canvas])
 
   useEffect(() => {
     if (width === 0 || height === 0) return
 
-    const ctx = (canvasRef.current as HTMLCanvasElement).getContext('2d')
     const renderer = createRenderer(ctx, width, height)
     let shouldUpdateProgress = playState === 'playing'
     let shouldUpdateLoading = fetching
@@ -83,6 +89,7 @@ export default function Progress() {
     buffered,
     hovered,
     fetching,
+    ctx,
   ])
 
   function handleClick(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
