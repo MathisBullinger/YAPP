@@ -59,7 +59,7 @@ export default function Player() {
           <Progress />
         </div>
         <div className="right">
-          <Volume handleChange={v => send('audio', 'setVolume', v)} />
+          <Volume />
         </div>
       </S.Player>
     </ThemeProvider>

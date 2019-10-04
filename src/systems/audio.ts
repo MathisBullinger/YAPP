@@ -17,6 +17,7 @@ export default class Audio implements System {
     'resume',
     'jump',
     'goto',
+    'setVolume',
   ]
   private static readonly proxy =
     'http://ec2-54-210-249-115.compute-1.amazonaws.com/'
@@ -84,6 +85,10 @@ export default class Audio implements System {
     const dt = seconds - this.state.getProgress() / 1000
     this.audioEl.currentTime += dt
     this.state.jump(dt * 1000)
+  }
+
+  public setVolume(volume: number) {
+    this.gainNode.gain.value = volume
   }
 
   private createContext() {
