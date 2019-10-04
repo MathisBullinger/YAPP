@@ -67,6 +67,7 @@ export default function Progress() {
       ctx.clearRect(0, 0, width, height)
       if (shouldUpdateLoading) renderer.loading(color.background)
       else renderer.bar(1, color.background)
+      renderer.bar(buffered / totalLength, color.buffer)
       renderer.bar(progress / totalLength, color.progress)
       if (hovered)
         renderer.circle(color.knob, progress / totalLength, height / 3)

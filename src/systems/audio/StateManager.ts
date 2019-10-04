@@ -3,6 +3,7 @@ import {
   setPlayerState,
   setPlayerFetching,
   setPlayerProgress,
+  setPlayerBuffered,
 } from '~/store/actions'
 
 export default class StateManager {
@@ -10,6 +11,7 @@ export default class StateManager {
   private handlers: { [e: string]: () => void } = {}
   private playbackTime = 0
   private lastTimeUpdate: number
+  private buffers = []
 
   constructor() {
     Object.getOwnPropertyNames(Object.getPrototypeOf(this)).forEach(key => {
@@ -63,8 +65,19 @@ export default class StateManager {
     this.stopUpdateProgress()
   }
 
+  private onProgress() {
+    const buffered = Math.max(
+      0,
+      ...new Array(this.el.buffered.length)
+        .fill(0)
+        .map((_, i) => this.el.buffered.end(i))
+    )
+    store.dispatch(setPlayerBuffered(buffered))
+  }
+
   private onEmptied() {
     this.playbackTime = 0
+    this.buffers = []
   }
 
   updateInterval: number
