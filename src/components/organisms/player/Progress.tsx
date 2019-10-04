@@ -8,6 +8,7 @@ import { blendHexColorString } from '~/utils'
 import Total from './progress/Total'
 import Current from './progress/Current'
 import createRenderer from './progress/render'
+import { send } from '~/systems'
 
 export default function Progress() {
   const canvasRef = useRef(null)
@@ -84,6 +85,13 @@ export default function Progress() {
     fetching,
   ])
 
+  function handleClick(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
+    const { x, width, height } = canvasRef.current.getBoundingClientRect()
+    const v = (e.pageX - x - height / 3) / (width - (height / 3) * 2)
+    if (v < 0 || v > 1) return
+    send('audio', 'goto', v * totalLength)
+  }
+
   return (
     <S.Progress>
       <Current />
@@ -94,6 +102,7 @@ export default function Progress() {
         aria-busy={fetching}
         onMouseOver={() => setHovered(true)}
         onMouseOut={() => setHovered(false)}
+        onClick={handleClick}
       ></S.Bar>
       <Total />
     </S.Progress>

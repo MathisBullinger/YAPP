@@ -2,7 +2,6 @@ import store from '~/store'
 import {
   setPlayerState,
   setPlayerFetching,
-  setPlayerLength,
   setPlayerProgress,
 } from '~/store/actions'
 
@@ -38,6 +37,11 @@ export default class StateManager {
     this.playbackTime += performance.now() - this.lastTimeUpdate
     this.lastTimeUpdate = performance.now()
     this.stopUpdateProgress()
+    store.dispatch(setPlayerFetching(true))
+  }
+
+  private onSeeked() {
+    store.dispatch(setPlayerFetching(false))
   }
 
   private onPlay() {
@@ -53,14 +57,10 @@ export default class StateManager {
   }
 
   private onPause() {
-    console.log('paused')
+    store.dispatch(setPlayerState('paused'))
     this.playbackTime += performance.now() - this.lastTimeUpdate
     this.lastTimeUpdate = performance.now()
     this.stopUpdateProgress()
-  }
-
-  private onDurationChange({ timeStamp }) {
-    store.dispatch(setPlayerLength(timeStamp))
   }
 
   private onEmptied() {
@@ -82,7 +82,7 @@ export default class StateManager {
     clearInterval(this.updateInterval)
     this.updateInterval = null
   }
-  private getProgress() {
+  public getProgress() {
     return store.getState().player.state === 'playing'
       ? this.playbackTime + (performance.now() - this.lastTimeUpdate)
       : this.playbackTime

@@ -1,7 +1,11 @@
 import { System } from '.'
 import StateManager from './audio/StateManager'
 import store from '~/store'
-import { setCurrentEpisode } from '~/store/actions'
+import {
+  setCurrentEpisode,
+  setPlayerProgress,
+  setPlayerLength,
+} from '~/store/actions'
 
 export default class Audio implements System {
   public readonly name = 'audio'
@@ -12,6 +16,7 @@ export default class Audio implements System {
     'pause',
     'resume',
     'jump',
+    'goto',
   ]
   private static readonly proxy =
     'http://ec2-54-210-249-115.compute-1.amazonaws.com/'
@@ -50,21 +55,33 @@ export default class Audio implements System {
     if (!episode) return
 
     store.dispatch(setCurrentEpisode(episodeId))
+    store.dispatch(setPlayerLength(episode.duration))
+    store.dispatch(setPlayerProgress(0))
 
     this.audioEl.src = Audio.proxy + episode.file
     await this.audioEl.play()
   }
 
   public pause() {
+    if (this.audioEl.readyState === 0) return
     this.audioEl.pause()
   }
 
   public resume() {
+    if (this.audioEl.readyState === 0) return
     this.audioEl.play()
   }
 
   public jump(direction: 'forward' | 'backward') {
-    let dt = direction === 'forward' ? 30 : -10
+    if (this.audioEl.readyState === 0) return
+    const dt = direction === 'forward' ? 30 : -10
+    this.audioEl.currentTime += dt
+    this.state.jump(dt * 1000)
+  }
+
+  public goto(seconds: number) {
+    if (this.audioEl.readyState === 0) return
+    const dt = seconds - this.state.getProgress() / 1000
     this.audioEl.currentTime += dt
     this.state.jump(dt * 1000)
   }
