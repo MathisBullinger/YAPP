@@ -1,95 +1,112 @@
 import { System } from '.'
-import { MutableRefObject } from 'react'
+import StateManager from './audio/StateManager'
 import store from '~/store'
 import {
-  togglePlaying,
   setCurrentEpisode,
-  setPlayerLength,
   setPlayerProgress,
+  setPlayerLength,
 } from '~/store/actions'
-import { Episode } from '~/store/state'
 
 export default class Audio implements System {
   public readonly name = 'audio'
-  private audioContext: AudioContext
-  private audioRef: MutableRefObject<HTMLAudioElement>
+  private static readonly publicActions = [
+    'connect',
+    'disconnect',
+    'play',
+    'pause',
+    'resume',
+    'jump',
+    'goto',
+    'setVolume',
+  ]
+  private static readonly proxy =
+    'http://ec2-54-210-249-115.compute-1.amazonaws.com/'
+
+  private audioEl: HTMLAudioElement
+  private context: AudioContext
+  private readonly state = new StateManager()
   private track: MediaElementAudioSourceNode
   private gainNode: GainNode
-  private episode: Episode
 
-  constructor(audioRef: MutableRefObject<HTMLAudioElement>) {
-    this.audioRef = audioRef
-    this.updateProgress = this.updateProgress.bind(this)
-  }
+  private currentAction = Promise.resolve()
 
   public msg(action: string, ...payload: any) {
-    if (action in this) this[action](...payload)
+    if (!Audio.publicActions.includes(action)) return
+    this.currentAction = this.currentAction.then(() => {
+      if (!action.includes('connect')) {
+        if (!this.audioEl) return console.warn('ignore', action)
+        if (!this.context) this.createContext()
+      }
+      return this[action](...payload) || Promise.resolve()
+    })
   }
 
-  private init() {
-    this.audioContext = new (window.AudioContext ||
+  public connect(el: HTMLAudioElement) {
+    this.audioEl = el
+    this.state.connect(el)
+  }
+
+  public disconnect() {
+    this.audioEl = null
+    this.state.disconnect()
+  }
+
+  public async play(episodeId: string) {
+    const episode = this.getEpisode(episodeId)
+    if (!episode) return
+
+    store.dispatch(setCurrentEpisode(episodeId))
+    store.dispatch(setPlayerLength(episode.duration))
+    store.dispatch(setPlayerProgress(0))
+
+    this.audioEl.src = Audio.proxy + episode.file
+    await this.audioEl.play()
+  }
+
+  public pause() {
+    if (this.audioEl.readyState === 0) return
+    this.audioEl.pause()
+  }
+
+  public resume() {
+    if (this.audioEl.readyState === 0) return
+    this.audioEl.play()
+  }
+
+  public jump(direction: 'forward' | 'backward') {
+    if (this.audioEl.readyState === 0) return
+    const dt = direction === 'forward' ? 30 : -10
+    this.audioEl.currentTime += dt
+    this.state.jump(dt * 1000)
+  }
+
+  public goto(seconds: number) {
+    if (this.audioEl.readyState === 0) return
+    const dt = seconds - this.state.getProgress() / 1000
+    this.audioEl.currentTime += dt
+    this.state.jump(dt * 1000)
+  }
+
+  public setVolume(volume: number) {
+    this.gainNode.gain.value = volume
+  }
+
+  private createContext() {
+    this.context = new (window.AudioContext ||
       (<any>window).webkitAudioContext)()
-    this.track = this.audioContext.createMediaElementSource(
-      this.audioRef.current
-    )
-    this.gainNode = this.audioContext.createGain()
-    this.track.connect(this.gainNode).connect(this.audioContext.destination)
+    this.track = this.context.createMediaElementSource(this.audioEl)
+    this.gainNode = this.context.createGain()
+    this.track.connect(this.gainNode).connect(this.context.destination)
+    this.gainNode.gain.value = 0.15
   }
 
-  private play(episodeId: string) {
+  private getEpisode(episodeId: string) {
     if (!episodeId) return
     const [podId, epId] = episodeId.split(' ')
     const episode = store
       .getState()
       .podcasts.byId[podId].episodes.find(({ id }) => id === `${podId} ${epId}`)
     if (!episode || !episode.file) return
-    this.episode = episode
-
-    store.dispatch(setCurrentEpisode(episodeId))
-
-    if (!this.audioContext) this.init()
-    this.audioRef.current.src =
-      'http://ec2-54-210-249-115.compute-1.amazonaws.com/' + episode.file
-
-    if (this.audioContext.state === 'suspended') this.audioContext.resume()
-    this.audioRef.current.play()
-
-    store.dispatch(setPlayerLength(episode.duration))
-    store.dispatch(togglePlaying(true))
-    this.startUpdateProgress()
-  }
-
-  private pause() {
-    if (!this.audioRef.current) return
-    this.audioRef.current.pause()
-    store.dispatch(togglePlaying(false))
-    this.stopUpdateProgress()
-  }
-
-  private resume() {
-    if (!this.audioRef.current) return
-    this.audioRef.current.play()
-    store.dispatch(togglePlaying(true))
-    this.startUpdateProgress()
-  }
-
-  private setVolume(v: number) {
-    if (!this.gainNode) return
-    this.gainNode.gain.value = v
-  }
-
-  updateInterval: number
-  private updateProgress() {
-    if (!this.audioRef.current) return
-    store.dispatch(setPlayerProgress(this.audioRef.current.currentTime))
-  }
-  private startUpdateProgress() {
-    if (this.updateInterval) this.stopUpdateProgress()
-    if (!this.episode.duration) return
-    this.updateInterval = setInterval(this.updateProgress, 5000)
-  }
-  private stopUpdateProgress() {
-    clearInterval(this.updateInterval)
-    this.updateInterval = null
+    return episode
   }
 }

@@ -4,10 +4,13 @@ import { getToggleValue } from './utils'
 
 const defaultState: State['player'] = {
   visible: false,
-  playing: false,
+  state: 'idle',
+  fetching: false,
   currentEpisode: null,
   progress: 0,
   length: 0,
+  buffered: 0,
+  progLastUpdate: 0,
 }
 export default function player(
   state: State['player'] = defaultState,
@@ -19,10 +22,10 @@ export default function player(
         ...state,
         visible: getToggleValue(action, state.visible),
       }
-    case 'TOGGLE_PLAYING':
+    case 'SET_PLAYER_STATE':
       return {
         ...state,
-        playing: getToggleValue(action, state.playing),
+        state: (action as a.PlayerStateAction).value,
       }
     case 'SET_CURRENT_EPISODE':
       return {
@@ -38,6 +41,17 @@ export default function player(
       return {
         ...state,
         progress: (action as a.NumberAction).value,
+        progLastUpdate: performance.now(),
+      }
+    case 'SET_PLAYER_BUFFERED':
+      return {
+        ...state,
+        buffered: (action as a.NumberAction).value,
+      }
+    case 'SET_PLAYER_FETCHING':
+      return {
+        ...state,
+        fetching: getToggleValue(action, state.fetching),
       }
     default:
       return state

@@ -11,6 +11,7 @@ import Input from './Input'
 import Progress from './Progress'
 import Artwork from './Artwork'
 import Dynamic from './Dynamic'
+import Slider from './Slider'
 
 import { InputStyle } from './Input'
 
@@ -30,5 +31,6 @@ export {
   Progress,
   Artwork,
   Dynamic,
+  Slider,
   styles,
 }

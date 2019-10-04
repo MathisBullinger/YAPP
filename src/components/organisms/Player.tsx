@@ -8,33 +8,58 @@ import { togglePlayerVisible } from '~/store/actions'
 import Audio from '~/systems/audio'
 import { register, send } from '~/systems'
 import PlayButton from './player/PlayButton'
+import ControlButton from './player/ControlButton'
 import Volume from './player/Volume'
 import Progress from './player/Progress'
 
+const alwaysVisible = true
+
 export default function Player() {
   const dispatch = useDispatch()
-  const visible = useSelector((state: State) => state.player.visible)
+  let visible = useSelector((state: State) => state.player.visible)
   const current = useSelector((state: State) => state.player.currentEpisode)
   const navOnSide = useMatchMedia(responsive.navOnSide)
   const audioRef = useRef(null)
 
+  if (alwaysVisible && !visible) dispatch(togglePlayerVisible(true))
+
   useEffect(() => {
-    register(new Audio(audioRef))
+    register(new Audio())
   }, [])
 
-  if (!!current !== visible) dispatch(togglePlayerVisible(!!current))
+  const audioEl = audioRef.current
+  useEffect(() => {
+    if (!audioEl) return
+    send('audio', 'connect', audioEl)
+    return () => send('audio', 'disconnect')
+  }, [audioEl])
+
+  if (!alwaysVisible)
+    if (!!current !== visible) dispatch(togglePlayerVisible(!!current))
 
   return (
     <ThemeProvider theme={{ topic: 'surface', variant: navOnSide ? 1 : 0 }}>
       <S.Player hidden={!visible}>
-        <audio ref={audioRef} crossOrigin="anonymous" />
+        <audio ref={audioRef} crossOrigin="anonymous" preload="auto" />
         <div className="left" />
         <div className="center">
-          <PlayButton />
+          <div className="ctrlBtGroup">
+            <ControlButton
+              label="jump backward"
+              icon="jumpBack"
+              handleClick={() => send('audio', 'jump', 'backward')}
+            />
+            <PlayButton />
+            <ControlButton
+              label="jump forward"
+              icon="jumpForward"
+              handleClick={() => send('audio', 'jump', 'forward')}
+            />
+          </div>
           <Progress />
         </div>
         <div className="right">
-          <Volume handleChange={v => send('audio', 'setVolume', v)} />
+          <Volume />
         </div>
       </S.Player>
     </ThemeProvider>
@@ -44,7 +69,7 @@ export default function Player() {
 const S = {
   Player: styled.div`
     display: ${({ hidden }) => (hidden ? 'hidden' : 'flex')};
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     z-index: 1900;
     position: fixed;
@@ -55,37 +80,42 @@ const S = {
       theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
-
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 
     @media ${responsive.navOnSide} {
       bottom: 0;
       height: ${layout.desktop.playerHeight};
       z-index: 2100;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
     }
 
-    .left {
-      margin-right: auto;
-    }
-
-    .right {
-      margin-left: auto;
+    & > div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-content: center;
     }
 
     .left, .right {
       width: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      flex-shrink: 0;
     }
 
     .center {
       flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      margin-left: 2rem;
-      margin-right: 2rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      max-width: 750px;
+
+      .ctrlBtGroup {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
     }
   `,
 }

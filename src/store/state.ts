@@ -34,10 +34,13 @@ export default interface State {
   }
   player: {
     visible: boolean
-    playing: boolean
+    state: 'idle' | 'waiting' | 'playing' | 'paused'
+    fetching: boolean
     currentEpisode: string
     length: number
     progress: number
+    progLastUpdate: number
+    buffered: number
   }
 }
 

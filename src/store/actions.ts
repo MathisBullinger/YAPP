@@ -1,6 +1,6 @@
 import { Themes } from '~/styles/theme'
 import * as a from './actionTypes'
-import { Podcast } from './state'
+import State, { Podcast } from './state'
 
 const action = (type: a.ActionType) => (): a.Base => ({ type })
 const toggleAction = (type: a.ActionType) => (
@@ -40,10 +40,11 @@ export const searchPodcast = stringAction('SEARCH_PODCAST')
 export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
 export const fetchPodcast = stringAction('FETCH_PODCAST')
 export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
-export const togglePlaying = toggleAction('TOGGLE_PLAYING')
 export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
 export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
 export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
+export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
+export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
 
 export const addAppbarAction = (
   name: string,
@@ -74,3 +75,7 @@ export const addSearchResults = (
   search,
   results,
 })
+
+export const setPlayerState = (
+  value: State['player']['state']
+): a.PlayerStateAction => ({ type: 'SET_PLAYER_STATE', value })

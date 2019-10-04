@@ -7,7 +7,8 @@ import State from '~/store/state'
 import { send } from '~/systems'
 
 export default function PlayButton() {
-  const playing = useSelector((state: State) => state.player.playing)
+  const playerState = useSelector((state: State) => state.player.state)
+  const playing = playerState === 'playing' || playerState === 'waiting'
 
   return (
     <S.PlayButton
@@ -21,7 +22,7 @@ export default function PlayButton() {
 const S = {
   PlayButton: styled(IconButton)`
     cursor: pointer;
-    width: calc(${layout.mobile.playerHeight} / 4 * 3);
-    height: calc(${layout.mobile.playerHeight} / 4 * 3);
+    width: calc(${layout.mobile.playerHeight} / 3 * 2);
+    height: calc(${layout.mobile.playerHeight} / 3 * 2);
   `,
 }
