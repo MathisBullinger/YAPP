@@ -12,7 +12,7 @@ import ControlButton from './player/ControlButton'
 import Volume from './player/Volume'
 import Progress from './player/Progress'
 
-const alwaysVisible = true
+const alwaysVisible = false
 
 export default function Player() {
   const dispatch = useDispatch()
