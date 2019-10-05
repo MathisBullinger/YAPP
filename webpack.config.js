@@ -2,6 +2,8 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const merge = require('webpack-merge')
+const CopyPlugin = require('copy-webpack-plugin')
+const { InjectManifest } = require('workbox-webpack-plugin')
 
 module.exports = env => merge(baseConfig, require(`./webpack.${env}.js`))
 
@@ -57,6 +59,14 @@ const baseConfig = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
+    }),
+    new CopyPlugin([
+      { from: 'manifest.json', to: 'manifest.json' },
+      { from: 'icons', to: 'icons' },
+    ]),
+    new InjectManifest({
+      swSrc: './src/serviceWorker.ts',
+      swDest: 'sw.js',
     }),
   ],
 }
