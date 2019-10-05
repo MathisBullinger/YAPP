@@ -6,6 +6,7 @@ interface Props {
   min?: number
   max?: number
   step?: number
+  value?: number
 }
 
 export default function Slider({
@@ -13,8 +14,11 @@ export default function Slider({
   min = 0,
   max = 100,
   step = 1,
+  value,
 }: Props) {
-  const [value, setValue] = useState('1')
+  const [_value, setValue] = useState(1)
+
+  if (value !== _value) setValue(value)
 
   return (
     <S.Slider
@@ -22,10 +26,11 @@ export default function Slider({
       min={min}
       max={max}
       step={step}
-      value={value}
+      value={_value}
       onChange={v => {
-        setValue(v.target.value)
-        handleChange && handleChange(parseInt(value, 10) / 100)
+        const n = parseInt(v.target.value, 10)
+        setValue(n)
+        if (handleChange) handleChange(n)
       }}
     />
   )

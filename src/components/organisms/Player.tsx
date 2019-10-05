@@ -114,13 +114,13 @@ const S = {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        align-content: center;
+        align-items: center;
       }
 
       .left, .right {
         width: 200px;
         flex-shrink: 0;
-        display: initial;
+        display: flex;
       }
 
       .center {

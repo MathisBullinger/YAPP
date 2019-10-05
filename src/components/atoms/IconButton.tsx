@@ -22,6 +22,7 @@ namespace S {
     background-color: transparent;
     margin: 0;
     padding: 0;
+    cursor: pointer;
 
     &:focus {
       outline: none;
