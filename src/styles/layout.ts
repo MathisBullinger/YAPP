@@ -9,5 +9,5 @@ export default {
     appbarHeight: '3.5rem',
     playerHeight: '4.4rem',
   },
-  toolbarHeight: '4rem',
+  toolbarHeight: '6rem',
 }

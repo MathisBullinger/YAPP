@@ -1,21 +1,10 @@
 import React from 'react'
-import { Title } from '~/components/atoms'
 
-class Feed extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <div>
-        <Title>Feed</Title>
-      </div>
-    )
-  }
+export default function Feed() {
+  return <div />
 }
-;(Feed as any).pageConf = {
+
+Feed.pageConf = {
   showAppbar: true,
   appbarTitle: 'Feed',
 }
-export default Feed

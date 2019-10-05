@@ -5,7 +5,7 @@ import { send } from '~/systems'
 
 export default function Volume() {
   const [muted, setMuted] = useState(false)
-  const [value, setValue] = useState(25)
+  const [value, setValue] = useState(35)
 
   function handleChange(v: number) {
     if (muted) {
@@ -28,7 +28,7 @@ export default function Volume() {
       />
       <Slider
         min={0}
-        max={50}
+        max={75}
         step={0.5}
         value={muted ? 0 : value}
         handleChange={handleChange}

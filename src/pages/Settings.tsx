@@ -11,6 +11,7 @@ import {
   manualDarkmode,
 } from '~/store/actions'
 import State from '~/store/state'
+import { responsive } from '~/styles'
 
 interface Props {
   theme: State['theme']
@@ -85,6 +86,11 @@ export default connect(
   { toggleDarkMode, togglePreferAmoled, toggleDarkAtNight, manualDarkmode }
 )(Settings)
 
-namespace S {
-  export const Settings = styled.div``
+const S = {
+  Settings: styled.div`
+    @media ${responsive.navOnSide} {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  `,
 }

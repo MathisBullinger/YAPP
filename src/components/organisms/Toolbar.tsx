@@ -36,7 +36,6 @@ const S = {
     left: var(--nav-width);
     width: calc(100vw - var(--nav-width));
     height: ${layout.toolbarHeight};
-    border-bottom: 1px dotted red;
     display: flex;
     flex-direction: row;
     align-items: center;

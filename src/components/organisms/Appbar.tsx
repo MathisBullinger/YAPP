@@ -58,18 +58,16 @@ export default function Appbar() {
 }
 
 const S = {
+  // prettier-ignore
   Appbar: styled.div`
     z-index: 2000;
     position: fixed;
     display: flex;
     width: 100vw;
     height: ${layout.mobile.appbarHeight};
-    ${({ theme }) =>
-      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(0.8)};` : ''}
+    ${({ theme }) => theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(0.8)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
-    transition: background-color ${timing.colorSwap}, transform ${
-    timing.appbarHidden
-  };
+    transition: background-color ${timing.colorSwap}, transform ${timing.appbarHidden};
     flex-direction: row;
     align-items: center;
     padding-left: 1.5rem;
@@ -91,5 +89,5 @@ const S = {
     &[data-hidden="true"] {
       transform: translateY(-100%);
     }
-  `,
+  `
 }
