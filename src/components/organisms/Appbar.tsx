@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { layout, shadow, timing } from '~/styles'
+import { layout, shadow, timing, responsive } from '~/styles'
 import { Title, Progress } from '~/components/atoms'
 import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
@@ -9,6 +9,7 @@ import Search from './appbarActions/Search'
 import Settings from './appbarActions/Settings'
 import { mapKeys } from '~/utils'
 import { toggleAppbarHidden } from '~/store/actions'
+import { useMatchMedia } from '~/utils/hooks'
 
 const actions = mapKeys({ Back, Search, Settings }, k => k.toLowerCase())
 
@@ -20,6 +21,14 @@ export default function Appbar() {
   const hideOnScroll = useSelector((state: State) => state.appbar.hideOnScroll)
   const hidden = useSelector((state: State) => state.appbar.hidden)
   const dispatch = useDispatch()
+  const appbarAllowed = useMatchMedia(responsive.appbarVisible)
+  const appbarRequested = useSelector((state: State) => state.appbar.visible)
+
+  const visible =
+    (appbarAllowed ||
+      document.querySelector('#root').classList.contains('fixed')) &&
+    appbarRequested
+  if (!visible) return null
 
   if (hideOnScroll && ((scrollDir || 'up') === 'up') !== !hidden) {
     dispatch(toggleAppbarHidden((scrollDir || 'up') === 'down'))
@@ -47,7 +56,10 @@ export default function Appbar() {
 
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
-      <S.Appbar data-hidden={hideOnScroll && (scrollDir || 'up') === 'down'}>
+      <S.Appbar
+        data-hidden={hideOnScroll && (scrollDir || 'up') === 'down'}
+        hidden={!visible}
+      >
         {left}
         <Title s5>{title}</Title>
         {right}

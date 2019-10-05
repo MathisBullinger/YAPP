@@ -31,7 +31,8 @@ export default function Search() {
     window.addEventListener('mouseup', onMouseUp)
 
     return () => {
-      window.removeEventListener('mousedown', onMouseUp)
+      window.removeEventListener('mousedown', onMouseDown)
+      window.removeEventListener('mouseup', onMouseUp)
     }
   })
 

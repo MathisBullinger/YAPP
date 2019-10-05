@@ -92,5 +92,9 @@ const S = {
         height: calc(100vh - ${layout.desktop.playerHeight});
       }
     `}
+
+    .fixed > & {
+      display: none;
+    }
   `,
 }

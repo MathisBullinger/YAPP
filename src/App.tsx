@@ -14,8 +14,7 @@ import { toggleDarkMode } from '~/store/actions'
 export default function App() {
   const theme = useSelector((state: State) => state.theme.current)
   const manualDark = useSelector((state: State) => state.theme.manualOverride)
-  const appbarAllowed = useMatchMedia(responsive.appbarVisible)
-  const appbarRequested = useSelector((state: State) => state.appbar.visible)
+
   const toolbarAllowed = useMatchMedia(responsive.toolbarVisible)
   const toolbarRequested = useSelector((state: State) => state.toolbar.visible)
   const darkPreferred = useMatchMedia('(prefers-color-scheme: dark)')
@@ -33,7 +32,7 @@ export default function App() {
       theme={{ ...getTheme(theme), topic: 'background', variant: 0 }}
     >
       <Router>
-        {appbarAllowed && appbarRequested && <Appbar />}
+        <Appbar />
         {toolbarAllowed && toolbarRequested && <Toolbar />}
         <Mainnav />
         <Page>
