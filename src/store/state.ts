@@ -14,6 +14,7 @@ export default interface State {
   }
   appbar: {
     visible: boolean
+    hidden: boolean
     title: string
     actions: AppbarAction[]
     loading: boolean

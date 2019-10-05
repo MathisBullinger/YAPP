@@ -1,17 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
+import { useSelector } from 'react-redux'
 import { responsive, layout, timing } from '~/styles'
-import { ThemeProvider } from 'styled-components'
-import { StyledBar as Appbar } from '~/components/organisms/Appbar'
-import { StyledBar as Toolbar } from '~/components/organisms/Toolbar'
 import handleScroll from '~/utils/scroll'
-import store from '~/store'
+import State from '~/store/state'
 
 const Page: React.FunctionComponent = props => {
+  const player = useSelector((state: State) => state.player.visible)
+  const appbar = useSelector((state: State) => state.appbar.visible)
+  const toolbar = useSelector((state: State) => state.toolbar.visible)
+  const abHidden = useSelector((state: State) => state.appbar.hidden)
+
   return (
     <ThemeProvider theme={{ topic: 'background' }}>
       <S.Page
         onScroll={e => handleScroll((e.target as HTMLDivElement).scrollTop)}
+        data-player={player ? 'visible' : 'hidden'}
+        data-appbar={appbar && !abHidden ? 'visible' : 'hidden'}
+        data-toolbar={toolbar ? 'visible' : 'hidden'}
       >
         {props.children}
       </S.Page>
@@ -20,64 +26,57 @@ const Page: React.FunctionComponent = props => {
 }
 export default Page
 
-namespace S {
-  export const Page = styled.div`
+const S = {
+  Page: styled.div`
     padding: 2rem;
-    // prettier-ignore
-    height: calc(100vh - ${layout.mobile.navHeight} - ${
-    store.getState().player.visible ? layout.mobile.playerHeight : '0rem'
-  });
-    margin-bottom: calc(${layout.mobile.navHeight} + ${
-    store.getState().player.visible ? layout.mobile.playerHeight : '0rem'
-  });
-    flex-grow: 1;
-    overflow: auto;
-    background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${timing.colorSwap};
+    overflow-x: scroll;
+
+    --buffer-left: 0px;
+    --buffer-top: 0px;
+    --buffer-bottom: ${layout.mobile.navHeight};
 
     @media ${responsive.navOnSide} {
-      margin-left: ${layout.desktop.navWidth};
-      height: calc(100vh - ${
-        store.getState().player.visible ? layout.desktop.playerHeight : '0rem'
-      });
-      margin-bottom: ${
-        store.getState().player.visible ? layout.desktop.playerHeight : '0rem'
-      };
-      padding-left: 4rem;
-      padding-right: 4rem;
-    }
-
-    ${Appbar} ~ & {
-      padding-top: calc(2rem + ${layout.mobile.appbarHeight});
-      transition: background-color ${timing.colorSwap}, transform ${
-    timing.appbarHidden
-  } ease, height 0s ${timing.appbarHidden};}
-    ${Appbar}[data-hidden="true"] ~ & {
-      transform: translateY(-${layout.mobile.appbarHeight});
-      height: 100vh;
-      transition: background-color ${timing.colorSwap}, transform ${
-    timing.appbarHidden
-  } ease;
-      margin-bottom: 0;
-    }
-
-    ${Toolbar} ~ & {
-      margin-top: ${layout.toolbarHeight};
-      height: calc(100vh - ${layout.toolbarHeight} - ${
-    layout.mobile.navHeight
-  } - ${
-    store.getState().player.visible ? layout.desktop.playerHeight : '0rem'
-  });
-
-      @media ${responsive.navOnSide} {
-        height: calc(100vh - ${layout.toolbarHeight} - ${
-    store.getState().player.visible ? layout.desktop.playerHeight : '0rem'
-  });
-      }
+      --buffer-bottom: 0px;
+      --buffer-left: ${layout.desktop.navWidth};
     }
 
     @media ${responsive.navCollapsed} {
-      margin-left: ${layout.desktop.navWidthCollapsed};
+      --buffer-left: ${layout.desktop.navWidthCollapsed};
     }
-  `
+
+    &[data-player='visible'] {
+      --buffer-bottom: calc(
+        ${layout.mobile.playerHeight} + ${layout.mobile.navHeight}
+      );
+
+      @media ${responsive.navOnSide} {
+        --buffer-bottom: ${layout.desktop.playerHeight};
+      }
+    }
+
+    @media ${responsive.appbarVisible} {
+      transition: ${timing.appbarHidden} margin-top,
+        background-color ${timing.colorSwap};
+
+      &[data-appbar='visible'] {
+        --buffer-top: ${layout.mobile.appbarHeight};
+      }
+    }
+
+    @media ${responsive.toolbarVisible} {
+      &[data-toolbar='visible'] {
+        --buffer-top: ${layout.toolbarHeight};
+      }
+    }
+
+    margin-left: var(--buffer-left);
+    width: calc(100% - (var(---buffer-left)));
+
+    margin-bottom: var(--buffer-bottom);
+
+    margin-top: var(--buffer-top);
+
+    height: calc(100vh - (var(--buffer-top)) - (var(--buffer-bottom)));
+  `,
 }

@@ -28,8 +28,8 @@ export default function Toolbar() {
   )
 }
 
-namespace S {
-  export const Toolbar = styled.div`
+const S = {
+  Toolbar: styled.div`
     position: fixed;
     top: 0;
     --nav-width: 0px;
@@ -62,7 +62,5 @@ namespace S {
     .action:first-of-type {
       margin-left: auto;
     }
-  `
+  `,
 }
-const StyledBar = S.Toolbar
-export { StyledBar }

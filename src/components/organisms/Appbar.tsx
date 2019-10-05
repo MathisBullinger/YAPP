@@ -2,23 +2,28 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, timing } from '~/styles'
 import { Title, Progress } from '~/components/atoms'
-import { useSelector } from 'react-redux'
-import ReduxState from '~/store/state'
+import { useSelector, useDispatch } from 'react-redux'
+import State from '~/store/state'
 import Back from './appbarActions/Back'
 import Search from './appbarActions/Search'
 import Settings from './appbarActions/Settings'
 import { mapKeys } from '~/utils'
+import { toggleAppbarHidden } from '~/store/actions'
 
 const actions = mapKeys({ Back, Search, Settings }, k => k.toLowerCase())
 
 export default function Appbar() {
-  const title = useSelector((state: ReduxState) => state.appbar.title)
-  const barActions = useSelector((state: ReduxState) => state.appbar.actions)
-  const loading = useSelector((state: ReduxState) => state.appbar.loading)
-  const scrollDir = useSelector((state: ReduxState) => state.scroll.direction)
-  const hideOnScroll = useSelector(
-    (state: ReduxState) => state.appbar.hideOnScroll
-  )
+  const title = useSelector((state: State) => state.appbar.title)
+  const barActions = useSelector((state: State) => state.appbar.actions)
+  const loading = useSelector((state: State) => state.appbar.loading)
+  let scrollDir = useSelector((state: State) => state.scroll.direction)
+  const hideOnScroll = useSelector((state: State) => state.appbar.hideOnScroll)
+  const hidden = useSelector((state: State) => state.appbar.hidden)
+  const dispatch = useDispatch()
+
+  if (hideOnScroll && ((scrollDir || 'up') === 'up') !== !hidden) {
+    dispatch(toggleAppbarHidden((scrollDir || 'up') === 'down'))
+  }
 
   const [left, right] = barActions
     .reduce(
@@ -52,8 +57,8 @@ export default function Appbar() {
   )
 }
 
-namespace S {
-  export const Appbar = styled.div`
+const S = {
+  Appbar: styled.div`
     z-index: 2000;
     position: fixed;
     display: flex;
@@ -86,7 +91,5 @@ namespace S {
     &[data-hidden="true"] {
       transform: translateY(-100%);
     }
-  `
+  `,
 }
-const StyledBar = S.Appbar
-export { StyledBar }

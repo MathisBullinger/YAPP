@@ -23,6 +23,7 @@ export const setTheme = (theme: Themes): a.SetTheme => ({
 
 export const toggleDarkMode = toggleAction('TOGGLE_DARK_MODE')
 export const toggleAppbar = toggleAction('TOGGLE_APPBAR')
+export const toggleAppbarHidden = toggleAction('TOGGLE_APPBAR_HIDDEN')
 export const togglePreferAmoled = toggleAction('TOGGLE_PREFER_AMOLED')
 export const toggleDarkAtNight = toggleAction('TOGGLE_DARK_AT_NIGHT')
 export const manualDarkmode = action('MANUAL_DARK_MODE')

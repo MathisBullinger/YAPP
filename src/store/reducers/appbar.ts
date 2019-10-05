@@ -4,6 +4,7 @@ import { getToggleValue } from './utils'
 
 const defaultState: State['appbar'] = {
   visible: true,
+  hidden: false,
   title: '',
   actions: [],
   loading: false,
@@ -18,6 +19,11 @@ export default function appbar(
       return {
         ...state,
         visible: getToggleValue(action, state.visible),
+      }
+    case 'TOGGLE_APPBAR_HIDDEN':
+      return {
+        ...state,
+        hidden: getToggleValue(action, state.hidden),
       }
     case 'SET_APPBAR_TITLE':
       return {
