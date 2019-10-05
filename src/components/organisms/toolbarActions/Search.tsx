@@ -1,4 +1,4 @@
-import React, { useState, useRef, SyntheticEvent } from 'react'
+import React, { useState, useRef, SyntheticEvent, useEffect } from 'react'
 import styled from 'styled-components'
 import { Input, styles } from '~/components/atoms'
 import MiniResult from './search/MiniResult'
@@ -13,6 +13,27 @@ export default function Search() {
   const [searchStr, setSearchStr] = useState('')
   const dispatch = useDispatch()
   const podData = useSelector((state: State) => state.podcasts)
+  const [mouseDown, setMouseDown] = useState(false)
+
+  let mouseBlock = mouseDown
+  let callOnMouseUp: () => void
+  useEffect(() => {
+    const onMouseDown = () => setMouseDown(true)
+    const onMouseUp = e => {
+      if (callOnMouseUp && e.target.tagName !== 'INPUT') {
+        mouseBlock = false
+        callOnMouseUp()
+      }
+      setMouseDown(false)
+    }
+
+    window.addEventListener('mousedown', onMouseDown)
+    window.addEventListener('mouseup', onMouseUp)
+
+    return () => {
+      window.removeEventListener('mousedown', onMouseUp)
+    }
+  })
 
   function search(e: SyntheticEvent) {
     e.preventDefault()
@@ -24,6 +45,11 @@ export default function Search() {
   }
 
   function toggleActive(v: boolean = !active) {
+    if (!v && mouseBlock) {
+      callOnMouseUp = () => toggleActive(false)
+      return
+    }
+
     if (v) setActive(true)
     else {
       setValue('')
