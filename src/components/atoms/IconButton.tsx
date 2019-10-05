@@ -28,6 +28,3 @@ namespace S {
     }
   `
 }
-
-const StyledIconButton = S.Button
-export { StyledIconButton }

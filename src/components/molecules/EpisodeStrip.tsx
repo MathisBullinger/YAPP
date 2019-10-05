@@ -48,6 +48,11 @@ const S = {
       margin: 0;
     }
 
+    div:nth-child(2n) {
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+
     border-top: 1px solid
       ${({ theme }) =>
         theme[theme.topic](theme.variant)

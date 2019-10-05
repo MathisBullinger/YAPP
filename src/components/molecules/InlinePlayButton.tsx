@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { IconButton } from '~/components/atoms'
-import { StyledIconButton as BtStyled } from '~/components/atoms/IconButton'
 
 interface Props {
   progress: number
@@ -42,12 +41,19 @@ const S = {
     width: 30px;
     height: 30px;
 
-    ${BtStyled} > svg {
-      cursor: pointer;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translateX(-50%) translateY(-50%);
+    button {
+      width: 100%;
+      height: 100%;
+
+      svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+      }
+    }
+
+    svg {
       path {
         fill: ${({ theme }) => theme.primary().color};
       }
@@ -58,6 +64,8 @@ const S = {
     left: 0;
     top: 0;
     pointer-events: none;
+    width: 100%;
+    height: 100%;
 
     circle {
       fill: transparent;
