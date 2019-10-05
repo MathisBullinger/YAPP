@@ -80,8 +80,26 @@ const S = {
       theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(2)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     transition: background-color ${() => timing.colorSwap};
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+
+    & > div {
+      height: 100%;
+    }
+
+    .left, .right {
+      display: none;
+    }
+
+    .center {
+      flex-grow: 1;
+      
+      .ctrlBtGroup {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 0.4rem);
+      }
+    }
 
     @media ${responsive.navOnSide} {
       bottom: 0;
@@ -89,32 +107,30 @@ const S = {
       z-index: 2100;
       padding-top: 1rem;
       padding-bottom: 1rem;
-    }
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
 
-    & > div {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-content: center;
-    }
-
-    .left, .right {
-      width: 200px;
-      flex-shrink: 0;
-    }
-
-    .center {
-      flex-grow: 1;
-      margin-left: 1rem;
-      margin-right: 1rem;
-      max-width: 750px;
-
-      .ctrlBtGroup {
+      & > div {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        flex-direction: column;
+        justify-content: space-around;
+        align-content: center;
+      }
+
+      .left, .right {
+        width: 200px;
+        flex-shrink: 0;
+        display: initial;
+      }
+
+      .center {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        max-width: 750px;
+
+        .ctrlBtGroup {
+          height: initial;
+        }
       }
     }
   `,

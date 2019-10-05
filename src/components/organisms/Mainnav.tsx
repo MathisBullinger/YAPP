@@ -86,9 +86,6 @@ const S = {
       `
       @media ${responsive.navOnBottom} {
         box-shadow: none;
-        outline: 1px solid ${props.theme[props.theme.topic](props.theme.variant)
-          .on()
-          .substring(0, 7)}22;
       }
 
       @media ${responsive.navOnSide} {

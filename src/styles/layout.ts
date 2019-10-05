@@ -7,7 +7,7 @@ export default {
   mobile: {
     navHeight: '4rem',
     appbarHeight: '3.5rem',
-    playerHeight: '4rem',
+    playerHeight: '4.4rem',
   },
   toolbarHeight: '4rem',
 }
