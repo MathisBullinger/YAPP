@@ -16,6 +16,5 @@
   "start_url": "/",
   "background_color": "#33333c",
   "display": "standalone",
-  "scope": "https://podcast.bullinger.dev/",
   "theme_color": "#4bb4b4"
 }
