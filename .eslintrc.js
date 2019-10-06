@@ -30,6 +30,7 @@ const config = {
     expect: true,
     gapi: 'readonly',
     __dirname: 'readonly',
+    workbox: true,
   },
   rules: {
     semi: ['error', 'never'],
