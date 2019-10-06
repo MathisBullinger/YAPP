@@ -10,9 +10,11 @@ export default interface State {
     current: Themes
     useAmoled: boolean
     darkAtNight: boolean
+    manualOverride: boolean
   }
   appbar: {
     visible: boolean
+    hidden: boolean
     title: string
     actions: AppbarAction[]
     loading: boolean
@@ -31,6 +33,16 @@ export default interface State {
     searches: { [key: string]: string[] }
     fetching: boolean
   }
+  player: {
+    visible: boolean
+    state: 'idle' | 'waiting' | 'playing' | 'paused'
+    fetching: boolean
+    currentEpisode: string
+    length: number
+    progress: number
+    progLastUpdate: number
+    buffered: number
+  }
 }
 
 export interface Podcast {
@@ -43,11 +55,17 @@ export interface Podcast {
   episodes: Episode[]
 }
 
-interface Artwork {
-  size: number
-  url: string
-}
-
 export interface Episode {
   title: string
+  artworks: Artwork[]
+  file: string
+  date: number
+  id: string
+  duration: number
+}
+
+export interface Artwork {
+  size: number
+  url: string
+  type: string
 }

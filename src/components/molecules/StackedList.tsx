@@ -17,7 +17,7 @@ const StackedList: React.FunctionComponent<Props> = props => (
     {props.sections
       .map((section, i) => [
         ...(i === 0 ? [] : [<div className="buffer" key={`buffer${i}`} />]),
-        <Title className="section-title" s4 key={section.title}>
+        <Title className="section-title" s5 key={section.title}>
           {section.title}
         </Title>,
         section.items,

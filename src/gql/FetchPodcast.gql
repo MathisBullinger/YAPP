@@ -7,9 +7,19 @@ query FetchPodcast($id: ID!) {
     artworks {
       url
       size
+      type
     }
     episodes {
       title
+      file
+      date
+      id
+      duration
+      artworks {
+        url
+        size
+        type
+      }
     }
   }
 }

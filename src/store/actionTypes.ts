@@ -1,12 +1,15 @@
 import { Themes } from '~/styles/theme'
 import { Podcast } from './state'
+import State from '~/store/state'
 
 export type ActionType =
   | 'SET_THEME'
   | 'TOGGLE_DARK_MODE'
   | 'TOGGLE_APPBAR'
+  | 'TOGGLE_APPBAR_HIDDEN'
   | 'TOGGLE_PREFER_AMOLED'
   | 'TOGGLE_DARK_AT_NIGHT'
+  | 'MANUAL_DARK_MODE'
   | 'SET_APPBAR_TITLE'
   | 'ADD_APPBAR_ACTION'
   | 'RESET_APPBAR_ACTIONS'
@@ -22,6 +25,13 @@ export type ActionType =
   | 'ADD_SEARCH_RESULTS'
   | 'TOGGLE_PODCAST_FETCHING'
   | 'FETCH_PODCAST'
+  | 'TOGGLE_PLAYER_VISIBLE'
+  | 'SET_PLAYER_STATE'
+  | 'SET_CURRENT_EPISODE'
+  | 'SET_PLAYER_LENGTH'
+  | 'SET_PLAYER_PROGRESS'
+  | 'SET_PLAYER_BUFFERED'
+  | 'SET_PLAYER_FETCHING'
 
 export interface Base {
   type: ActionType
@@ -37,6 +47,10 @@ export interface ToggleAction extends Base {
 
 export interface StringAction extends Base {
   value: string
+}
+
+export interface NumberAction extends Base {
+  value: number
 }
 
 export interface AppbarAction extends Base {
@@ -55,4 +69,8 @@ export interface PodcastAction extends Base {
 export interface SearchResultAction extends Base {
   search: string
   results: string[]
+}
+
+export interface PlayerStateAction extends Base {
+  value: State['player']['state']
 }

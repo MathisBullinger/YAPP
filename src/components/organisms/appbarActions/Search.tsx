@@ -53,6 +53,12 @@ export default function Search(props: Props) {
             value={value}
             elRef={inputEl}
             merge={true}
+            onFocus={() => {
+              document.querySelector('#root').classList.toggle('fixed', true)
+            }}
+            onBlur={() =>
+              document.querySelector('#root').classList.toggle('fixed', false)
+            }
           />
         </form>
         <ResultPane
@@ -60,7 +66,6 @@ export default function Search(props: Props) {
             id => podData.byId[id]
           )}
         />
-        )
       </S.Expanded>
     </S.Search>
   )

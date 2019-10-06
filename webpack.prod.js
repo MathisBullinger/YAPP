@@ -3,7 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 module.exports = {
   mode: 'production',
   context: __dirname,
-  devtool: 'source-map',
+  devtool: false,
   resolve: {
     alias: {
       // ! preact x currenly not working with react router

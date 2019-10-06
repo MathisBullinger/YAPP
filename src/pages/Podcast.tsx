@@ -3,8 +3,7 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
 import styled from 'styled-components'
-import { Rem } from '~/utils/css'
-import { Title, Subtitle, Text } from '~/components/atoms'
+import { Title, Subtitle, Text, Artwork, Dynamic } from '~/components/atoms'
 import { EpisodeList } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
@@ -27,21 +26,8 @@ function Podcast(props: Props) {
 
   const desktop = useMatchMedia(responsive.navOnSide)
 
-  let thumbnail = null
-  if (podcast && podcast.artworks.length) {
-    const imgSize = new Rem(1).toPx().value * (desktop ? 12 : 6)
-    thumbnail = podcast.artworks[0]
-    for (const art of podcast.artworks) {
-      if (thumbnail.size < imgSize && art.size > thumbnail.size) thumbnail = art
-      else if (
-        thumbnail.size > imgSize &&
-        art.size >= imgSize &&
-        art.size < thumbnail.size
-      )
-        thumbnail = art
-    }
-    thumbnail = thumbnail.url
-  }
+  const description = podcast && podcast.description
+  const Descr = description && description.startsWith('\u200c') ? Dynamic : Text
 
   return (
     <div>
@@ -53,9 +39,12 @@ function Podcast(props: Props) {
           <Subtitle s1={desktop} s2={!desktop}>
             {podcast && podcast.creator}
           </Subtitle>
-          {desktop && <Text>{podcast && podcast.description}</Text>}
+          {desktop && <Descr>{description}</Descr>}
         </div>
-        <img src={thumbnail} />
+        <Artwork
+          artworks={podcast && podcast.artworks}
+          size={desktop ? 14 : 6}
+        />
       </S.Head>
       <EpisodeList
         episodes={podcast && podcast.episodes ? podcast.episodes : []}
@@ -82,11 +71,11 @@ const S = {
       }
     }
 
-    img {
-      height: 6rem;
-      width: 6rem;
+    picture {
       flex-shrink: 0;
-      border-radius: 0.25rem;
+      img {
+        border-radius: 0.25rem;
+      }
     }
 
     @media ${responsive.navOnSide} {
@@ -95,11 +84,6 @@ const S = {
 
       div {
         padding-left: 3rem;
-      }
-
-      img {
-        height: 12rem;
-        width: 12rem;
       }
     }
   `,

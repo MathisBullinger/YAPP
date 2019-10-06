@@ -28,15 +28,14 @@ export default function Toolbar() {
   )
 }
 
-namespace S {
-  export const Toolbar = styled.div`
+const S = {
+  Toolbar: styled.div`
     position: fixed;
     top: 0;
     --nav-width: 0px;
     left: var(--nav-width);
     width: calc(100vw - var(--nav-width));
     height: ${layout.toolbarHeight};
-    border-bottom: 1px dotted red;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -62,7 +61,5 @@ namespace S {
     .action:first-of-type {
       margin-left: auto;
     }
-  `
+  `,
 }
-const StyledBar = S.Toolbar
-export { StyledBar }

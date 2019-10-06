@@ -2,14 +2,18 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const merge = require('webpack-merge')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = env => merge(baseConfig, require(`./webpack.${env}.js`))
 
 const baseConfig = {
   target: 'web',
-  entry: './src/index.ts',
+  entry: {
+    app: './src/index.ts',
+    sw: './src/serviceWorker.ts',
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
   },
@@ -58,5 +62,9 @@ const baseConfig = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
+    new CopyPlugin([
+      { from: 'manifest.json', to: 'manifest.json' },
+      { from: 'icons', to: 'icons' },
+    ]),
   ],
 }

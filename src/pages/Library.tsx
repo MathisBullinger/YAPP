@@ -16,7 +16,7 @@ class Library extends React.Component {
       <S.Library>
         <CardGrid>
           {this.podcasts.map((_, i) => (
-            <Podcast key={i} />
+            <Podcast cl={(i % 7) / 7} key={i} />
           ))}
         </CardGrid>
       </S.Library>

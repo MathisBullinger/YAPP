@@ -2,12 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { Switch } from '~/components/atoms'
 import { connect } from 'react-redux'
-import { toggleDarkMode } from '~/store/actions'
+import { toggleDarkMode, manualDarkmode } from '~/store/actions'
 import { responsive } from '~/styles'
 import { Themes } from '~/styles/theme'
 
 interface Props {
-  toggleDarkMode(value?: boolean): void
+  toggleDarkMode: typeof toggleDarkMode
+  manualDarkmode: typeof manualDarkmode
   theme: {
     current: Themes
   }
@@ -39,6 +40,7 @@ class DarkmodeSwitch extends React.Component<Props, State> {
   }
 
   toggleDarkMode(v: boolean) {
+    this.props.manualDarkmode()
     this.props.toggleDarkMode(v)
   }
 
@@ -50,7 +52,7 @@ class DarkmodeSwitch extends React.Component<Props, State> {
 }
 export default connect(
   ({ theme }: any) => ({ theme }),
-  { toggleDarkMode }
+  { toggleDarkMode, manualDarkmode }
 )(DarkmodeSwitch)
 
 namespace S {

@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Discover = () => <div />
+
 Discover.pageConf = {
   showAppbar: true,
   appbarTitle: 'Discover',
