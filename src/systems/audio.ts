@@ -19,7 +19,7 @@ export default class Audio implements System {
     'goto',
     'setVolume',
   ]
-  private static readonly proxy = 'https://proxy.podcast.bullinger.dev/'
+  private static readonly proxy = 'https://proxy.bullinger.dev/'
 
   private audioEl: HTMLAudioElement
   private context: AudioContext
