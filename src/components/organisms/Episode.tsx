@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, MouseEvent, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
 import State from '~/store/state'
 import { responsive } from '~/styles'
 import { IconButton } from '~/components/atoms'
+import { useMatchMedia } from '~/utils/hooks'
 
 interface Props {
   id: string
@@ -19,13 +20,35 @@ export default function Episode(props: Props) {
       state.podcasts.byId[pId].episodes.find(({ id }) => id === `${pId} ${eId}`)
   )
   const [hidden, setHidden] = useState(true)
+  const isDesktop = useMatchMedia(responsive.navOnSide)
 
   if (!episode !== hidden) setHidden(!episode)
 
+  function handleClick({ clientX, clientY, target }: MouseEvent) {
+    const {
+      left,
+      right,
+      top,
+      bottom,
+    } = (target as HTMLDivElement).getBoundingClientRect()
+    if (clientX < left || clientX > right || clientY < top || clientY > bottom)
+      props.close()
+  }
+
+  const onKeyDown = ({ keyCode }) => keyCode === 27 && props.close()
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  })
+
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
-      <S.Episode data-hidden={hidden}>
-        <IconButton icon="arrow_down" label="hide" onClick={props.close} />
+      <S.Episode data-hidden={hidden} onClick={handleClick}>
+        <IconButton
+          icon={isDesktop ? 'close' : 'arrow_down'}
+          label="hide"
+          onClick={props.close}
+        />
       </S.Episode>
     </ThemeProvider>
   )
@@ -43,7 +66,7 @@ const S = {
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     padding: 1rem;
 
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.3s ease-in-out;
     &[data-hidden='true'] {
       transform: translateX(-50%) translateY(100vh);
       transition: transform 0.5s ease-in-out, hidden 0.5s;
@@ -58,6 +81,11 @@ const S = {
       max-height: 100vh;
       transform-style: preserve-3d;
       border-radius: 0.25rem;
+
+      button:first-child {
+        position: absolute;
+        right: 1rem;
+      }
 
       &::before {
         content: '';
