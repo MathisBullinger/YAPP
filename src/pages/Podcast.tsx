@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
 import styled from 'styled-components'
 import { Title, Subtitle, Text, Artwork, Dynamic } from '~/components/atoms'
-import { EpisodeList } from '~/components/organisms'
+import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
 
@@ -18,6 +18,8 @@ function Podcast(props: Props) {
     (state: State) => state.podcasts.byId[props.match.params.id]
   )
   const dispatch = useDispatch()
+  const [episode, setEpisode] = useState(null)
+
   if (!podcast || !podcast.episodes.length)
     dispatch({
       type: 'FETCH_PODCAST',
@@ -28,6 +30,10 @@ function Podcast(props: Props) {
 
   const description = podcast && podcast.description
   const Descr = description && description.startsWith('\u200c') ? Dynamic : Text
+
+  function openEpisode(id: string) {
+    setEpisode(id)
+  }
 
   return (
     <div>
@@ -47,8 +53,10 @@ function Podcast(props: Props) {
         />
       </S.Head>
       <EpisodeList
+        handleOpen={openEpisode}
         episodes={podcast && podcast.episodes ? podcast.episodes : []}
       />
+      <Episode id={episode} close={() => setEpisode(null)} />
     </div>
   )
 }
