@@ -18,9 +18,9 @@ function Podcast(props: Props) {
     (state: State) => state.podcasts.byId[props.match.params.id]
   )
   const dispatch = useDispatch()
-  const [episode, setEpisode] = useState(null)
+  const fetching = useSelector((state: State) => state.podcasts.fetching)
 
-  if (!podcast || !podcast.episodes.length)
+  if (!fetching && !(podcast && podcast._fetched))
     dispatch({
       type: 'FETCH_PODCAST',
       value: props.match.params.id,
@@ -31,6 +31,7 @@ function Podcast(props: Props) {
   const description = podcast && podcast.description
   const Descr = description && description.startsWith('\u200c') ? Dynamic : Text
 
+  const [episode, setEpisode] = useState(null)
   function openEpisode(id: string) {
     setEpisode(id)
   }
