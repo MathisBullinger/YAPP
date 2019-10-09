@@ -53,6 +53,7 @@ export interface Podcast {
   description: string
   artworks: Artwork[]
   episodes: Episode[]
+  _fetched: boolean
 }
 
 export interface Episode {
@@ -62,6 +63,7 @@ export interface Episode {
   date: number
   id: string
   duration: number
+  description: string
 }
 
 export interface Artwork {

@@ -1,15 +1,15 @@
-import { takeLatest, put } from 'redux-saga/effects'
+import { takeLatest, put, call, putResolve } from 'redux-saga/effects'
 import { StringAction } from './actionTypes'
 import api from '~/api'
 import SearchQuery from '~/gql/SearchPodcast.gql'
 import FetchQuery from '~/gql/FetchPodcast.gql'
-import { SearchPodcast, SearchPodcastVariables } from '~/gqlTypes/SearchPodcast'
-import { FetchPodcast, FetchPodcastVariables } from '~/gqlTypes/FetchPodcast'
+import { SearchPodcast } from '~/gqlTypes/SearchPodcast'
+import { FetchPodcast } from '~/gqlTypes/FetchPodcast'
 import { addPodcast, addSearchResults, togglePodcastFetching } from './actions'
 
 export function* searchPodcast(action: StringAction) {
   yield put(togglePodcastFetching(true))
-  const result = yield api.query<SearchPodcast, SearchPodcastVariables>({
+  const result = yield call(api.query, {
     query: SearchQuery,
     variables: { name: action.value },
   })
@@ -22,7 +22,8 @@ export function* searchPodcast(action: StringAction) {
         feed: '',
         description: '',
         artworks: podcast.artworks,
-        episodes: [],
+        episodes: null,
+        _fetched: false,
       })
     )
   }
@@ -37,12 +38,12 @@ export function* searchPodcast(action: StringAction) {
 
 export function* fetchPodcast(action: StringAction) {
   yield put(togglePodcastFetching(true))
-  const result = yield api.query<FetchPodcast, FetchPodcastVariables>({
+  const result = yield call(api.query, {
     query: FetchQuery,
     variables: { id: action.value },
   })
   const podcast = (result.data as FetchPodcast).podcast
-  yield put(
+  yield putResolve(
     addPodcast({
       itunesId: podcast.itunesId,
       name: podcast.name,
@@ -50,6 +51,7 @@ export function* fetchPodcast(action: StringAction) {
       feed: '',
       description: podcast.description,
       artworks: podcast.artworks,
+      _fetched: true,
       episodes: podcast.episodes.map(episode => ({
         title: episode.title,
         artworks: episode.artworks,
@@ -57,6 +59,7 @@ export function* fetchPodcast(action: StringAction) {
         date: parseInt(episode.date, 10),
         id: `${podcast.itunesId} ${episode.id}`,
         duration: episode.duration,
+        description: episode.description,
       })),
     })
   )
