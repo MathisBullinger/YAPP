@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect, Fragment } from 'react'
+import React, { useState, MouseEvent, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
 import State from '~/store/state'
@@ -50,7 +50,12 @@ export default function Episode(props: Props) {
         {episode && (
           <S.Content>
             <S.Head>
-              <Artwork artworks={episode.artworks} size={isDesktop ? 8 : 6} />
+              <Artwork
+                artworks={
+                  episode.artworks.length ? episode.artworks : podcast.artworks
+                }
+                size={isDesktop ? 8 : 6}
+              />
               <div className="text">
                 <Title s5>{episode.title}</Title>
                 <Subtitle s1={isDesktop} s2={!isDesktop}>
@@ -146,7 +151,8 @@ const S = {
       margin-right: 1rem;
 
       *:last-child {
-        color: ${({ theme }) => theme.primary(theme.variant).color};
+        color: ${({ theme }) =>
+          theme.vibrant || theme.primary(theme.variant).color};
       }
     }
 

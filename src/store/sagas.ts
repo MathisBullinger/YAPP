@@ -22,6 +22,7 @@ export function* searchPodcast(action: StringAction) {
         feed: '',
         description: '',
         artworks: podcast.artworks,
+        colors: [],
         episodes: null,
         _fetched: false,
       })
@@ -51,6 +52,7 @@ export function* fetchPodcast(action: StringAction) {
       feed: '',
       description: podcast.description,
       artworks: podcast.artworks,
+      colors: podcast.colors,
       _fetched: true,
       episodes: podcast.episodes.map(episode => ({
         title: episode.title,
@@ -60,7 +62,6 @@ export function* fetchPodcast(action: StringAction) {
         id: `${podcast.itunesId} ${episode.id}`,
         duration: episode.duration,
         description: episode.description,
-        // @ts-ignore
         content: episode.content,
       })),
     })

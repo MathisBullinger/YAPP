@@ -56,6 +56,7 @@ const S = {
     svg {
       path {
         fill: ${({ theme }) => theme.primary().color};
+        fill: ${({ theme }) => theme.vibrant};
       }
     }
   `,
@@ -70,7 +71,8 @@ const S = {
     circle {
       fill: transparent;
       stroke-width: 2;
-      stroke: ${({ theme }) => theme.primary().color.substring(0, 7)}33;
+      stroke: ${({ theme }) =>
+        (theme.vibrant || theme.primary().color).substring(0, 7)}33;
     }
 
     .progress {
@@ -78,6 +80,7 @@ const S = {
       transform: rotate(-90deg);
       stroke-dasharray: 81.68141;
       stroke: ${({ theme }) => theme.primary().color};
+      stroke: ${({ theme }) => theme.vibrant};
     }
   `,
 }

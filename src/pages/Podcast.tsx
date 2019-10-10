@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
-import styled from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { Title, Subtitle, Text, Artwork, Dynamic } from '~/components/atoms'
 import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
+import { hexToRGB, luminance, contrast } from '~/utils'
 
 interface RouteParams {
   id: string
@@ -19,12 +20,30 @@ function Podcast(props: Props) {
   )
   const dispatch = useDispatch()
   const fetching = useSelector((state: State) => state.podcasts.fetching)
+  const theme = useContext(ThemeContext)
+  const background = theme[theme.topic](theme.variant).color
 
   if (!fetching && !(podcast && podcast._fetched))
     dispatch({
       type: 'FETCH_PODCAST',
       value: props.match.params.id,
     })
+
+  if (podcast && podcast.colors && podcast.colors.length) {
+    const lBack = luminance(...hexToRGB(background))
+    const colors = podcast.colors.map(({ name, value }) => ({
+      name,
+      value,
+      contrast: contrast(lBack, luminance(...hexToRGB(value))),
+    }))
+    const [muted, vibrant] = ['Muted', 'Vibrant'].map(
+      s =>
+        colors
+          .filter(({ name }) => name.includes(s))
+          .reduce((a, c) => (c.contrast >= a.contrast ? c : a)).value
+    )
+    Object.assign(theme, { muted, vibrant })
+  }
 
   const desktop = useMatchMedia(responsive.navOnSide)
 
@@ -77,6 +96,10 @@ const S = {
       & > * {
         width: 100%;
         text-overflow: ellipsis;
+      }
+
+      *:nth-child(2n) {
+        color: ${({ theme }) => theme.vibrant};
       }
     }
 

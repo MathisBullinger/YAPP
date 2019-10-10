@@ -53,6 +53,7 @@ export interface Podcast {
   description: string
   artworks: Artwork[]
   episodes: Episode[]
+  colors: Color[]
   _fetched: boolean
 }
 
@@ -71,4 +72,9 @@ export interface Artwork {
   size: number
   url: string
   type: string
+}
+
+export interface Color {
+  name: string
+  value: string
 }
