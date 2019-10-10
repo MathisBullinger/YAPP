@@ -31,7 +31,9 @@ export default function Shownotes({ episodeId }: Props) {
 
 const S = {
   Notes: styled.div`
-    padding: 1rem;
+    padding: var(--side-padding);
+    padding-top: 0;
+    padding-bottom: var(--side-padding);
 
     @media ${responsive.navOnSide} {
       flex-grow: 1;

@@ -50,10 +50,12 @@ export default function Episode(props: Props) {
         {episode && (
           <S.Content>
             <S.Head>
-              <Artwork artworks={episode.artworks} size={8} />
+              <Artwork artworks={episode.artworks} size={isDesktop ? 8 : 6} />
               <div className="text">
                 <Title s5>{episode.title}</Title>
-                <Subtitle>{podcast.creator}</Subtitle>
+                <Subtitle s1={isDesktop} s2={!isDesktop}>
+                  {podcast.name}
+                </Subtitle>
               </div>
             </S.Head>
             <Shownotes episodeId={props.id} />
@@ -75,6 +77,7 @@ const S = {
     height: 100vh;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
     overflow-y: scroll;
+    --side-padding: 1.5rem;
 
     transition: transform 0.3s ease-in-out;
     &[data-hidden='true'] {
@@ -132,13 +135,30 @@ const S = {
   `,
 
   Head: styled.div`
-    padding: 1rem;
     display: flex;
-    display: flex;
-    padding: 1rem;
+    padding: var(--side-padding);
+    padding-top: 0;
+    padding-bottom: 1rem;
+    flex-direction: row-reverse;
+    justify-content: space-between;
 
     .text {
-      margin-left: 1.5rem;
+      margin-right: 1rem;
+
+      *:last-child {
+        color: ${({ theme }) => theme.primary(theme.variant).color};
+      }
+    }
+
+    @media ${responsive.navOnSide} {
+      flex-direction: row;
+      justify-content: flex-start;
+      padding-top: var(--side-padding);
+
+      .text {
+        margin-left: 1rem;
+        margin-right: 0;
+      }
     }
   `,
 }
