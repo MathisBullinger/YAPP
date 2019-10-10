@@ -49,13 +49,13 @@ export default function Episode(props: Props) {
         />
         {episode && (
           <S.Content>
-            <div className="head">
+            <S.Head>
               <Artwork artworks={episode.artworks} size={8} />
               <div className="text">
                 <Title s5>{episode.title}</Title>
                 <Subtitle>{podcast.creator}</Subtitle>
               </div>
-            </div>
+            </S.Head>
             <Shownotes episodeId={props.id} />
           </S.Content>
         )}
@@ -74,6 +74,7 @@ const S = {
     width: 100vw;
     height: 100vh;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
+    overflow-y: scroll;
 
     transition: transform 0.3s ease-in-out;
     &[data-hidden='true'] {
@@ -92,19 +93,12 @@ const S = {
       height: 70vh;
       transform-style: preserve-3d;
       border-radius: 0.25rem;
+      overflow-y: initial;
 
       button:first-child {
         position: absolute;
         right: 1rem;
         top: 1rem;
-      }
-
-      .head {
-        display: flex;
-
-        .text {
-          margin-left: 1.5rem;
-        }
       }
 
       &:not([data-hidden='true']) {
@@ -128,8 +122,23 @@ const S = {
 
   Content: styled.div`
     width: 100%;
-    height: 100%;
-    overflow: scroll;
+
+    @media ${responsive.navOnSide} {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+  `,
+
+  Head: styled.div`
     padding: 1rem;
+    display: flex;
+    display: flex;
+    padding: 1rem;
+
+    .text {
+      margin-left: 1.5rem;
+    }
   `,
 }
