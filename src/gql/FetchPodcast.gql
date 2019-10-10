@@ -16,6 +16,7 @@ query FetchPodcast($id: ID!) {
       id
       duration
       description
+      content
       artworks {
         url
         size

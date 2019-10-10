@@ -64,6 +64,7 @@ export interface Episode {
   id: string
   duration: number
   description: string
+  content: string
 }
 
 export interface Artwork {

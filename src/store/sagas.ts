@@ -60,6 +60,8 @@ export function* fetchPodcast(action: StringAction) {
         id: `${podcast.itunesId} ${episode.id}`,
         duration: episode.duration,
         description: episode.description,
+        // @ts-ignore
+        content: episode.content,
       })),
     })
   )

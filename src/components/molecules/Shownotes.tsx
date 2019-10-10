@@ -14,5 +14,11 @@ export default function Shownotes({ episodeId }: Props) {
       pId &&
       state.podcasts.byId[pId].episodes.find(({ id }) => id === `${pId} ${eId}`)
   )
-  return <Dynamic>{episode.description}</Dynamic>
+  const description =
+    (episode.description && episode.description.length) >
+    (episode.content && episode.content.length)
+      ? episode.description
+      : episode.content
+
+  return <Dynamic>{description}</Dynamic>
 }
