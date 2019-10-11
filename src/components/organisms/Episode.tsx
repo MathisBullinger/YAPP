@@ -7,6 +7,7 @@ import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 import { Shownotes } from '~/components/molecules'
 import { useMatchMedia } from '~/utils/hooks'
 import { fetchEpisode } from '~/store/actions'
+import { send } from '~/systems'
 
 interface Props {
   id: string
@@ -22,6 +23,10 @@ export default function Episode(props: Props) {
   if (!episode._fetched && props.id) dispatch(fetchEpisode(props.id))
   const [hidden, setHidden] = useState(true)
   const isDesktop = useMatchMedia(responsive.navOnSide)
+  const player = useSelector((state: State) => state.player)
+  const playing =
+    player.currentEpisode === props.id &&
+    (player.state === 'playing' || player.state === 'waiting')
 
   if (!episode !== hidden) setHidden(!episode)
 
@@ -42,6 +47,11 @@ export default function Episode(props: Props) {
     return () => window.removeEventListener('keydown', onKeyDown)
   })
 
+  function togglePlay() {
+    if (player.currentEpisode !== props.id) send('audio', 'play', props.id)
+    else send('audio', playing ? 'pause' : 'resume')
+  }
+
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
       <S.Episode data-hidden={hidden} onClick={handleClick}>
@@ -61,6 +71,15 @@ export default function Episode(props: Props) {
                 }
                 size={isDesktop ? 8 : 6}
               />
+              {isDesktop && (
+                <S.DesktopPlay>
+                  <IconButton
+                    icon={playing ? 'pause' : 'play'}
+                    label="play"
+                    onClick={togglePlay}
+                  />
+                </S.DesktopPlay>
+              )}
               <div className="text">
                 <Title s5>{episode.title}</Title>
                 <Subtitle s1={isDesktop} s2={!isDesktop}>
@@ -108,7 +127,7 @@ const S = {
       border-radius: 0.25rem;
       overflow-y: initial;
 
-      button:first-child {
+      & > button {
         position: absolute;
         right: 1rem;
         top: 1rem;
@@ -142,6 +161,16 @@ const S = {
       flex-direction: column;
       overflow: hidden;
     }
+
+    ${() => S.playSelector} {
+      opacity: 0;
+    }
+
+    &:hover {
+      ${() => S.playSelector} {
+        opacity: 1;
+      }
+    }
   `,
 
   Head: styled.div`
@@ -172,4 +201,28 @@ const S = {
       }
     }
   `,
+
+  DesktopPlay: styled.div`
+    display: block;
+    width: 5rem;
+    height: 5rem;
+    transform: translateX(-133.3%) translateY(1.5rem);
+    backdrop-filter: invert(30%) blur(1.5px);
+    border-radius: 3rem;
+    transition: opacity 0.2s ease;
+
+    button {
+      width: 100%;
+      height: 100%;
+
+      svg {
+        width: 80%;
+        height: 80%;
+      }
+    }
+  `,
+
+  get playSelector() {
+    return this.DesktopPlay
+  },
 }
