@@ -42,3 +42,4 @@ namespace S {
     line-height: 1.5rem;
   `
 }
+export const style = S.Text

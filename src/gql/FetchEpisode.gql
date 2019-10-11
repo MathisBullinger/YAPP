@@ -1,0 +1,16 @@
+query FetchEpisode($pId: ID!, $eId: ID!) {
+  episode(podcastId: $pId, episodeId: $eId) {
+    title
+    file
+    date
+    id
+    duration
+    description
+    content
+    artworks {
+      url
+      size
+      type
+    }
+  }
+}

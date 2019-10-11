@@ -9,17 +9,16 @@ query FetchPodcast($id: ID!) {
       size
       type
     }
+    colors {
+      name
+      value
+    }
     episodes {
       title
       file
       date
-      id
       duration
-      artworks {
-        url
-        size
-        type
-      }
+      id
     }
   }
 }

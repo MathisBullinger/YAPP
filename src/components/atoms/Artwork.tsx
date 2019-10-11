@@ -43,8 +43,8 @@ const S = {
     height: ${props => props['data-size']}rem;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: ${props => props['data-size']}rem;
+      height: ${props => props['data-size']}rem;
     }
   `,
 }
