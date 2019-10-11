@@ -1,11 +1,24 @@
-import { takeLatest, put, call, putResolve } from 'redux-saga/effects'
+import {
+  takeLatest,
+  takeEvery,
+  put,
+  call,
+  putResolve,
+} from 'redux-saga/effects'
 import { StringAction } from './actionTypes'
 import api from '~/api'
 import SearchQuery from '~/gql/SearchPodcast.gql'
 import FetchQuery from '~/gql/FetchPodcast.gql'
+import FetchEpisodeQuery from '~/gql/FetchEpisode.gql'
 import { SearchPodcast } from '~/gqlTypes/SearchPodcast'
 import { FetchPodcast } from '~/gqlTypes/FetchPodcast'
-import { addPodcast, addSearchResults, togglePodcastFetching } from './actions'
+import { FetchEpisode } from '~/gqlTypes/FetchEpisode'
+import {
+  addPodcast,
+  addSearchResults,
+  togglePodcastFetching,
+  addEpisode,
+} from './actions'
 
 export function* searchPodcast(action: StringAction) {
   yield put(togglePodcastFetching(true))
@@ -56,20 +69,40 @@ export function* fetchPodcast(action: StringAction) {
       _fetched: true,
       episodes: podcast.episodes.map(episode => ({
         title: episode.title,
-        artworks: episode.artworks,
         file: episode.file,
         date: parseInt(episode.date, 10),
         id: `${podcast.itunesId} ${episode.id}`,
         duration: episode.duration,
-        description: episode.description,
-        content: episode.content,
+        _fetched: false,
       })),
     })
   )
   yield put(togglePodcastFetching(false))
 }
 
+export function* fetchEpisode(action: StringAction) {
+  const [pId, eId] = action.value.split(' ')
+  if (!pId || !eId) return
+  const result = yield call(api.query, {
+    query: FetchEpisodeQuery,
+    variables: { pId, eId },
+  })
+  const episode = (result.data as FetchEpisode).episode
+  yield putResolve(
+    addEpisode(
+      {
+        ...episode,
+        ...(episode.date && { date: parseInt(episode.date, 10) }),
+        id: `${pId} ${episode.id}`,
+        _fetched: true,
+      },
+      pId
+    )
+  )
+}
+
 export default function*() {
   yield takeLatest('SEARCH_PODCAST', searchPodcast)
   yield takeLatest('FETCH_PODCAST', fetchPodcast)
+  yield takeEvery('FETCH_EPISODE', fetchEpisode)
 }

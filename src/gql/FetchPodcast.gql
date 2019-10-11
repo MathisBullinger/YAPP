@@ -17,15 +17,8 @@ query FetchPodcast($id: ID!) {
       title
       file
       date
-      id
       duration
-      description
-      content
-      artworks {
-        url
-        size
-        type
-      }
+      id
     }
   }
 }

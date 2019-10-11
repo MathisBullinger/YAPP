@@ -58,6 +58,7 @@ function replace(content, layer: number[] = [0]) {
 }
 
 export default function Dynamic({ children }) {
+  if (!children) return null
   if (!children.startsWith('\u200c'))
     return (
       <S.Dynamic>

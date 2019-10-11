@@ -2,7 +2,7 @@
   "description": "Yet Another Podcast Player",
   "private": true,
   "scripts": {
-    "start": "npx webpack-dev-server --env dev",
+    "start": "npm run apollo:gen && npx webpack-dev-server --env dev",
     "build": "npm run apollo:gen && npx webpack --env prod --config webpack.config.js",
     "build:dev": "npm run apollo:gen && npx webpack --env dev --config webpack.config.js",
     "now-build": "npm run build",

@@ -1,11 +1,12 @@
 import React, { useState, MouseEvent, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
 import State from '~/store/state'
 import { responsive } from '~/styles'
 import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 import { Shownotes } from '~/components/molecules'
 import { useMatchMedia } from '~/utils/hooks'
+import { fetchEpisode } from '~/store/actions'
 
 interface Props {
   id: string
@@ -17,6 +18,8 @@ export default function Episode(props: Props) {
   const podcast = useSelector((state: State) => pId && state.podcasts.byId[pId])
   const episode =
     podcast && eId && podcast.episodes.find(({ id }) => id === `${pId} ${eId}`)
+  const dispatch = useDispatch()
+  if (!episode._fetched && props.id) dispatch(fetchEpisode(props.id))
   const [hidden, setHidden] = useState(true)
   const isDesktop = useMatchMedia(responsive.navOnSide)
 
@@ -52,7 +55,9 @@ export default function Episode(props: Props) {
             <S.Head>
               <Artwork
                 artworks={
-                  episode.artworks.length ? episode.artworks : podcast.artworks
+                  episode.artworks && episode.artworks.length
+                    ? episode.artworks
+                    : podcast.artworks
                 }
                 size={isDesktop ? 8 : 6}
               />

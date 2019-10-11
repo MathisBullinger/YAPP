@@ -59,13 +59,14 @@ export interface Podcast {
 
 export interface Episode {
   title: string
-  artworks: Artwork[]
   file: string
   date: number
   id: string
   duration: number
-  description: string
-  content: string
+  description?: string
+  content?: string
+  artworks?: Artwork[]
+  _fetched: boolean
 }
 
 export interface Artwork {

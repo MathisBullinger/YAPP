@@ -1,5 +1,5 @@
 import { Themes } from '~/styles/theme'
-import { Podcast } from './state'
+import { Podcast, Episode } from './state'
 import State from '~/store/state'
 
 export type ActionType =
@@ -22,9 +22,11 @@ export type ActionType =
   | 'SET_SCROLL_DIRECTION'
   | 'SEARCH_PODCAST'
   | 'ADD_PODCAST'
+  | 'ADD_EPISODE'
   | 'ADD_SEARCH_RESULTS'
   | 'TOGGLE_PODCAST_FETCHING'
   | 'FETCH_PODCAST'
+  | 'FETCH_EPISODE'
   | 'TOGGLE_PLAYER_VISIBLE'
   | 'SET_PLAYER_STATE'
   | 'SET_CURRENT_EPISODE'
@@ -64,6 +66,11 @@ export interface ScrollDirAction extends Base {
 
 export interface PodcastAction extends Base {
   value: Podcast
+}
+
+export interface EpisodeAction extends Base {
+  value: Partial<Episode>
+  podId: string
 }
 
 export interface SearchResultAction extends Base {
