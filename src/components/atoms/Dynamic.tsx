@@ -52,7 +52,13 @@ function replace(content, layer: number[] = [0]) {
           </Subtitle>
         )
       default:
-        return item
+        return !type
+          ? item
+          : React.createElement(
+              type,
+              { ...props, key: { key } },
+              replace(props.children, nextLayer)
+            )
     }
   })
 }
