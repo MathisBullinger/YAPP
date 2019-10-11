@@ -9,6 +9,7 @@ import { send } from '~/systems'
 
 interface Props {
   episode: Episode
+  handleOpen(id: string): void
 }
 
 export default function EpisodeStrip(props: Props) {
@@ -22,7 +23,7 @@ export default function EpisodeStrip(props: Props) {
   }
 
   return (
-    <S.Episode>
+    <S.Episode onClick={() => props.handleOpen(props.episode.id)}>
       <Text emp="high">{props.episode.title || 'no title available'}</Text>
       <InlinePlayButton
         playing={player.currentEpisode === props.episode.id && playing}

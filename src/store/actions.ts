@@ -1,6 +1,6 @@
 import { Themes } from '~/styles/theme'
 import * as a from './actionTypes'
-import State, { Podcast } from './state'
+import State, { Podcast, Episode } from './state'
 
 const action = (type: a.ActionType) => (): a.Base => ({ type })
 const toggleAction = (type: a.ActionType) => (
@@ -40,6 +40,7 @@ export const resetToolbarActions = action('RESET_TOOLBAR_ACTIONS')
 export const searchPodcast = stringAction('SEARCH_PODCAST')
 export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
 export const fetchPodcast = stringAction('FETCH_PODCAST')
+export const fetchEpisode = stringAction('FETCH_EPISODE')
 export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
 export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
 export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
@@ -66,6 +67,15 @@ export const setScrollDirection = (
 export const addPodcast = (value: Podcast): a.PodcastAction => ({
   type: 'ADD_PODCAST',
   value,
+})
+
+export const addEpisode = (
+  value: Partial<Episode>,
+  podId: string
+): a.EpisodeAction => ({
+  type: 'ADD_EPISODE',
+  value,
+  podId,
 })
 
 export const addSearchResults = (

@@ -22,6 +22,32 @@ export default function(
             .itunesId]: (action as a.PodcastAction).value,
         },
       }
+    case 'ADD_EPISODE': {
+      const podId = (action as a.EpisodeAction).podId
+      const episode = (action as a.EpisodeAction).value
+      const episodeOld = state.byId[podId].episodes.find(
+        ({ id }) => id === episode.id
+      )
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [podId]: {
+            ...state.byId[podId],
+            episodes: [
+              ...state.byId[podId].episodes.filter(
+                ({ id }) => id !== episode.id
+              ),
+              {
+                ...episodeOld,
+                ...episode,
+              },
+            ],
+          },
+        },
+      }
+    }
     case 'ADD_SEARCH_RESULTS':
       return {
         ...state,

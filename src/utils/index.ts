@@ -1,5 +1,5 @@
 import { mapObj, mapKeys, mapValues, filterObj } from './object'
-import { blendHexColorString } from './color'
+import { blendHexColorString, hexToRGB, luminance, contrast } from './color'
 import { formatTimeStamp } from './time'
 
 export {
@@ -9,4 +9,7 @@ export {
   filterObj,
   blendHexColorString,
   formatTimeStamp,
+  hexToRGB,
+  luminance,
+  contrast,
 }

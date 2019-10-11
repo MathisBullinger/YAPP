@@ -5,6 +5,7 @@ import { EpisodeStrip } from '~/components/molecules'
 
 interface Props {
   episodes: Episode[]
+  handleOpen(id: string): void
 }
 
 export default function EpisodeList(props: Props) {
@@ -13,7 +14,11 @@ export default function EpisodeList(props: Props) {
       {props.episodes
         .sort((a, b) => b.date - a.date)
         .map(episode => (
-          <EpisodeStrip key={episode.title + episode.file} episode={episode} />
+          <EpisodeStrip
+            key={episode.title + episode.file}
+            episode={episode}
+            handleOpen={props.handleOpen}
+          />
         ))}
     </S.List>
   )
