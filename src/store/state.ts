@@ -5,6 +5,7 @@ export default interface State {
     current: Themes
     useAmoled: boolean
     darkAtNight: boolean
+    useSystem: boolean
     manualOverride: boolean
   }
   appbar: {

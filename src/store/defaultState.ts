@@ -5,6 +5,7 @@ const defaultState: Partial<State> = {
     current: 'light',
     useAmoled: false,
     darkAtNight: false,
+    useSystem: false,
     manualOverride: false,
   },
   appbar: {

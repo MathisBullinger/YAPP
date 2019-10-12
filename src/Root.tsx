@@ -5,6 +5,7 @@ import store from './store'
 import { ApolloProvider } from '@apollo/react-hooks'
 import apiClient from './api'
 import App from './App'
+import '~/store/persist'
 
 ReactDOM.render(
   <Provider store={store}>

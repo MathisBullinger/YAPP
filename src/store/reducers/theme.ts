@@ -1,10 +1,10 @@
 import * as a from '../actionTypes'
 import State from '../state'
 import { getToggleValue } from './utils'
-import defaultState from '../defaultState'
+import { get } from '../persist'
 
 export default function theme(
-  state = defaultState['theme'],
+  state = get.theme(),
   action: a.Base
 ): State['theme'] {
   switch (action.type) {
@@ -42,6 +42,10 @@ export default function theme(
       return {
         ...state,
         darkAtNight: getToggleValue(action, state.darkAtNight),
+      }
+    case 'TOGGLE_DARK_USE_SYSTEM':
+      return {
+        ...state,
       }
     case 'MANUAL_DARK_MODE':
       return {
