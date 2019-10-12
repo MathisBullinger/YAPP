@@ -15,10 +15,6 @@ import Slider from './Slider'
 import Link from './Link'
 import Spinner from './Spinner'
 
-import { InputStyle } from './Input'
-
-const styles = { Input: InputStyle }
-
 export {
   Text,
   Title,
@@ -36,5 +32,4 @@ export {
   Slider,
   Link,
   Spinner,
-  styles,
 }

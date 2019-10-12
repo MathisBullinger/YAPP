@@ -29,7 +29,6 @@ export default Page
 const S = {
   Page: styled.div`
     padding: 2rem;
-    transition: background-color ${timing.colorSwap};
     overflow-x: scroll;
 
     --buffer-left: 0px;

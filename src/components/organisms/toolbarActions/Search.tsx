@@ -1,6 +1,6 @@
 import React, { useState, useRef, SyntheticEvent, useEffect } from 'react'
 import styled from 'styled-components'
-import { Input, styles } from '~/components/atoms'
+import { Input, Spinner } from '~/components/atoms'
 import MiniResult from './search/MiniResult'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -77,6 +77,7 @@ export default function Search() {
         onChange={setValue}
         elRef={inputRef}
       />
+      <Spinner active={podData.searching} />
       {active && podData.searches[searchStr] && (
         <MiniResult
           podcasts={podData.searches[searchStr].map(id => podData.byId[id])}
@@ -86,21 +87,35 @@ export default function Search() {
   )
 }
 
-namespace S {
-  export const Search = styled.form`
+const S = {
+  Search: styled.form`
     position: relative;
 
-    ${styles.Input} {
+    ${Input.sc} {
       width: 13rem;
       text-align: center;
       transition: width 0.15s ease;
     }
 
     &.active {
-      ${styles.Input} {
+      ${Input.sc} {
         width: 24rem;
         text-align: left;
       }
     }
-  `
+
+    ${Spinner.sc} {
+      position: absolute;
+      width: 1rem;
+      height: 1rem;
+      top: 0.1rem;
+      right: 0.7rem;
+      top: calc(50% - 0.5rem - 1px);
+
+      circle {
+        stroke: ${({ theme }) =>
+          theme[theme.topic](theme.variant).on('disabled')};
+      }
+    }
+  `,
 }

@@ -17,11 +17,12 @@ import {
   addPodcast,
   addSearchResults,
   togglePodcastFetching,
+  togglePodcastSearching,
   addEpisode,
 } from './actions'
 
 export function* searchPodcast(action: StringAction) {
-  yield put(togglePodcastFetching(true))
+  yield put(togglePodcastSearching(true))
   const result = yield call(api.query, {
     query: SearchQuery,
     variables: { name: action.value },
@@ -47,7 +48,7 @@ export function* searchPodcast(action: StringAction) {
       (result.data as SearchPodcast).search.map(podcast => podcast.itunesId)
     )
   )
-  yield put(togglePodcastFetching(false))
+  yield put(togglePodcastSearching(false))
 }
 
 export function* fetchPodcast(action: StringAction) {
