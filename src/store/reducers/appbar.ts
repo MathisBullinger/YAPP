@@ -1,17 +1,10 @@
 import * as a from '../actionTypes'
 import State from '../state'
 import { getToggleValue } from './utils'
+import defaultState from '../defaultState'
 
-const defaultState: State['appbar'] = {
-  visible: true,
-  hidden: false,
-  title: '',
-  actions: [],
-  loading: false,
-  hideOnScroll: false,
-}
 export default function appbar(
-  state: State['appbar'] = defaultState,
+  state = defaultState['appbar'],
   action: a.Base
 ): State['appbar'] {
   switch (action.type) {

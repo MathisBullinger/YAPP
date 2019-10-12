@@ -1,19 +1,10 @@
 import * as a from '../actionTypes'
 import State from '../state'
 import { getToggleValue } from './utils'
+import defaultState from '../defaultState'
 
-const defaultState: State['player'] = {
-  visible: false,
-  state: 'idle',
-  fetching: false,
-  currentEpisode: null,
-  progress: 0,
-  length: 0,
-  buffered: 0,
-  progLastUpdate: 0,
-}
 export default function player(
-  state: State['player'] = defaultState,
+  state = defaultState['player'],
   action: a.Base
 ): State['player'] {
   switch (action.type) {

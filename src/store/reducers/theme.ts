@@ -1,15 +1,10 @@
 import * as a from '../actionTypes'
 import State from '../state'
 import { getToggleValue } from './utils'
+import defaultState from '../defaultState'
 
-const defaultTheme: State['theme'] = {
-  current: 'light',
-  useAmoled: false,
-  darkAtNight: false,
-  manualOverride: false,
-}
 export default function theme(
-  state: State['theme'] = defaultTheme,
+  state = defaultState['theme'],
   action: a.Base
 ): State['theme'] {
   switch (action.type) {

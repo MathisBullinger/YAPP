@@ -1,10 +1,5 @@
 import { Themes } from '~/styles/theme'
 
-export interface AppbarAction {
-  name: string
-  align: 'left' | 'right'
-}
-
 export default interface State {
   theme: {
     current: Themes
@@ -79,4 +74,9 @@ export interface Artwork {
 export interface Color {
   name: string
   value: string
+}
+
+export interface AppbarAction {
+  name: string
+  align: 'left' | 'right'
 }
