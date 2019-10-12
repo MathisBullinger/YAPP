@@ -28,7 +28,10 @@ export default function App() {
   })
 
   useEffect(() => {
-    document.body.style.transition = `background-color ${timing.colorSwap}`
+    setTimeout(
+      () =>
+        (document.body.style.transition = `background-color ${timing.colorSwap}`)
+    )
   }, [])
 
   return (

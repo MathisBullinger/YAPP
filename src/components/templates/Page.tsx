@@ -30,7 +30,12 @@ const S = {
   Page: styled.div`
     position: relative;
     padding: 2rem;
-    overflow-x: scroll;
+    overflow-x: auto;
+
+    pointer-events: none;
+    & > * {
+      pointer-events: all;
+    }
 
     --buffer-left: 0px;
     --buffer-top: 0px;
