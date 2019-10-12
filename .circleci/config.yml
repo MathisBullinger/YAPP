@@ -39,9 +39,7 @@ jobs:
           command: sudo pip install awscli
       - run:
           name: Deploy to S3
-          command: |
-            aws s3 sync --cache-control 'max-age=604800' --exclude index.html public/ s3://yapp-frontend/
-            aws s3 sync --cache-control 'no-cache' public/ s3://yapp-frontend/
+          command: aws s3 sync public/ s3://yapp-frontend/
 
 workflows:
   version: 2

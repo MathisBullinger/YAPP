@@ -5,7 +5,7 @@ import { Mainnav, Appbar, Toolbar, Player } from '~/components/organisms'
 import { Page } from '~/components/templates'
 import Routes from './Routes'
 import getTheme from '~/styles/theme'
-import { responsive } from '~/styles'
+import { responsive, timing } from '~/styles'
 import State from './store/state'
 import { useSelector, useDispatch } from 'react-redux'
 import { useMatchMedia } from '~/utils/hooks'
@@ -26,6 +26,13 @@ export default function App() {
   useEffect(() => {
     document.body.style.backgroundColor = getTheme(theme).background().color
   })
+
+  useEffect(() => {
+    setTimeout(
+      () =>
+        (document.body.style.transition = `background-color ${timing.colorSwap}`)
+    )
+  }, [])
 
   return (
     <ThemeProvider

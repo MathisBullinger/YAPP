@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
 import State from '~/store/state'
 import { responsive } from '~/styles'
-import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 import { Shownotes } from '~/components/molecules'
 import { useMatchMedia } from '~/utils/hooks'
 import { fetchEpisode } from '~/store/actions'
 import { send } from '~/systems'
+import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 
 interface Props {
   id: string
@@ -204,9 +204,10 @@ const S = {
 
   DesktopPlay: styled.div`
     display: block;
+    position: absolute;
     width: 5rem;
     height: 5rem;
-    transform: translateX(-133.3%) translateY(1.5rem);
+    transform: translateX(1.5rem) translateY(1.5rem);
     backdrop-filter: invert(30%) blur(1.5px);
     border-radius: 3rem;
     transition: opacity 0.2s ease;

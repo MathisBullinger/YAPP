@@ -15,7 +15,7 @@ interface Props {
   onEscape?(): void
 }
 
-export default function Input(props: Props) {
+function Input(props: Props) {
   const [value, setValue] = useState('')
   if (props.value !== undefined && props.value !== value) setValue(props.value)
 
@@ -90,5 +90,7 @@ namespace S {
         .substring(0, 7) + '11'};
   `
 }
-const InputStyle = S.Input
-export { InputStyle }
+
+export default Object.assign(Input, {
+  sc: S.Input,
+})

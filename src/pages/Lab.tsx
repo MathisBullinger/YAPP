@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 const Lab = () => (
   <LabPage>
     <Title>Labs</Title>
-    <Link to={'lab/shadow'}>Shadow</Link>
+    <Link to={'/lab/shadow'}>Shadow</Link>
+    <Link to={'/lab/components'}>Components</Link>
   </LabPage>
 )
 

@@ -13,10 +13,7 @@ import Artwork from './Artwork'
 import Dynamic from './Dynamic'
 import Slider from './Slider'
 import Link from './Link'
-
-import { InputStyle } from './Input'
-
-const styles = { Input: InputStyle }
+import Spinner from './Spinner'
 
 export {
   Text,
@@ -34,5 +31,5 @@ export {
   Dynamic,
   Slider,
   Link,
-  styles,
+  Spinner,
 }

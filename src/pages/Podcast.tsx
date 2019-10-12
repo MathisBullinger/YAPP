@@ -3,11 +3,18 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
 import styled, { ThemeContext } from 'styled-components'
-import { Title, Subtitle, Text, Artwork, Dynamic } from '~/components/atoms'
 import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
 import { hexToRGB, luminance, contrast } from '~/utils'
+import {
+  Title,
+  Subtitle,
+  Text,
+  Artwork,
+  Dynamic,
+  Progress,
+} from '~/components/atoms'
 
 interface RouteParams {
   id: string
@@ -56,7 +63,8 @@ function Podcast(props: Props) {
   }
 
   return (
-    <div>
+    <S.Podcast>
+      <Progress active={fetching} />
       <S.Head>
         <div>
           <Title s4={desktop} s5={!desktop}>
@@ -77,13 +85,20 @@ function Podcast(props: Props) {
         episodes={podcast && podcast.episodes ? podcast.episodes : []}
       />
       <Episode id={episode} close={() => setEpisode(null)} />
-    </div>
+    </S.Podcast>
   )
 }
 
 export default withRouter(Podcast) as React.ComponentClass<{}>
 
 const S = {
+  Podcast: styled.div`
+    & > ${Progress.sc} {
+      top: 0;
+      transform: none;
+    }
+  `,
+
   Head: styled.header`
     display: flex;
     justify-content: space-between;

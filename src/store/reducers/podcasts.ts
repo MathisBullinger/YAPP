@@ -6,6 +6,7 @@ const defaultState: State['podcasts'] = {
   byId: {},
   searches: {},
   fetching: false,
+  searching: false,
 }
 
 export default function(
@@ -61,6 +62,11 @@ export default function(
       return {
         ...state,
         fetching: getToggleValue(action, state.fetching),
+      }
+    case 'TOGGLE_PODCAST_SEARCHING':
+      return {
+        ...state,
+        searching: getToggleValue(action, state.searching),
       }
     default:
       return state

@@ -2,37 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { timing } from '~/styles'
 
-interface Props {
-  active: boolean
-}
+const Progress = (props: { active: boolean }) => (
+  <S.Bar data-collapsed={!props.active} />
+)
 
-interface State {
-  active: boolean
-}
-
-class Progress extends React.Component<Props, State> {
-  state = {
-    active: true,
-  }
-
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return <S.Bar className={!this.state.active && 'collapsed'} />
-  }
-
-  static getDerivedStateFromProps({ active = true }: Props) {
-    return {
-      active,
-    }
-  }
-}
-export default Progress
-
-namespace S {
-  export const Bar = styled.div`
+const S = {
+  Bar: styled.div`
     position: absolute;
     width: 100%;
     height: 0.2rem;
@@ -44,7 +19,7 @@ namespace S {
     transition: height 0.5s ease, background-color ${() => timing.colorSwap};
     background-color: ${({ theme }) => theme.primary().color.substring(0, 7)}66;
 
-    &.collapsed {
+    &[data-collapsed='true'] {
       height: 0;
     }
 
@@ -100,5 +75,7 @@ namespace S {
         right: -8%;
       }
     }
-  `
+  `,
 }
+
+export default Object.assign(Progress, { sc: S.Bar })
