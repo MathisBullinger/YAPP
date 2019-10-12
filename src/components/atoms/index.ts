@@ -13,6 +13,7 @@ import Artwork from './Artwork'
 import Dynamic from './Dynamic'
 import Slider from './Slider'
 import Link from './Link'
+import Spinner from './Spinner'
 
 import { InputStyle } from './Input'
 
@@ -34,5 +35,6 @@ export {
   Dynamic,
   Slider,
   Link,
+  Spinner,
   styles,
 }
