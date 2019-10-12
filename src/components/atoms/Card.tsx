@@ -17,8 +17,7 @@ const CardStyled = styled.div`
   min-width: 11rem;
   min-height: 11rem;
   display: table;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin: 1rem;
   box-shadow: ${({ el }: Props) => shadow(el)};
   background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
   border-radius: 0.25rem;

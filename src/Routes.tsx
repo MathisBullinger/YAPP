@@ -18,8 +18,9 @@ import Discover from '~/pages/Discover'
 import Profile from '~/pages/Profile'
 import Settings from '~/pages/Settings'
 import Lab from '~/pages/Lab'
-import NotFound from '~/pages/NotFound'
 import ShadowLab from '~/pages/labs/Shadow'
+import ComponentLab from '~/pages/labs/Components'
+import NotFound from '~/pages/NotFound'
 import Podcast from '~/pages/Podcast'
 
 interface Props {
@@ -52,6 +53,11 @@ class Routes extends React.Component<Props> {
           path="/lab/shadow"
           exact
           render={() => this.preRoute(ShadowLab)}
+        />
+        <Route
+          path="/lab/components"
+          exact
+          render={() => this.preRoute(ComponentLab)}
         />
         <Route
           path="/podcast/:id"
