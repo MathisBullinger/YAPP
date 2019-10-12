@@ -38,19 +38,30 @@ export default function theme(
         useAmoled: v,
       }
     }
-    case 'TOGGLE_DARK_AT_NIGHT':
+    case 'TOGGLE_DARK_AT_NIGHT': {
+      const v = getToggleValue(action, state.darkAtNight)
       return {
         ...state,
-        darkAtNight: getToggleValue(action, state.darkAtNight),
+        darkAtNight: v,
+        useSystem: !v ? state.useSystem : false,
+        manualOverride: !v ? state.manualOverride : false,
       }
-    case 'TOGGLE_DARK_USE_SYSTEM':
+    }
+    case 'TOGGLE_DARK_USE_SYSTEM': {
+      const v = getToggleValue(action, state.useSystem)
       return {
         ...state,
+        useSystem: v,
+        darkAtNight: !v ? state.darkAtNight : false,
+        manualOverride: !v ? state.manualOverride : false,
       }
+    }
     case 'MANUAL_DARK_MODE':
       return {
         ...state,
         manualOverride: true,
+        darkAtNight: false,
+        useSystem: false,
       }
     default:
       return state

@@ -13,14 +13,14 @@ import { toggleDarkMode } from '~/store/actions'
 
 export default function App() {
   const theme = useSelector((state: State) => state.theme.current)
-  const manualDark = useSelector((state: State) => state.theme.manualOverride)
+  const useSystemDark = useSelector((state: State) => state.theme.useSystem)
 
   const toolbarAllowed = useMatchMedia(responsive.toolbarVisible)
   const toolbarRequested = useSelector((state: State) => state.toolbar.visible)
   const darkPreferred = useMatchMedia('(prefers-color-scheme: dark)')
   const dispatch = useDispatch()
 
-  if (!manualDark && (theme !== 'light') !== darkPreferred)
+  if (useSystemDark && (theme !== 'light') !== darkPreferred)
     dispatch(toggleDarkMode())
 
   useEffect(() => {
