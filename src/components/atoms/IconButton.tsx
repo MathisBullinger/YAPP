@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import styled from 'styled-components'
 import { Icon } from '.'
 
 interface Props {
   icon: string
-  onClick(): void
+  onClick(e?: SyntheticEvent): void
   className?: string
   label: string
 }
