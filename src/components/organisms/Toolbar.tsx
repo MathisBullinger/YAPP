@@ -31,6 +31,7 @@ export default function Toolbar() {
 const S = {
   Toolbar: styled.div`
     position: fixed;
+    z-index: 2;
     top: 0;
     --nav-width: 0px;
     left: var(--nav-width);

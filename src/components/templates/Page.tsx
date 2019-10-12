@@ -31,11 +31,7 @@ const S = {
     position: relative;
     padding: 2rem;
     overflow-x: auto;
-
-    pointer-events: none;
-    & > * {
-      pointer-events: all;
-    }
+    z-index: 1;
 
     --buffer-left: 0px;
     --buffer-top: 0px;

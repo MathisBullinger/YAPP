@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { layout, shadow } from '~/styles'
+import { shadow } from '~/styles'
 import { PodcastStrip } from '~/components/molecules'
 import { Podcast } from '~/store/state'
 
@@ -43,7 +43,7 @@ namespace S {
     .active > & {
       transition-delay: ${transitionTime};
       visibility: visible;
-      height: calc(100vh - 100% - ${layout.mobile.navHeight});
+      height: calc(100vh - 100%);
     }
   `
 }
