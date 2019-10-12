@@ -72,7 +72,9 @@ export default function Dynamic({ children }) {
       </S.Dynamic>
     )
 
-  const content = replace(parse(children.substring(1)))
+  const content = replace(parse(children.substring(1))).map((item, i) =>
+    item.type ? item : <Text key={`root-${i}`}>{item}</Text>
+  )
 
   return <S.Dynamic>{content}</S.Dynamic>
 }
