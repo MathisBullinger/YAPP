@@ -28,6 +28,7 @@ export default Page
 
 const S = {
   Page: styled.div`
+    position: relative;
     padding: 2rem;
     overflow-x: scroll;
 

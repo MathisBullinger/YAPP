@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Dynamic } from '~/components/atoms'
+import { Dynamic, Spinner } from '~/components/atoms'
 import State from '~/store/state'
 import styled from 'styled-components'
 import { responsive } from '~/styles'
@@ -24,6 +24,7 @@ export default function Shownotes({ episodeId }: Props) {
 
   return (
     <S.Notes>
+      <Spinner active={!(description && description.length)} />
       <Dynamic>{description}</Dynamic>
     </S.Notes>
   )
@@ -39,6 +40,15 @@ const S = {
       flex-grow: 1;
       flex-basis: 0;
       overflow-y: scroll;
+    }
+
+    ${Spinner.sc} {
+      position: absolute;
+      --size: 3rem;
+      width: var(--size);
+      height: var(--size);
+      left: calc(50% - var(--size) / 2);
+      top: calc(50% - var(--size) / 2);
     }
   `,
 }
