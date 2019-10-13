@@ -1,16 +1,13 @@
 import { Themes } from '~/styles/theme'
 
-export interface AppbarAction {
-  name: string
-  align: 'left' | 'right'
-}
-
 export default interface State {
   theme: {
     current: Themes
     useAmoled: boolean
     darkAtNight: boolean
+    useSystem: boolean
     manualOverride: boolean
+    showToggle: boolean
   }
   appbar: {
     visible: boolean
@@ -43,6 +40,11 @@ export default interface State {
     progress: number
     progLastUpdate: number
     buffered: number
+  }
+  useCom: {
+    show: boolean
+    text: string
+    type: 'info' | 'warn' | 'request'
   }
 }
 
@@ -79,4 +81,9 @@ export interface Artwork {
 export interface Color {
   name: string
   value: string
+}
+
+export interface AppbarAction {
+  name: string
+  align: 'left' | 'right'
 }

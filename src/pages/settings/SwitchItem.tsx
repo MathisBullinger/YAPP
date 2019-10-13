@@ -6,7 +6,7 @@ interface Props {
   name: string
   text: string
   value: boolean
-  onInput(v: boolean): void
+  onInput(v: boolean): boolean | void
 }
 
 const SwitchItem: React.FunctionComponent<Props> = ({

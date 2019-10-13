@@ -1,90 +1,98 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { responsive } from '~/styles'
 import { Text } from '~/components/atoms'
 import { StackedList } from '~/components/molecules'
-import styled from 'styled-components'
 import SwitchItem from './settings/SwitchItem'
+import State from '~/store/state'
+import { useSelector, useDispatch } from 'react-redux'
+import { useMatchMedia } from '~/utils/hooks'
 import {
   toggleDarkMode,
   togglePreferAmoled,
   toggleDarkAtNight,
   manualDarkmode,
+  toggleDarkUseSystem,
+  showDarkmodeToggle,
 } from '~/store/actions'
-import State from '~/store/state'
-import { responsive } from '~/styles'
 
-interface Props {
-  theme: State['theme']
-  toggleDarkMode(v?: boolean): void
-  togglePreferAmoled(v?: boolean): void
-  toggleDarkAtNight(v?: boolean): void
-  manualDarkmode: typeof manualDarkmode
+function Settings() {
+  const theme = useSelector((state: State) => state.theme)
+  const dispatch = useDispatch()
+  const isDesktop = useMatchMedia(responsive.navOnSide)
+
+  return (
+    <S.Settings>
+      <StackedList
+        sections={[
+          {
+            title: 'Appearance',
+            items: [
+              <SwitchItem
+                text="dark mode"
+                key="darkmode"
+                name="darkmode"
+                value={theme.current !== 'light'}
+                onInput={v =>
+                  void (dispatch(toggleDarkMode(v)), dispatch(manualDarkmode()))
+                }
+              />,
+              <SwitchItem
+                text="use AMOLED dark mode"
+                key="amoled"
+                name="amoled"
+                value={theme.useAmoled}
+                onInput={v => void dispatch(togglePreferAmoled(v))}
+              />,
+              <SwitchItem
+                text="use system preference"
+                key="system"
+                name="system"
+                value={theme.useSystem}
+                onInput={v => void dispatch(toggleDarkUseSystem(v))}
+              />,
+              <SwitchItem
+                text="use dark mode at night"
+                key="night"
+                name="night"
+                value={theme.darkAtNight}
+                onInput={v => (dispatch(toggleDarkAtNight(v)), false)}
+              />,
+              ...(isDesktop
+                ? [
+                    <SwitchItem
+                      text="show darkmode toggle in navigation"
+                      key="darkToggle"
+                      name="show darkmode toggle"
+                      value={theme.showToggle}
+                      onInput={v => void dispatch(showDarkmodeToggle(v))}
+                    />,
+                  ]
+                : []),
+            ],
+          },
+          {
+            title: 'Playback',
+            items: Array(100)
+              .fill(0)
+              .map((_, i) => <Text key={`item2${i}`}>item {i}</Text>),
+          },
+        ]}
+      />
+    </S.Settings>
+  )
 }
 
-class Settings extends React.Component<Props> {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <S.Settings>
-        <StackedList
-          sections={[
-            {
-              title: 'Appearance',
-              items: [
-                <SwitchItem
-                  text="dark mode"
-                  key="darkmode"
-                  name="darkmode"
-                  value={this.props.theme.current !== 'light'}
-                  onInput={v =>
-                    void (this.props.toggleDarkMode(v),
-                    this.props.manualDarkmode())
-                  }
-                />,
-                <SwitchItem
-                  text="use AMOLED dark mode"
-                  key="amoled"
-                  name="amoled"
-                  value={this.props.theme.useAmoled}
-                  onInput={v => this.props.togglePreferAmoled(v)}
-                />,
-                <SwitchItem
-                  text="use dark mode at night"
-                  key="night"
-                  name="night"
-                  value={this.props.theme.darkAtNight}
-                  onInput={v => this.props.toggleDarkAtNight(v)}
-                />,
-              ],
-            },
-            {
-              title: 'Playback',
-              items: Array(100)
-                .fill(0)
-                .map((_, i) => <Text key={`item2${i}`}>item {i}</Text>),
-            },
-          ]}
-        />
-      </S.Settings>
-    )
-  }
-}
-// @ts-ignore
-Settings.pageConf = {
-  showAppbar: true,
-  appbarTitle: 'Settings',
-  appbarActions: [{ name: 'back', align: 'left' }],
-  showToolbar: true,
-  toolbarTitle: 'Settings',
-  hideAppbarOnScroll: true,
-}
-export default connect(
-  ({ theme }: any) => ({ theme }),
-  { toggleDarkMode, togglePreferAmoled, toggleDarkAtNight, manualDarkmode }
-)(Settings)
+export default Object.assign(Settings, {
+  pageConf: {
+    showAppbar: true,
+    appbarTitle: 'Settings',
+    appbarActions: [{ name: 'back', align: 'left' }],
+    showToolbar: true,
+    toolbarTitle: 'Settings',
+    hideAppbarOnScroll: true,
+  },
+})
 
 const S = {
   Settings: styled.div`

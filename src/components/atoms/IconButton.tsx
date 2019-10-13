@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import styled from 'styled-components'
 import { Icon } from '.'
 
 interface Props {
   icon: string
-  onClick(): void
+  onClick(e?: SyntheticEvent): void
   className?: string
   label: string
 }
@@ -14,10 +14,9 @@ const IconButton: React.FunctionComponent<Props> = props => (
     <Icon icon={props.icon} className={props.className} />
   </S.Button>
 )
-export default IconButton
 
-namespace S {
-  export const Button = styled.button`
+const S = {
+  Button: styled.button`
     border: none;
     background-color: transparent;
     margin: 0;
@@ -27,5 +26,7 @@ namespace S {
     &:focus {
       outline: none;
     }
-  `
+  `,
 }
+
+export default Object.assign(IconButton, { sc: S.Button })

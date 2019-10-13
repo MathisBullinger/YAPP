@@ -14,6 +14,7 @@ import Dynamic from './Dynamic'
 import Slider from './Slider'
 import Link from './Link'
 import Spinner from './Spinner'
+import Button from './Button'
 
 export {
   Text,
@@ -32,4 +33,5 @@ export {
   Slider,
   Link,
   Spinner,
+  Button,
 }

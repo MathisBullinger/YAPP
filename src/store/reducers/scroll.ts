@@ -1,13 +1,7 @@
 import * as a from '../actionTypes'
-import State from '../state'
+import defaultState from '../defaultState'
 
-const defaultState: State['scroll'] = {
-  direction: null,
-}
-export default function scroll(
-  state: State['scroll'] = defaultState,
-  action: a.Base
-) {
+export default function scroll(state = defaultState['scroll'], action: a.Base) {
   switch (action.type) {
     case 'SET_SCROLL_DIRECTION':
       return {

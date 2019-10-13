@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { shadow, timing } from '~/styles'
+import { shadow, timing, responsive } from '~/styles'
 
 interface Props {
   value?: 'on' | 'off'
-  onInput?(v: boolean): void
+  onInput?(v: boolean): boolean | void
   inset?: boolean
   id?: string
 }
@@ -17,31 +17,39 @@ const Switch: FunctionComponent<Props> = props => (
       aria-checked={props.value === 'on' ? 'true' : 'false'}
       id={props.id}
       onClick={({ target }: { target: any }) => {
+        if (props.onInput)
+          if (props.onInput(target.dataset.value !== 'on') === false) return
+
         target.setAttribute(
           'aria-checked',
           target.dataset.value === 'on' ? 'false' : 'true'
         )
         target.dataset.value = target.dataset.value === 'on' ? 'off' : 'on'
-        if (props.onInput) props.onInput(target.dataset.value === 'on')
       }}
     />
   </ThemeProvider>
 )
 export default Switch
 
-namespace S {
-  const scale = 1
-  const height = 1
-  export const Switch = styled.button`
+const S = {
+  Switch: styled.button`
+    --scale: 1.15;
+
+    @media ${responsive.navOnSide} {
+      --scale: 1;
+    }
+
     display: block;
     position: relative;
-    width: ${2 * height * scale}rem;
-    height: ${0.8 * height * scale}rem;
-    border-radius: ${0.4 * height * scale}rem;
+
+    width: calc(2rem * var(--scale));
+    height: calc(0.8rem * var(--scale));
+    border-radius: calc(0.4rem * var(--scale));
+
     padding: 0;
     border: none;
     cursor: pointer;
-    transition: background-color ${() => timing.colorSwap};
+    transition: background-color ${timing.colorSwap};
     background-color: ${({ theme }) =>
       theme
         .surface()
@@ -55,8 +63,10 @@ namespace S {
     &:after {
       content: '';
       display: block;
-      width: ${height * scale}rem;
-      height: ${height * scale}rem;
+
+      width: calc(1rem * var(--scale));
+      height: calc(1rem * var(--scale));
+
       border-radius: 50%;
       background-color: ${({ theme }) =>
         !theme.invertAction
@@ -66,8 +76,7 @@ namespace S {
               .on()
               .substring(0, 7)};
       box-shadow: ${shadow(1)};
-      transition: transform 0.15s ease,
-        background-color ${() => timing.colorSwap};
+      transition: transform 0.15s ease, background-color ${timing.colorSwap};
       position: absolute;
       transform: translateY(-50%) translateX(-10%);
     }
@@ -79,7 +88,8 @@ namespace S {
         }`};
 
       &:after {
-        transform: translateY(-50%) translateX(calc(10% + ${height * scale}rem));
+        transform: translateX(calc(1rem * var(--scale) + 10%)) translateY(-50%);
+
         background-color: ${({ theme }) =>
           theme.invertAction
             ? theme[theme.topic](theme.variant).color
@@ -88,14 +98,15 @@ namespace S {
     }
 
     &.inset {
-      height: ${height * scale}rem;
-      border-radius: ${1 * height * scale}rem;
+      height: calc(1rem * var(--scale));
+      border-radius: calc(1rem * var(--scale));
       background-color: ${({ theme }) =>
         theme[theme.topic](theme.variant).on('disabled')};
 
       &:after {
-        height: ${0.75 * scale}rem;
-        width: ${0.75 * scale}rem;
+        width: calc(0.75rem * var(--scale));
+        height: calc(0.75rem * var(--scale));
+
         box-shadow: none;
         background-color: ${({ theme }) =>
           theme[theme.topic](theme.variant).color};
@@ -107,10 +118,10 @@ namespace S {
           theme[theme.topic](theme.variant).on('high')};
 
         &:after {
-          transform: translateY(-50%)
-            translateX(calc(${(2 - 0.75) * height * scale}rem - 17%));
+          transform: translateX(calc((2rem - 0.75rem) * var(--scale) - 17%))
+            translateY(-50%);
         }
       }
     }
-  `
+  `,
 }
