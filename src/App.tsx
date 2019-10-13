@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
-import { Mainnav, Appbar, Toolbar, Player } from '~/components/organisms'
 import { Page } from '~/components/templates'
 import Routes from './Routes'
 import getTheme from '~/styles/theme'
@@ -10,6 +9,13 @@ import State from './store/state'
 import { useSelector, useDispatch } from 'react-redux'
 import { useMatchMedia } from '~/utils/hooks'
 import { toggleDarkMode } from '~/store/actions'
+import {
+  Mainnav,
+  Appbar,
+  Toolbar,
+  Player,
+  Message,
+} from '~/components/organisms'
 
 export default function App() {
   const theme = useSelector((state: State) => state.theme.current)
@@ -46,6 +52,7 @@ export default function App() {
           <Routes />
         </Page>
         <Player />
+        <Message />
       </Router>
     </ThemeProvider>
   )

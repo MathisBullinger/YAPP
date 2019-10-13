@@ -43,6 +43,8 @@ const defaultState: Partial<State> = {
   },
   useCom: {
     show: false,
+    text: '',
+    type: 'info',
   },
 }
 

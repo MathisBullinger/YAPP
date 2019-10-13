@@ -9,6 +9,7 @@ export type ActionType =
   | 'TOGGLE_APPBAR_HIDDEN'
   | 'TOGGLE_PREFER_AMOLED'
   | 'TOGGLE_DARK_AT_NIGHT'
+  | 'SET_DARK_AT_NIGHT'
   | 'TOGGLE_DARK_USE_SYSTEM'
   | 'MANUAL_DARK_MODE'
   | 'SHOW_DARKMODE_TOGGLE'
@@ -38,6 +39,8 @@ export type ActionType =
   | 'SET_PLAYER_BUFFERED'
   | 'SET_PLAYER_FETCHING'
   | 'TOGGLE_USECOM_SHOW'
+  | 'SET_USECOM_TEXT'
+  | 'SET_USECOM_TYPE'
 
 export interface Base {
   type: ActionType
