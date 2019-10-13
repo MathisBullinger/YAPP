@@ -1,62 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Switch } from '~/components/atoms'
-import { connect } from 'react-redux'
-import { toggleDarkMode, manualDarkmode } from '~/store/actions'
 import { responsive } from '~/styles'
-import { Themes } from '~/styles/theme'
+import { useSelector, useDispatch } from 'react-redux'
+import { toggleDarkMode, manualDarkmode } from '~/store/actions'
+import State from '~/store/state'
+import { Switch } from '~/components/atoms'
 
-interface Props {
-  toggleDarkMode: typeof toggleDarkMode
-  manualDarkmode: typeof manualDarkmode
-  theme: {
-    current: Themes
-  }
+export default function DarkmodeSwitch() {
+  const theme = useSelector((state: State) => state.theme.current)
+  const visible = useSelector((state: State) => state.theme.showToggle)
+  const dispatch = useDispatch()
+
+  if (!visible) return null
+
+  return (
+    <S.Wrap>
+      <Switch
+        inset
+        value={theme !== 'light' ? 'on' : 'off'}
+        onInput={v => {
+          dispatch(manualDarkmode())
+          dispatch(toggleDarkMode(v))
+        }}
+      />
+    </S.Wrap>
+  )
 }
 
-interface State {
-  value: boolean
-}
-
-class DarkmodeSwitch extends React.Component<Props, State> {
-  state = {
-    value: false,
-  }
-
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <S.Wrap className="darkmode-switch">
-        <Switch
-          inset
-          value={this.state.value ? 'on' : 'off'}
-          onInput={v => this.toggleDarkMode(v)}
-        />
-      </S.Wrap>
-    )
-  }
-
-  toggleDarkMode(v: boolean) {
-    this.props.manualDarkmode()
-    this.props.toggleDarkMode(v)
-  }
-
-  static getDerivedStateFromProps(props) {
-    return {
-      value: props.theme.current !== 'light',
-    }
-  }
-}
-export default connect(
-  ({ theme }: any) => ({ theme }),
-  { toggleDarkMode, manualDarkmode }
-)(DarkmodeSwitch)
-
-namespace S {
-  export const Wrap = styled.div`
+const S = {
+  Wrap: styled.div`
     position: absolute;
     bottom: 1.5rem;
     display: none;
@@ -71,5 +43,5 @@ namespace S {
             .substring(0, 7)}88;
       }
     }
-  `
+  `,
 }

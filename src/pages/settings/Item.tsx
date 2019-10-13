@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text } from '~/components/atoms'
+import { responsive } from '~/styles'
 
 interface Props {
   name: string
@@ -16,15 +17,19 @@ const Item: React.FunctionComponent<Props> = props => (
 )
 export default Item
 
-namespace S {
-  export const Item = styled.div`
+const S = {
+  Item: styled.div`
     display: flex;
     justify-content: space-between;
     align-content: center;
     margin-bottom: 2rem;
 
+    @media ${responsive.navOnSide} {
+      margin-bottom: 1.6rem;
+    }
+
     & > * {
       margin: 0;
     }
-  `
+  `,
 }

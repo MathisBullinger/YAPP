@@ -1,16 +1,10 @@
 import State from '../state'
 import * as a from '../actionTypes'
 import { getToggleValue } from './utils'
-
-const defaultState: State['podcasts'] = {
-  byId: {},
-  searches: {},
-  fetching: false,
-  searching: false,
-}
+import defaultState from '../defaultState'
 
 export default function(
-  state: State['podcasts'] = defaultState,
+  state = defaultState['podcasts'],
   action: a.Base
 ): State['podcasts'] {
   switch (action.type) {

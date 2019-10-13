@@ -1,15 +1,10 @@
 import * as a from '../actionTypes'
 import State from '../state'
 import { getToggleValue } from './utils'
+import { get } from '../persist'
 
-const defaultTheme: State['theme'] = {
-  current: 'light',
-  useAmoled: false,
-  darkAtNight: false,
-  manualOverride: false,
-}
 export default function theme(
-  state: State['theme'] = defaultTheme,
+  state = get.theme(),
   action: a.Base
 ): State['theme'] {
   switch (action.type) {
@@ -43,15 +38,35 @@ export default function theme(
         useAmoled: v,
       }
     }
-    case 'TOGGLE_DARK_AT_NIGHT':
+    case 'SET_DARK_AT_NIGHT': {
+      const v = getToggleValue(action, state.darkAtNight)
       return {
         ...state,
-        darkAtNight: getToggleValue(action, state.darkAtNight),
+        darkAtNight: v,
+        useSystem: !v ? state.useSystem : false,
+        manualOverride: !v ? state.manualOverride : false,
       }
+    }
+    case 'TOGGLE_DARK_USE_SYSTEM': {
+      const v = getToggleValue(action, state.useSystem)
+      return {
+        ...state,
+        useSystem: v,
+        darkAtNight: !v ? state.darkAtNight : false,
+        manualOverride: !v ? state.manualOverride : false,
+      }
+    }
     case 'MANUAL_DARK_MODE':
       return {
         ...state,
         manualOverride: true,
+        darkAtNight: false,
+        useSystem: false,
+      }
+    case 'SHOW_DARKMODE_TOGGLE':
+      return {
+        ...state,
+        showToggle: getToggleValue(action, state.showToggle),
       }
     default:
       return state

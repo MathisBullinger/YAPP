@@ -46,6 +46,7 @@ const config = {
         html: true,
       },
     ],
+    'no-empty': ['error', { allowEmptyCatch: true }],
   },
 }
 

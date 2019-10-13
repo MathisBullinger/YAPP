@@ -92,6 +92,7 @@
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
     "resize-observer-polyfill": "^1.5.1",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.3.2",
+    "suncalc": "^1.8.0"
   }
 }

@@ -19,7 +19,7 @@ export default function InlinePlayButton({
       <IconButton
         icon={playing ? 'pause' : 'play'}
         label="play episode"
-        onClick={onClick}
+        onClick={e => (e.stopPropagation(), onClick())}
       />
       <S.ProgressCircle viewBox="0 0 30 30">
         <circle cx="15" cy="15" r="13" />
@@ -40,6 +40,7 @@ const S = {
     position: relative;
     width: 30px;
     height: 30px;
+    z-index: 5;
 
     button {
       width: 100%;
