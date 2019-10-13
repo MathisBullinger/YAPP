@@ -44,7 +44,7 @@ export default interface State {
   useCom: {
     show: boolean
     text: string
-    type: 'info' | 'request'
+    type: 'info' | 'warn' | 'request'
   }
 }
 

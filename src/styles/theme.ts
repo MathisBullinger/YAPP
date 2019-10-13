@@ -5,6 +5,7 @@ export interface Theme {
   background(version?: number): Topic
   surface(version?: number): Topic
   primary(version?: number): Topic
+  warning(version?: number): Topic
   elevationMode: 'shadow' | 'border'
   invertAction: boolean
 }
@@ -45,6 +46,10 @@ namespace light {
       color: '#fb8c00',
       on: (e = 'medium') => '#ffffff' + empOpLight[e],
     }),
+    warning: () => ({
+      color: '#ffd600',
+      on: (e = 'high') => '#000000' + empOp[e],
+    }),
     elevationMode: 'shadow',
     invertAction: false,
   }
@@ -67,6 +72,10 @@ namespace dark {
       color: '#4bb4b4',
       on: (e = 'medium') => '#000000' + empOpDark[e],
     }),
+    warning: () => ({
+      color: '#ffff00',
+      on: (e = 'high') => '#ffffff' + empOp[e],
+    }),
     elevationMode: 'shadow',
     invertAction: true,
   }
@@ -87,6 +96,10 @@ namespace black {
     primary: () => ({
       color: '#4bb4b4',
       on: (e = 'medium') => '#ffffff' + empOp[e],
+    }),
+    warning: () => ({
+      color: '#ffff00',
+      on: (e = 'high') => '#ffffff' + empOp[e],
     }),
     elevationMode: 'border',
     invertAction: true,

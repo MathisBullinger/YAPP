@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { responsive } from '~/styles'
 import { Text } from '~/components/atoms'
@@ -42,21 +42,21 @@ function Settings() {
                 key="amoled"
                 name="amoled"
                 value={theme.useAmoled}
-                onInput={v => dispatch(togglePreferAmoled(v))}
+                onInput={v => void dispatch(togglePreferAmoled(v))}
               />,
               <SwitchItem
                 text="use system preference"
                 key="system"
                 name="system"
                 value={theme.useSystem}
-                onInput={v => dispatch(toggleDarkUseSystem(v))}
+                onInput={v => void dispatch(toggleDarkUseSystem(v))}
               />,
               <SwitchItem
                 text="use dark mode at night"
                 key="night"
                 name="night"
                 value={theme.darkAtNight}
-                onInput={v => dispatch(toggleDarkAtNight(v))}
+                onInput={v => (dispatch(toggleDarkAtNight(v)), false)}
               />,
               ...(isDesktop
                 ? [
@@ -65,7 +65,7 @@ function Settings() {
                       key="darkToggle"
                       name="show darkmode toggle"
                       value={theme.showToggle}
-                      onInput={v => dispatch(showDarkmodeToggle(v))}
+                      onInput={v => void dispatch(showDarkmodeToggle(v))}
                     />,
                   ]
                 : []),

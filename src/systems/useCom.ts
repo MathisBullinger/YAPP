@@ -6,7 +6,12 @@ import State from '~/store/state'
 export default class UseCom implements System {
   public readonly name = 'usecom'
 
-  private static readonly publicActions = ['info', 'request', 'response']
+  private static readonly publicActions = [
+    'info',
+    'request',
+    'response',
+    'warn',
+  ]
   private msgQueue: Message[] = []
   private current: Message
 
@@ -17,6 +22,10 @@ export default class UseCom implements System {
 
   private info(text: string) {
     this.pushMsg({ text, type: 'info' })
+  }
+
+  private warn(text: string) {
+    this.pushMsg({ text, type: 'warn' })
   }
 
   private request(text: string) {

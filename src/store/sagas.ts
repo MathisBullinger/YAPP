@@ -1,11 +1,4 @@
-import {
-  takeLatest,
-  takeEvery,
-  put,
-  call,
-  putResolve,
-} from 'redux-saga/effects'
-import { StringAction } from './actionTypes'
+import { StringAction, ToggleAction } from './actionTypes'
 import api from '~/api'
 import SearchQuery from '~/gql/SearchPodcast.gql'
 import FetchQuery from '~/gql/FetchPodcast.gql'
@@ -13,13 +6,23 @@ import FetchEpisodeQuery from '~/gql/FetchEpisode.gql'
 import { SearchPodcast } from '~/gqlTypes/SearchPodcast'
 import { FetchPodcast } from '~/gqlTypes/FetchPodcast'
 import { FetchEpisode } from '~/gqlTypes/FetchEpisode'
+import { send } from '~/systems'
+import {
+  takeLatest,
+  takeEvery,
+  put,
+  call,
+  putResolve,
+} from 'redux-saga/effects'
 import {
   addPodcast,
   addSearchResults,
   togglePodcastFetching,
   togglePodcastSearching,
   addEpisode,
+  setDarkAtNight,
 } from './actions'
+import { GeolocationError } from 'react-native'
 
 export function* searchPodcast(action: StringAction) {
   yield put(togglePodcastSearching(true))
@@ -102,8 +105,55 @@ export function* fetchEpisode(action: StringAction) {
   )
 }
 
+export function* toggleDarkAtNight(action: ToggleAction) {
+  if (!action.value) return yield put(setDarkAtNight(false))
+  let hasPermission = false
+  try {
+    const result = yield call(v => navigator.permissions.query(v), {
+      name: 'geolocation',
+    })
+    if (result.state === 'denied')
+      return send(
+        'usecom',
+        'warn',
+        'Access to your location was denied. If you want to use this feature, you will have to enable location access for this website in your browser.'
+      )
+
+    hasPermission = result.state === 'granted'
+  } catch (e) {}
+  if (hasPermission) return yield put(setDarkAtNight(true))
+
+  const allow = yield call(
+    send,
+    'usecom',
+    'request',
+    'Calculating time of day and night requires permission to access your device location.'
+  )
+  if (!allow) return
+
+  const request = () =>
+    new Promise(resolve => {
+      navigator.geolocation.getCurrentPosition(
+        () => resolve(true),
+        () => resolve(false)
+      )
+    })
+
+  const allowed = yield call(request)
+
+  if (!allowed)
+    return send(
+      'usecom',
+      'warn',
+      'Access to your location was denied. If you want to use this feature in future, you will have to re-enable the permission in your browser.'
+    )
+
+  yield put(setDarkAtNight(true))
+}
+
 export default function*() {
   yield takeLatest('SEARCH_PODCAST', searchPodcast)
   yield takeLatest('FETCH_PODCAST', fetchPodcast)
   yield takeEvery('FETCH_EPISODE', fetchEpisode)
+  yield takeEvery('TOGGLE_DARK_AT_NIGHT', toggleDarkAtNight)
 }

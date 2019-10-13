@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { layout, responsive, shadow, timing } from '~/styles'
 import { useSelector } from 'react-redux'
 import State from '~/store/state'
-import { Text, Button } from '~/components/atoms'
+import { Text, Button, IconButton } from '~/components/atoms'
 import { send } from '~/systems'
 
 export default function Message() {
@@ -11,7 +11,17 @@ export default function Message() {
   const state = useSelector((state: State) => state.useCom)
   if (!state.show) return null
   return (
-    <S.Message data-player={player ? 'visible' : 'hidden'}>
+    <S.Message
+      data-player={player ? 'visible' : 'hidden'}
+      data-type={state.type}
+    >
+      {state.type !== 'request' && (
+        <IconButton
+          icon="close"
+          label="close message"
+          onClick={() => send('usecom', 'response', 'close')}
+        />
+      )}
       <Text>{state.text}</Text>
       {state.type === 'request' && (
         <S.Responses>
@@ -73,6 +83,28 @@ const S = {
 
     & > p:first-child {
       margin-top: 0;
+    }
+
+    ${IconButton.sc} {
+      & {
+      right: 0.5rem;
+      top: 0.5rem;
+      }
+
+      &, svg {
+        position: absolute;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      svg {
+        left: 0;
+        top: 0;
+      }
+    }
+
+    &[data-type="warn"] {
+      border: 0.2rem solid ${({ theme }) => theme.warning(theme.variant).color};
     }
   `,
 

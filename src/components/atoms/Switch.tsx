@@ -4,7 +4,7 @@ import { shadow, timing, responsive } from '~/styles'
 
 interface Props {
   value?: 'on' | 'off'
-  onInput?(v: boolean): void
+  onInput?(v: boolean): boolean | void
   inset?: boolean
   id?: string
 }
@@ -17,12 +17,14 @@ const Switch: FunctionComponent<Props> = props => (
       aria-checked={props.value === 'on' ? 'true' : 'false'}
       id={props.id}
       onClick={({ target }: { target: any }) => {
+        if (props.onInput)
+          if (props.onInput(target.dataset.value !== 'on') === false) return
+
         target.setAttribute(
           'aria-checked',
           target.dataset.value === 'on' ? 'false' : 'true'
         )
         target.dataset.value = target.dataset.value === 'on' ? 'off' : 'on'
-        if (props.onInput) props.onInput(target.dataset.value === 'on')
       }}
     />
   </ThemeProvider>
