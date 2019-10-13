@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { responsive } from '~/styles'
 import { Text } from '~/components/atoms'

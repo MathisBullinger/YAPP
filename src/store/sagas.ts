@@ -22,7 +22,6 @@ import {
   addEpisode,
   setDarkAtNight,
 } from './actions'
-import { GeolocationError } from 'react-native'
 
 export function* searchPodcast(action: StringAction) {
   yield put(togglePodcastSearching(true))

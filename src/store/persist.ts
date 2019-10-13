@@ -48,7 +48,7 @@ const decode = {
         : defaultState.theme.current,
     useAmoled: defaultState.theme.useAmoled,
     darkAtNight: theme.mode === 'autoNight',
-    useSystem: defaultState.theme.useSystem,
+    useSystem: theme.mode === 'system',
     manualOverride: false,
     showToggle: theme.showToggle,
   }),
