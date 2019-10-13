@@ -5,8 +5,9 @@ const defaultState: Partial<State> = {
     current: 'light',
     useAmoled: false,
     darkAtNight: false,
-    useSystem: false,
+    useSystem: true,
     manualOverride: false,
+    showToggle: true,
   },
   appbar: {
     visible: true,
@@ -39,6 +40,9 @@ const defaultState: Partial<State> = {
     length: 0,
     buffered: 0,
     progLastUpdate: 0,
+  },
+  useCom: {
+    show: false,
   },
 }
 

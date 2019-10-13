@@ -28,6 +28,7 @@ export const togglePreferAmoled = toggleAction('TOGGLE_PREFER_AMOLED')
 export const toggleDarkAtNight = toggleAction('TOGGLE_DARK_AT_NIGHT')
 export const toggleDarkUseSystem = toggleAction('TOGGLE_DARK_USE_SYSTEM')
 export const manualDarkmode = action('MANUAL_DARK_MODE')
+export const showDarkmodeToggle = toggleAction('SHOW_DARKMODE_TOGGLE')
 export const setAppbarTitle = stringAction('SET_APPBAR_TITLE')
 export const resetAppbarActions = action('RESET_APPBAR_ACTIONS')
 export const toggleAppbarLoading = toggleAction('TOGGLE_APPBAR_LOADING')
@@ -49,6 +50,7 @@ export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
 export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
 export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
 export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
+export const toggleUsecomShow = toggleAction('TOGGLE_USECOM_SHOW')
 
 export const addAppbarAction = (
   name: string,

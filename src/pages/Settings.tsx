@@ -6,17 +6,20 @@ import { StackedList } from '~/components/molecules'
 import SwitchItem from './settings/SwitchItem'
 import State from '~/store/state'
 import { useSelector, useDispatch } from 'react-redux'
+import { useMatchMedia } from '~/utils/hooks'
 import {
   toggleDarkMode,
   togglePreferAmoled,
   toggleDarkAtNight,
   manualDarkmode,
   toggleDarkUseSystem,
+  showDarkmodeToggle,
 } from '~/store/actions'
 
 function Settings() {
   const theme = useSelector((state: State) => state.theme)
   const dispatch = useDispatch()
+  const isDesktop = useMatchMedia(responsive.navOnSide)
 
   return (
     <S.Settings>
@@ -55,6 +58,17 @@ function Settings() {
                 value={theme.darkAtNight}
                 onInput={v => dispatch(toggleDarkAtNight(v))}
               />,
+              ...(isDesktop
+                ? [
+                    <SwitchItem
+                      text="show darkmode toggle in navigation"
+                      key="darkToggle"
+                      name="show darkmode toggle"
+                      value={theme.showToggle}
+                      onInput={v => dispatch(showDarkmodeToggle(v))}
+                    />,
+                  ]
+                : []),
             ],
           },
           {

@@ -2,6 +2,7 @@ import * as a from '../actionTypes'
 import State from '../state'
 import { getToggleValue } from './utils'
 import { get } from '../persist'
+import { send } from '~/systems'
 
 export default function theme(
   state = get.theme(),
@@ -40,6 +41,12 @@ export default function theme(
     }
     case 'TOGGLE_DARK_AT_NIGHT': {
       const v = getToggleValue(action, state.darkAtNight)
+      // if (v)
+      //   navigator.geolocation.getCurrentPosition(
+      //     console.log,
+      //     err => err.PERMISSION_DENIED
+      //   )
+      send('usecom', 'info', 'test')
       return {
         ...state,
         darkAtNight: v,
@@ -62,6 +69,11 @@ export default function theme(
         manualOverride: true,
         darkAtNight: false,
         useSystem: false,
+      }
+    case 'SHOW_DARKMODE_TOGGLE':
+      return {
+        ...state,
+        showToggle: getToggleValue(action, state.showToggle),
       }
     default:
       return state

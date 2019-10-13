@@ -7,6 +7,7 @@ export default interface State {
     darkAtNight: boolean
     useSystem: boolean
     manualOverride: boolean
+    showToggle: boolean
   }
   appbar: {
     visible: boolean
@@ -39,6 +40,9 @@ export default interface State {
     progress: number
     progLastUpdate: number
     buffered: number
+  }
+  useCom: {
+    show: boolean
   }
 }
 
