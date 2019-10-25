@@ -7,9 +7,11 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import apiClient from './api'
 import App from './App'
 import UseCom from '~/systems/useCom'
+import Interaction from '~/systems/interaction'
 import { register } from '~/systems'
 
 register(new UseCom())
+register(new Interaction())
 
 ReactDOM.render(
   <Provider store={store}>
