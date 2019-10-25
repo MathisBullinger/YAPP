@@ -24,6 +24,11 @@ export default function interaction(
         ...state,
         scrollDir: (action as a.ScrollDirAction).value,
       }
+    case 'SET_SCROLL_POS':
+      return {
+        ...state,
+        scrollPos: (action as a.NumberAction).value,
+      }
     default:
       return state
   }

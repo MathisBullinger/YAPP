@@ -50,6 +50,7 @@ const defaultState: Partial<State> = {
       y: 0,
     },
     scrollDir: null,
+    scrollPos: 0,
   },
 }
 

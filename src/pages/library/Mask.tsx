@@ -7,6 +7,8 @@ export default function Mask() {
   const { x, y } = useSelector((state: State) => state.interaction.mousePos)
   const ref = useRef(null)
 
+  useSelector((state: State) => state.interaction.scrollPos)
+
   let mouseDir = 0
   let dist = Infinity
   if (ref.current) {

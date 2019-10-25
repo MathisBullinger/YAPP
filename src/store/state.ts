@@ -50,6 +50,7 @@ export default interface State {
       y: number
     }
     scrollDir: 'up' | 'down'
+    scrollPos: number
   }
 }
 

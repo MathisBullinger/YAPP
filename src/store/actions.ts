@@ -39,6 +39,7 @@ export const toggleAppbarLoading = toggleAction('TOGGLE_APPBAR_LOADING')
 export const toggleHideAppbarOnScroll = toggleAction(
   'TOGGLE_HIDE_APPBAR_ON_SCROLL'
 )
+export const setScrollPos = numberAction('SET_SCROLL_POS')
 export const toggleToolbar = toggleAction('TOGGLE_TOOLBAR')
 export const setToolbarTitle = stringAction('SET_TOOLBAR_TITLE')
 export const addToolbarAction = stringAction('ADD_TOOLBAR_ACTION')
