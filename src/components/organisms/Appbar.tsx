@@ -17,7 +17,7 @@ export default function Appbar() {
   const title = useSelector((state: State) => state.appbar.title)
   const barActions = useSelector((state: State) => state.appbar.actions)
   const loading = useSelector((state: State) => state.appbar.loading)
-  let scrollDir = useSelector((state: State) => state.scroll.direction)
+  let scrollDir = useSelector((state: State) => state.interaction.scrollDir)
   const hideOnScroll = useSelector((state: State) => state.appbar.hideOnScroll)
   const hidden = useSelector((state: State) => state.appbar.hidden)
   const dispatch = useDispatch()

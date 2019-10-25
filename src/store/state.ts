@@ -22,9 +22,6 @@ export default interface State {
     title: string
     actions: string[]
   }
-  scroll: {
-    direction: 'up' | 'down'
-  }
   podcasts: {
     byId: { [key: string]: Podcast }
     searches: { [key: string]: string[] }
@@ -52,6 +49,7 @@ export default interface State {
       x: number
       y: number
     }
+    scrollDir: 'up' | 'down'
   }
 }
 

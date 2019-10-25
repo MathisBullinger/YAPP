@@ -19,6 +19,11 @@ export default function interaction(
         ...state,
         method: (action as a.StringAction).value,
       }
+    case 'SET_SCROLL_DIRECTION':
+      return {
+        ...state,
+        scrollDir: (action as a.ScrollDirAction).value,
+      }
     default:
       return state
   }

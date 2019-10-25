@@ -22,9 +22,6 @@ const defaultState: Partial<State> = {
     title: '',
     actions: [],
   },
-  scroll: {
-    direction: null,
-  },
   podcasts: {
     byId: {},
     searches: {},
@@ -52,6 +49,7 @@ const defaultState: Partial<State> = {
       x: 0,
       y: 0,
     },
+    scrollDir: null,
   },
 }
 
