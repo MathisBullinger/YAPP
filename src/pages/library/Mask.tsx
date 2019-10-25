@@ -8,13 +8,20 @@ export default function Mask() {
   const ref = useRef(null)
 
   let mouseDir = 0
-  let dist = 0
+  let dist = Infinity
   if (ref.current) {
     const rect = ref.current.getBoundingClientRect()
+
+    if (rect.y <= 0 || rect.y > window.innerHeight) return null
+
     const mouseVec = [
       x - (rect.x + rect.width / 2),
       y - (rect.y + rect.height / 2 - scrollY),
     ]
+
+    if (Math.sqrt(mouseVec[0] ** 2 + mouseVec[1] ** 2) / rect.width > 1)
+      return null
+
     mouseDir =
       Math.atan(mouseVec[1] / mouseVec[0]) +
       (mouseVec[0] > 0 ? Math.PI : -Math.PI) / 2
@@ -53,9 +60,9 @@ const S = {
             ) -
               Math.PI / 4) /
               (Math.PI / 2)) *
-              100}%, ${props.theme[props.theme.topic](props.theme.variant).on(
-              'high'
-            )}, transparent ${Math.min(
+              100}%, ${props.theme[props.theme.topic](props.theme.variant)
+              .on()
+              .substring(0, 7)}aa, transparent ${Math.min(
               20,
               1 / (Math.max(props['data-prox'], 1) / 3000) ** 4
             )}%) 1`,
@@ -84,7 +91,7 @@ const S = {
     pointer-events: none;
     width: 100%;
     height: 100%;
-    border-width: 1.5px;
+    border-width: 2px;
     border-style: solid;
   `,
 }
