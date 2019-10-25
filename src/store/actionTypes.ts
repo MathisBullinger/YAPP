@@ -41,6 +41,7 @@ export type ActionType =
   | 'TOGGLE_USECOM_SHOW'
   | 'SET_USECOM_TEXT'
   | 'SET_USECOM_TYPE'
+  | 'SET_MOUSE_POS'
 
 export interface Base {
   type: ActionType
@@ -60,6 +61,10 @@ export interface StringAction extends Base {
 
 export interface NumberAction extends Base {
   value: number
+}
+
+export interface NumbersAction extends Base {
+  values: number[]
 }
 
 export interface AppbarAction extends Base {

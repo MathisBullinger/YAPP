@@ -15,6 +15,9 @@ const stringAction = (type: a.ActionType) => (
 const numberAction = (type: a.ActionType) => (
   value: number
 ): a.NumberAction => ({ type, value })
+const numbersAction = (type: a.ActionType) => (
+  ...values: number[]
+): a.NumbersAction => ({ type, values })
 
 export const setTheme = (theme: Themes): a.SetTheme => ({
   type: 'SET_THEME',
@@ -52,6 +55,7 @@ export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
 export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
 export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
 export const toggleUsecomShow = toggleAction('TOGGLE_USECOM_SHOW')
+export const setMousePos = numbersAction('SET_MOUSE_POS')
 
 export const addAppbarAction = (
   name: string,

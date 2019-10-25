@@ -46,6 +46,12 @@ export default interface State {
     text: string
     type: 'info' | 'warn' | 'request'
   }
+  interaction: {
+    mousePos: {
+      x: number
+      y: number
+    }
+  }
 }
 
 export interface Podcast {
