@@ -14,6 +14,11 @@ export default function interaction(
           y: (action as a.NumbersAction).values[1],
         },
       }
+    case 'SET_INTERACTION_METHOD':
+      return {
+        ...state,
+        method: (action as a.StringAction).value,
+      }
     default:
       return state
   }

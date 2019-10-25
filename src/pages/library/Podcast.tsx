@@ -1,17 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 import Mask from './Mask'
+import State from '~/store/state'
 
 interface Props {
   cl: number
 }
 
-const Podcast: React.FunctionComponent<Props> = props => (
-  <S.Podcast data-cl={props.cl}>
-    <Mask />
-  </S.Podcast>
-)
-export default Podcast
+export default function Podcast(props: Props) {
+  const method = useSelector((state: State) => state.interaction.method)
+
+  return (
+    <S.Podcast data-cl={props.cl}>{method === 'mouse' && <Mask />}</S.Podcast>
+  )
+}
 
 const S = {
   Podcast: styled.div`

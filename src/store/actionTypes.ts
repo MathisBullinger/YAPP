@@ -42,6 +42,7 @@ export type ActionType =
   | 'SET_USECOM_TEXT'
   | 'SET_USECOM_TYPE'
   | 'SET_MOUSE_POS'
+  | 'SET_INTERACTION_METHOD'
 
 export interface Base {
   type: ActionType

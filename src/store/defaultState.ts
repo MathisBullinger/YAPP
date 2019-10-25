@@ -47,6 +47,7 @@ const defaultState: Partial<State> = {
     type: 'info',
   },
   interaction: {
+    method: 'unknown',
     mousePos: {
       x: 0,
       y: 0,

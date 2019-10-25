@@ -47,6 +47,7 @@ export default interface State {
     type: 'info' | 'warn' | 'request'
   }
   interaction: {
+    method: 'unknown' | 'mouse'
     mousePos: {
       x: number
       y: number

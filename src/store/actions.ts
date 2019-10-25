@@ -56,6 +56,7 @@ export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
 export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
 export const toggleUsecomShow = toggleAction('TOGGLE_USECOM_SHOW')
 export const setMousePos = numbersAction('SET_MOUSE_POS')
+export const setInteractionMethod = stringAction('SET_INTERACTION_METHOD')
 
 export const addAppbarAction = (
   name: string,
