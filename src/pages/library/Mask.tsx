@@ -8,6 +8,7 @@ export default function Mask() {
   const ref = useRef(null)
 
   let mouseDir = 0
+  let dist = 0
   if (ref.current) {
     const rect = ref.current.getBoundingClientRect()
     const mouseVec = [
@@ -17,19 +18,32 @@ export default function Mask() {
     mouseDir =
       Math.atan(mouseVec[1] / mouseVec[0]) +
       (mouseVec[0] > 0 ? Math.PI : -Math.PI) / 2
+    dist = Math.sqrt(mouseVec[0] ** 2 + mouseVec[1] ** 2)
   }
 
-  return <S.Mask ref={ref} data-mouse={mouseDir} />
+  return <S.Mask ref={ref} data-mouse={mouseDir} data-prox={dist} />
 }
 
 const S = {
   Mask: styled.div.attrs(props => ({
     style: {
-      borderImage: `linear-gradient(${
-        props['data-mouse']
-      }rad, #0000, ${props.theme[props.theme.topic](props.theme.variant).on(
-        'high'
-      )}) 1`,
+      borderImage: `radial-gradient(circle at ${(((Math.min(
+        Math.abs(props['data-mouse']) <= Math.PI / 2
+          ? Math.abs(props['data-mouse'])
+          : Math.PI - Math.abs(props['data-mouse']),
+        Math.PI / 4
+      ) /
+        (Math.PI / 4)) *
+        (props['data-mouse'] > 0 ? 1 : -1)) /
+        2 +
+        0.5) *
+        100}% ${((Math.max(
+        Math.PI / 4,
+        Math.min(Math.abs(props['data-mouse']), (Math.PI / 4) * 3)
+      ) -
+        Math.PI / 4) /
+        (Math.PI / 2)) *
+        100}%, #fff, transparent 20%) 1`,
     },
   }))`
     position: absolute;
