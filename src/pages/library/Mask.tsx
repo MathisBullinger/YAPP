@@ -76,11 +76,11 @@ const S = {
               50}% ${Math.cos(props['data-mouse']) * props['data-prox'] * 100 +
               50}%, ${props.theme[props.theme.topic](props.theme.variant)
               .on()
-              .substring(0, 7)}44, ${props.theme[props.theme.topic](
+              .substring(0, 7)}33, ${props.theme[props.theme.topic](
               props.theme.variant
             )
               .on()
-              .substring(0, 7)}22)`,
+              .substring(0, 7)}11)`,
             borderColor: `${props.theme[props.theme.topic](props.theme.variant)
               .on()
               .substring(0, 7)}33`,
