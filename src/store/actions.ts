@@ -15,6 +15,9 @@ const stringAction = (type: a.ActionType) => (
 const numberAction = (type: a.ActionType) => (
   value: number
 ): a.NumberAction => ({ type, value })
+const numbersAction = (type: a.ActionType) => (
+  ...values: number[]
+): a.NumbersAction => ({ type, values })
 
 export const setTheme = (theme: Themes): a.SetTheme => ({
   type: 'SET_THEME',
@@ -36,6 +39,7 @@ export const toggleAppbarLoading = toggleAction('TOGGLE_APPBAR_LOADING')
 export const toggleHideAppbarOnScroll = toggleAction(
   'TOGGLE_HIDE_APPBAR_ON_SCROLL'
 )
+export const setScrollPos = numberAction('SET_SCROLL_POS')
 export const toggleToolbar = toggleAction('TOGGLE_TOOLBAR')
 export const setToolbarTitle = stringAction('SET_TOOLBAR_TITLE')
 export const addToolbarAction = stringAction('ADD_TOOLBAR_ACTION')
@@ -52,6 +56,8 @@ export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
 export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
 export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
 export const toggleUsecomShow = toggleAction('TOGGLE_USECOM_SHOW')
+export const setMousePos = numbersAction('SET_MOUSE_POS')
+export const setInteractionMethod = stringAction('SET_INTERACTION_METHOD')
 
 export const addAppbarAction = (
   name: string,

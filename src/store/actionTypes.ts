@@ -23,6 +23,7 @@ export type ActionType =
   | 'ADD_TOOLBAR_ACTION'
   | 'RESET_TOOLBAR_ACTIONS'
   | 'SET_SCROLL_DIRECTION'
+  | 'SET_SCROLL_POS'
   | 'SEARCH_PODCAST'
   | 'ADD_PODCAST'
   | 'ADD_EPISODE'
@@ -41,6 +42,8 @@ export type ActionType =
   | 'TOGGLE_USECOM_SHOW'
   | 'SET_USECOM_TEXT'
   | 'SET_USECOM_TYPE'
+  | 'SET_MOUSE_POS'
+  | 'SET_INTERACTION_METHOD'
 
 export interface Base {
   type: ActionType
@@ -60,6 +63,10 @@ export interface StringAction extends Base {
 
 export interface NumberAction extends Base {
   value: number
+}
+
+export interface NumbersAction extends Base {
+  values: number[]
 }
 
 export interface AppbarAction extends Base {

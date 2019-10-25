@@ -8,6 +8,7 @@ import { useMatchMedia } from '~/utils/hooks'
 import { fetchEpisode } from '~/store/actions'
 import { send } from '~/systems'
 import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
+import Controls from './Episode/Controls'
 
 interface Props {
   id: string
@@ -87,6 +88,7 @@ export default function Episode(props: Props) {
                 </Subtitle>
               </div>
             </S.Head>
+            {!isDesktop && <Controls episode={episode} />}
             <Shownotes episodeId={props.id} />
           </S.Content>
         )}

@@ -1,4 +1,11 @@
 import './styles/master.scss'
+
+import * as Sentry from '@sentry/browser'
+Sentry.init({
+  dsn: 'https://f253732d670843f0b08015c64bb7587f@sentry.io/1500732',
+  environment: process.env.NODE_ENV,
+})
+
 import './Root'
 import './api'
 
