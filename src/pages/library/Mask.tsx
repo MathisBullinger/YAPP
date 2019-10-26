@@ -14,7 +14,7 @@ export default function Mask() {
   if (ref.current) {
     const rect = ref.current.getBoundingClientRect()
 
-    if (rect.y <= 0 || rect.y > window.innerHeight) return null
+    if (rect.y + rect.height <= 0 || rect.y > window.innerHeight) return null
 
     const mouseVec = [
       x - (rect.x + rect.width / 2),
