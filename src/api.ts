@@ -16,7 +16,10 @@ export default new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`)
     }),
     new HttpLink({
-      uri: 'https://83pzen9as1.execute-api.us-east-1.amazonaws.com/dev',
+      uri:
+        process.env.NODE_ENV === 'development'
+          ? 'https://83pzen9as1.execute-api.us-east-1.amazonaws.com/dev'
+          : 'https://6lwizz1xvj.execute-api.us-east-1.amazonaws.com/prod',
       credentials: 'same-origin',
     }),
   ]),
