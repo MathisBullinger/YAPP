@@ -39,7 +39,9 @@ jobs:
           command: sudo pip install awscli
       - run:
           name: Deploy to S3
-          command: aws s3 sync public/ s3://yapp-frontend/
+          command: |
+            aws s3 sync public/ s3://yapp-frontend/ --exclude="*.gz"
+            aws s3 sync public/ s3://yapp-frontend/ --exclude="!(*.gz)" --content-encoding="gzip"
 
 workflows:
   version: 2
