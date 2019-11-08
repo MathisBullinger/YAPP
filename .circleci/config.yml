@@ -40,8 +40,11 @@ jobs:
       - run:
           name: Deploy to S3
           command: |
-            aws s3 sync public/ s3://yapp-frontend/ --exclude="*.gz"
-            aws s3 sync public/ s3://yapp-frontend/ --exclude="!(*.gz)" --content-encoding="gzip"
+            rsync -avr public/ public/br --exclude="br" --exclude="gz" --ignore-existing
+            rsync -avr public/ public/gz --exclude="br" --exclude="gz" --ignore-existing
+            aws s3 sync public/ s3://yapp-frontend/ --exclude="gz/*" --exclude="br/*"
+            aws s3 sync public/ s3://yapp-frontend/ --exclude="*" --include="gz/*" --content-encoding="gzip"
+            aws s3 sync public/ s3://yapp-frontend/ --exclude="*" --include="br/*" --content-encoding="br"
 
 workflows:
   version: 2
