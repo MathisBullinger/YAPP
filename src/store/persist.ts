@@ -8,10 +8,12 @@ interface Persisted {
     mode: Themes | 'autoNight' | 'system'
     showToggle: boolean
   }
+  subscriptions: State['subscriptions']
 }
 
 window.addEventListener('beforeunload', () => {
   set.theme(store.getState().theme)
+  set.subscriptions(store.getState().subscriptions)
 })
 
 export const get = {
@@ -19,11 +21,18 @@ export const get = {
     const local = localStorage.getItem('theme')
     return local ? decode.theme(JSON.parse(local)) : defaultState['theme']
   },
+  subscriptions(): State['subscriptions'] {
+    const local = localStorage.getItem('subscriptions')
+    return local ? JSON.parse(local) : defaultState['subscriptions']
+  },
 }
 
 export const set = {
   theme(theme: State['theme']) {
     localStorage.setItem('theme', JSON.stringify(encode.theme(theme)))
+  },
+  subscriptions(subscriptions: State['subscriptions']) {
+    localStorage.setItem('subscriptions', JSON.stringify(subscriptions))
   },
 }
 
