@@ -5,5 +5,15 @@ import podcasts from './podcasts'
 import player from './player'
 import useCom from './useCom'
 import interaction from './interaction'
+import subscriptions from './subscriptions'
 
-export { theme, appbar, toolbar, podcasts, player, useCom, interaction }
+export {
+  theme,
+  appbar,
+  toolbar,
+  podcasts,
+  player,
+  useCom,
+  interaction,
+  subscriptions,
+}

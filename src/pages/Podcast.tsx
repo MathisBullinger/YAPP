@@ -7,6 +7,7 @@ import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
 import { hexToRGB, luminance, contrast } from '~/utils'
+import { subscribe, unsubscribe } from '~/store/actions'
 import {
   Title,
   Subtitle,
@@ -14,6 +15,7 @@ import {
   Artwork,
   Dynamic,
   Progress,
+  Button,
 } from '~/components/atoms'
 
 interface RouteParams {
@@ -25,6 +27,8 @@ function Podcast(props: Props) {
   const podcast = useSelector(
     (state: State) => state.podcasts.byId[props.match.params.id]
   )
+  const subscriptions = useSelector((state: State) => state.subscriptions)
+  const subscribed = podcast && subscriptions.includes(podcast.itunesId)
   const dispatch = useDispatch()
   const fetching = useSelector((state: State) => state.podcasts.fetching)
   const theme = useContext(ThemeContext)
@@ -50,6 +54,11 @@ function Podcast(props: Props) {
           .reduce((a, c) => (c.contrast >= a.contrast ? c : a)).value
     )
     Object.assign(theme, { muted, vibrant })
+    const primary = theme.primary
+    theme.primary = () => ({
+      color: vibrant + primary().color.substring(7),
+      on: primary().on,
+    })
   }
 
   const desktop = useMatchMedia(responsive.navOnSide)
@@ -62,29 +71,44 @@ function Podcast(props: Props) {
     setEpisode(id)
   }
 
+  function toggleSubscribe() {
+    dispatch((subscribed ? unsubscribe : subscribe)(podcast.itunesId))
+  }
+
   return (
     <S.Podcast>
-      <Progress active={fetching} />
-      <S.Head>
-        <div>
-          <Title s4={desktop} s5={!desktop}>
-            {podcast && podcast.name}
-          </Title>
-          <Subtitle s1={desktop} s2={!desktop}>
-            {podcast && podcast.creator}
-          </Subtitle>
-          {desktop && <Descr>{description}</Descr>}
-        </div>
-        <Artwork
-          artworks={podcast && podcast.artworks}
-          size={desktop ? 14 : 6}
+      <>
+        <Progress active={fetching} />
+        <S.Head>
+          <div>
+            <S.TitleRow>
+              <Title s4={desktop} s5={!desktop}>
+                {podcast && podcast.name}
+              </Title>
+              <Button
+                {...{ [subscribed ? 'text' : 'outlined']: true }}
+                rounded
+                onClick={toggleSubscribe}
+              >
+                {subscribed ? 'subscribed' : 'subscribe'}
+              </Button>
+            </S.TitleRow>
+            <Subtitle s1={desktop} s2={!desktop}>
+              {podcast && podcast.creator}
+            </Subtitle>
+            {desktop && <Descr>{description}</Descr>}
+          </div>
+          <Artwork
+            artworks={podcast && podcast.artworks}
+            size={desktop ? 14 : 6}
+          />
+        </S.Head>
+        <EpisodeList
+          handleOpen={openEpisode}
+          episodes={podcast && podcast.episodes ? podcast.episodes : []}
         />
-      </S.Head>
-      <EpisodeList
-        handleOpen={openEpisode}
-        episodes={podcast && podcast.episodes ? podcast.episodes : []}
-      />
-      <Episode id={episode} close={() => setEpisode(null)} />
+        <Episode id={episode} close={() => setEpisode(null)} />
+      </>
     </S.Podcast>
   )
 }
@@ -108,12 +132,12 @@ const S = {
       overflow-x: hidden;
       padding-right: 1rem;
 
-      & > * {
+      & > *:not(${Button.sc}) {
         width: 100%;
         text-overflow: ellipsis;
       }
 
-      *:nth-child(2n) {
+      ${Subtitle.sc} {
         color: ${({ theme }) => theme.vibrant};
       }
     }
@@ -129,9 +153,15 @@ const S = {
       flex-direction: row-reverse;
       justify-content: flex-end;
 
-      div {
+      & > div {
         padding-left: 3rem;
       }
     }
+  `,
+
+  TitleRow: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   `,
 }

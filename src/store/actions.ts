@@ -58,6 +58,8 @@ export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
 export const toggleUsecomShow = toggleAction('TOGGLE_USECOM_SHOW')
 export const setMousePos = numbersAction('SET_MOUSE_POS')
 export const setInteractionMethod = stringAction('SET_INTERACTION_METHOD')
+export const subscribe = stringAction('SUBSCRIBE')
+export const unsubscribe = stringAction('UNSUBSCRIBE')
 
 export const addAppbarAction = (
   name: string,

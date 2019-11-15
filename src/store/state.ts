@@ -52,6 +52,7 @@ export default interface State {
     scrollDir: 'up' | 'down'
     scrollPos: number
   }
+  subscriptions: Podcast['itunesId'][]
 }
 
 export interface Podcast {

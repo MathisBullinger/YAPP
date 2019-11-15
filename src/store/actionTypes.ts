@@ -44,6 +44,8 @@ export type ActionType =
   | 'SET_USECOM_TYPE'
   | 'SET_MOUSE_POS'
   | 'SET_INTERACTION_METHOD'
+  | 'SUBSCRIBE'
+  | 'UNSUBSCRIBE'
 
 export interface Base {
   type: ActionType

@@ -52,6 +52,7 @@ const defaultState: Partial<State> = {
     scrollDir: null,
     scrollPos: 0,
   },
+  subscriptions: [],
 }
 
 export default defaultState
