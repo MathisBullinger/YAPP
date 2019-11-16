@@ -34,7 +34,7 @@ function Podcast(props: Props) {
   const theme = useContext(ThemeContext)
   const background = theme[theme.topic](theme.variant).color
 
-  if (!fetching && !(podcast && podcast._fetched))
+  if (!fetching && (!(podcast && podcast._fetched) || !('episodes' in podcast)))
     dispatch({
       type: 'FETCH_PODCAST',
       value: props.match.params.id,
@@ -128,9 +128,11 @@ const S = {
     justify-content: space-between;
     margin-bottom: 3rem;
 
-    div {
+    & > div {
       overflow-x: hidden;
       padding-right: 1rem;
+      display: block;
+      width: 100%;
 
       & > *:not(${Button.sc}) {
         width: 100%;
@@ -163,5 +165,6 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
   `,
 }

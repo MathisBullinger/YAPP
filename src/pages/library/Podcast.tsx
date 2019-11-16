@@ -5,6 +5,8 @@ import Mask from './Mask'
 import State from '~/store/state'
 import { useMatchMedia } from '~/utils/hooks'
 import { Artwork } from '~/components/atoms'
+// @ts-ignore
+import { useHistory } from 'react-router-dom'
 
 interface Props {
   cl: number
@@ -12,6 +14,7 @@ interface Props {
 }
 
 export default function Podcast(props: Props) {
+  const history = useHistory()
   const method = useSelector((state: State) => state.interaction.method)
   const isSpaced = useMatchMedia(
     '(min-width: 600px) and (orientation: landscape)'
@@ -23,9 +26,14 @@ export default function Podcast(props: Props) {
 
   const img = podcast && podcast.artworks
 
+  function open() {
+    if (podcast && podcast.itunesId)
+      history.push(`/podcast/${podcast.itunesId}`)
+  }
+
   return (
-    <S.Podcast data-cl={props.cl}>
-      {img && <Artwork artworks={img} size={13} />}
+    <S.Podcast data-cl={props.cl} onClick={open}>
+      {img && <Artwork lazy artworks={img} size={19} />}
       {method === 'mouse' && isSpaced && <Mask />}
     </S.Podcast>
   )
@@ -38,6 +46,7 @@ const S = {
     background-color: ${props =>
       '#' + (props['data-cl'] * 255).toString(16)[0].repeat(6)};
     padding-bottom: 100%;
+    cursor: pointer;
 
     @media (min-width: 600px) and (orientation: landscape) {
       background-color: ${({ theme }) =>
