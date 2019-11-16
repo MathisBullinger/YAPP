@@ -62,7 +62,7 @@ export interface Podcast {
   feed: string
   description: string
   artworks: Artwork[]
-  episodes: Episode[]
+  episodes?: Episode[]
   colors: Color[]
   _fetched: boolean
 }

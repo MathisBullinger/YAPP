@@ -22,7 +22,7 @@ function Library() {
   subscriptions
     .filter(id => id)
     .forEach(id => {
-      if (!(id in podcasts)) dispatch(fetchPodcast(id))
+      if (!(id in podcasts)) dispatch(fetchPodcast(id, true))
     })
 
   return (

@@ -47,7 +47,6 @@ export const resetToolbarActions = action('RESET_TOOLBAR_ACTIONS')
 export const searchPodcast = stringAction('SEARCH_PODCAST')
 export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
 export const togglePodcastSearching = toggleAction('TOGGLE_PODCAST_SEARCHING')
-export const fetchPodcast = stringAction('FETCH_PODCAST')
 export const fetchEpisode = stringAction('FETCH_EPISODE')
 export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
 export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
@@ -103,3 +102,12 @@ export const addSearchResults = (
 export const setPlayerState = (
   value: State['player']['state']
 ): a.PlayerStateAction => ({ type: 'SET_PLAYER_STATE', value })
+
+export const fetchPodcast = (
+  value: string,
+  metaOnly = false
+): a.FetchPodcastAction => ({
+  type: 'FETCH_PODCAST',
+  value,
+  metaOnly,
+})

@@ -97,3 +97,7 @@ export interface SearchResultAction extends Base {
 export interface PlayerStateAction extends Base {
   value: State['player']['state']
 }
+
+export interface FetchPodcastAction extends StringAction {
+  metaOnly: boolean
+}

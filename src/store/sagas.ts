@@ -1,7 +1,8 @@
-import { StringAction, ToggleAction } from './actionTypes'
+import { StringAction, ToggleAction, FetchPodcastAction } from './actionTypes'
 import api from '~/api'
 import SearchQuery from '~/gql/SearchPodcast.gql'
 import FetchQuery from '~/gql/FetchPodcast.gql'
+import FetchMetaQuery from '~/gql/FetchPodcastMeta.gql'
 import FetchEpisodeQuery from '~/gql/FetchEpisode.gql'
 import { SearchPodcast } from '~/gqlTypes/SearchPodcast'
 import { FetchPodcast } from '~/gqlTypes/FetchPodcast'
@@ -53,10 +54,10 @@ export function* searchPodcast(action: StringAction) {
   yield put(togglePodcastSearching(false))
 }
 
-export function* fetchPodcast(action: StringAction) {
+export function* fetchPodcast(action: FetchPodcastAction) {
   yield put(togglePodcastFetching(true))
   const result = yield call(api.query, {
-    query: FetchQuery,
+    query: action.metaOnly ? FetchMetaQuery : FetchQuery,
     variables: { id: action.value },
   })
   const podcast = (result.data as FetchPodcast).podcast
@@ -70,14 +71,18 @@ export function* fetchPodcast(action: StringAction) {
       artworks: podcast.artworks,
       colors: podcast.colors,
       _fetched: true,
-      episodes: podcast.episodes.map(episode => ({
-        title: episode.title,
-        file: episode.file,
-        date: parseInt(episode.date, 10),
-        id: `${podcast.itunesId} ${episode.id}`,
-        duration: episode.duration,
-        _fetched: false,
-      })),
+      ...(podcast.episodes
+        ? {
+            episodes: podcast.episodes.map(episode => ({
+              title: episode.title,
+              file: episode.file,
+              date: parseInt(episode.date, 10),
+              id: `${podcast.itunesId} ${episode.id}`,
+              duration: episode.duration,
+              _fetched: false,
+            })),
+          }
+        : {}),
     })
   )
   yield put(togglePodcastFetching(false))
