@@ -41,3 +41,18 @@ function remInPx() {
     return parseInt(getComputedStyle(document.body).fontSize, 10)
   }
 }
+
+export function parseSize(size: string) {
+  const unit = size.replace(/[0-9.]/g, '')
+  const value = parseInt(size.replace(unit, ''))
+  switch (unit) {
+    case 'px':
+      return value
+    case 'rem':
+      return (
+        parseFloat(getComputedStyle(document.documentElement).fontSize) * value
+      )
+    default:
+      throw Error(`unknown unit ${unit}`)
+  }
+}

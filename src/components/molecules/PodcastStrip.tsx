@@ -7,7 +7,7 @@ import { Podcast } from '~/store/state'
 export default function Result(props: Podcast) {
   return (
     <S.Result to={`/podcast/${props.itunesId}`}>
-      <Artwork size={3.5} artworks={props.artworks} />
+      <Artwork size="3.5rem" imgs={props.artworks} />
       <div>
         <Text emp="high">{props.name}</Text>
         <Text emp="medium">{props.creator}</Text>
@@ -38,6 +38,7 @@ namespace S {
 
     img {
       border-radius: 0.25rem;
+      width: 3.5rem;
     }
   `
 

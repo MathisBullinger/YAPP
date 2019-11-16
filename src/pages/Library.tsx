@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import Podcast from './library/Podcast'
@@ -6,32 +6,50 @@ import { CardGrid } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { send } from '~/systems'
 import State from '~/store/state'
-import { fetchPodcast } from '~/store/actions'
+import { fetchLibrary } from '~/store/actions'
+import { useMatchMedia } from '~/utils/hooks'
+import steps from './library/steps'
+// @ts-ignore
+import { useHistory } from 'react-router-dom'
 
 function Library() {
+  const dispatch = useDispatch()
+  const sub = useSelector((state: State) => state.subscriptions)
+  const subscriptions = sub.length > 0 ? sub : new Array(50).fill('')
+  const podcasts = useSelector((state: State) => state.podcasts.byId)
+  const ref = useRef(null)
+  const history = useHistory()
+
   useEffect(() => {
     send('interaction', 'startListenMousePos')
+    const fetchIds = subscriptions.filter(id => id && !(id in podcasts))
+    if (fetchIds.length) dispatch(fetchLibrary(...fetchIds))
     return () => send('interaction', 'stopListenMousePos')
   })
 
-  const sub = useSelector((state: State) => state.subscriptions)
-  const subscriptions = sub.length > 0 ? sub : new Array(50).fill('')
+  const method = useSelector((state: State) => state.interaction.method)
+  const navOnSide = useMatchMedia(responsive.navOnSide)
 
-  const dispatch = useDispatch()
-  const podcasts = useSelector((state: State) => state.podcasts.byId)
-  subscriptions
-    .filter(id => id)
-    .forEach(id => {
-      if (!(id in podcasts)) dispatch(fetchPodcast(id, true))
-    })
+  function open(itunesId: string) {
+    if (itunesId) history.push(`/podcast/${itunesId}`)
+  }
 
   return (
-    <S.Library>
-      <CardGrid>
-        {subscriptions.map((id, i) => (
-          <Podcast cl={(i % 7) / 7} key={i} itunesId={id} />
-        ))}
-      </CardGrid>
+    <S.Library ref={ref}>
+      {steps.length > 0 && (
+        <CardGrid>
+          {subscriptions.map((id, i) => (
+            <Podcast
+              key={i}
+              isSpaced={navOnSide}
+              method={method}
+              podcast={podcasts[id]}
+              steps={steps}
+              onClick={open}
+            />
+          ))}
+        </CardGrid>
+      )}
     </S.Library>
   )
 }

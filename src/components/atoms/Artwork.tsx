@@ -1,50 +1,69 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Artwork as Img } from '~/store/state'
-import { Rem } from '~/utils/css'
+import { css } from '~/utils'
 
 interface Props {
-  artworks: Img[]
-  size: number
+  imgs: Img[]
+  size: string | { size: string; min?: string; max?: string; query?: string }[]
+  lazy?: boolean
 }
 
-export default function Artwork(props: Props) {
-  const artworks = getArtwork(props.artworks, new Rem(props.size))
+function Artwork({ imgs, size }: Props) {
+  let pics = []
+  if (typeof imgs === 'object' && Object.entries(imgs).length) {
+    const sizes = typeof size === 'string' ? [{ size }] : size
+    pics = sizes.flatMap(({ size, min, max, query }) => {
+      const media = query
+        ? query
+        : [
+            ...(min ? [['min', css.parseSize(min)]] : []),
+            ...(max ? [['max', css.parseSize(max)]] : []),
+          ]
+            .map(([t, s]) => `(${t}-width: ${s}px)`)
+            .join(' and ')
+
+      return getOptimal(css.parseSize(size), imgs).map((url, i) => ({
+        url,
+        media,
+        type: i === 0 ? 'jpeg' : 'webp',
+      }))
+    })
+  } else pics.push({ url: imgs })
+
+  const fallback = imgs && imgs.find(({ size, type }) => !size && !type)
 
   return (
-    <S.Artwork data-size={props.size}>
-      {artworks
-        .map(img => (
-          <source srcSet={img.url} type={`image/${img.type}`} key={img.url} />
-        ))
-        .sort(({ type }) => (type === 'webp' ? 1 : -1))}
-      <img src={artworks.length && artworks[0].url} />
+    <S.Artwork>
+      <picture>
+        {pics.map(({ url, type, media }, i) => (
+          <source srcSet={url} type={`image/${type}`} media={media} key={i} />
+        ))}
+        <img src={fallback && fallback.url} alt={name} />
+      </picture>
     </S.Artwork>
   )
 }
 
-function getArtwork(artworks: Img[], sizeRem: Rem): Img[] {
-  if (!artworks || !artworks.length) return []
-  if (!artworks.find(({ size }) => size)) return artworks
-  const imgSize = sizeRem.toPx().value
-  let img = artworks[0]
-  for (const art of artworks) {
-    if (img.size === imgSize) break
-    if (img.size < imgSize) {
-      if (art.size > img.size) img = art
-    } else if (art.size < img.size && art.size >= imgSize) img = art
-  }
-  return artworks.filter(art => art.size === img.size)
+function getOptimal(pxSize, imgs) {
+  let available: number[] = Array.from(
+    new Set(imgs.map(({ size }) => parseInt(size, 10) || Infinity))
+  )
+  let size = Math.min(...available.filter(n => n >= pxSize))
+  if (size === Infinity) size = Math.max(...available.filter(n => n < pxSize))
+  if (size < pxSize && available.includes(Infinity)) size = Infinity
+  const selected = imgs.filter(
+    ({ size: imgSize }) => (size !== Infinity ? size : 'max') === imgSize
+  )
+  return [
+    selected.find(({ type }) => type !== 'webp'),
+    selected.find(({ type }) => type === 'webp'),
+  ].map(img => img && img.url)
 }
 
 const S = {
   Artwork: styled.picture`
-    width: ${props => props['data-size']}rem;
-    height: ${props => props['data-size']}rem;
-
-    img {
-      width: ${props => props['data-size']}rem;
-      height: ${props => props['data-size']}rem;
-    }
+    display: contents;
   `,
 }
+export default Object.assign(Artwork, { sc: S.Artwork })

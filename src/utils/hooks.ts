@@ -46,3 +46,41 @@ export function useCanvasSize(ref: MutableRefObject<any>) {
 
   return [width, height]
 }
+
+export function useWidth(ref: MutableRefObject<any>) {
+  const [width, setWidth] = useState(0)
+
+  const handleChange = debounce(
+    ([entry]) => {
+      setWidth(entry.contentRect.width)
+    },
+    200,
+    { leading: false, trailing: true }
+  )
+
+  useEffect(() => {
+    // @ts-ignore
+    const sizeOb = new (window.ResizeObserver || ResObs)(handleChange)
+
+    sizeOb.observe(ref.current)
+
+    return () => sizeOb.disconnect()
+  }, [handleChange, ref])
+
+  return width
+}
+
+export function useWindowWidth() {
+  const [width, setWidth] = useState(innerWidth)
+
+  const handleChange = debounce(() => {
+    if (window.innerWidth !== width) setWidth(window.innerWidth)
+  })
+
+  useEffect(() => {
+    window.addEventListener('resize', handleChange)
+    return () => window.removeEventListener('resize', handleChange)
+  })
+
+  return width
+}

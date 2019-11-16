@@ -99,8 +99,11 @@ function Podcast(props: Props) {
             {desktop && <Descr>{description}</Descr>}
           </div>
           <Artwork
-            artworks={podcast && podcast.artworks}
-            size={desktop ? 14 : 6}
+            imgs={podcast && podcast.artworks}
+            size={[
+              { size: '14rem', query: responsive.navOnSide },
+              { size: '6rem', query: responsive.navOnBottom },
+            ]}
           />
         </S.Head>
         <EpisodeList
@@ -144,11 +147,10 @@ const S = {
       }
     }
 
-    picture {
+    img {
       flex-shrink: 0;
-      img {
-        border-radius: 0.25rem;
-      }
+      border-radius: 0.25rem;
+      width: 6rem;
     }
 
     @media ${responsive.navOnSide} {
@@ -157,6 +159,10 @@ const S = {
 
       & > div {
         padding-left: 3rem;
+      }
+
+      img {
+        width: 14rem;
       }
     }
   `,

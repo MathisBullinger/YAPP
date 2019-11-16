@@ -1,40 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
 import Mask from './Mask'
-import State from '~/store/state'
-import { useMatchMedia } from '~/utils/hooks'
-import { Artwork } from '~/components/atoms'
-// @ts-ignore
-import { useHistory } from 'react-router-dom'
+import State, { Podcast as Pod } from '~/store/state'
+import { Artwork, Text } from '~/components/atoms'
 
 interface Props {
-  cl: number
-  itunesId: string
+  podcast: Pod
+  method: State['interaction']['method']
+  isSpaced: boolean
+  steps: { size: string; query?: string }[]
+  onClick(id: string): void
 }
 
 export default function Podcast(props: Props) {
-  const history = useHistory()
-  const method = useSelector((state: State) => state.interaction.method)
-  const isSpaced = useMatchMedia(
-    '(min-width: 600px) and (orientation: landscape)'
-  )
-
-  const podcast = useSelector(
-    (state: State) => state.podcasts.byId[props.itunesId]
-  )
-
-  const img = podcast && podcast.artworks
-
-  function open() {
-    if (podcast && podcast.itunesId)
-      history.push(`/podcast/${podcast.itunesId}`)
-  }
-
+  const img = props.podcast ? props.podcast.artworks : []
   return (
-    <S.Podcast data-cl={props.cl} onClick={open}>
-      {img && <Artwork lazy artworks={img} size={19} />}
-      {method === 'mouse' && isSpaced && <Mask />}
+    <S.Podcast
+      onClick={() => props.onClick(props.podcast && props.podcast.itunesId)}
+    >
+      {img.length > 0 && <Artwork lazy imgs={img} size={props.steps} />}
+      {props.method === 'mouse' && props.isSpaced && <Mask />}
+      {img.length === 0 && props.podcast && (
+        <Text emp="disabled">{props.podcast.name}</Text>
+      )}
     </S.Podcast>
   )
 }
@@ -43,24 +31,24 @@ const S = {
   Podcast: styled.div`
     position: relative;
     display: block;
-    background-color: ${props =>
-      '#' + (props['data-cl'] * 255).toString(16)[0].repeat(6)};
     padding-bottom: 100%;
     cursor: pointer;
+    overflow: hidden;
 
     @media (min-width: 600px) and (orientation: landscape) {
       background-color: ${({ theme }) =>
         theme[theme.topic](theme.variant)
           .on('')
           .substring(0, 7)}0a;
+      border: none;
     }
 
     * {
       position: absolute;
       left: 0;
       top: 0;
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
     }
   `,
 }

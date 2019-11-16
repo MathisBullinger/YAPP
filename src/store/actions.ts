@@ -12,6 +12,9 @@ const toggleAction = (type: a.ActionType) => (
 const stringAction = (type: a.ActionType) => (
   value: string
 ): a.StringAction => ({ type, value })
+const stringsAction = (type: a.ActionType) => (
+  ...values: string[]
+): a.StringsAction => ({ type, values })
 const numberAction = (type: a.ActionType) => (
   value: number
 ): a.NumberAction => ({ type, value })
@@ -48,6 +51,7 @@ export const searchPodcast = stringAction('SEARCH_PODCAST')
 export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
 export const togglePodcastSearching = toggleAction('TOGGLE_PODCAST_SEARCHING')
 export const fetchEpisode = stringAction('FETCH_EPISODE')
+export const fetchLibrary = stringsAction('FETCH_LIBRARY')
 export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
 export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
 export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
@@ -79,6 +83,11 @@ export const setScrollDirection = (
 export const addPodcast = (value: Podcast): a.PodcastAction => ({
   type: 'ADD_PODCAST',
   value,
+})
+
+export const addPodcasts = (values: Podcast[]): a.PodcastsAction => ({
+  type: 'ADD_PODCASTS',
+  values,
 })
 
 export const addEpisode = (

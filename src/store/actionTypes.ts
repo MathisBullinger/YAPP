@@ -26,12 +26,14 @@ export type ActionType =
   | 'SET_SCROLL_POS'
   | 'SEARCH_PODCAST'
   | 'ADD_PODCAST'
+  | 'ADD_PODCASTS'
   | 'ADD_EPISODE'
   | 'ADD_SEARCH_RESULTS'
   | 'TOGGLE_PODCAST_FETCHING'
   | 'TOGGLE_PODCAST_SEARCHING'
   | 'FETCH_PODCAST'
   | 'FETCH_EPISODE'
+  | 'FETCH_LIBRARY'
   | 'TOGGLE_PLAYER_VISIBLE'
   | 'SET_PLAYER_STATE'
   | 'SET_CURRENT_EPISODE'
@@ -63,6 +65,10 @@ export interface StringAction extends Base {
   value: string
 }
 
+export interface StringsAction extends Base {
+  values: string[]
+}
+
 export interface NumberAction extends Base {
   value: number
 }
@@ -82,6 +88,10 @@ export interface ScrollDirAction extends Base {
 
 export interface PodcastAction extends Base {
   value: Podcast
+}
+
+export interface PodcastsAction extends Base {
+  values: Podcast[]
 }
 
 export interface EpisodeAction extends Base {
