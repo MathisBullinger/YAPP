@@ -47,6 +47,7 @@ const config = {
       },
     ],
     'no-empty': ['error', { allowEmptyCatch: true }],
+    'no-extra-semi': 0,
   },
 }
 

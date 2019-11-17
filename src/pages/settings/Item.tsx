@@ -4,15 +4,19 @@ import { Text } from '~/components/atoms'
 import { responsive } from '~/styles'
 
 interface Props {
-  name: string
+  name?: string
   text: string
-  action: JSX.Element
+  action: JSX.Element | string
 }
 
 const Item: React.FunctionComponent<Props> = props => (
   <S.Item>
-    <Text label={props.name}>{props.text}</Text>
-    {props.action}
+    <Text label={props.name || props.text}>{props.text}</Text>
+    {typeof props.action !== 'string' ? (
+      props.action
+    ) : (
+      <S.TextValue>{props.action}</S.TextValue>
+    )}
   </S.Item>
 )
 export default Item
@@ -31,5 +35,10 @@ const S = {
     & > * {
       margin: 0;
     }
+  `,
+
+  TextValue: styled(Text)`
+    margin-left: 1rem;
+    overflow-x: scroll;
   `,
 }

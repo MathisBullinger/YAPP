@@ -1,11 +1,19 @@
-import { StringAction, ToggleAction } from './actionTypes'
+import {
+  StringAction,
+  ToggleAction,
+  FetchPodcastAction,
+  StringsAction,
+} from './actionTypes'
 import api from '~/api'
 import SearchQuery from '~/gql/SearchPodcast.gql'
 import FetchQuery from '~/gql/FetchPodcast.gql'
+import FetchMetaQuery from '~/gql/FetchPodcastMeta.gql'
 import FetchEpisodeQuery from '~/gql/FetchEpisode.gql'
+import FetchLibraryQuery from '~/gql/FetchLibrary.gql'
 import { SearchPodcast } from '~/gqlTypes/SearchPodcast'
 import { FetchPodcast } from '~/gqlTypes/FetchPodcast'
 import { FetchEpisode } from '~/gqlTypes/FetchEpisode'
+import { FetchLibrary } from '~/gqlTypes/FetchLibrary'
 import { send } from '~/systems'
 import {
   takeLatest,
@@ -16,6 +24,7 @@ import {
 } from 'redux-saga/effects'
 import {
   addPodcast,
+  addPodcasts,
   addSearchResults,
   togglePodcastFetching,
   togglePodcastSearching,
@@ -53,33 +62,25 @@ export function* searchPodcast(action: StringAction) {
   yield put(togglePodcastSearching(false))
 }
 
-export function* fetchPodcast(action: StringAction) {
+export function* fetchPodcast(action: FetchPodcastAction) {
   yield put(togglePodcastFetching(true))
   const result = yield call(api.query, {
-    query: FetchQuery,
+    query: action.metaOnly ? FetchMetaQuery : FetchQuery,
     variables: { id: action.value },
   })
   const podcast = (result.data as FetchPodcast).podcast
-  yield putResolve(
-    addPodcast({
-      itunesId: podcast.itunesId,
-      name: podcast.name,
-      creator: podcast.creator,
-      feed: '',
-      description: podcast.description,
-      artworks: podcast.artworks,
-      colors: podcast.colors,
-      _fetched: true,
-      episodes: podcast.episodes.map(episode => ({
-        title: episode.title,
-        file: episode.file,
-        date: parseInt(episode.date, 10),
-        id: `${podcast.itunesId} ${episode.id}`,
-        duration: episode.duration,
-        _fetched: false,
-      })),
-    })
-  )
+  yield putResolve(addPodcast(mapPodcast(podcast)))
+  yield put(togglePodcastFetching(false))
+}
+
+export function* fetchLibrary(action: StringsAction) {
+  yield put(togglePodcastFetching(true))
+  const result = yield call(api.query, {
+    query: FetchLibraryQuery,
+    variables: { ids: action.values },
+  })
+  const podcasts = (result.data as FetchLibrary).podcasts
+  yield putResolve(addPodcasts(podcasts.map(mapPodcast)))
   yield put(togglePodcastFetching(false))
 }
 
@@ -150,9 +151,33 @@ export function* toggleDarkAtNight(action: ToggleAction) {
   yield put(setDarkAtNight(true))
 }
 
+const mapPodcast = (data: FetchPodcast['podcast']) => ({
+  itunesId: data.itunesId,
+  name: data.name,
+  creator: data.creator,
+  feed: '',
+  description: data.description,
+  artworks: data.artworks,
+  colors: data.colors,
+  _fetched: true,
+  ...(data.episodes
+    ? {
+        episodes: data.episodes.map(episode => ({
+          title: episode.title,
+          file: episode.file,
+          date: parseInt(episode.date, 10),
+          id: `${data.itunesId} ${episode.id}`,
+          duration: episode.duration,
+          _fetched: false,
+        })),
+      }
+    : {}),
+})
+
 export default function*() {
   yield takeLatest('SEARCH_PODCAST', searchPodcast)
   yield takeLatest('FETCH_PODCAST', fetchPodcast)
+  yield takeLatest('FETCH_LIBRARY', fetchLibrary)
   yield takeEvery('FETCH_EPISODE', fetchEpisode)
   yield takeEvery('TOGGLE_DARK_AT_NIGHT', toggleDarkAtNight)
 }

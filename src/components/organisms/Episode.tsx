@@ -65,12 +65,13 @@ export default function Episode(props: Props) {
           <S.Content>
             <S.Head>
               <Artwork
-                artworks={
-                  episode.artworks && episode.artworks.length
-                    ? episode.artworks
-                    : podcast.artworks
+                imgs={
+                  episode.artworks?.length ? episode.artworks : podcast.artworks
                 }
-                size={isDesktop ? 8 : 6}
+                size={[
+                  { size: '8rem', query: responsive.navOnSide },
+                  { size: '6rem', query: responsive.navOnBottom },
+                ]}
               />
               {isDesktop && (
                 <S.DesktopPlay>
@@ -192,6 +193,10 @@ const S = {
       }
     }
 
+    img {
+      width: 6rem;
+    }
+
     @media ${responsive.navOnSide} {
       flex-direction: row;
       justify-content: flex-start;
@@ -200,6 +205,10 @@ const S = {
       .text {
         margin-left: 1rem;
         margin-right: 0;
+      }
+
+      img {
+        width: 8rem;
       }
     }
   `,

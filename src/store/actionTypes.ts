@@ -26,12 +26,14 @@ export type ActionType =
   | 'SET_SCROLL_POS'
   | 'SEARCH_PODCAST'
   | 'ADD_PODCAST'
+  | 'ADD_PODCASTS'
   | 'ADD_EPISODE'
   | 'ADD_SEARCH_RESULTS'
   | 'TOGGLE_PODCAST_FETCHING'
   | 'TOGGLE_PODCAST_SEARCHING'
   | 'FETCH_PODCAST'
   | 'FETCH_EPISODE'
+  | 'FETCH_LIBRARY'
   | 'TOGGLE_PLAYER_VISIBLE'
   | 'SET_PLAYER_STATE'
   | 'SET_CURRENT_EPISODE'
@@ -44,6 +46,8 @@ export type ActionType =
   | 'SET_USECOM_TYPE'
   | 'SET_MOUSE_POS'
   | 'SET_INTERACTION_METHOD'
+  | 'SUBSCRIBE'
+  | 'UNSUBSCRIBE'
 
 export interface Base {
   type: ActionType
@@ -59,6 +63,10 @@ export interface ToggleAction extends Base {
 
 export interface StringAction extends Base {
   value: string
+}
+
+export interface StringsAction extends Base {
+  values: string[]
 }
 
 export interface NumberAction extends Base {
@@ -82,6 +90,10 @@ export interface PodcastAction extends Base {
   value: Podcast
 }
 
+export interface PodcastsAction extends Base {
+  values: Podcast[]
+}
+
 export interface EpisodeAction extends Base {
   value: Partial<Episode>
   podId: string
@@ -94,4 +106,8 @@ export interface SearchResultAction extends Base {
 
 export interface PlayerStateAction extends Base {
   value: State['player']['state']
+}
+
+export interface FetchPodcastAction extends StringAction {
+  metaOnly: boolean
 }

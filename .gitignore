@@ -7,3 +7,4 @@ stats.json
 .env
 src/gqlTypes
 .vscode
+.eslintcache

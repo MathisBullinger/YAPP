@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { responsive } from '~/styles'
 import { Text } from '~/components/atoms'
 import { StackedList } from '~/components/molecules'
+import Item from './settings/Item'
 import SwitchItem from './settings/SwitchItem'
 import State from '~/store/state'
 import { useSelector, useDispatch } from 'react-redux'
@@ -73,9 +74,16 @@ function Settings() {
           },
           {
             title: 'Playback',
-            items: Array(100)
+            items: Array(20)
               .fill(0)
-              .map((_, i) => <Text key={`item2${i}`}>item {i}</Text>),
+              .map((_, i) => <Text key={`item2${i}`}>item {i + 1}</Text>),
+          },
+          {
+            title: 'Build',
+            items: [
+              <Item text="branch" action={process.env.BRANCH} key="branch" />,
+              <Item text="commit" action={process.env.COMMIT} key="commit" />,
+            ],
           },
         ]}
       />

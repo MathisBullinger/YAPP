@@ -17,6 +17,17 @@ export default function(
             .itunesId]: (action as a.PodcastAction).value,
         },
       }
+    case 'ADD_PODCASTS':
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...(action as a.PodcastsAction).values.reduce(
+            (a, c) => ({ ...a, [c.itunesId]: c }),
+            {}
+          ),
+        },
+      }
     case 'ADD_EPISODE': {
       const podId = (action as a.EpisodeAction).podId
       const episode = (action as a.EpisodeAction).value

@@ -12,6 +12,9 @@ const toggleAction = (type: a.ActionType) => (
 const stringAction = (type: a.ActionType) => (
   value: string
 ): a.StringAction => ({ type, value })
+const stringsAction = (type: a.ActionType) => (
+  ...values: string[]
+): a.StringsAction => ({ type, values })
 const numberAction = (type: a.ActionType) => (
   value: number
 ): a.NumberAction => ({ type, value })
@@ -47,8 +50,8 @@ export const resetToolbarActions = action('RESET_TOOLBAR_ACTIONS')
 export const searchPodcast = stringAction('SEARCH_PODCAST')
 export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
 export const togglePodcastSearching = toggleAction('TOGGLE_PODCAST_SEARCHING')
-export const fetchPodcast = stringAction('FETCH_PODCAST')
 export const fetchEpisode = stringAction('FETCH_EPISODE')
+export const fetchLibrary = stringsAction('FETCH_LIBRARY')
 export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
 export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
 export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
@@ -58,6 +61,8 @@ export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
 export const toggleUsecomShow = toggleAction('TOGGLE_USECOM_SHOW')
 export const setMousePos = numbersAction('SET_MOUSE_POS')
 export const setInteractionMethod = stringAction('SET_INTERACTION_METHOD')
+export const subscribe = stringAction('SUBSCRIBE')
+export const unsubscribe = stringAction('UNSUBSCRIBE')
 
 export const addAppbarAction = (
   name: string,
@@ -78,6 +83,11 @@ export const setScrollDirection = (
 export const addPodcast = (value: Podcast): a.PodcastAction => ({
   type: 'ADD_PODCAST',
   value,
+})
+
+export const addPodcasts = (values: Podcast[]): a.PodcastsAction => ({
+  type: 'ADD_PODCASTS',
+  values,
 })
 
 export const addEpisode = (
@@ -101,3 +111,12 @@ export const addSearchResults = (
 export const setPlayerState = (
   value: State['player']['state']
 ): a.PlayerStateAction => ({ type: 'SET_PLAYER_STATE', value })
+
+export const fetchPodcast = (
+  value: string,
+  metaOnly = false
+): a.FetchPodcastAction => ({
+  type: 'FETCH_PODCAST',
+  value,
+  metaOnly,
+})

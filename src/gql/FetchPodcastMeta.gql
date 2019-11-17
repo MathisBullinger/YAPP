@@ -1,0 +1,16 @@
+query FetchPodcastMeta($id: ID!) {
+  podcast(itunesId: $id) {
+    itunesId
+    name
+    creator
+    artworks {
+      url
+      size
+      type
+    }
+    colors {
+      name
+      value
+    }
+  }
+}

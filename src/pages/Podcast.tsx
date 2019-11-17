@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
@@ -7,14 +7,10 @@ import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
 import { hexToRGB, luminance, contrast } from '~/utils'
-import {
-  Title,
-  Subtitle,
-  Text,
-  Artwork,
-  Dynamic,
-  Progress,
-} from '~/components/atoms'
+import Mobile from './podcast/Mobile'
+import Description from './podcast/Description'
+import Subscribe from './podcast/Subscribe'
+import { Title, Subtitle, Artwork, Progress } from '~/components/atoms'
 
 interface RouteParams {
   id: string
@@ -30,61 +26,75 @@ function Podcast(props: Props) {
   const theme = useContext(ThemeContext)
   const background = theme[theme.topic](theme.variant).color
 
-  if (!fetching && !(podcast && podcast._fetched))
+  if (!fetching && (!podcast?._fetched || !('episodes' in podcast)))
     dispatch({
       type: 'FETCH_PODCAST',
       value: props.match.params.id,
     })
 
-  if (podcast && podcast.colors && podcast.colors.length) {
-    const lBack = luminance(...hexToRGB(background))
-    const colors = podcast.colors.map(({ name, value }) => ({
-      name,
-      value,
-      contrast: contrast(lBack, luminance(...hexToRGB(value))),
-    }))
-    const [muted, vibrant] = ['Muted', 'Vibrant'].map(
-      s =>
-        colors
-          .filter(({ name }) => name.includes(s))
-          .reduce((a, c) => (c.contrast >= a.contrast ? c : a)).value
-    )
-    Object.assign(theme, { muted, vibrant })
-  }
-
-  const desktop = useMatchMedia(responsive.navOnSide)
-
-  const description = podcast && podcast.description
-  const Descr = description && description.startsWith('\u200c') ? Dynamic : Text
+  useEffect(() => {
+    if (podcast?.colors?.length) {
+      const lBack = luminance(...hexToRGB(background))
+      const colors = podcast.colors.map(({ name, value }) => ({
+        name,
+        value,
+        contrast: contrast(lBack, luminance(...hexToRGB(value))),
+      }))
+      const [muted, vibrant] = ['Muted', 'Vibrant'].map(
+        s =>
+          colors
+            .filter(({ name }) => name.includes(s))
+            .reduce((a, c) => (c.contrast >= a.contrast ? c : a)).value
+      )
+      Object.assign(theme, { muted, vibrant })
+      const primary = theme.primary
+      theme.primary = () => ({
+        color: vibrant + primary().color.substring(7),
+        on: primary().on,
+      })
+    }
+  }, [podcast, theme, background])
 
   const [episode, setEpisode] = useState(null)
   function openEpisode(id: string) {
     setEpisode(id)
   }
 
+  const desktop = useMatchMedia(responsive.navOnSide)
   return (
     <S.Podcast>
-      <Progress active={fetching} />
-      <S.Head>
-        <div>
-          <Title s4={desktop} s5={!desktop}>
-            {podcast && podcast.name}
-          </Title>
-          <Subtitle s1={desktop} s2={!desktop}>
-            {podcast && podcast.creator}
-          </Subtitle>
-          {desktop && <Descr>{description}</Descr>}
-        </div>
-        <Artwork
-          artworks={podcast && podcast.artworks}
-          size={desktop ? 14 : 6}
+      <>
+        <Progress active={fetching} />
+        <S.Head>
+          <S.Top>
+            <S.TextSection>
+              <S.TitleRow>
+                <Title s4={desktop} s5={!desktop}>
+                  {podcast?.name}
+                </Title>
+                {desktop && <Subscribe id={podcast?.itunesId} />}
+              </S.TitleRow>
+              <Subtitle s1={desktop} s2={!desktop}>
+                {podcast?.creator}
+              </Subtitle>
+              {desktop && <Description id={podcast?.itunesId} />}
+            </S.TextSection>
+            <Artwork
+              imgs={podcast?.artworks}
+              size={[
+                { size: '14rem', query: responsive.navOnSide },
+                { size: '6rem', query: responsive.navOnBottom },
+              ]}
+            />
+          </S.Top>
+          <Mobile id={podcast?.itunesId} />
+        </S.Head>
+        <EpisodeList
+          handleOpen={openEpisode}
+          episodes={podcast?.episodes ?? []}
         />
-      </S.Head>
-      <EpisodeList
-        handleOpen={openEpisode}
-        episodes={podcast && podcast.episodes ? podcast.episodes : []}
-      />
-      <Episode id={episode} close={() => setEpisode(null)} />
+        <Episode id={episode} close={() => setEpisode(null)} />
+      </>
     </S.Podcast>
   )
 }
@@ -100,38 +110,56 @@ const S = {
   `,
 
   Head: styled.header`
+    @media ${responsive.navOnSide} {
+      margin-bottom: 3rem;
+    }
+  `,
+
+  Top: styled.div`
     display: flex;
     justify-content: space-between;
-    margin-bottom: 3rem;
+    overflow: auto;
 
-    div {
-      overflow-x: hidden;
-      padding-right: 1rem;
-
-      & > * {
-        width: 100%;
-        text-overflow: ellipsis;
-      }
-
-      *:nth-child(2n) {
-        color: ${({ theme }) => theme.vibrant};
-      }
-    }
-
-    picture {
+    img {
       flex-shrink: 0;
-      img {
-        border-radius: 0.25rem;
-      }
+      border-radius: 0.25rem;
+      width: 6rem;
     }
 
     @media ${responsive.navOnSide} {
       flex-direction: row-reverse;
       justify-content: flex-end;
 
-      div {
+      & > div {
         padding-left: 3rem;
       }
+
+      img {
+        width: 14rem;
+      }
     }
+  `,
+
+  TextSection: styled.div`
+    overflow-x: hidden;
+    padding-right: 1rem;
+    display: block;
+    width: 100%;
+
+    & > * {
+      width: 100%;
+      text-overflow: ellipsis;
+    }
+
+    ${Subtitle.sc} {
+      color: ${({ theme }) => theme.vibrant};
+    }
+  `,
+
+  TitleRow: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
   `,
 }

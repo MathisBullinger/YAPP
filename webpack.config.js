@@ -1,8 +1,11 @@
+const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const merge = require('webpack-merge')
 const CopyPlugin = require('copy-webpack-plugin')
+var GitRevisionPlugin = require('git-revision-webpack-plugin')
+const gitRevisionPlugin = new GitRevisionPlugin()
 
 module.exports = env => merge(baseConfig, require(`./webpack.${env}.js`))
 
@@ -66,5 +69,12 @@ const baseConfig = {
       { from: 'manifest.json', to: 'manifest.json' },
       { from: 'icons', to: 'icons' },
     ]),
+    gitRevisionPlugin,
+    new webpack.DefinePlugin({
+      'process.env': {
+        COMMIT: JSON.stringify(gitRevisionPlugin.commithash()),
+        BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
+      },
+    }),
   ],
 }

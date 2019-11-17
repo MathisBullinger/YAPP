@@ -88,17 +88,14 @@ class Routes extends React.Component<Props> {
   }
 }
 
-export default connect(
-  null,
-  {
-    toggleAppbar,
-    setAppbarTitle,
-    addAppbarAction,
-    resetAppbarActions,
-    toggleToolbar,
-    setToolbarTitle,
-    addToolbarAction,
-    resetToolbarActions,
-    toggleHideAppbarOnScroll,
-  }
-)(Routes)
+export default connect(null, {
+  toggleAppbar,
+  setAppbarTitle,
+  addAppbarAction,
+  resetAppbarActions,
+  toggleToolbar,
+  setToolbarTitle,
+  addToolbarAction,
+  resetToolbarActions,
+  toggleHideAppbarOnScroll,
+})(Routes)

@@ -27,5 +27,14 @@ module.exports = {
       }),
     ],
   },
-  plugins: [new CompressionPlugin()],
+  plugins: [
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      filename: ({ path }) => `gz/${path}`,
+    }),
+    new CompressionPlugin({
+      algorithm: 'brotliCompress',
+      filename: ({ path }) => `br/${path}`,
+    }),
+  ],
 }

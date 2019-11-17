@@ -20,6 +20,14 @@ export default function Compoents() {
       <Card>
         <Button text>Button</Button>
       </Card>
+      <Card>
+        <Button rounded>Button</Button>
+      </Card>
+      <Card>
+        <Button outlined rounded>
+          Button
+        </Button>
+      </Card>
     </S.Components>
   )
 }

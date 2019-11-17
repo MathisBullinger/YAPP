@@ -8,10 +8,11 @@ interface Props {
   contained?: boolean
   outlined?: boolean
   text?: boolean
+  rounded?: boolean
   onClick?(): void
 }
 
-export default function Button(props: Props) {
+function Button(props: Props) {
   const Button = props.contained
     ? S.Contained
     : props.outlined
@@ -20,7 +21,11 @@ export default function Button(props: Props) {
     ? S.Text
     : S.Contained
 
-  return <Button onClick={props.onClick}>{props.children}</Button>
+  return (
+    <Button rounded={props.rounded} onClick={props.onClick}>
+      {props.children}
+    </Button>
+  )
 }
 
 export const S = {
@@ -28,6 +33,8 @@ export const S = {
     -moz-appearance: none;
     -webkit-appearance: none;
     border: none;
+    height: 2.2rem;
+    line-height: 0;
     font-size: 0.8rem;
     padding-top: 0.55rem;
     padding-bottom: 0.55rem;
@@ -35,7 +42,7 @@ export const S = {
     padding-right: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.1rem;
-    border-radius: 0.3rem;
+    border-radius: ${props => (props['rounded'] ? 1.1 : 0.3)}rem;
     cursor: pointer;
     transition: background-color ${timing.colorSwap}, color ${timing.colorSwap},
       border-color ${timing.colorSwap}, box-shadow 0.15s ease;
@@ -80,3 +87,4 @@ export const S = {
     `
   },
 }
+export default Object.assign(Button, { sc: S.Button })
