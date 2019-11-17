@@ -9,7 +9,7 @@ interface Props {
   lazy?: boolean
 }
 
-function Artwork({ imgs, size }: Props) {
+function Artwork({ imgs, size, lazy }: Props) {
   let pics = []
   if (typeof imgs === 'object' && Object.entries(imgs).length) {
     const sizes = typeof size === 'string' ? [{ size }] : size
@@ -39,7 +39,11 @@ function Artwork({ imgs, size }: Props) {
         {pics.map(({ url, type, media }, i) => (
           <source srcSet={url} type={`image/${type}`} media={media} key={i} />
         ))}
-        <img src={fallback && fallback.url} alt={name} />
+        <img
+          src={fallback && fallback.url}
+          alt={name}
+          {...(lazy && { loading: 'lazy' })}
+        />
       </picture>
     </S.Artwork>
   )

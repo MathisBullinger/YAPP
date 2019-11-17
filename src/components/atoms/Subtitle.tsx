@@ -19,10 +19,9 @@ const Subtitle: React.FunctionComponent<Props> = props => (
     {props.children}
   </S.Subtitle>
 )
-export default Subtitle
 
-namespace S {
-  export const Subtitle = styled(({ children, className }) =>
+const S = {
+  Subtitle: styled(({ children, className }) =>
     React.createElement('h6', { className }, children)
   )<{ tt: TextType; emp: TextEmp }>`
     font-size: ${({ tt }) => tt.size}rem;
@@ -32,5 +31,7 @@ namespace S {
     transition: color ${() => timing.colorSwap};
     margin-top: 1rem;
     margin-bottom: 1rem;
-  `
+  `,
 }
+
+export default Object.assign(Subtitle, { sc: S.Subtitle })
