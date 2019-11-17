@@ -39,6 +39,7 @@ const S = {
 
   TextValue: styled(Text)`
     margin-left: 1rem;
-    overflow-x: scroll;
+    overflow-x: auto;
+    user-select: text;
   `,
 }
