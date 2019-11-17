@@ -41,6 +41,7 @@ jobs:
       - run:
           name: Deploy to S3
           command: |
+            sudo apt install rsync
             rsync -avr public/ public/br --exclude="br" --exclude="gz" --ignore-existing
             rsync -avr public/ public/gz --exclude="br" --exclude="gz" --ignore-existing
             aws s3 sync public/ s3://yapp-frontend/ --exclude="gz/*" --exclude="br/*"
