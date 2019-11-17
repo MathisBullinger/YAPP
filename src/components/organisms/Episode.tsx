@@ -66,9 +66,7 @@ export default function Episode(props: Props) {
             <S.Head>
               <Artwork
                 imgs={
-                  episode.artworks && episode.artworks.length
-                    ? episode.artworks
-                    : podcast.artworks
+                  episode.artworks?.length ? episode.artworks : podcast.artworks
                 }
                 size={[
                   { size: '8rem', query: responsive.navOnSide },

@@ -41,7 +41,7 @@ export default class UseCom implements System {
   }
 
   private response(text: 'allow' | 'deny') {
-    if (this.current && this.current.callback) this.current.callback(text)
+    if (this.current?.callback) this.current.callback(text)
     this.hideMessage()
     if (this.msgQueue.length) this.showMessage(this.msgQueue.shift())
   }

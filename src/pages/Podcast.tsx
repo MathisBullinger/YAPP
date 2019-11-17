@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import State from '~/store/state'
@@ -26,32 +26,34 @@ function Podcast(props: Props) {
   const theme = useContext(ThemeContext)
   const background = theme[theme.topic](theme.variant).color
 
-  if (!fetching && (!(podcast && podcast._fetched) || !('episodes' in podcast)))
+  if (!fetching && (!podcast?._fetched || !('episodes' in podcast)))
     dispatch({
       type: 'FETCH_PODCAST',
       value: props.match.params.id,
     })
 
-  if (podcast && podcast.colors && podcast.colors.length) {
-    const lBack = luminance(...hexToRGB(background))
-    const colors = podcast.colors.map(({ name, value }) => ({
-      name,
-      value,
-      contrast: contrast(lBack, luminance(...hexToRGB(value))),
-    }))
-    const [muted, vibrant] = ['Muted', 'Vibrant'].map(
-      s =>
-        colors
-          .filter(({ name }) => name.includes(s))
-          .reduce((a, c) => (c.contrast >= a.contrast ? c : a)).value
-    )
-    Object.assign(theme, { muted, vibrant })
-    const primary = theme.primary
-    theme.primary = () => ({
-      color: vibrant + primary().color.substring(7),
-      on: primary().on,
-    })
-  }
+  useEffect(() => {
+    if (podcast?.colors?.length) {
+      const lBack = luminance(...hexToRGB(background))
+      const colors = podcast.colors.map(({ name, value }) => ({
+        name,
+        value,
+        contrast: contrast(lBack, luminance(...hexToRGB(value))),
+      }))
+      const [muted, vibrant] = ['Muted', 'Vibrant'].map(
+        s =>
+          colors
+            .filter(({ name }) => name.includes(s))
+            .reduce((a, c) => (c.contrast >= a.contrast ? c : a)).value
+      )
+      Object.assign(theme, { muted, vibrant })
+      const primary = theme.primary
+      theme.primary = () => ({
+        color: vibrant + primary().color.substring(7),
+        on: primary().on,
+      })
+    }
+  }, [podcast, theme, background])
 
   const [episode, setEpisode] = useState(null)
   function openEpisode(id: string) {
@@ -68,17 +70,17 @@ function Podcast(props: Props) {
             <S.TextSection>
               <S.TitleRow>
                 <Title s4={desktop} s5={!desktop}>
-                  {podcast && podcast.name}
+                  {podcast?.name}
                 </Title>
                 {desktop && <Subscribe id={podcast?.itunesId} />}
               </S.TitleRow>
               <Subtitle s1={desktop} s2={!desktop}>
-                {podcast && podcast.creator}
+                {podcast?.creator}
               </Subtitle>
               {desktop && <Description id={podcast?.itunesId} />}
             </S.TextSection>
             <Artwork
-              imgs={podcast && podcast.artworks}
+              imgs={podcast?.artworks}
               size={[
                 { size: '14rem', query: responsive.navOnSide },
                 { size: '6rem', query: responsive.navOnBottom },
@@ -89,7 +91,7 @@ function Podcast(props: Props) {
         </S.Head>
         <EpisodeList
           handleOpen={openEpisode}
-          episodes={podcast && podcast.episodes ? podcast.episodes : []}
+          episodes={podcast?.episodes ?? []}
         />
         <Episode id={episode} close={() => setEpisode(null)} />
       </>

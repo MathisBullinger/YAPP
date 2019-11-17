@@ -15,9 +15,7 @@ interface Props {
 export default function Podcast(props: Props) {
   const img = props.podcast ? props.podcast.artworks : []
   return (
-    <S.Podcast
-      onClick={() => props.onClick(props.podcast && props.podcast.itunesId)}
-    >
+    <S.Podcast onClick={() => props.onClick(props.podcast?.itunesId)}>
       {img.length > 0 && <Artwork lazy imgs={img} size={props.steps} />}
       {props.method === 'mouse' && props.isSpaced && <Mask />}
       {img.length === 0 && props.podcast && (

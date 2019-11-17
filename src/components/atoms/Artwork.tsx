@@ -31,7 +31,7 @@ function Artwork({ imgs, size, lazy }: Props) {
     })
   } else pics.push({ url: imgs })
 
-  const fallback = imgs && imgs.find(({ size, type }) => !size && !type)
+  const fallback = imgs?.find(({ size, type }) => !size && !type)
 
   return (
     <S.Artwork>
@@ -40,7 +40,7 @@ function Artwork({ imgs, size, lazy }: Props) {
           <source srcSet={url} type={`image/${type}`} media={media} key={i} />
         ))}
         <img
-          src={fallback && fallback.url}
+          src={fallback?.url}
           alt={name}
           {...(lazy && { loading: 'lazy' })}
         />
@@ -62,7 +62,7 @@ function getOptimal(pxSize, imgs) {
   return [
     selected.find(({ type }) => type !== 'webp'),
     selected.find(({ type }) => type === 'webp'),
-  ].map(img => img && img.url)
+  ].map(img => img?.url)
 }
 
 const S = {
