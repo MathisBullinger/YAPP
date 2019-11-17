@@ -15,7 +15,7 @@ const Item: React.FunctionComponent<Props> = props => (
     {typeof props.action !== 'string' ? (
       props.action
     ) : (
-      <Text>{props.action}</Text>
+      <S.TextValue>{props.action}</S.TextValue>
     )}
   </S.Item>
 )
@@ -35,5 +35,10 @@ const S = {
     & > * {
       margin: 0;
     }
+  `,
+
+  TextValue: styled(Text)`
+    margin-left: 1rem;
+    overflow-x: scroll;
   `,
 }
