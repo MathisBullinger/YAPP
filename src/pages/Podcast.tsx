@@ -7,16 +7,10 @@ import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
 import { hexToRGB, luminance, contrast } from '~/utils'
-import { subscribe, unsubscribe } from '~/store/actions'
-import {
-  Title,
-  Subtitle,
-  Text,
-  Artwork,
-  Dynamic,
-  Progress,
-  Button,
-} from '~/components/atoms'
+import Mobile from './podcast/Mobile'
+import Description from './podcast/Description'
+import Subscribe from './podcast/Subscribe'
+import { Title, Subtitle, Artwork, Progress } from '~/components/atoms'
 
 interface RouteParams {
   id: string
@@ -27,8 +21,6 @@ function Podcast(props: Props) {
   const podcast = useSelector(
     (state: State) => state.podcasts.byId[props.match.params.id]
   )
-  const subscriptions = useSelector((state: State) => state.subscriptions)
-  const subscribed = podcast && subscriptions.includes(podcast.itunesId)
   const dispatch = useDispatch()
   const fetching = useSelector((state: State) => state.podcasts.fetching)
   const theme = useContext(ThemeContext)
@@ -61,50 +53,39 @@ function Podcast(props: Props) {
     })
   }
 
-  const desktop = useMatchMedia(responsive.navOnSide)
-
-  const description = podcast && podcast.description
-  const Descr = description && description.startsWith('\u200c') ? Dynamic : Text
-
   const [episode, setEpisode] = useState(null)
   function openEpisode(id: string) {
     setEpisode(id)
   }
 
-  function toggleSubscribe() {
-    dispatch((subscribed ? unsubscribe : subscribe)(podcast.itunesId))
-  }
-
+  const desktop = useMatchMedia(responsive.navOnSide)
   return (
     <S.Podcast>
       <>
         <Progress active={fetching} />
         <S.Head>
-          <div>
-            <S.TitleRow>
-              <Title s4={desktop} s5={!desktop}>
-                {podcast && podcast.name}
-              </Title>
-              <Button
-                {...{ [subscribed ? 'text' : 'outlined']: true }}
-                rounded
-                onClick={toggleSubscribe}
-              >
-                {subscribed ? 'subscribed' : 'subscribe'}
-              </Button>
-            </S.TitleRow>
-            <Subtitle s1={desktop} s2={!desktop}>
-              {podcast && podcast.creator}
-            </Subtitle>
-            {desktop && <Descr>{description}</Descr>}
-          </div>
-          <Artwork
-            imgs={podcast && podcast.artworks}
-            size={[
-              { size: '14rem', query: responsive.navOnSide },
-              { size: '6rem', query: responsive.navOnBottom },
-            ]}
-          />
+          <S.Top>
+            <S.TextSection>
+              <S.TitleRow>
+                <Title s4={desktop} s5={!desktop}>
+                  {podcast && podcast.name}
+                </Title>
+                {desktop && <Subscribe id={podcast?.itunesId} />}
+              </S.TitleRow>
+              <Subtitle s1={desktop} s2={!desktop}>
+                {podcast && podcast.creator}
+              </Subtitle>
+              {desktop && <Description id={podcast?.itunesId} />}
+            </S.TextSection>
+            <Artwork
+              imgs={podcast && podcast.artworks}
+              size={[
+                { size: '14rem', query: responsive.navOnSide },
+                { size: '6rem', query: responsive.navOnBottom },
+              ]}
+            />
+          </S.Top>
+          <Mobile id={podcast?.itunesId} />
         </S.Head>
         <EpisodeList
           handleOpen={openEpisode}
@@ -127,25 +108,15 @@ const S = {
   `,
 
   Head: styled.header`
+    @media ${responsive.navOnSide} {
+      margin-bottom: 3rem;
+    }
+  `,
+
+  Top: styled.div`
     display: flex;
     justify-content: space-between;
-    margin-bottom: 3rem;
-
-    & > div {
-      overflow-x: hidden;
-      padding-right: 1rem;
-      display: block;
-      width: 100%;
-
-      & > *:not(${Button.sc}) {
-        width: 100%;
-        text-overflow: ellipsis;
-      }
-
-      ${Subtitle.sc} {
-        color: ${({ theme }) => theme.vibrant};
-      }
-    }
+    overflow: auto;
 
     img {
       flex-shrink: 0;
@@ -164,6 +135,22 @@ const S = {
       img {
         width: 14rem;
       }
+    }
+  `,
+
+  TextSection: styled.div`
+    overflow-x: hidden;
+    padding-right: 1rem;
+    display: block;
+    width: 100%;
+
+    & > * {
+      width: 100%;
+      text-overflow: ellipsis;
+    }
+
+    ${Subtitle.sc} {
+      color: ${({ theme }) => theme.vibrant};
     }
   `,
 

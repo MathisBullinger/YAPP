@@ -8,17 +8,16 @@ interface Props {
 }
 
 const Icon: FunctionComponent<Props> = ({ icon, className }) => (
-  <svg
+  <S.Icon
     xmlns="http://www.w3.org/2000/svg"
     width={svg[icon].size || '24'}
     height={svg[icon].size || '24'}
     viewBox={`0 0 ${svg[icon].size || '24'} ${svg[icon].size || '24'}`}
     className={className}
   >
-    <S.Path d={(svg[icon] || svg['info']).path} />
-  </svg>
+    <path d={(svg[icon] || svg['info']).path} />
+  </S.Icon>
 )
-export default Icon
 
 const svg = {
   library: {
@@ -52,6 +51,9 @@ const svg = {
   },
   arrow_down: {
     path: 'M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z',
+  },
+  arrow_up: {
+    path: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z',
   },
   play: {
     path: 'M8 5v14l11-7z',
@@ -87,11 +89,18 @@ const svg = {
     path:
       'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',
   },
+  check: {
+    path: 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z',
+  },
 }
 
-namespace S {
-  export const Path = styled.path`
-    fill: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
-    transition: fill ${() => timing.colorSwap};
-  `
+const S = {
+  Icon: styled.svg`
+    path {
+      fill: ${({ theme }) => theme[theme.topic](theme.variant).on('high')};
+      transition: fill ${() => timing.colorSwap};
+    }
+  `,
 }
+
+export default Object.assign(Icon, { sc: S.Icon })
