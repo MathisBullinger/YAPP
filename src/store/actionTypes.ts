@@ -48,6 +48,7 @@ export type ActionType =
   | 'SET_INTERACTION_METHOD'
   | 'SUBSCRIBE'
   | 'UNSUBSCRIBE'
+  | 'SET_OS'
 
 export interface Base {
   type: ActionType

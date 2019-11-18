@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { useSelector } from 'react-redux'
 import { responsive, layout, timing } from '~/styles'
-import handleScroll from '~/utils/scroll'
+import handleScroll, { scrollbar } from '~/utils/scroll'
 import State from '~/store/state'
 
 const Page: React.FunctionComponent = props => {
@@ -10,6 +10,16 @@ const Page: React.FunctionComponent = props => {
   const appbar = useSelector((state: State) => state.appbar.visible)
   const toolbar = useSelector((state: State) => state.toolbar.visible)
   const abHidden = useSelector((state: State) => state.appbar.hidden)
+  const os = useSelector((state: State) => state.platform.os)
+  const [scrollbarState, setScrollbarState] = useState()
+
+  useEffect(() => {
+    if (os !== 'windows') return
+    const callback = (v: boolean) =>
+      setScrollbarState(v ? 'active' : 'inactive')
+    scrollbar.subscribe(callback)
+    return () => scrollbar.unsubscribe(callback)
+  }, [os])
 
   return (
     <ThemeProvider theme={{ topic: 'background' }}>
@@ -18,6 +28,10 @@ const Page: React.FunctionComponent = props => {
         data-player={player ? 'visible' : 'hidden'}
         data-appbar={appbar && !abHidden ? 'visible' : 'hidden'}
         data-toolbar={toolbar ? 'visible' : 'hidden'}
+        {...(os === 'windows' && {
+          'data-os': 'windows',
+          'data-scrollbar': scrollbarState ?? 'inactive',
+        })}
       >
         {props.children}
       </S.Page>
@@ -26,6 +40,7 @@ const Page: React.FunctionComponent = props => {
 }
 export default Page
 
+const scrollbarWidth = 5
 const S = {
   Page: styled.div`
     position: relative;
@@ -79,5 +94,29 @@ const S = {
     margin-top: var(--buffer-top);
 
     height: calc(100vh - (var(--buffer-top)) - (var(--buffer-bottom)));
+
+    &[data-os='windows'] {
+      &::-webkit-scrollbar {
+        width: ${scrollbarWidth}px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: ${scrollbarWidth / 2}px;
+        background-color: ${({ theme }) =>
+          theme[theme.topic](theme.variant).on('disabled')};
+        transition: background-color 0.2s ease;
+      }
+    }
+
+    &[data-scrollbar='inactive'] {
+      &::-webkit-scrollbar-thumb {
+        background-color: ${({ theme }) =>
+          theme[theme.topic](theme.variant).color};
+      }
+    }
   `,
 }
