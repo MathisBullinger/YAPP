@@ -6,6 +6,7 @@ const merge = require('webpack-merge')
 const CopyPlugin = require('copy-webpack-plugin')
 var GitRevisionPlugin = require('git-revision-webpack-plugin')
 const gitRevisionPlugin = new GitRevisionPlugin()
+const exec = require('child_process').execSync
 
 module.exports = env => merge(baseConfig, require(`./webpack.${env}.js`))
 
@@ -74,6 +75,11 @@ const baseConfig = {
       'process.env': {
         COMMIT: JSON.stringify(gitRevisionPlugin.commithash()),
         BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
+        UNCOMMITTED: JSON.stringify(
+          exec(
+            'git diff-index --quiet HEAD -- && echo no || echo yes'
+          ).toString()
+        ),
       },
     }),
   ],

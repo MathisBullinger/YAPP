@@ -63,6 +63,7 @@ export const setMousePos = numbersAction('SET_MOUSE_POS')
 export const setInteractionMethod = stringAction('SET_INTERACTION_METHOD')
 export const subscribe = stringAction('SUBSCRIBE')
 export const unsubscribe = stringAction('UNSUBSCRIBE')
+export const setOS = stringAction('SET_OS')
 
 export const addAppbarAction = (
   name: string,

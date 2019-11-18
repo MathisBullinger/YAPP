@@ -1,6 +1,6 @@
 import State from './state'
 
-const defaultState: Partial<State> = {
+const defaultState: State = {
   theme: {
     current: 'light',
     useAmoled: false,
@@ -53,6 +53,9 @@ const defaultState: Partial<State> = {
     scrollPos: 0,
   },
   subscriptions: [],
+  platform: {
+    os: null,
+  },
 }
 
 export default defaultState

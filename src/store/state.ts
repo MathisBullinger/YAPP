@@ -53,6 +53,9 @@ export default interface State {
     scrollPos: number
   }
   subscriptions: Podcast['itunesId'][]
+  platform: {
+    os: 'windows'
+  }
 }
 
 export interface Podcast {

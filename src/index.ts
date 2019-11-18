@@ -1,4 +1,6 @@
 import './styles/master.scss'
+import store from '~/store'
+import { setOS } from '~/store/actions'
 
 import * as Sentry from '@sentry/browser'
 Sentry.init({
@@ -17,3 +19,5 @@ if ('serviceWorker' in navigator) {
     )
   })
 }
+
+if (navigator.platform.startsWith('Win')) store.dispatch(setOS('windows'))
