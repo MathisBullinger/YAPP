@@ -96,8 +96,13 @@ const S = {
     height: calc(100vh - (var(--buffer-top)) - (var(--buffer-bottom)));
 
     &[data-os='windows'] {
+      scrollbar-width: thin;
+      scrollbar-color: ${({ theme }) =>
+        theme[theme.topic](theme.variant).on('disabled')};
+
       &::-webkit-scrollbar {
         width: ${scrollbarWidth}px;
+        background-color: transparent;
       }
 
       &::-webkit-scrollbar-track {

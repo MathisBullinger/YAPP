@@ -25,6 +25,7 @@ function Podcast(props: Props) {
   const fetching = useSelector((state: State) => state.podcasts.fetching)
   const theme = useContext(ThemeContext)
   const background = theme[theme.topic](theme.variant).color
+  const [vibrant, setVibrant] = useState(theme.primary(theme.variant).color)
 
   if (!fetching && (!podcast?._fetched || !('episodes' in podcast)))
     dispatch({
@@ -47,13 +48,21 @@ function Podcast(props: Props) {
             .reduce((a, c) => (c.contrast >= a.contrast ? c : a)).value
       )
       Object.assign(theme, { muted, vibrant })
-      const primary = theme.primary
-      theme.primary = () => ({
-        color: vibrant + primary().color.substring(7),
-        on: primary().on,
-      })
+
+      setVibrant(vibrant)
     }
   }, [podcast, theme, background])
+
+  if (
+    vibrant.substring(0, 7) !==
+    theme.primary(theme.variant).color.substring(0, 7)
+  ) {
+    const primary = theme.primary
+    theme.primary = () => ({
+      color: vibrant + primary(theme.variant).color.substring(7),
+      on: primary().on,
+    })
+  }
 
   const [episode, setEpisode] = useState(null)
   function openEpisode(id: string) {

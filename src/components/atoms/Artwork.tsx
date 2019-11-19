@@ -60,8 +60,8 @@ function getOptimal(pxSize, imgs) {
     ({ size: imgSize }) => (size !== Infinity ? size : 'max') === imgSize
   )
   return [
-    selected.find(({ type }) => type !== 'webp'),
     selected.find(({ type }) => type === 'webp'),
+    selected.find(({ type }) => type !== 'webp'),
   ].map(img => img?.url)
 }
 
