@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { Icon, Button } from '~/components/atoms'
-import State, { Podcast } from '~/store/state'
 import { subscribe, unsubscribe } from '~/store/actions'
 
 interface Props {

@@ -5,7 +5,6 @@ import Item from './mainnav/Item'
 import DarkmodeSwitch from './mainnav/DarkmodeSwitch'
 import { useMatchMedia } from '~/utils/hooks'
 import { useSelector } from 'react-redux'
-import State from '~/store/state'
 
 export default function Mainnav() {
   const onSide = useMatchMedia(responsive.navOnSide)

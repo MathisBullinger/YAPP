@@ -5,7 +5,6 @@ import { Text } from '~/components/atoms'
 import { StackedList } from '~/components/molecules'
 import Item from './settings/Item'
 import SwitchItem from './settings/SwitchItem'
-import State from '~/store/state'
 import { useSelector, useDispatch } from 'react-redux'
 import { useMatchMedia } from '~/utils/hooks'
 import {

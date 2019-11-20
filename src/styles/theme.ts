@@ -18,8 +18,6 @@ interface Topic {
   on(emphasis: TextEmp): string
 }
 
-export type Themes = 'light' | 'dark' | 'black'
-
 //! all colors must be 6 or 8 digit hex strings
 
 namespace light {

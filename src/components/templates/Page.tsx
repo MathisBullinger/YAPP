@@ -3,7 +3,6 @@ import styled, { ThemeProvider } from 'styled-components'
 import { useSelector } from 'react-redux'
 import { responsive, layout, timing } from '~/styles'
 import handleScroll, { scrollbar } from '~/utils/scroll'
-import State from '~/store/state'
 
 const Page: React.FunctionComponent = props => {
   const player = useSelector((state: State) => state.player.visible)

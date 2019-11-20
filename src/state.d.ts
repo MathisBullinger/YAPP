@@ -1,6 +1,4 @@
-import { Themes } from '~/styles/theme'
-
-export default interface State {
+interface State {
   theme: {
     current: Themes
     useAmoled: boolean
@@ -58,7 +56,7 @@ export default interface State {
   }
 }
 
-export interface Podcast {
+interface Podcast {
   itunesId: string
   name: string
   creator: string
@@ -70,7 +68,7 @@ export interface Podcast {
   _fetched: boolean
 }
 
-export interface Episode {
+interface Episode {
   title: string
   file: string
   date: number
@@ -82,18 +80,20 @@ export interface Episode {
   _fetched: boolean
 }
 
-export interface Artwork {
+interface Artwork {
   size: number
   url: string
   type: string
 }
 
-export interface Color {
+interface Color {
   name: string
   value: string
 }
 
-export interface AppbarAction {
+interface AppbarAction {
   name: string
   align: 'left' | 'right'
 }
+
+type Themes = 'light' | 'dark' | 'black'

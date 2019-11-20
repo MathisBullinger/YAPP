@@ -1,7 +1,3 @@
-import { Themes } from '~/styles/theme'
-import { Podcast, Episode } from './state'
-import State from '~/store/state'
-
 export type ActionType =
   | 'SET_THEME'
   | 'TOGGLE_DARK_MODE'

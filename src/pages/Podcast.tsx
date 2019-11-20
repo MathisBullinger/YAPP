@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
-import State from '~/store/state'
 import styled, { ThemeContext } from 'styled-components'
 import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'

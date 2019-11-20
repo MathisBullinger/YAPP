@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { IconButton } from '~/components/atoms'
-import { Episode } from '~/store/state'
 import { send } from '~/systems'
 import { useSelector } from 'react-redux'
-import State from '~/store/state'
 
 interface Props {
   episode: Episode

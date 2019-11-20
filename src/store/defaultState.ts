@@ -1,5 +1,3 @@
-import State from './state'
-
 const defaultState: State = {
   theme: {
     current: 'light',

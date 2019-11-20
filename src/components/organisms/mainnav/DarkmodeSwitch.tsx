@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { responsive } from '~/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleDarkMode, manualDarkmode } from '~/store/actions'
-import State from '~/store/state'
 import { Switch } from '~/components/atoms'
 
 export default function DarkmodeSwitch() {

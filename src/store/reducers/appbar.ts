@@ -1,5 +1,4 @@
 import * as a from '../actionTypes'
-import State from '../state'
 import { getToggleValue } from './utils'
 import defaultState from '../defaultState'
 

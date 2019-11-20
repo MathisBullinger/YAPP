@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import State from '~/store/state'
 
 export default function Mask() {
   const { x, y } = useSelector((state: State) => state.interaction.mousePos)

@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Dynamic, Spinner } from '~/components/atoms'
-import State from '~/store/state'
 import styled from 'styled-components'
 import { responsive } from '~/styles'
 

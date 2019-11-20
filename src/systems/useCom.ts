@@ -1,7 +1,6 @@
 import { System } from '.'
 import { store } from '~/store'
 import { toggleUsecomShow } from '~/store/actions'
-import State from '~/store/state'
 
 export default class UseCom implements System {
   public readonly name = 'usecom'

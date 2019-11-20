@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import State, { Episode } from '~/store/state'
 import { Text } from '~/components/atoms'
 import { InlinePlayButton } from '.'
 import { responsive } from '~/styles'

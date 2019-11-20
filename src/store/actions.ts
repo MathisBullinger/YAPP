@@ -1,6 +1,4 @@
-import { Themes } from '~/styles/theme'
 import * as a from './actionTypes'
-import State, { Podcast, Episode } from './state'
 
 const action = (type: a.ActionType) => (): a.Base => ({ type })
 const toggleAction = (type: a.ActionType) => (

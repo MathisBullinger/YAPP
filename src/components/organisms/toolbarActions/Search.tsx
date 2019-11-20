@@ -4,7 +4,6 @@ import { Input, Spinner } from '~/components/atoms'
 import MiniResult from './search/MiniResult'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import State from '~/store/state'
 
 export default function Search() {
   const [active, setActive] = useState(false)

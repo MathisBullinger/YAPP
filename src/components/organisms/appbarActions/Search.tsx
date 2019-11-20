@@ -4,7 +4,6 @@ import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
 import { useSelector } from 'react-redux'
-import State from '~/store/state'
 
 interface Props {
   align: 'left' | 'right'

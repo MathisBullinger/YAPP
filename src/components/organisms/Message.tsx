@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { layout, responsive, shadow, timing } from '~/styles'
 import { useSelector } from 'react-redux'
-import State from '~/store/state'
 import { Text, Button, IconButton } from '~/components/atoms'
 import { send } from '~/systems'
 

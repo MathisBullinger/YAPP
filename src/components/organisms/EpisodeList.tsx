@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Episode } from '~/store/state'
 import { EpisodeStrip } from '~/components/molecules'
 
 interface Props {

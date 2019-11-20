@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import State, { Podcast } from '~/store/state'
 import { Text, Dynamic } from '~/components/atoms'
 
 interface Props {

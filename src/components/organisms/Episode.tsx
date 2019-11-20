@@ -1,7 +1,6 @@
 import React, { useState, MouseEvent, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
-import State from '~/store/state'
 import { responsive } from '~/styles'
 import { Shownotes } from '~/components/molecules'
 import { useMatchMedia } from '~/utils/hooks'

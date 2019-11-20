@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import Mask from './Mask'
-import State, { Podcast as Pod } from '~/store/state'
 import { Artwork, Text } from '~/components/atoms'
 
 interface Props {
-  podcast: Pod
+  podcast: Podcast
   method: State['interaction']['method']
   isSpaced: boolean
   steps: { size: string; query?: string }[]

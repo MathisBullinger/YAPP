@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Text, Artwork } from '~/components/atoms'
 import { Link } from 'react-router-dom'
-import { Podcast } from '~/store/state'
 
 export default function Result(props: Podcast) {
   return (
