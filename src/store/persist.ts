@@ -1,4 +1,4 @@
-import store from '.'
+import { store } from '.'
 import State from './state'
 import defaultState from './defaultState'
 import { Themes } from '~/styles/theme'

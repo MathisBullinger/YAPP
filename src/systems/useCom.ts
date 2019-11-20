@@ -1,5 +1,5 @@
 import { System } from '.'
-import store from '~/store'
+import { store } from '~/store'
 import { toggleUsecomShow } from '~/store/actions'
 import State from '~/store/state'
 

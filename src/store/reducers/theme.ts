@@ -1,10 +1,10 @@
 import * as a from '../actionTypes'
 import State from '../state'
 import { getToggleValue } from './utils'
-import { get } from '../persist'
+import defaultState from '../defaultState'
 
 export default function theme(
-  state = get.theme(),
+  state = defaultState.theme,
   action: a.Base
 ): State['theme'] {
   switch (action.type) {

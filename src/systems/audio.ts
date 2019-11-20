@@ -1,6 +1,6 @@
 import { System } from '.'
 import StateManager from './audio/StateManager'
-import store from '~/store'
+import { store } from '~/store'
 import {
   setCurrentEpisode,
   setPlayerProgress,

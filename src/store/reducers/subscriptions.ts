@@ -1,8 +1,8 @@
 import * as a from '../actionTypes'
-import { get } from '../persist'
+import defaultState from '../defaultState'
 
 export default function subscriptions(
-  state = get.subscriptions(),
+  state = defaultState.subscriptions,
   action: a.Base
 ) {
   switch (action.type) {

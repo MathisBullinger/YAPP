@@ -1,6 +1,6 @@
 import './styles/master.scss'
-import store from '~/store'
 import { setOS } from '~/store/actions'
+import { store, initStore } from '~/store'
 
 import * as Sentry from '@sentry/browser'
 Sentry.init({
@@ -8,16 +8,26 @@ Sentry.init({
   environment: process.env.NODE_ENV,
 })
 
-import './Root'
+import initUI from './Root'
 import './api'
+import UseCom from '~/systems/useCom'
+import Interaction from '~/systems/interaction'
+import { register } from '~/systems'
+;(async () => {
+  await initStore()
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(
-      ({ scope }) => console.log('sw registered with scope:', scope),
-      err => console.log('sw registration failed:', err)
-    )
-  })
-}
+  initUI()
+  register(new UseCom())
+  register(new Interaction())
 
-if (navigator.platform.startsWith('Win')) store.dispatch(setOS('windows'))
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then(
+        ({ scope }) => console.log('sw registered with scope:', scope),
+        err => console.log('sw registration failed:', err)
+      )
+    })
+  }
+
+  if (navigator.platform.startsWith('Win')) store.dispatch(setOS('windows'))
+})()

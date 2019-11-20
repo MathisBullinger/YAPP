@@ -1,4 +1,4 @@
-import store from '~/store'
+import { store } from '~/store'
 import { setScrollDirection, setScrollPos } from '~/store/actions'
 import throttle from 'lodash/throttle'
 

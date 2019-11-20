@@ -1,6 +1,6 @@
 import { System } from '.'
 import throttle from 'lodash/throttle'
-import store from '~/store'
+import { store } from '~/store'
 import { setMousePos, setInteractionMethod } from '~/store/actions'
 
 export default class Interaction implements System {
