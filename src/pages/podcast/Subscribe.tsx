@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import { Icon, Button } from '~/components/atoms'
 import { subscribe, unsubscribe } from '~/store/actions'
 
@@ -16,9 +16,7 @@ export default function Subscribe({
   expanded = false,
 }: Props) {
   const dispatch = useDispatch()
-  const subscribed = useSelector((state: State) =>
-    state.subscriptions.includes(id)
-  )
+  const subscribed = useSelector(state => state.subscriptions.includes(id))
 
   function toggleSubscribe() {
     if (id) dispatch((subscribed ? unsubscribe : subscribe)(id))

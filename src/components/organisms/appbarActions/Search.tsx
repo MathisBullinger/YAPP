@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '~/utils/hooks'
 import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
-import { useSelector } from 'react-redux'
+import { useSelector } from '~/utils/hooks'
 
 interface Props {
   align: 'left' | 'right'
@@ -15,7 +15,7 @@ export default function Search(props: Props) {
   const inputEl = useRef(null)
   const [searchStr, setSearchStr] = useState('')
   const dispatch = useDispatch()
-  const podData = useSelector((state: State) => state.podcasts)
+  const podData = useSelector(state => state.podcasts)
 
   function toggleExpand() {
     if (!expanded) setTimeout(() => inputEl.current.focus(), 200)

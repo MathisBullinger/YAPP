@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import styled from 'styled-components'
 import Podcast from './library/Podcast'
 import { CardGrid } from '~/components/organisms'
@@ -13,9 +13,9 @@ import { useHistory } from 'react-router-dom'
 
 function Library() {
   const dispatch = useDispatch()
-  const sub = useSelector((state: State) => state.subscriptions)
+  const sub = useSelector(state => state.subscriptions)
   const subscriptions = sub.length > 0 ? sub : new Array(50).fill('')
-  const podcasts = useSelector((state: State) => state.podcasts.byId)
+  const podcasts = useSelector(state => state.podcasts.byId)
   const ref = useRef(null)
   const history = useHistory()
 
@@ -26,7 +26,7 @@ function Library() {
     return () => send('interaction', 'stopListenMousePos')
   })
 
-  const method = useSelector((state: State) => state.interaction.method)
+  const method = useSelector(state => state.interaction.method)
   const navOnSide = useMatchMedia(responsive.navOnSide)
 
   function open(itunesId: string) {

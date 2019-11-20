@@ -5,7 +5,7 @@ import { Text } from '~/components/atoms'
 import { StackedList } from '~/components/molecules'
 import Item from './settings/Item'
 import SwitchItem from './settings/SwitchItem'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import { useMatchMedia } from '~/utils/hooks'
 import {
   toggleDarkMode,
@@ -17,7 +17,7 @@ import {
 } from '~/store/actions'
 
 function Settings() {
-  const theme = useSelector((state: State) => state.theme)
+  const theme = useSelector(state => state.theme)
   const dispatch = useDispatch()
   const isDesktop = useMatchMedia(responsive.navOnSide)
 

@@ -1,4 +1,9 @@
 import { useState, useEffect, MutableRefObject } from 'react'
+import {
+  useSelector as useReduxSelector,
+  TypedUseSelectorHook,
+  useDispatch,
+} from 'react-redux'
 import debounce from 'lodash/debounce'
 import ResObs from 'resize-observer-polyfill'
 
@@ -84,3 +89,6 @@ export function useWindowWidth() {
 
   return width
 }
+
+export const useSelector: TypedUseSelectorHook<State> = useReduxSelector
+export { useDispatch }

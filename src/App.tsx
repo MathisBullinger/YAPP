@@ -5,7 +5,7 @@ import { Page } from '~/components/templates'
 import Routes from './Routes'
 import getTheme from '~/styles/theme'
 import { responsive, timing } from '~/styles'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import { useMatchMedia } from '~/utils/hooks'
 import { toggleDarkMode } from '~/store/actions'
 import sunCalc from 'suncalc'
@@ -18,11 +18,11 @@ import {
 } from '~/components/organisms'
 
 export default function App() {
-  const theme = useSelector((state: State) => state.theme.current)
-  const useSystemDark = useSelector((state: State) => state.theme.useSystem)
-  const useGeoDark = useSelector((state: State) => state.theme.darkAtNight)
+  const theme = useSelector(state => state.theme.current)
+  const useSystemDark = useSelector(state => state.theme.useSystem)
+  const useGeoDark = useSelector(state => state.theme.darkAtNight)
   const toolbarAllowed = useMatchMedia(responsive.toolbarVisible)
-  const toolbarRequested = useSelector((state: State) => state.toolbar.visible)
+  const toolbarRequested = useSelector(state => state.toolbar.visible)
   const darkPreferred = useMatchMedia('(prefers-color-scheme: dark)')
   const dispatch = useDispatch()
   const timeProm = useDayTime(useGeoDark)

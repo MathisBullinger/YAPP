@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import styled, { ThemeContext } from 'styled-components'
 import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'
@@ -18,10 +18,10 @@ interface Props extends RouteComponentProps<RouteParams> {}
 
 function Podcast(props: Props) {
   const podcast = useSelector(
-    (state: State) => state.podcasts.byId[props.match.params.id]
+    state => state.podcasts.byId[props.match.params.id]
   )
   const dispatch = useDispatch()
-  const fetching = useSelector((state: State) => state.podcasts.fetching)
+  const fetching = useSelector(state => state.podcasts.fetching)
   const theme = useContext(ThemeContext)
   const background = theme[theme.topic](theme.variant).color
   const [vibrant, setVibrant] = useState(theme.primary(theme.variant).color)

@@ -4,11 +4,11 @@ import { shadow, responsive, layout, timing } from '~/styles'
 import Item from './mainnav/Item'
 import DarkmodeSwitch from './mainnav/DarkmodeSwitch'
 import { useMatchMedia } from '~/utils/hooks'
-import { useSelector } from 'react-redux'
+import { useSelector } from '~/utils/hooks'
 
 export default function Mainnav() {
   const onSide = useMatchMedia(responsive.navOnSide)
-  const playerVisible = useSelector((state: State) => state.player.visible)
+  const playerVisible = useSelector(state => state.player.visible)
 
   return (
     <ThemeProvider

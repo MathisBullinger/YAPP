@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Text } from '~/components/atoms'
 import { InlinePlayButton } from '.'
 import { responsive } from '~/styles'
-import { useSelector } from 'react-redux'
+import { useSelector } from '~/utils/hooks'
 import { send } from '~/systems'
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function EpisodeStrip(props: Props) {
-  const player = useSelector((state: State) => state.player)
+  const player = useSelector(state => state.player)
   const playing = player.state === 'playing' || player.state === 'waiting'
 
   function togglePlay() {

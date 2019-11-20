@@ -1,5 +1,5 @@
 import React, { useState, MouseEvent, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import styled, { ThemeProvider } from 'styled-components'
 import { responsive } from '~/styles'
 import { Shownotes } from '~/components/molecules'
@@ -16,14 +16,14 @@ interface Props {
 
 export default function Episode(props: Props) {
   const [pId, eId] = (props.id || '').split(' ')
-  const podcast = useSelector((state: State) => pId && state.podcasts.byId[pId])
+  const podcast = useSelector(state => pId && state.podcasts.byId[pId])
   const episode =
     podcast && eId && podcast.episodes.find(({ id }) => id === `${pId} ${eId}`)
   const dispatch = useDispatch()
   if (!episode._fetched && props.id) dispatch(fetchEpisode(props.id))
   const [hidden, setHidden] = useState(true)
   const isDesktop = useMatchMedia(responsive.navOnSide)
-  const player = useSelector((state: State) => state.player)
+  const player = useSelector(state => state.player)
   const playing =
     player.currentEpisode === props.id &&
     (player.state === 'playing' || player.state === 'waiting')

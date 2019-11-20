@@ -1,12 +1,12 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useSelector } from '~/utils/hooks'
 
 export default function Mask() {
-  const { x, y } = useSelector((state: State) => state.interaction.mousePos)
+  const { x, y } = useSelector(state => state.interaction.mousePos)
   const ref = useRef(null)
 
-  useSelector((state: State) => state.interaction.scrollPos)
+  useSelector(state => state.interaction.scrollPos)
 
   let mouseDir = 0
   let dist = Infinity

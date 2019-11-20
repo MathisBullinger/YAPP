@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
@@ -15,8 +15,8 @@ const alwaysVisible = false
 
 export default function Player() {
   const dispatch = useDispatch()
-  let visible = useSelector((state: State) => state.player.visible)
-  const current = useSelector((state: State) => state.player.currentEpisode)
+  let visible = useSelector(state => state.player.visible)
+  const current = useSelector(state => state.player.currentEpisode)
   const navOnSide = useMatchMedia(responsive.navOnSide)
   const audioRef = useRef(null)
 

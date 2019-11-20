@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, timing, responsive } from '~/styles'
 import { Title, Progress } from '~/components/atoms'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import Back from './appbarActions/Back'
 import Search from './appbarActions/Search'
 import Settings from './appbarActions/Settings'
@@ -13,15 +13,15 @@ import { useMatchMedia } from '~/utils/hooks'
 const actions = mapKeys({ Back, Search, Settings }, k => k.toLowerCase())
 
 export default function Appbar() {
-  const title = useSelector((state: State) => state.appbar.title)
-  const barActions = useSelector((state: State) => state.appbar.actions)
-  const loading = useSelector((state: State) => state.appbar.loading)
-  let scrollDir = useSelector((state: State) => state.interaction.scrollDir)
-  const hideOnScroll = useSelector((state: State) => state.appbar.hideOnScroll)
-  const hidden = useSelector((state: State) => state.appbar.hidden)
+  const title = useSelector(state => state.appbar.title)
+  const barActions = useSelector(state => state.appbar.actions)
+  const loading = useSelector(state => state.appbar.loading)
+  let scrollDir = useSelector(state => state.interaction.scrollDir)
+  const hideOnScroll = useSelector(state => state.appbar.hideOnScroll)
+  const hidden = useSelector(state => state.appbar.hidden)
   const dispatch = useDispatch()
   const appbarAllowed = useMatchMedia(responsive.appbarVisible)
-  const appbarRequested = useSelector((state: State) => state.appbar.visible)
+  const appbarRequested = useSelector(state => state.appbar.visible)
 
   const visible =
     (appbarAllowed ||

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useContext, useState } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { useCanvasSize, useMatchMedia } from '~/utils/hooks'
-import { useSelector } from 'react-redux'
+import { useSelector } from '~/utils/hooks'
 import { store } from '~/store'
 import { blendHexColorString } from '~/utils'
 import Total from './progress/Total'
@@ -13,10 +13,10 @@ import { responsive } from '~/styles'
 export default function Progress() {
   const canvasRef = useRef(null)
   const theme = useContext(ThemeContext)
-  const totalLength = useSelector((state: State) => state.player.length)
-  const playState = useSelector((state: State) => state.player.state)
-  const fetching = useSelector((state: State) => state.player.fetching)
-  const buffered = useSelector((state: State) => state.player.buffered)
+  const totalLength = useSelector(state => state.player.length)
+  const playState = useSelector(state => state.player.state)
+  const fetching = useSelector(state => state.player.fetching)
+  const buffered = useSelector(state => state.player.buffered)
   const [width, height] = useCanvasSize(canvasRef)
   const [hovered, setHovered] = useState(false)
   const [ctx, setCtx] = useState(null)
