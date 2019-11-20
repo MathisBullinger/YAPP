@@ -1,12 +1,10 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { useSelector } from '~/utils/hooks'
+import { useMousePos } from '~/utils/hooks'
 
 export default function Mask() {
-  const { x, y } = useSelector(state => state.interaction.mousePos)
+  const [mx, my] = useMousePos()
   const ref = useRef(null)
-
-  useSelector(state => state.interaction.scrollPos)
 
   let mouseDir = 0
   let dist = Infinity
@@ -16,8 +14,8 @@ export default function Mask() {
     if (rect.y + rect.height <= 0 || rect.y > window.innerHeight) return null
 
     const mouseVec = [
-      x - (rect.x + rect.width / 2),
-      y - (rect.y + rect.height / 2 - scrollY),
+      mx - (rect.x + rect.width / 2),
+      my - (rect.y + rect.height / 2 - scrollY),
     ]
 
     if (Math.sqrt(mouseVec[0] ** 2 + mouseVec[1] ** 2) / rect.width > 1)
@@ -28,9 +26,12 @@ export default function Mask() {
       (mouseVec[0] > 0 ? Math.PI : -Math.PI) / 2
 
     dist =
-      Math.max(Math.abs(x - (rect.x + rect.width / 2)) - rect.width / 2, 0) **
+      Math.max(Math.abs(mx - (rect.x + rect.width / 2)) - rect.width / 2, 0) **
         2 +
-      Math.max(Math.abs(y - (rect.y + rect.height / 2)) - rect.height / 2, 0) **
+      Math.max(
+        Math.abs(my - (rect.y + rect.height / 2)) - rect.height / 2,
+        0
+      ) **
         2
 
     if (dist === 0)

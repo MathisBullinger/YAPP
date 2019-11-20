@@ -5,7 +5,7 @@ import { Artwork, Text } from '~/components/atoms'
 
 interface Props {
   podcast: Podcast
-  method: State['interaction']['method']
+  method: State['platform']['input']
   isSpaced: boolean
   steps: { size: string; query?: string }[]
   onClick(id: string): void

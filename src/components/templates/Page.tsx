@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { useSelector } from '~/utils/hooks'
 import { responsive, layout, timing } from '~/styles'
-import handleScroll, { scrollbar } from '~/utils/scroll'
+import { handleScroll, scrollbar } from '~/utils/interaction'
 
 const Page: React.FunctionComponent = props => {
   const player = useSelector(state => state.player.visible)

@@ -8,7 +8,7 @@ import Search from './appbarActions/Search'
 import Settings from './appbarActions/Settings'
 import { mapKeys } from '~/utils'
 import { toggleAppbarHidden } from '~/store/actions'
-import { useMatchMedia } from '~/utils/hooks'
+import { useMatchMedia, useScrollDir } from '~/utils/hooks'
 
 const actions = mapKeys({ Back, Search, Settings }, k => k.toLowerCase())
 
@@ -16,7 +16,7 @@ export default function Appbar() {
   const title = useSelector(state => state.appbar.title)
   const barActions = useSelector(state => state.appbar.actions)
   const loading = useSelector(state => state.appbar.loading)
-  let scrollDir = useSelector(state => state.interaction.scrollDir)
+  const scrollDir = useScrollDir()
   const hideOnScroll = useSelector(state => state.appbar.hideOnScroll)
   const hidden = useSelector(state => state.appbar.hidden)
   const dispatch = useDispatch()

@@ -18,8 +18,6 @@ export type ActionType =
   | 'SET_TOOLBAR_TITLE'
   | 'ADD_TOOLBAR_ACTION'
   | 'RESET_TOOLBAR_ACTIONS'
-  | 'SET_SCROLL_DIRECTION'
-  | 'SET_SCROLL_POS'
   | 'SEARCH_PODCAST'
   | 'ADD_PODCAST'
   | 'ADD_PODCASTS'
@@ -40,7 +38,6 @@ export type ActionType =
   | 'TOGGLE_USECOM_SHOW'
   | 'SET_USECOM_TEXT'
   | 'SET_USECOM_TYPE'
-  | 'SET_MOUSE_POS'
   | 'SET_INTERACTION_METHOD'
   | 'SUBSCRIBE'
   | 'UNSUBSCRIBE'
@@ -77,10 +74,6 @@ export interface NumbersAction extends Base {
 export interface AppbarAction extends Base {
   name: string
   align: 'left' | 'right'
-}
-
-export interface ScrollDirAction extends Base {
-  value: 'up' | 'down'
 }
 
 export interface PodcastAction extends Base {

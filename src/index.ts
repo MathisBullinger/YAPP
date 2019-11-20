@@ -11,14 +11,12 @@ Sentry.init({
 import initUI from './Root'
 import './api'
 import UseCom from '~/systems/useCom'
-import Interaction from '~/systems/interaction'
 import { register } from '~/systems'
 ;(async () => {
   await initStore()
 
   initUI()
   register(new UseCom())
-  register(new Interaction())
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

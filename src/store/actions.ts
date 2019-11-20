@@ -16,10 +16,6 @@ const stringsAction = (type: a.ActionType) => (
 const numberAction = (type: a.ActionType) => (
   value: number
 ): a.NumberAction => ({ type, value })
-const numbersAction = (type: a.ActionType) => (
-  ...values: number[]
-): a.NumbersAction => ({ type, values })
-
 export const setTheme = (theme: Themes): a.SetTheme => ({
   type: 'SET_THEME',
   theme,
@@ -40,7 +36,6 @@ export const toggleAppbarLoading = toggleAction('TOGGLE_APPBAR_LOADING')
 export const toggleHideAppbarOnScroll = toggleAction(
   'TOGGLE_HIDE_APPBAR_ON_SCROLL'
 )
-export const setScrollPos = numberAction('SET_SCROLL_POS')
 export const toggleToolbar = toggleAction('TOGGLE_TOOLBAR')
 export const setToolbarTitle = stringAction('SET_TOOLBAR_TITLE')
 export const addToolbarAction = stringAction('ADD_TOOLBAR_ACTION')
@@ -57,7 +52,6 @@ export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
 export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
 export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
 export const toggleUsecomShow = toggleAction('TOGGLE_USECOM_SHOW')
-export const setMousePos = numbersAction('SET_MOUSE_POS')
 export const setInteractionMethod = stringAction('SET_INTERACTION_METHOD')
 export const subscribe = stringAction('SUBSCRIBE')
 export const unsubscribe = stringAction('UNSUBSCRIBE')
@@ -70,13 +64,6 @@ export const addAppbarAction = (
   type: 'ADD_APPBAR_ACTION',
   name,
   align,
-})
-
-export const setScrollDirection = (
-  value: 'up' | 'down'
-): a.ScrollDirAction => ({
-  type: 'SET_SCROLL_DIRECTION',
-  value,
 })
 
 export const addPodcast = (value: Podcast): a.PodcastAction => ({

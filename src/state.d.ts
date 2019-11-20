@@ -41,18 +41,10 @@ interface State {
     text: string
     type: 'info' | 'warn' | 'request'
   }
-  interaction: {
-    method: 'unknown' | 'mouse'
-    mousePos: {
-      x: number
-      y: number
-    }
-    scrollDir: 'up' | 'down'
-    scrollPos: number
-  }
   subscriptions: Podcast['itunesId'][]
   platform: {
     os: 'windows'
+    input: 'unknown' | 'mouse'
   }
 }
 

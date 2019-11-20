@@ -2,10 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { responsive, cardGrid as grid } from '~/styles'
 
-const CardGrid: React.FunctionComponent = ({ children }) => (
-  <S.Grid>{children}</S.Grid>
-)
-export default CardGrid
+export default function CardGrid({ children }) {
+  return <S.Grid>{children}</S.Grid>
+}
 
 const queries = grid.steps.map(([min, max], i) => {
   return `@media ${[

@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import Podcast from './library/Podcast'
 import { CardGrid } from '~/components/organisms'
 import { responsive } from '~/styles'
-import { send } from '~/systems'
 import { fetchLibrary } from '~/store/actions'
 import { useMatchMedia } from '~/utils/hooks'
 import steps from './library/steps'
@@ -20,13 +19,11 @@ function Library() {
   const history = useHistory()
 
   useEffect(() => {
-    send('interaction', 'startListenMousePos')
     const fetchIds = subscriptions.filter(id => id && !(id in podcasts))
     if (fetchIds.length) dispatch(fetchLibrary(...fetchIds))
-    return () => send('interaction', 'stopListenMousePos')
-  })
+  }, [subscriptions, podcasts, dispatch])
 
-  const method = useSelector(state => state.interaction.method)
+  const method = useSelector(state => state.platform.input)
   const navOnSide = useMatchMedia(responsive.navOnSide)
 
   function open(itunesId: string) {
