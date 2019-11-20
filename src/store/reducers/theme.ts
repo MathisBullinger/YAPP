@@ -13,20 +13,16 @@ export default function theme(
         ...state,
         current: (action as a.SetTheme).theme,
       }
-    case 'TOGGLE_DARK_MODE': {
-      const dark = state.useAmoled ? 'black' : 'dark'
+    case 'TOGGLE_DARK_MODE':
       return {
         ...state,
         current:
-          (action as a.ToggleAction).value !== undefined
-            ? (action as a.ToggleAction).value
-              ? dark
-              : 'light'
-            : state.current === 'light'
-            ? dark
+          (action as a.ToggleAction).value ?? state.current === 'light'
+            ? state.useAmoled
+              ? 'black'
+              : 'dark'
             : 'light',
       }
-    }
     case 'TOGGLE_PREFER_AMOLED': {
       const v = getToggleValue(action, state.useAmoled)
       let current = state.current

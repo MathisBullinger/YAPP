@@ -29,8 +29,11 @@ export default function App() {
   const timeProm = useDayTime(useGeoDark)
   const [daytime, setDaytime] = useState('unknown')
 
-  if (useSystemDark && (theme !== 'light') !== darkPreferred)
-    dispatch(toggleDarkMode())
+  useEffect(() => {
+    if (!useSystemDark) return
+    if ((theme !== 'light') !== darkPreferred)
+      dispatch(toggleDarkMode(darkPreferred))
+  }, [useSystemDark, theme, darkPreferred, dispatch])
 
   timeProm.then(time => {
     if (time !== daytime) setDaytime(time)
@@ -40,7 +43,7 @@ export default function App() {
     daytime !== 'unknown' &&
     (daytime === 'day') !== (theme === 'light')
   )
-    dispatch(toggleDarkMode())
+    dispatch(toggleDarkMode(daytime !== 'day'))
 
   useEffect(() => {
     document.body.style.backgroundColor = getTheme(theme).background().color
