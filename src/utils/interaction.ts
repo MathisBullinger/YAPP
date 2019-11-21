@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle'
 import subscription from './subscription'
 import { store } from '~/store'
-import { setInteractionMethod } from '~/store/actions'
+import action from '~/store/actions'
 
 export const mousePos = subscription<[number, number]>(() => {
   window.addEventListener('mousemove', handleMouseMove)
@@ -13,7 +13,7 @@ const handleMouseMove = throttle(({ clientX, clientY }) => {
 }, 1000 / 10)
 
 function mouseMethodHandler() {
-  store.dispatch(setInteractionMethod('mouse'))
+  store.dispatch(action('SET_INTERACTION_METHOD', 'mouse'))
   mousePos.unsubscribe(mouseMethodHandler)
 }
 mousePos.subscribe(mouseMethodHandler)

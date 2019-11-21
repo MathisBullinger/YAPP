@@ -1,5 +1,4 @@
 import { wrap, proxy, transferHandlers } from 'comlink'
-
 import transferIgnoreFunctions from '~/store/transferIgnoreFunctions'
 import { Store } from 'redux'
 

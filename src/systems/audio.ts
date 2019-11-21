@@ -1,11 +1,7 @@
 import { System } from '.'
 import StateManager from './audio/StateManager'
 import { store } from '~/store'
-import {
-  setCurrentEpisode,
-  setPlayerProgress,
-  setPlayerLength,
-} from '~/store/actions'
+import action from '~/store/actions'
 
 export default class Audio implements System {
   public readonly name = 'audio'
@@ -58,9 +54,9 @@ export default class Audio implements System {
     const episode = this.getEpisode(episodeId)
     if (!episode) return
 
-    store.dispatch(setCurrentEpisode(episodeId))
-    store.dispatch(setPlayerLength(episode.duration))
-    store.dispatch(setPlayerProgress(0))
+    store.dispatch(action('SET_CURRENT_EPISODE', episodeId))
+    store.dispatch(action('SET_PLAYER_LENGTH', episode.duration))
+    store.dispatch(action('SET_PLAYER_PROGRESS', 0))
 
     this.audioEl.src = Audio.proxy + episode.file
     await this.audioEl.play()

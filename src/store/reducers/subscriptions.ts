@@ -1,15 +1,14 @@
-import * as a from '../actionTypes'
 import defaultState from '../defaultState'
 
 export default function subscriptions(
   state = defaultState.subscriptions,
-  action: a.Base
+  action: any
 ) {
   switch (action.type) {
     case 'SUBSCRIBE':
-      return [...state, (action as a.StringAction).value]
+      return [...state, action.value]
     case 'UNSUBSCRIBE':
-      return state.filter(id => id !== (action as a.StringAction).value)
+      return state.filter(id => id !== action.value)
     default:
       return state
   }

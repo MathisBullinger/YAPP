@@ -4,6 +4,7 @@ import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
 import { useSelector } from '~/utils/hooks'
+import action from '~/store/actions'
 
 interface Props {
   align: 'left' | 'right'
@@ -25,16 +26,10 @@ export default function Search(props: Props) {
   function search(e: React.SyntheticEvent) {
     e.preventDefault()
     setSearchStr(value)
-    dispatch({
-      type: 'SEARCH_PODCAST',
-      value: value,
-    })
+    dispatch(action('SEARCH_PODCAST', value))
   }
 
-  dispatch({
-    type: 'TOGGLE_APPBAR_LOADING',
-    value: podData.fetching,
-  })
+  dispatch(action('TOGGLE_APPBAR_LOADING', podData.fetching))
 
   return (
     <S.Search className={'action ' + props.align}>

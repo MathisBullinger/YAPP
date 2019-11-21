@@ -1,35 +1,31 @@
-import * as a from '../actionTypes'
 import { getToggleValue } from './utils'
 import defaultState from '../defaultState'
 
 export default function(
   state = defaultState['podcasts'],
-  action: a.Base
+  action: any
 ): State['podcasts'] {
   switch (action.type) {
-    case 'ADD_PODCAST':
+    case 'ADD_PODCAST': {
       return {
         ...state,
         byId: {
           ...state.byId,
-          [(action as a.PodcastAction).value
-            .itunesId]: (action as a.PodcastAction).value,
+          [action.value.itunesId]: action.value,
         },
       }
+    }
     case 'ADD_PODCASTS':
       return {
         ...state,
         byId: {
           ...state.byId,
-          ...(action as a.PodcastsAction).values.reduce(
-            (a, c) => ({ ...a, [c.itunesId]: c }),
-            {}
-          ),
+          ...action.values.reduce((a, c) => ({ ...a, [c.itunesId]: c }), {}),
         },
       }
     case 'ADD_EPISODE': {
-      const podId = (action as a.EpisodeAction).podId
-      const episode = (action as a.EpisodeAction).value
+      const podId = action.podId
+      const episode = action.value
       const episodeOld = state.byId[podId].episodes.find(
         ({ id }) => id === episode.id
       )
@@ -58,8 +54,7 @@ export default function(
         ...state,
         searches: {
           ...state.searches,
-          [(action as a.SearchResultAction)
-            .search]: (action as a.SearchResultAction).results,
+          [action.search]: action.results,
         },
       }
     case 'TOGGLE_PODCAST_FETCHING':

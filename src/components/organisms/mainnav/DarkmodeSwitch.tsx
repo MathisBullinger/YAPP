@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { responsive } from '~/styles'
 import { useSelector, useDispatch } from '~/utils/hooks'
-import { toggleDarkMode, manualDarkmode } from '~/store/actions'
 import { Switch } from '~/components/atoms'
+import action from '~/store/actions'
 
 export default function DarkmodeSwitch() {
   const theme = useSelector(state => state.theme.current)
@@ -18,8 +18,8 @@ export default function DarkmodeSwitch() {
         inset
         value={theme !== 'light' ? 'on' : 'off'}
         onInput={v => {
-          dispatch(manualDarkmode())
-          dispatch(toggleDarkMode(v))
+          dispatch(action('MANUAL_DARK_MODE'))
+          dispatch(action('TOGGLE_DARK_MODE', v))
         }}
       />
     </S.Wrap>

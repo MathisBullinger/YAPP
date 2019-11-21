@@ -1,10 +1,5 @@
 import { store } from '~/store'
-import {
-  setPlayerState,
-  setPlayerFetching,
-  setPlayerProgress,
-  setPlayerBuffered,
-} from '~/store/actions'
+import action from '~/store/actions'
 
 export default class StateManager {
   private el: HTMLAudioElement
@@ -39,27 +34,27 @@ export default class StateManager {
     this.playbackTime += performance.now() - this.lastTimeUpdate
     this.lastTimeUpdate = performance.now()
     this.stopUpdateProgress()
-    store.dispatch(setPlayerFetching(true))
+    store.dispatch(action('SET_PLAYER_FETCHING', true))
   }
 
   private onSeeked() {
-    store.dispatch(setPlayerFetching(false))
+    store.dispatch(action('SET_PLAYER_FETCHING', false))
   }
 
   private onPlay() {
-    store.dispatch(setPlayerState('waiting'))
-    store.dispatch(setPlayerFetching(true))
+    store.dispatch(action('SET_PLAYER_STATE', 'waiting'))
+    store.dispatch(action('SET_PLAYER_FETCHING', true))
   }
 
   private onPlaying() {
-    store.dispatch(setPlayerState('playing'))
-    store.dispatch(setPlayerFetching(false))
+    store.dispatch(action('SET_PLAYER_STATE', 'playing'))
+    store.dispatch(action('SET_PLAYER_FETCHING', false))
     this.lastTimeUpdate = performance.now()
     this.startUpdateProgress()
   }
 
   private onPause() {
-    store.dispatch(setPlayerState('paused'))
+    store.dispatch(action('SET_PLAYER_STATE', 'paused'))
     this.playbackTime += performance.now() - this.lastTimeUpdate
     this.lastTimeUpdate = performance.now()
     this.stopUpdateProgress()
@@ -72,7 +67,7 @@ export default class StateManager {
         .fill(0)
         .map((_, i) => this.el.buffered.end(i))
     )
-    store.dispatch(setPlayerBuffered(buffered))
+    store.dispatch(action('SET_PLAYER_BUFFERED', buffered))
   }
 
   private onEmptied() {
@@ -82,7 +77,7 @@ export default class StateManager {
 
   updateInterval: number
   private updateProgress() {
-    store.dispatch(setPlayerProgress(this.getProgress() / 1000))
+    store.dispatch(action('SET_PLAYER_PROGRESS', this.getProgress() / 1000))
   }
   private startUpdateProgress() {
     if (this.updateInterval) this.stopUpdateProgress()

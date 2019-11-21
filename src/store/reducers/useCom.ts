@@ -1,8 +1,7 @@
-import * as a from '../actionTypes'
 import defaultState from '../defaultState'
 import { getToggleValue } from './utils'
 
-export default function useCom(state = defaultState['useCom'], action: a.Base) {
+export default function useCom(state = defaultState['useCom'], action: any) {
   switch (action.type) {
     case 'TOGGLE_USECOM_SHOW':
       return {
@@ -12,12 +11,12 @@ export default function useCom(state = defaultState['useCom'], action: a.Base) {
     case 'SET_USECOM_TEXT':
       return {
         ...state,
-        text: (action as a.StringAction).value,
+        text: action.value,
       }
     case 'SET_USECOM_TYPE':
       return {
         ...state,
-        type: (action as a.StringAction).value,
+        type: action.value,
       }
     default:
       return state

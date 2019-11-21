@@ -7,8 +7,8 @@ import Back from './appbarActions/Back'
 import Search from './appbarActions/Search'
 import Settings from './appbarActions/Settings'
 import { mapKeys } from '~/utils'
-import { toggleAppbarHidden } from '~/store/actions'
 import { useMatchMedia, useScrollDir } from '~/utils/hooks'
+import action from '~/store/actions'
 
 const actions = mapKeys({ Back, Search, Settings }, k => k.toLowerCase())
 
@@ -29,9 +29,8 @@ export default function Appbar() {
     appbarRequested
   if (!visible) return null
 
-  if (hideOnScroll && ((scrollDir || 'up') === 'up') !== !hidden) {
-    dispatch(toggleAppbarHidden((scrollDir || 'up') === 'down'))
-  }
+  if (hideOnScroll && ((scrollDir || 'up') === 'up') !== !hidden)
+    dispatch(action('TOGGLE_APPBAR_HIDDEN', (scrollDir || 'up') === 'down'))
 
   const [left, right] = barActions
     .reduce(

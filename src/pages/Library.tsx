@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import Podcast from './library/Podcast'
 import { CardGrid } from '~/components/organisms'
 import { responsive } from '~/styles'
-import { fetchLibrary } from '~/store/actions'
 import { useMatchMedia } from '~/utils/hooks'
 import steps from './library/steps'
 // @ts-ignore
 import { useHistory } from 'react-router-dom'
+import action from '~/store/actions'
 
 function Library() {
   const dispatch = useDispatch()
@@ -20,7 +20,7 @@ function Library() {
 
   useEffect(() => {
     const fetchIds = subscriptions.filter(id => id && !(id in podcasts))
-    if (fetchIds.length) dispatch(fetchLibrary(...fetchIds))
+    if (fetchIds.length) dispatch(action('FETCH_LIBRARY', { values: fetchIds }))
   }, [subscriptions, podcasts, dispatch])
 
   const method = useSelector(state => state.platform.input)

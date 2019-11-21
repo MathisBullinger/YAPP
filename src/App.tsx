@@ -5,9 +5,8 @@ import { Page } from '~/components/templates'
 import Routes from './Routes'
 import getTheme from '~/styles/theme'
 import { responsive, timing } from '~/styles'
-import { useSelector, useDispatch } from '~/utils/hooks'
-import { useMatchMedia } from '~/utils/hooks'
-import { toggleDarkMode } from '~/store/actions'
+import { useSelector, useDispatch, useMatchMedia } from '~/utils/hooks'
+import action from '~/store/actions'
 import sunCalc from 'suncalc'
 import {
   Mainnav,
@@ -31,7 +30,7 @@ export default function App() {
   useEffect(() => {
     if (!useSystemDark) return
     if ((theme !== 'light') !== darkPreferred)
-      dispatch(toggleDarkMode(darkPreferred))
+      dispatch(action('TOGGLE_DARK_MODE', darkPreferred))
   }, [useSystemDark, theme, darkPreferred, dispatch])
 
   timeProm.then(time => {
@@ -42,7 +41,7 @@ export default function App() {
     daytime !== 'unknown' &&
     (daytime === 'day') !== (theme === 'light')
   )
-    dispatch(toggleDarkMode(daytime !== 'day'))
+    dispatch(action('TOGGLE_DARK_MODE', daytime !== 'day'))
 
   useEffect(() => {
     document.body.style.backgroundColor = getTheme(theme).background().color

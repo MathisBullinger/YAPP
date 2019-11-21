@@ -1,6 +1,6 @@
 import './styles/master.scss'
-import { setOS } from '~/store/actions'
 import { store, initStore } from '~/store'
+import action from '~/store/actions'
 
 import * as Sentry from '@sentry/browser'
 Sentry.init({
@@ -27,5 +27,6 @@ import { register } from '~/systems'
     })
   }
 
-  if (navigator.platform.startsWith('Win')) store.dispatch(setOS('windows'))
+  if (navigator.platform.startsWith('Win'))
+    store.dispatch(action('SET_OS', 'windows'))
 })()

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from '~/utils/hooks'
 import { Icon, Button } from '~/components/atoms'
-import { subscribe, unsubscribe } from '~/store/actions'
+import action from '~/store/actions'
 
 interface Props {
   id: Podcast['itunesId']
@@ -19,7 +19,7 @@ export default function Subscribe({
   const subscribed = useSelector(state => state.subscriptions.includes(id))
 
   function toggleSubscribe() {
-    if (id) dispatch((subscribed ? unsubscribe : subscribe)(id))
+    if (id) dispatch(action(subscribed ? 'UNSUBSCRIBE' : 'SUBSCRIBE', id))
   }
 
   return (

@@ -4,10 +4,10 @@ import styled, { ThemeProvider } from 'styled-components'
 import { responsive } from '~/styles'
 import { Shownotes } from '~/components/molecules'
 import { useMatchMedia } from '~/utils/hooks'
-import { fetchEpisode } from '~/store/actions'
 import { send } from '~/systems'
 import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 import Controls from './Episode/Controls'
+import action from '~/store/actions'
 
 interface Props {
   id: string
@@ -20,7 +20,7 @@ export default function Episode(props: Props) {
   const episode =
     podcast && eId && podcast.episodes.find(({ id }) => id === `${pId} ${eId}`)
   const dispatch = useDispatch()
-  if (!episode._fetched && props.id) dispatch(fetchEpisode(props.id))
+  if (!episode._fetched && props.id) dispatch(action('FETCH_EPISODE', props.id))
   const [hidden, setHidden] = useState(true)
   const isDesktop = useMatchMedia(responsive.navOnSide)
   const player = useSelector(state => state.player)

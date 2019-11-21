@@ -1,108 +1,50 @@
-import * as a from './actionTypes'
+export type ActionType =
+  | 'SET_THEME'
+  | 'TOGGLE_DARK_MODE'
+  | 'TOGGLE_APPBAR'
+  | 'TOGGLE_APPBAR_HIDDEN'
+  | 'TOGGLE_PREFER_AMOLED'
+  | 'TOGGLE_DARK_AT_NIGHT'
+  | 'SET_DARK_AT_NIGHT'
+  | 'TOGGLE_DARK_USE_SYSTEM'
+  | 'MANUAL_DARK_MODE'
+  | 'SHOW_DARKMODE_TOGGLE'
+  | 'SET_APPBAR_TITLE'
+  | 'ADD_APPBAR_ACTION'
+  | 'RESET_APPBAR_ACTIONS'
+  | 'TOGGLE_HIDE_APPBAR_ON_SCROLL'
+  | 'TOGGLE_APPBAR_LOADING'
+  | 'TOGGLE_TOOLBAR'
+  | 'SET_TOOLBAR_TITLE'
+  | 'ADD_TOOLBAR_ACTION'
+  | 'RESET_TOOLBAR_ACTIONS'
+  | 'SEARCH_PODCAST'
+  | 'ADD_PODCAST'
+  | 'ADD_PODCASTS'
+  | 'ADD_EPISODE'
+  | 'ADD_SEARCH_RESULTS'
+  | 'TOGGLE_PODCAST_FETCHING'
+  | 'TOGGLE_PODCAST_SEARCHING'
+  | 'FETCH_PODCAST'
+  | 'FETCH_EPISODE'
+  | 'FETCH_LIBRARY'
+  | 'TOGGLE_PLAYER_VISIBLE'
+  | 'SET_PLAYER_STATE'
+  | 'SET_CURRENT_EPISODE'
+  | 'SET_PLAYER_LENGTH'
+  | 'SET_PLAYER_PROGRESS'
+  | 'SET_PLAYER_BUFFERED'
+  | 'SET_PLAYER_FETCHING'
+  | 'TOGGLE_USECOM_SHOW'
+  | 'SET_USECOM_TEXT'
+  | 'SET_USECOM_TYPE'
+  | 'SET_INTERACTION_METHOD'
+  | 'SUBSCRIBE'
+  | 'UNSUBSCRIBE'
+  | 'SET_OS'
 
-const action = (type: a.ActionType) => (): a.Base => ({ type })
-const toggleAction = (type: a.ActionType) => (
-  value?: boolean
-): a.ToggleAction => ({
+export default (type: ActionType, payload?: any) => ({
   type,
-  value,
-})
-const stringAction = (type: a.ActionType) => (
-  value: string
-): a.StringAction => ({ type, value })
-const stringsAction = (type: a.ActionType) => (
-  ...values: string[]
-): a.StringsAction => ({ type, values })
-const numberAction = (type: a.ActionType) => (
-  value: number
-): a.NumberAction => ({ type, value })
-export const setTheme = (theme: Themes): a.SetTheme => ({
-  type: 'SET_THEME',
-  theme,
-})
-
-export const toggleDarkMode = toggleAction('TOGGLE_DARK_MODE')
-export const toggleAppbar = toggleAction('TOGGLE_APPBAR')
-export const toggleAppbarHidden = toggleAction('TOGGLE_APPBAR_HIDDEN')
-export const togglePreferAmoled = toggleAction('TOGGLE_PREFER_AMOLED')
-export const toggleDarkAtNight = toggleAction('TOGGLE_DARK_AT_NIGHT')
-export const setDarkAtNight = toggleAction('SET_DARK_AT_NIGHT')
-export const toggleDarkUseSystem = toggleAction('TOGGLE_DARK_USE_SYSTEM')
-export const manualDarkmode = action('MANUAL_DARK_MODE')
-export const showDarkmodeToggle = toggleAction('SHOW_DARKMODE_TOGGLE')
-export const setAppbarTitle = stringAction('SET_APPBAR_TITLE')
-export const resetAppbarActions = action('RESET_APPBAR_ACTIONS')
-export const toggleAppbarLoading = toggleAction('TOGGLE_APPBAR_LOADING')
-export const toggleHideAppbarOnScroll = toggleAction(
-  'TOGGLE_HIDE_APPBAR_ON_SCROLL'
-)
-export const toggleToolbar = toggleAction('TOGGLE_TOOLBAR')
-export const setToolbarTitle = stringAction('SET_TOOLBAR_TITLE')
-export const addToolbarAction = stringAction('ADD_TOOLBAR_ACTION')
-export const resetToolbarActions = action('RESET_TOOLBAR_ACTIONS')
-export const searchPodcast = stringAction('SEARCH_PODCAST')
-export const togglePodcastFetching = toggleAction('TOGGLE_PODCAST_FETCHING')
-export const togglePodcastSearching = toggleAction('TOGGLE_PODCAST_SEARCHING')
-export const fetchEpisode = stringAction('FETCH_EPISODE')
-export const fetchLibrary = stringsAction('FETCH_LIBRARY')
-export const togglePlayerVisible = toggleAction('TOGGLE_PLAYER_VISIBLE')
-export const setCurrentEpisode = stringAction('SET_CURRENT_EPISODE')
-export const setPlayerLength = numberAction('SET_PLAYER_LENGTH')
-export const setPlayerProgress = numberAction('SET_PLAYER_PROGRESS')
-export const setPlayerBuffered = numberAction('SET_PLAYER_BUFFERED')
-export const setPlayerFetching = toggleAction('SET_PLAYER_FETCHING')
-export const toggleUsecomShow = toggleAction('TOGGLE_USECOM_SHOW')
-export const setInteractionMethod = stringAction('SET_INTERACTION_METHOD')
-export const subscribe = stringAction('SUBSCRIBE')
-export const unsubscribe = stringAction('UNSUBSCRIBE')
-export const setOS = stringAction('SET_OS')
-
-export const addAppbarAction = (
-  name: string,
-  align: 'left' | 'right'
-): a.AppbarAction => ({
-  type: 'ADD_APPBAR_ACTION',
-  name,
-  align,
-})
-
-export const addPodcast = (value: Podcast): a.PodcastAction => ({
-  type: 'ADD_PODCAST',
-  value,
-})
-
-export const addPodcasts = (values: Podcast[]): a.PodcastsAction => ({
-  type: 'ADD_PODCASTS',
-  values,
-})
-
-export const addEpisode = (
-  value: Partial<Episode>,
-  podId: string
-): a.EpisodeAction => ({
-  type: 'ADD_EPISODE',
-  value,
-  podId,
-})
-
-export const addSearchResults = (
-  search: string,
-  results: string[]
-): a.SearchResultAction => ({
-  type: 'ADD_SEARCH_RESULTS',
-  search,
-  results,
-})
-
-export const setPlayerState = (
-  value: State['player']['state']
-): a.PlayerStateAction => ({ type: 'SET_PLAYER_STATE', value })
-
-export const fetchPodcast = (
-  value: string,
-  metaOnly = false
-): a.FetchPodcastAction => ({
-  type: 'FETCH_PODCAST',
-  value,
-  metaOnly,
+  ...(payload !== undefined &&
+    (typeof payload === 'object' ? payload : { value: payload })),
 })

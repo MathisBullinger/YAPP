@@ -10,6 +10,7 @@ import Mobile from './podcast/Mobile'
 import Description from './podcast/Description'
 import Subscribe from './podcast/Subscribe'
 import { Title, Subtitle, Artwork, Progress } from '~/components/atoms'
+import action from '~/store/actions'
 
 interface RouteParams {
   id: string
@@ -27,10 +28,7 @@ function Podcast(props: Props) {
   const [vibrant, setVibrant] = useState(theme.primary(theme.variant).color)
 
   if (!fetching && (!podcast?._fetched || !('episodes' in podcast)))
-    dispatch({
-      type: 'FETCH_PODCAST',
-      value: props.match.params.id,
-    })
+    dispatch(action('FETCH_PODCAST', props.match.params.id))
 
   useEffect(() => {
     if (podcast?.colors?.length) {

@@ -1,6 +1,6 @@
 import { System } from '.'
 import { store } from '~/store'
-import { toggleUsecomShow } from '~/store/actions'
+import action from '~/store/actions'
 
 export default class UseCom implements System {
   public readonly name = 'usecom'
@@ -47,19 +47,13 @@ export default class UseCom implements System {
 
   private showMessage(msg: Message) {
     this.current = msg
-    store.dispatch({
-      type: 'SET_USECOM_TEXT',
-      value: msg.text,
-    })
-    store.dispatch({
-      type: 'SET_USECOM_TYPE',
-      value: msg.type,
-    })
-    store.dispatch(toggleUsecomShow(true))
+    store.dispatch(action('SET_USECOM_TEXT', msg.text))
+    store.dispatch(action('SET_USECOM_TYPE', msg.type))
+    store.dispatch(action('TOGGLE_USECOM_SHOW', true))
   }
 
   private hideMessage() {
-    store.dispatch(toggleUsecomShow(false))
+    store.dispatch(action('TOGGLE_USECOM_SHOW'), false)
     this.current = null
   }
 
