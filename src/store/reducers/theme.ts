@@ -1,15 +1,23 @@
 import { getToggleValue } from './utils'
 import defaultState from '../defaultState'
+import { assemble as a } from '~/store/actions'
 
 export default function theme(
   state = defaultState.theme,
-  action: any
+  action:
+    | a<'SET_THEME'>
+    | a<'TOGGLE_DARK_MODE'>
+    | a<'TOGGLE_PREFER_AMOLED'>
+    | a<'SET_DARK_AT_NIGHT'>
+    | a<'TOGGLE_DARK_USE_SYSTEM'>
+    | a<'MANUAL_DARK_MODE'>
+    | a<'SHOW_DARKMODE_TOGGLE'>
 ): State['theme'] {
   switch (action.type) {
     case 'SET_THEME':
       return {
         ...state,
-        current: action.theme,
+        current: action.value,
       }
     case 'TOGGLE_DARK_MODE':
       return {

@@ -1,8 +1,9 @@
 import defaultState from '../defaultState'
+import { assemble as a } from '~/store/actions'
 
 export default function subscriptions(
   state = defaultState.subscriptions,
-  action: any
+  action: a<'SUBSCRIBE'> | a<'UNSUBSCRIBE'>
 ) {
   switch (action.type) {
     case 'SUBSCRIBE':

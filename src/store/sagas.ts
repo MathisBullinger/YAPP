@@ -16,9 +16,9 @@ import {
   call,
   putResolve,
 } from 'redux-saga/effects'
-import a from '~/store/actions'
+import a, { assemble } from '~/store/actions'
 
-export function* searchPodcast(action: any) {
+export function* searchPodcast(action: assemble<'SEARCH_PODCAST'>) {
   yield put(a('TOGGLE_PODCAST_SEARCHING', true))
   const result = yield call(api.query, {
     query: SearchQuery,
@@ -52,7 +52,7 @@ export function* searchPodcast(action: any) {
   yield put(a('TOGGLE_PODCAST_SEARCHING', false))
 }
 
-export function* fetchPodcast(action: any) {
+export function* fetchPodcast(action: assemble<'FETCH_PODCAST'>) {
   yield put(a('TOGGLE_PODCAST_FETCHING', true))
   const result = yield call(api.query, {
     query: action.metaOnly ? FetchMetaQuery : FetchQuery,
@@ -63,7 +63,7 @@ export function* fetchPodcast(action: any) {
   yield put(a('TOGGLE_PODCAST_FETCHING', false))
 }
 
-export function* fetchLibrary(action: any) {
+export function* fetchLibrary(action: assemble<'FETCH_LIBRARY'>) {
   yield put(a('TOGGLE_PODCAST_FETCHING', true))
   const result = yield call(api.query, {
     query: FetchLibraryQuery,
@@ -74,7 +74,7 @@ export function* fetchLibrary(action: any) {
   yield put(a('TOGGLE_PODCAST_FETCHING', false))
 }
 
-export function* fetchEpisode(action: any) {
+export function* fetchEpisode(action: assemble<'FETCH_EPISODE'>) {
   const [pId, eId] = action.value.split(' ')
   if (!pId || !eId) return
   const result = yield call(api.query, {
@@ -95,7 +95,7 @@ export function* fetchEpisode(action: any) {
   )
 }
 
-export function* toggleDarkAtNight(action: any) {
+export function* toggleDarkAtNight(action: assemble<'TOGGLE_DARK_AT_NIGHT'>) {
   if (!action.value) return yield put(a('SET_DARK_AT_NIGHT', false))
   let hasPermission = false
   try {

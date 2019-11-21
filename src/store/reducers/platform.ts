@@ -1,8 +1,9 @@
 import defaultState from '../defaultState'
+import { assemble as a } from '~/store/actions'
 
 export default function platform(
   state = defaultState['platform'],
-  action: any
+  action: a<'SET_OS'> | a<'SET_INTERACTION_METHOD'>
 ) {
   switch (action.type) {
     case 'SET_OS':

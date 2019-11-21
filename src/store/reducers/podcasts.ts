@@ -1,9 +1,16 @@
 import { getToggleValue } from './utils'
 import defaultState from '../defaultState'
+import { assemble as a } from '~/store/actions'
 
 export default function(
   state = defaultState['podcasts'],
-  action: any
+  action:
+    | a<'ADD_PODCAST'>
+    | a<'ADD_PODCASTS'>
+    | a<'ADD_EPISODE'>
+    | a<'ADD_SEARCH_RESULTS'>
+    | a<'TOGGLE_PODCAST_FETCHING'>
+    | a<'TOGGLE_PODCAST_SEARCHING'>
 ): State['podcasts'] {
   switch (action.type) {
     case 'ADD_PODCAST': {

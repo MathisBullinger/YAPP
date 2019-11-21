@@ -1,9 +1,17 @@
 import { getToggleValue } from './utils'
 import defaultState from '../defaultState'
+import { assemble as a } from '~/store/actions'
 
 export default function player(
   state = defaultState['player'],
-  action: any
+  action:
+    | a<'TOGGLE_PLAYER_VISIBLE'>
+    | a<'SET_PLAYER_STATE'>
+    | a<'SET_CURRENT_EPISODE'>
+    | a<'SET_PLAYER_LENGTH'>
+    | a<'SET_PLAYER_PROGRESS'>
+    | a<'SET_PLAYER_BUFFERED'>
+    | a<'SET_PLAYER_FETCHING'>
 ): State['player'] {
   switch (action.type) {
     case 'TOGGLE_PLAYER_VISIBLE':
