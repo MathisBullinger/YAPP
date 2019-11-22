@@ -45,17 +45,20 @@ export interface Actions {
   SET_OS:                       { value: State['platform']['os'] }
 }
 
-export default function action<
+// Action creator. The type of the payload depends on the specified action.
+// If the action type has the form { value: ... } the value of the value property
+// may directly be passed as payload. If the action type is { value: boolean }, passing
+// a payload is optional.
+
+export default function<
   T extends keyof Actions,
   K extends Actions[T] extends { value: any } ? Actions[T]['value'] : never
->(type: T, ...[payload]: CondOpt<Actions[T], K>): assemble<T> {
+>(type: T, ...[payload]: CondOpt<Actions[T], K>) {
   return {
     type,
-    ...(payload === undefined
-      ? {}
-      : typeof payload === 'object' && !Array.isArray(payload)
+    ...((typeof (payload ?? {}) === 'object' && !Array.isArray(payload)
       ? payload
-      : { value: payload }),
+      : { value: payload }) as Actions[T]),
   } as assemble<T>
 }
 
