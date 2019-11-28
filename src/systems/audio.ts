@@ -1,4 +1,4 @@
-import { System } from '.'
+import { System, send } from '.'
 import StateManager from './audio/StateManager'
 import { store } from '~/store'
 import action from '~/store/actions'
@@ -59,7 +59,12 @@ export default class Audio implements System {
     store.dispatch(action('SET_PLAYER_PROGRESS', 0))
 
     this.audioEl.src = Audio.proxy + episode.file
-    await this.audioEl.play()
+    try {
+      await this.audioEl.play()
+    } catch (e) {
+      send('usecom', 'error', `playback error (${e})`)
+      throw e
+    }
   }
 
   public pause() {

@@ -10,6 +10,7 @@ export default class UseCom implements System {
     'request',
     'response',
     'warn',
+    'error',
   ]
   private msgQueue: Message[] = []
   private current: Message
@@ -25,6 +26,10 @@ export default class UseCom implements System {
 
   private warn(text: string) {
     this.pushMsg({ text, type: 'warn' })
+  }
+
+  private error(text: string) {
+    this.pushMsg({ text, type: 'error' })
   }
 
   private request(text: string) {

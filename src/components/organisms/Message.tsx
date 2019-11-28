@@ -105,6 +105,10 @@ const S = {
     &[data-type="warn"] {
       border: 0.2rem solid ${({ theme }) => theme.warning(theme.variant).color};
     }
+
+    &[data-type="error"] {
+      border: 0.2rem solid ${({ theme }) => theme.error(theme.variant).color};
+    }
   `,
 
   Responses: styled.div`

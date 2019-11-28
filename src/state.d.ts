@@ -39,7 +39,7 @@ interface State {
   useCom: {
     show: boolean
     text: string
-    type: 'info' | 'warn' | 'request'
+    type: 'info' | 'warn' | 'error' | 'request'
   }
   subscriptions: Podcast['itunesId'][]
   platform: {

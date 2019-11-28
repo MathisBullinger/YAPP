@@ -8,6 +8,10 @@ Sentry.init({
   environment: process.env.NODE_ENV,
 })
 
+Sentry.configureScope(scope => {
+  scope.setTag('commit', process.env.COMMIT)
+})
+
 import initUI from './Root'
 import './api'
 import UseCom from '~/systems/useCom'
