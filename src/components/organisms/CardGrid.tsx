@@ -21,7 +21,7 @@ const S = {
     ${queries}
 
     @media ${responsive.navOnSide} {
-      grid-gap: ${grid.buffer}px;
+      grid-gap: calc(${grid.buffer}px - 1rem);
     }
   `,
 }

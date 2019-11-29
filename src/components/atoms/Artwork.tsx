@@ -26,6 +26,7 @@ function Picture({ imgs, size, lazy }: Props) {
         url,
         media,
         type: i === 0 ? 'jpeg' : 'webp',
+        size,
       }))
     })
   } else pics.push({ url: imgs })

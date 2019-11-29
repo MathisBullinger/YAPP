@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Artwork, Text } from '~/components/atoms'
+import { shadow } from '~/styles'
 
 interface Props {
   podcast: Podcast
@@ -29,6 +30,8 @@ const S = {
     padding-bottom: 100%;
     cursor: pointer;
     overflow: hidden;
+    transition: all 0.15s ease;
+    margin: 0.5rem;
 
     @media (min-width: 600px) and (orientation: landscape) {
       background-color: ${({ theme }) =>
@@ -36,6 +39,16 @@ const S = {
           .on('')
           .substring(0, 7)}0a;
       border: none;
+      border-radius: 0.25rem;
+
+      &:hover {
+        box-shadow: ${shadow(1.5)};
+        transform: scale(1.05);
+
+        img {
+          filter: saturate(1.4);
+        }
+      }
     }
 
     * {
