@@ -1,5 +1,3 @@
-import State from './state'
-
 const defaultState: State = {
   theme: {
     current: 'light',
@@ -43,18 +41,10 @@ const defaultState: State = {
     text: '',
     type: 'info',
   },
-  interaction: {
-    method: 'unknown',
-    mousePos: {
-      x: 0,
-      y: 0,
-    },
-    scrollDir: null,
-    scrollPos: 0,
-  },
   subscriptions: [],
   platform: {
     os: null,
+    input: 'unknown',
   },
 }
 

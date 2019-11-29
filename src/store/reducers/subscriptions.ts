@@ -1,16 +1,24 @@
-import * as a from '../actionTypes'
-import { get } from '../persist'
+import { assemble as a } from '~/store/actions'
+import persist from '~/store/persist'
 
-export default function subscriptions(
-  state = get.subscriptions(),
-  action: a.Base
-) {
-  switch (action.type) {
-    case 'SUBSCRIBE':
-      return [...state, (action as a.StringAction).value]
-    case 'UNSUBSCRIBE':
-      return state.filter(id => id !== (action as a.StringAction).value)
-    default:
-      return state
-  }
-}
+export default Object.assign(
+  () =>
+    new Promise(resolve => {
+      persist.DB.get('subscriptions', 'ids').then(subscriptions =>
+        resolve(function(
+          state = subscriptions,
+          action: a<'SUBSCRIBE'> | a<'UNSUBSCRIBE'>
+        ) {
+          switch (action.type) {
+            case 'SUBSCRIBE':
+              return [...state, action.value]
+            case 'UNSUBSCRIBE':
+              return state.filter(id => id !== action.value)
+            default:
+              return state
+          }
+        })
+      )
+    }),
+  { setup: true }
+)

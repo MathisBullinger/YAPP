@@ -8,3 +8,4 @@ stats.json
 src/gqlTypes
 .vscode
 .eslintcache
+report.*.json

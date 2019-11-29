@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useSelector } from '~/utils/hooks'
 import { responsive, layout, timing } from '~/styles'
-import handleScroll, { scrollbar } from '~/utils/scroll'
-import State from '~/store/state'
+import { handleScroll, scrollbar } from '~/utils/interaction'
 
 const Page: React.FunctionComponent = props => {
-  const player = useSelector((state: State) => state.player.visible)
-  const appbar = useSelector((state: State) => state.appbar.visible)
-  const toolbar = useSelector((state: State) => state.toolbar.visible)
-  const abHidden = useSelector((state: State) => state.appbar.hidden)
-  const os = useSelector((state: State) => state.platform.os)
+  const player = useSelector(state => state.player.visible)
+  const appbar = useSelector(state => state.appbar.visible)
+  const toolbar = useSelector(state => state.toolbar.visible)
+  const abHidden = useSelector(state => state.appbar.hidden)
+  const os = useSelector(state => state.platform.os)
   const [scrollbarState, setScrollbarState] = useState()
 
   useEffect(() => {

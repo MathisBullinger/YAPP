@@ -1,11 +1,17 @@
-import * as a from '../actionTypes'
-import State from '../state'
 import { getToggleValue } from './utils'
 import defaultState from '../defaultState'
+import { assemble as a } from '~/store/actions'
 
 export default function appbar(
   state = defaultState['appbar'],
-  action: a.Base
+  action:
+    | a<'TOGGLE_APPBAR'>
+    | a<'TOGGLE_APPBAR_HIDDEN'>
+    | a<'SET_APPBAR_TITLE'>
+    | a<'ADD_APPBAR_ACTION'>
+    | a<'RESET_APPBAR_ACTIONS'>
+    | a<'TOGGLE_APPBAR_LOADING'>
+    | a<'TOGGLE_HIDE_APPBAR_ON_SCROLL'>
 ): State['appbar'] {
   switch (action.type) {
     case 'TOGGLE_APPBAR':
@@ -21,7 +27,7 @@ export default function appbar(
     case 'SET_APPBAR_TITLE':
       return {
         ...state,
-        title: (action as a.StringAction).value,
+        title: action.value,
       }
     case 'ADD_APPBAR_ACTION':
       return {
@@ -29,8 +35,8 @@ export default function appbar(
         ...{
           actions: [
             {
-              name: (action as a.AppbarAction).name,
-              align: (action as a.AppbarAction).align,
+              name: action.name,
+              align: action.align,
             },
           ],
         },

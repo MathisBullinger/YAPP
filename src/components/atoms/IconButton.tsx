@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from 'react'
 import styled from 'styled-components'
-import { Icon } from '.'
+import Icon from '~/components/atoms/Icon'
 
 interface Props {
   icon: string

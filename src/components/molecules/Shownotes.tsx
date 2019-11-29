@@ -1,7 +1,6 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector } from '~/utils/hooks'
 import { Dynamic, Spinner } from '~/components/atoms'
-import State from '~/store/state'
 import styled from 'styled-components'
 import { responsive } from '~/styles'
 
@@ -12,7 +11,7 @@ interface Props {
 export default function Shownotes({ episodeId }: Props) {
   const [pId, eId] = (episodeId || '').split(' ')
   const episode = useSelector(
-    (state: State) =>
+    state =>
       pId &&
       state.podcasts.byId[pId].episodes.find(({ id }) => id === `${pId} ${eId}`)
   )

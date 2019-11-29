@@ -2,9 +2,9 @@ import React, { useState, useRef, SyntheticEvent, useEffect } from 'react'
 import styled from 'styled-components'
 import { Input, Spinner } from '~/components/atoms'
 import MiniResult from './search/MiniResult'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import State from '~/store/state'
+import { useDispatch } from '~/utils/hooks'
+import { useSelector } from '~/utils/hooks'
+import action from '~/store/actions'
 
 export default function Search() {
   const [active, setActive] = useState(false)
@@ -12,7 +12,7 @@ export default function Search() {
   const inputRef = useRef(null)
   const [searchStr, setSearchStr] = useState('')
   const dispatch = useDispatch()
-  const podData = useSelector((state: State) => state.podcasts)
+  const podData = useSelector(state => state.podcasts)
   const [mouseDown, setMouseDown] = useState(false)
 
   let mouseBlock = mouseDown
@@ -39,10 +39,7 @@ export default function Search() {
   function search(e: SyntheticEvent) {
     e.preventDefault()
     setSearchStr(value)
-    dispatch({
-      type: 'SEARCH_PODCAST',
-      value: value,
-    })
+    dispatch(action('SEARCH_PODCAST', value))
   }
 
   function toggleActive(v: boolean = !active) {

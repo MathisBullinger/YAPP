@@ -1,14 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { layout, responsive, shadow, timing } from '~/styles'
-import { useSelector } from 'react-redux'
-import State from '~/store/state'
+import { useSelector } from '~/utils/hooks'
 import { Text, Button, IconButton } from '~/components/atoms'
 import { send } from '~/systems'
 
 export default function Message() {
-  const player = useSelector((state: State) => state.player.visible)
-  const state = useSelector((state: State) => state.useCom)
+  const player = useSelector(state => state.player.visible)
+  const state = useSelector(state => state.useCom)
   if (!state.show) return null
   return (
     <S.Message
@@ -105,6 +104,10 @@ const S = {
 
     &[data-type="warn"] {
       border: 0.2rem solid ${({ theme }) => theme.warning(theme.variant).color};
+    }
+
+    &[data-type="error"] {
+      border: 0.2rem solid ${({ theme }) => theme.error(theme.variant).color};
     }
   `,
 

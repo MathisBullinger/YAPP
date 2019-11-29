@@ -1,5 +1,8 @@
 import React from 'react'
-import { Text, Title, Subtitle, Link } from '~/components/atoms'
+import Text from '~/components/atoms/Text'
+import Title from '~/components/atoms/Title'
+import Subtitle from '~/components/atoms/Subtitle'
+import Link from '~/components/atoms/Link'
 import styled from 'styled-components'
 import parse from 'html-react-parser'
 

@@ -1,4 +1,5 @@
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const CircularDependencyPlugin = require('circular-dependency-plugin')
 
 module.exports = {
   mode: 'development',
@@ -10,5 +11,14 @@ module.exports = {
     historyApiFallback: true,
     overlay: true,
   },
-  plugins: [new ForkTsCheckerWebpackPlugin({ eslint: true })],
+  plugins: [
+    new ForkTsCheckerWebpackPlugin({ eslint: true }),
+    new CircularDependencyPlugin({
+      exclude: /a\.js|node_modules/,
+      include: /src/,
+      failOnError: true,
+      allowAsyncCycles: false,
+      cwd: process.cwd(),
+    }),
+  ],
 }

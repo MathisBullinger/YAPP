@@ -1,33 +1,29 @@
 import React, { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import styled from 'styled-components'
 import Podcast from './library/Podcast'
 import { CardGrid } from '~/components/organisms'
 import { responsive } from '~/styles'
-import { send } from '~/systems'
-import State from '~/store/state'
-import { fetchLibrary } from '~/store/actions'
 import { useMatchMedia } from '~/utils/hooks'
 import steps from './library/steps'
 // @ts-ignore
 import { useHistory } from 'react-router-dom'
+import action from '~/store/actions'
 
 function Library() {
   const dispatch = useDispatch()
-  const sub = useSelector((state: State) => state.subscriptions)
+  const sub = useSelector(state => state.subscriptions)
   const subscriptions = sub.length > 0 ? sub : new Array(50).fill('')
-  const podcasts = useSelector((state: State) => state.podcasts.byId)
+  const podcasts = useSelector(state => state.podcasts.byId)
   const ref = useRef(null)
   const history = useHistory()
 
   useEffect(() => {
-    send('interaction', 'startListenMousePos')
     const fetchIds = subscriptions.filter(id => id && !(id in podcasts))
-    if (fetchIds.length) dispatch(fetchLibrary(...fetchIds))
-    return () => send('interaction', 'stopListenMousePos')
-  })
+    if (fetchIds.length) dispatch(action('FETCH_LIBRARY', { values: fetchIds }))
+  }, [subscriptions, podcasts, dispatch])
 
-  const method = useSelector((state: State) => state.interaction.method)
+  const method = useSelector(state => state.platform.input)
   const navOnSide = useMatchMedia(responsive.navOnSide)
 
   function open(itunesId: string) {

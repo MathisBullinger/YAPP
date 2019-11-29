@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import Mask from './Mask'
-import State, { Podcast as Pod } from '~/store/state'
 import { Artwork, Text } from '~/components/atoms'
 
 interface Props {
-  podcast: Pod
-  method: State['interaction']['method']
+  podcast: Podcast
+  method: State['platform']['input']
   isSpaced: boolean
   steps: { size: string; query?: string }[]
   onClick(id: string): void
@@ -17,7 +15,6 @@ export default function Podcast(props: Props) {
   return (
     <S.Podcast onClick={() => props.onClick(props.podcast?.itunesId)}>
       {img.length > 0 && <Artwork lazy imgs={img} size={props.steps} />}
-      {props.method === 'mouse' && props.isSpaced && <Mask />}
       {img.length === 0 && props.podcast && (
         <Text emp="disabled">{props.podcast.name}</Text>
       )}
