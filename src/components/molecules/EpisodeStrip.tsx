@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text } from '~/components/atoms'
-import { InlinePlayButton } from '.'
+import InlinePlayButton from '~/components/molecules/InlinePlayButton'
 import { responsive } from '~/styles'
 import { useSelector } from '~/utils/hooks'
 import { send } from '~/systems'

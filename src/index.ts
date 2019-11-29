@@ -3,6 +3,9 @@ import { store, initStore } from '~/store'
 import action from '~/store/actions'
 
 import * as Sentry from '@sentry/browser'
+
+performance.mark('app start')
+
 Sentry.init({
   dsn: 'https://f253732d670843f0b08015c64bb7587f@sentry.io/1500732',
   environment: process.env.NODE_ENV,
@@ -17,7 +20,9 @@ import './api'
 import UseCom from '~/systems/useCom'
 import { register } from '~/systems'
 ;(async () => {
+  performance.mark('store')
   await initStore()
+  console.log(`store in ${performance.measure('store')['duration'] | 0} ms`)
 
   initUI()
   register(new UseCom())
@@ -33,4 +38,6 @@ import { register } from '~/systems'
 
   if (navigator.platform.startsWith('Win'))
     store.dispatch(action('SET_OS', 'windows'))
+
+  console.log(`setup in ${performance.measure('app start')['duration'] | 0} ms`)
 })()
