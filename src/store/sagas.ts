@@ -15,8 +15,10 @@ import {
   put,
   call,
   putResolve,
+  select,
 } from 'redux-saga/effects'
 import a, { assemble } from '~/store/actions'
+import persist from '~/store/persist'
 
 export function* searchPodcast(action: assemble<'SEARCH_PODCAST'>) {
   yield put(a('TOGGLE_PODCAST_SEARCHING', true))
@@ -141,6 +143,23 @@ export function* toggleDarkAtNight(action: assemble<'TOGGLE_DARK_AT_NIGHT'>) {
   yield put(a('SET_DARK_AT_NIGHT', true))
 }
 
+export function* persistSubscriptions() {
+  const subscriptions = yield select((state: State) => state.subscriptions)
+  yield call(async () => persist.DB.put('subscriptions', subscriptions, 'ids'))
+}
+
+export function* persistTheme() {
+  const theme = yield select((state: State) => state.theme)
+  const dbTheme = yield Promise.all(
+    Object.keys(theme).map(k => persist.DB.get('theme', k).then(v => [k, v]))
+  ).then(Object.fromEntries)
+  yield Promise.all(
+    Object.entries(theme).flatMap(([k, v]) =>
+      v === dbTheme[k] ? [] : [persist.DB.put('theme', v as any, k)]
+    )
+  )
+}
+
 const mapPodcast = (data: FetchPodcast['podcast']) => ({
   itunesId: data.itunesId,
   name: data.name,
@@ -170,4 +189,16 @@ export default function*() {
   yield takeLatest('FETCH_LIBRARY', fetchLibrary)
   yield takeEvery('FETCH_EPISODE', fetchEpisode)
   yield takeEvery('TOGGLE_DARK_AT_NIGHT', toggleDarkAtNight)
+  yield takeLatest(['SUBSCRIBE', 'UNSUBSCRIBE'], persistSubscriptions)
+  yield takeLatest(
+    [
+      'SET_THEME',
+      'TOGGLE_DARK_MODE',
+      'TOGGLE_PREFER_AMOLED',
+      'SET_DARK_AT_NIGHT',
+      'TOGGLE_DARK_USE_SYSTEM',
+      'SHOW_DARKMODE_TOGGLE',
+    ],
+    persistTheme
+  )
 }

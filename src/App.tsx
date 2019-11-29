@@ -18,7 +18,9 @@ import {
 
 export default function App() {
   const theme = useSelector(state => state.theme.current)
-  const useSystemDark = useSelector(state => state.theme.useSystem)
+  const useSystemDark = useSelector(
+    state => state.theme.useSystem && !state.theme.manualOverride
+  )
   const useGeoDark = useSelector(state => state.theme.darkAtNight)
   const toolbarAllowed = useMatchMedia(responsive.toolbarVisible)
   const toolbarRequested = useSelector(state => state.toolbar.visible)
