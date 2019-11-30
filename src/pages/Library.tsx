@@ -91,7 +91,6 @@ const S = {
   Library: styled.div`
     display: grid;
     margin: -2rem;
-    overflow: auto;
 
     @media ${responsive.navOnSide} {
       margin: initial;

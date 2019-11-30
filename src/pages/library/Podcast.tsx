@@ -23,13 +23,11 @@ const S = {
     display: block;
     cursor: pointer;
     overflow: hidden;
-    transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
     width: ${props => props['data-size']}px;
     height: ${props => props['data-size']}px;
 
     @media ${responsive.navOnSide} {
-      margin: 0.25rem;
-
       background-color: ${({ theme }) =>
         theme[theme.topic](theme.variant)
           .on('')

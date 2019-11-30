@@ -44,8 +44,8 @@ const S = {
   Page: styled.div`
     position: relative;
     padding: ${layout.page.padding};
-    overflow-x: auto;
     z-index: 1;
+    overflow-y: auto;
 
     --buffer-left: 0px;
     --buffer-top: 0px;
