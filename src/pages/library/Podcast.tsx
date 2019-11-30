@@ -1,24 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Artwork, Text } from '~/components/atoms'
-import { shadow } from '~/styles'
+import { shadow, responsive } from '~/styles'
+import Picture from './Picture'
 
 interface Props {
   podcast: Podcast
-  method: State['platform']['input']
-  isSpaced: boolean
-  steps: { size: string; query?: string }[]
   onClick(id: string): void
+  size: number
 }
 
-export default function Podcast(props: Props) {
-  const img = props.podcast ? props.podcast.artworks : []
+export default function Podcast({ podcast, onClick, size }: Props) {
   return (
-    <S.Podcast onClick={() => props.onClick(props.podcast?.itunesId)}>
-      {img.length > 0 && <Artwork lazy imgs={img} size={props.steps} />}
-      {img.length === 0 && props.podcast && (
-        <Text emp="disabled">{props.podcast.name}</Text>
-      )}
+    <S.Podcast onClick={() => onClick(podcast?.itunesId)} data-size={size}>
+      <Picture imgs={podcast?.artworks} size={size} alt={podcast?.name} />
     </S.Podcast>
   )
 }
@@ -27,19 +21,22 @@ const S = {
   Podcast: styled.div`
     position: relative;
     display: block;
-    padding-bottom: 100%;
     cursor: pointer;
     overflow: hidden;
-    transition: all 0.15s ease;
-    margin: 0.5rem;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+    width: ${props => props['data-size']}px;
+    height: ${props => props['data-size']}px;
 
-    @media (min-width: 600px) and (orientation: landscape) {
+    @media ${responsive.navOnSide} {
+      margin: 0.25rem;
+
       background-color: ${({ theme }) =>
         theme[theme.topic](theme.variant)
           .on('')
           .substring(0, 7)}0a;
       border: none;
       border-radius: 0.25rem;
+      box-shadow: ${shadow(0.5)};
 
       &:hover {
         box-shadow: ${shadow(1.5)};

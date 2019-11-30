@@ -1,62 +1,91 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from '~/utils/hooks'
 import styled from 'styled-components'
 import Podcast from './library/Podcast'
 import { CardGrid } from '~/components/organisms'
-import { responsive } from '~/styles'
-import { useMatchMedia } from '~/utils/hooks'
-import steps from './library/steps'
+import { responsive, layout } from '~/styles'
 // @ts-ignore
 import { useHistory } from 'react-router-dom'
 import action from '~/store/actions'
+import { sameValues } from '~/utils/array'
+import { useWindowWidth, useMatchMedia } from '~/utils/hooks'
+import { values } from '~/styles/responsive'
+import * as grid from '~/styles/cardGrid'
+import { css } from '~/utils'
 
-function Library() {
+const gridSteps = grid.steps.map(([min, max]) => [min || 0, max || Infinity])
+
+interface Props {
+  subs: string[]
+  pods: State['podcasts']['byId']
+}
+
+function Library({ subs, pods }: Props) {
   const dispatch = useDispatch()
-  const sub = useSelector(state => state.subscriptions)
-  const subscriptions = sub.length > 0 ? sub : new Array(50).fill('')
-  const podcasts = useSelector(state => state.podcasts.byId)
-  const ref = useRef(null)
   const history = useHistory()
+  const tileSize = useTileSize()
 
   useEffect(() => {
-    const fetchIds = subscriptions.filter(id => id && !(id in podcasts))
-    if (fetchIds.length) dispatch(action('FETCH_LIBRARY', { values: fetchIds }))
-  }, [subscriptions, podcasts, dispatch])
+    const fetchIds = subs.length && subs.filter(id => !(id in pods))
+    if (fetchIds && fetchIds.length) {
+      dispatch(action('FETCH_LIBRARY', { values: fetchIds }))
+    }
+  }, [subs, pods, dispatch])
 
-  const method = useSelector(state => state.platform.input)
-  const navOnSide = useMatchMedia(responsive.navOnSide)
-
-  function open(itunesId: string) {
-    if (itunesId) history.push(`/podcast/${itunesId}`)
+  function open(id: String) {
+    if (id) history.push(`/podcast/${id}`)
   }
 
   return (
-    <S.Library ref={ref}>
-      {steps.length > 0 && (
-        <CardGrid>
-          {subscriptions.map((id, i) => (
-            <Podcast
-              key={i}
-              isSpaced={navOnSide}
-              method={method}
-              podcast={podcasts[id]}
-              steps={steps}
-              onClick={open}
-            />
-          ))}
-        </CardGrid>
-      )}
+    <S.Library>
+      <CardGrid>
+        {subs.map(id => (
+          <Podcast key={id} podcast={pods[id]} onClick={open} size={tileSize} />
+        ))}
+      </CardGrid>
     </S.Library>
   )
 }
 
-export default Object.assign(Library, {
-  pageConf: {
-    showAppbar: true,
-    appbarTitle: 'Library',
-    hideAppbarOnScroll: true,
+const LibraryMemo = React.memo(
+  Library,
+  ({ subs: subOld, pods: podOld }, { subs: subNew, pods: podNew }) =>
+    sameValues(subOld, subNew) &&
+    sameValues(Object.keys(podOld), Object.keys(podNew))
+)
+
+export default Object.assign(
+  () => {
+    const subs = useSelector(state => state.subscriptions)
+    const pods = useSelector(state => state.podcasts)
+    return <LibraryMemo subs={subs} pods={pods.byId} />
   },
-})
+  {
+    pageConf: {
+      showAppbar: true,
+      appbarTitle: 'Library',
+      hideAppbarOnScroll: true,
+    },
+  }
+)
+
+function useTileSize() {
+  const ww = useWindowWidth()
+  const portrait = useMatchMedia('(orientation: portrait)')
+  const navWidth = portrait
+    ? 0
+    : css.parseSize(
+        ww <= values.navCollapsed.max
+          ? layout.desktop.navWidthCollapsed
+          : layout.desktop.navWidth
+      )
+  const buffer = portrait ? 0 : grid.buffer
+  const gridWidth =
+    ww - navWidth - (portrait ? 0 : 2 * css.parseSize(layout.page.padding))
+  const steps =
+    gridSteps.findIndex(([min, max]) => ww >= min && ww <= max) + grid.minCards
+  return (gridWidth - (steps - 1) * buffer) / steps
+}
 
 const S = {
   Library: styled.div`

@@ -43,7 +43,7 @@ const scrollbarWidth = 5
 const S = {
   Page: styled.div`
     position: relative;
-    padding: 2rem;
+    padding: ${layout.page.padding};
     overflow-x: auto;
     z-index: 1;
 

@@ -13,7 +13,7 @@ export default function(
     | a<'TOGGLE_PODCAST_SEARCHING'>
 ): State['podcasts'] {
   switch (action.type) {
-    case 'ADD_PODCAST': {
+    case 'ADD_PODCAST':
       return {
         ...state,
         byId: {
@@ -21,7 +21,6 @@ export default function(
           [action.value.itunesId]: action.value,
         },
       }
-    }
     case 'ADD_PODCASTS':
       return {
         ...state,
