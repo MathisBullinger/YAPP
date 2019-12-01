@@ -7,12 +7,26 @@ interface Props {
   podcast: Podcast
   onClick(id: string): void
   size: number
+  onImgLoaded?: (id: string) => void
+  preLoad: boolean
 }
 
-export default function Podcast({ podcast, onClick, size }: Props) {
+export default function Podcast({
+  podcast,
+  onClick,
+  size,
+  onImgLoaded,
+  preLoad,
+}: Props) {
   return (
     <S.Podcast onClick={() => onClick(podcast?.itunesId)} data-size={size}>
-      <Picture imgs={podcast?.artworks} size={size} alt={podcast?.name} />
+      <Picture
+        imgs={podcast?.artworks}
+        size={size}
+        alt={podcast?.name}
+        onLoaded={() => onImgLoaded && onImgLoaded(podcast.itunesId)}
+        lazy={!preLoad}
+      />
     </S.Podcast>
   )
 }

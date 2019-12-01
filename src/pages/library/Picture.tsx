@@ -5,9 +5,11 @@ interface Props {
   imgs: Artwork[]
   size: Number
   alt: string
+  onLoaded?: () => void
+  lazy: boolean
 }
 
-function Picture({ imgs, size, alt }: Props) {
+function Picture({ imgs, size, alt, onLoaded, lazy }: Props) {
   if (!(imgs && imgs.length)) return null
 
   const sizes = imgs
@@ -41,7 +43,8 @@ function Picture({ imgs, size, alt }: Props) {
         width={`${size}`}
         height={`${size}`}
         // @ts-ignore
-        loading="lazy"
+        loading={lazy ? 'lazy' : 'eager'}
+        onLoad={onLoaded}
       />
     </S.Picture>
   )

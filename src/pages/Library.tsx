@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from '~/utils/hooks'
 import styled from 'styled-components'
 import Podcast from './library/Podcast'
@@ -24,6 +24,7 @@ function Library({ subs, pods }: Props) {
   const dispatch = useDispatch()
   const history = useHistory()
   const tileSize = useTileSize()
+  const [imgLoaded, setImgLoaded] = useState([])
 
   useEffect(() => {
     const fetchIds = subs.length && subs.filter(id => !(id in pods))
@@ -32,15 +33,37 @@ function Library({ subs, pods }: Props) {
     }
   }, [subs, pods, dispatch])
 
-  function open(id: String) {
+  useEffect(() => {
+    if (!subs || !subs.length) return
+    setImgLoaded(subs.map(id => imgLoaded[id] ?? false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subs])
+
+  function open(id: string) {
     if (id) history.push(`/podcast/${id}`)
   }
+
+  function onImgLoaded(id: string) {
+    setImgLoaded(
+      Object.assign([], imgLoaded, {
+        [subs.findIndex(sub => sub === id)]: true,
+      })
+    )
+  }
+  const loadedUpTo = imgLoaded.findIndex(v => !v) - 1
 
   return (
     <S.Library>
       <CardGrid>
-        {subs.map(id => (
-          <Podcast key={id} podcast={pods[id]} onClick={open} size={tileSize} />
+        {subs.map((id, i) => (
+          <Podcast
+            key={id}
+            podcast={pods[id]}
+            onClick={open}
+            size={tileSize}
+            onImgLoaded={onImgLoaded}
+            preLoad={i === loadedUpTo + 1}
+          />
         ))}
       </CardGrid>
     </S.Library>
