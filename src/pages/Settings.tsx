@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { responsive } from '~/styles'
+import { responsive, shadow } from '~/styles'
 import { Text } from '~/components/atoms'
 import { StackedList } from '~/components/molecules'
 import Item from './settings/Item'
@@ -8,6 +8,7 @@ import SwitchItem from './settings/SwitchItem'
 import { useSelector, useDispatch } from '~/utils/hooks'
 import { useMatchMedia } from '~/utils/hooks'
 import action from '~/store/actions'
+import importOpml from '~/utils/opml'
 
 function Settings() {
   const theme = useSelector(state => state.theme)
@@ -72,6 +73,22 @@ function Settings() {
             ],
           },
           {
+            title: 'Import',
+            items: [
+              <Item
+                text="import OPML"
+                action={
+                  <S.FileInput
+                    type="file"
+                    accept=".xml"
+                    onChange={e => void importOpml(e.target.files[0])}
+                  />
+                }
+                key="opml"
+              />,
+            ],
+          },
+          {
             title: 'Playback',
             items: Array(20)
               .fill(0)
@@ -111,6 +128,25 @@ const S = {
     @media ${responsive.navOnSide} {
       padding-left: 2rem;
       padding-right: 2rem;
+    }
+  `,
+
+  FileInput: styled.input`
+    color: ${({ theme }) => theme[theme.topic](theme.variant).on('medium')};
+    -webkit-appearance: none;
+    text-align: left;
+    -webkit-rtl-ordering: left;
+
+    &::-webkit-file-upload-button {
+      -webkit-appearance: none;
+      float: right;
+      margin: 0 0 0 10px;
+      border-radius: 4px;
+
+      background-color: ${({ theme }) =>
+        theme[theme.topic](theme.variant).on('high')};
+      color: ${({ theme }) => theme[theme.topic](theme.variant).color};
+      box-shadow: ${shadow(0.5)};
     }
   `,
 }

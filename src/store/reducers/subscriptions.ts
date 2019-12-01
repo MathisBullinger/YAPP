@@ -11,7 +11,9 @@ export default Object.assign(
         ) {
           switch (action.type) {
             case 'SUBSCRIBE':
-              return [...state, action.value]
+              return state.includes(action.value)
+                ? state
+                : [...state, action.value]
             case 'UNSUBSCRIBE':
               return state.filter(id => id !== action.value)
             default:
