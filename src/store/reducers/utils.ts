@@ -1,5 +1,6 @@
-import * as a from '../actionTypes'
-export const getToggleValue = (action: a.Base, state: boolean): boolean =>
-  (action as a.ToggleAction).value !== undefined
-    ? (action as a.ToggleAction).value
-    : !state
+import { Actions } from '../actions'
+
+export const getToggleValue = <T extends keyof Actions>(
+  action: { type: T; value: boolean },
+  state: boolean
+): boolean => (action.value !== undefined ? action.value : !state)

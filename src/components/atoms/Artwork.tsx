@@ -1,15 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Artwork as Img } from '~/store/state'
 import { css } from '~/utils'
 
 interface Props {
-  imgs: Img[]
+  imgs: Artwork[]
   size: string | { size: string; min?: string; max?: string; query?: string }[]
   lazy?: boolean
 }
 
-function Artwork({ imgs, size, lazy }: Props) {
+function Picture({ imgs, size, lazy }: Props) {
   let pics = []
   if (typeof imgs === 'object' && Object.entries(imgs).length) {
     const sizes = typeof size === 'string' ? [{ size }] : size
@@ -27,6 +26,7 @@ function Artwork({ imgs, size, lazy }: Props) {
         url,
         media,
         type: i === 0 ? 'jpeg' : 'webp',
+        size,
       }))
     })
   } else pics.push({ url: imgs })
@@ -60,8 +60,8 @@ function getOptimal(pxSize, imgs) {
     ({ size: imgSize }) => (size !== Infinity ? size : 'max') === imgSize
   )
   return [
-    selected.find(({ type }) => type !== 'webp'),
     selected.find(({ type }) => type === 'webp'),
+    selected.find(({ type }) => type !== 'webp'),
   ].map(img => img?.url)
 }
 
@@ -70,4 +70,4 @@ const S = {
     display: contents;
   `,
 }
-export default Object.assign(Artwork, { sc: S.Artwork })
+export default Object.assign(Picture, { sc: S.Artwork })

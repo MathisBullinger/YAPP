@@ -7,6 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 var GitRevisionPlugin = require('git-revision-webpack-plugin')
 const gitRevisionPlugin = new GitRevisionPlugin()
 const exec = require('child_process').execSync
+const WorkerPlugin = require('worker-plugin')
 
 module.exports = env => merge(baseConfig, require(`./webpack.${env}.js`))
 
@@ -20,6 +21,7 @@ const baseConfig = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
+    globalObject: "(typeof self!='undefined'?self:global)",
   },
   resolve: {
     alias: {
@@ -82,5 +84,6 @@ const baseConfig = {
         ),
       },
     }),
+    new WorkerPlugin(),
   ],
 }

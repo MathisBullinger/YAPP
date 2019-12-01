@@ -1,6 +1,4 @@
-import { Themes } from '~/styles/theme'
-
-export default interface State {
+interface State {
   theme: {
     current: Themes
     useAmoled: boolean
@@ -41,24 +39,16 @@ export default interface State {
   useCom: {
     show: boolean
     text: string
-    type: 'info' | 'warn' | 'request'
-  }
-  interaction: {
-    method: 'unknown' | 'mouse'
-    mousePos: {
-      x: number
-      y: number
-    }
-    scrollDir: 'up' | 'down'
-    scrollPos: number
+    type: 'info' | 'warn' | 'error' | 'request'
   }
   subscriptions: Podcast['itunesId'][]
   platform: {
     os: 'windows'
+    input: 'unknown' | 'mouse'
   }
 }
 
-export interface Podcast {
+interface Podcast {
   itunesId: string
   name: string
   creator: string
@@ -70,7 +60,7 @@ export interface Podcast {
   _fetched: boolean
 }
 
-export interface Episode {
+interface Episode {
   title: string
   file: string
   date: number
@@ -82,18 +72,20 @@ export interface Episode {
   _fetched: boolean
 }
 
-export interface Artwork {
+interface Artwork {
   size: number
   url: string
   type: string
 }
 
-export interface Color {
+interface Color {
   name: string
   value: string
 }
 
-export interface AppbarAction {
+interface AppbarAction {
   name: string
   align: 'left' | 'right'
 }
+
+type Themes = 'light' | 'dark' | 'black'

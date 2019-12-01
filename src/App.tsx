@@ -5,10 +5,8 @@ import { Page } from '~/components/templates'
 import Routes from './Routes'
 import getTheme from '~/styles/theme'
 import { responsive, timing } from '~/styles'
-import State from './store/state'
-import { useSelector, useDispatch } from 'react-redux'
-import { useMatchMedia } from '~/utils/hooks'
-import { toggleDarkMode } from '~/store/actions'
+import { useSelector, useDispatch, useMatchMedia } from '~/utils/hooks'
+import action from '~/store/actions'
 import sunCalc from 'suncalc'
 import {
   Mainnav,
@@ -19,18 +17,23 @@ import {
 } from '~/components/organisms'
 
 export default function App() {
-  const theme = useSelector((state: State) => state.theme.current)
-  const useSystemDark = useSelector((state: State) => state.theme.useSystem)
-  const useGeoDark = useSelector((state: State) => state.theme.darkAtNight)
+  const theme = useSelector(state => state.theme.current)
+  const useSystemDark = useSelector(
+    state => state.theme.useSystem && !state.theme.manualOverride
+  )
+  const useGeoDark = useSelector(state => state.theme.darkAtNight)
   const toolbarAllowed = useMatchMedia(responsive.toolbarVisible)
-  const toolbarRequested = useSelector((state: State) => state.toolbar.visible)
+  const toolbarRequested = useSelector(state => state.toolbar.visible)
   const darkPreferred = useMatchMedia('(prefers-color-scheme: dark)')
   const dispatch = useDispatch()
   const timeProm = useDayTime(useGeoDark)
   const [daytime, setDaytime] = useState('unknown')
 
-  if (useSystemDark && (theme !== 'light') !== darkPreferred)
-    dispatch(toggleDarkMode())
+  useEffect(() => {
+    if (!useSystemDark) return
+    if ((theme !== 'light') !== darkPreferred)
+      dispatch(action('TOGGLE_DARK_MODE', darkPreferred))
+  }, [useSystemDark, theme, darkPreferred, dispatch])
 
   timeProm.then(time => {
     if (time !== daytime) setDaytime(time)
@@ -40,7 +43,7 @@ export default function App() {
     daytime !== 'unknown' &&
     (daytime === 'day') !== (theme === 'light')
   )
-    dispatch(toggleDarkMode())
+    dispatch(action('TOGGLE_DARK_MODE', daytime !== 'day'))
 
   useEffect(() => {
     document.body.style.backgroundColor = getTheme(theme).background().color

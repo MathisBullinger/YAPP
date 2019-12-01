@@ -2,12 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { IconButton } from '~/components/atoms'
 import { layout } from '~/styles'
-import { useSelector } from 'react-redux'
-import State from '~/store/state'
+import { useSelector } from '~/utils/hooks'
 import { send } from '~/systems'
 
 export default function PlayButton() {
-  const playerState = useSelector((state: State) => state.player.state)
+  const playerState = useSelector(state => state.player.state)
   const playing = playerState === 'playing' || playerState === 'waiting'
 
   return (

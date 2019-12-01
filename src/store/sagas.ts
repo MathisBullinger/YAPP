@@ -1,9 +1,3 @@
-import {
-  StringAction,
-  ToggleAction,
-  FetchPodcastAction,
-  StringsAction,
-} from './actionTypes'
 import api from '~/api'
 import SearchQuery from '~/gql/SearchPodcast.gql'
 import FetchQuery from '~/gql/FetchPodcast.gql'
@@ -21,70 +15,68 @@ import {
   put,
   call,
   putResolve,
+  select,
 } from 'redux-saga/effects'
-import {
-  addPodcast,
-  addPodcasts,
-  addSearchResults,
-  togglePodcastFetching,
-  togglePodcastSearching,
-  addEpisode,
-  setDarkAtNight,
-} from './actions'
+import a, { assemble } from '~/store/actions'
+import persist from '~/store/persist'
 
-export function* searchPodcast(action: StringAction) {
-  yield put(togglePodcastSearching(true))
+export function* searchPodcast(action: assemble<'SEARCH_PODCAST'>) {
+  yield put(a('TOGGLE_PODCAST_SEARCHING', true))
   const result = yield call(api.query, {
     query: SearchQuery,
     variables: { name: action.value },
   })
   for (const podcast of (result.data as SearchPodcast).search) {
     yield put(
-      addPodcast({
-        itunesId: podcast.itunesId,
-        name: podcast.name,
-        creator: podcast.creator,
-        feed: '',
-        description: '',
-        artworks: podcast.artworks,
-        colors: [],
-        episodes: null,
-        _fetched: false,
+      a('ADD_PODCAST', {
+        value: {
+          itunesId: podcast.itunesId,
+          name: podcast.name,
+          creator: podcast.creator,
+          feed: '',
+          description: '',
+          artworks: podcast.artworks,
+          colors: [],
+          episodes: null,
+          _fetched: false,
+        },
       })
     )
   }
   yield put(
-    addSearchResults(
-      action.value,
-      (result.data as SearchPodcast).search.map(podcast => podcast.itunesId)
-    )
+    a('ADD_SEARCH_RESULTS', {
+      search: action.value,
+      results: (result.data as SearchPodcast).search.map(
+        podcast => podcast.itunesId
+      ),
+    })
   )
-  yield put(togglePodcastSearching(false))
+  yield put(a('TOGGLE_PODCAST_SEARCHING', false))
 }
 
-export function* fetchPodcast(action: FetchPodcastAction) {
-  yield put(togglePodcastFetching(true))
+export function* fetchPodcast(action: assemble<'FETCH_PODCAST'>) {
+  yield put(a('TOGGLE_PODCAST_FETCHING', true))
   const result = yield call(api.query, {
     query: action.metaOnly ? FetchMetaQuery : FetchQuery,
     variables: { id: action.value },
   })
   const podcast = (result.data as FetchPodcast).podcast
-  yield putResolve(addPodcast(mapPodcast(podcast)))
-  yield put(togglePodcastFetching(false))
+  yield putResolve(a('ADD_PODCAST', { value: mapPodcast(podcast) }))
+  yield put(a('TOGGLE_PODCAST_FETCHING', false))
 }
 
-export function* fetchLibrary(action: StringsAction) {
-  yield put(togglePodcastFetching(true))
+export function* fetchLibrary(action: assemble<'FETCH_LIBRARY'>) {
+  yield put(a('TOGGLE_PODCAST_FETCHING', true))
   const result = yield call(api.query, {
     query: FetchLibraryQuery,
     variables: { ids: action.values },
   })
   const podcasts = (result.data as FetchLibrary).podcasts
-  yield putResolve(addPodcasts(podcasts.map(mapPodcast)))
-  yield put(togglePodcastFetching(false))
+  yield put(a('ADD_PODCASTS', { values: podcasts.map(mapPodcast) }))
+  yield put(a('TOGGLE_PODCAST_FETCHING', false))
 }
 
-export function* fetchEpisode(action: StringAction) {
+export function* fetchEpisode(action: assemble<'FETCH_EPISODE'>) {
   const [pId, eId] = action.value.split(' ')
   if (!pId || !eId) return
   const result = yield call(api.query, {
@@ -93,20 +85,20 @@ export function* fetchEpisode(action: StringAction) {
   })
   const episode = (result.data as FetchEpisode).episode
   yield putResolve(
-    addEpisode(
-      {
+    a('ADD_EPISODE', {
+      value: {
         ...episode,
         ...(episode.date && { date: parseInt(episode.date, 10) }),
         id: `${pId} ${episode.id}`,
         _fetched: true,
       },
-      pId
-    )
+      podId: pId,
+    })
   )
 }
 
-export function* toggleDarkAtNight(action: ToggleAction) {
-  if (!action.value) return yield put(setDarkAtNight(false))
+export function* toggleDarkAtNight(action: assemble<'TOGGLE_DARK_AT_NIGHT'>) {
+  if (!action.value) return yield put(a('SET_DARK_AT_NIGHT', false))
   let hasPermission = false
   try {
     const result = yield call(v => navigator.permissions.query(v), {
@@ -121,7 +113,7 @@ export function* toggleDarkAtNight(action: ToggleAction) {
 
     hasPermission = result.state === 'granted'
   } catch (e) {}
-  if (hasPermission) return yield put(setDarkAtNight(true))
+  if (hasPermission) return yield put(a('SET_DARK_AT_NIGHT', true))
 
   const allow = yield call(
     send,
@@ -148,7 +140,24 @@ export function* toggleDarkAtNight(action: ToggleAction) {
       'Access to your location was denied. If you want to use this feature in future, you will have to re-enable the permission in your browser.'
     )
 
-  yield put(setDarkAtNight(true))
+  yield put(a('SET_DARK_AT_NIGHT', true))
+}
+
+export function* persistSubscriptions() {
+  const subscriptions = yield select((state: State) => state.subscriptions)
+  yield call(async () => persist.DB.put('subscriptions', subscriptions, 'ids'))
+}
+
+export function* persistTheme() {
+  const theme = yield select((state: State) => state.theme)
+  const dbTheme = yield Promise.all(
+    Object.keys(theme).map(k => persist.DB.get('theme', k).then(v => [k, v]))
+  ).then(Object.fromEntries)
+  yield Promise.all(
+    Object.entries(theme).flatMap(([k, v]) =>
+      v === dbTheme[k] ? [] : [persist.DB.put('theme', v as any, k)]
+    )
+  )
 }
 
 const mapPodcast = (data: FetchPodcast['podcast']) => ({
@@ -180,4 +189,16 @@ export default function*() {
   yield takeLatest('FETCH_LIBRARY', fetchLibrary)
   yield takeEvery('FETCH_EPISODE', fetchEpisode)
   yield takeEvery('TOGGLE_DARK_AT_NIGHT', toggleDarkAtNight)
+  yield takeLatest(['SUBSCRIBE', 'UNSUBSCRIBE'], persistSubscriptions)
+  yield takeLatest(
+    [
+      'SET_THEME',
+      'TOGGLE_DARK_MODE',
+      'TOGGLE_PREFER_AMOLED',
+      'SET_DARK_AT_NIGHT',
+      'TOGGLE_DARK_USE_SYSTEM',
+      'SHOW_DARKMODE_TOGGLE',
+    ],
+    persistTheme
+  )
 }

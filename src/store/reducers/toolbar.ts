@@ -1,11 +1,14 @@
-import * as a from '../actionTypes'
-import State from '../state'
 import { getToggleValue } from './utils'
 import defaultState from '../defaultState'
+import { assemble as a } from '~/store/actions'
 
 export default function toolbar(
   state = defaultState['toolbar'],
-  action: a.Base
+  action:
+    | a<'TOGGLE_TOOLBAR'>
+    | a<'SET_TOOLBAR_TITLE'>
+    | a<'ADD_TOOLBAR_ACTION'>
+    | a<'RESET_TOOLBAR_ACTIONS'>
 ): State['toolbar'] {
   switch (action.type) {
     case 'TOGGLE_TOOLBAR':
@@ -16,12 +19,12 @@ export default function toolbar(
     case 'SET_TOOLBAR_TITLE':
       return {
         ...state,
-        title: (action as a.StringAction).value,
+        title: action.value,
       }
     case 'ADD_TOOLBAR_ACTION':
       return {
         ...state,
-        actions: [...state.actions, (action as a.StringAction).value],
+        actions: [...state.actions, action.value],
       }
     case 'RESET_TOOLBAR_ACTIONS':
       return {

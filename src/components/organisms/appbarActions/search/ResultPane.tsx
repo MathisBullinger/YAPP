@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { shadow } from '~/styles'
 import { PodcastStrip } from '~/components/molecules'
-import { Podcast } from '~/store/state'
 
 interface Props {
   podcasts: Podcast[]

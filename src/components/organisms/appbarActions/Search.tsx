@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '~/utils/hooks'
 import * as S from './search/SearchStyle'
 import { IconButton, Input } from '~/components/atoms'
 import ResultPane from './search/ResultPane'
-import { useSelector } from 'react-redux'
-import State from '~/store/state'
+import { useSelector } from '~/utils/hooks'
+import action from '~/store/actions'
 
 interface Props {
   align: 'left' | 'right'
@@ -16,7 +16,7 @@ export default function Search(props: Props) {
   const inputEl = useRef(null)
   const [searchStr, setSearchStr] = useState('')
   const dispatch = useDispatch()
-  const podData = useSelector((state: State) => state.podcasts)
+  const podData = useSelector(state => state.podcasts)
 
   function toggleExpand() {
     if (!expanded) setTimeout(() => inputEl.current.focus(), 200)
@@ -26,16 +26,10 @@ export default function Search(props: Props) {
   function search(e: React.SyntheticEvent) {
     e.preventDefault()
     setSearchStr(value)
-    dispatch({
-      type: 'SEARCH_PODCAST',
-      value: value,
-    })
+    dispatch(action('SEARCH_PODCAST', value))
   }
 
-  dispatch({
-    type: 'TOGGLE_APPBAR_LOADING',
-    value: podData.fetching,
-  })
+  dispatch(action('TOGGLE_APPBAR_LOADING', podData.fetching))
 
   return (
     <S.Search className={'action ' + props.align}>

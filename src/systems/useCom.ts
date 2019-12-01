@@ -1,7 +1,6 @@
 import { System } from '.'
-import store from '~/store'
-import { toggleUsecomShow } from '~/store/actions'
-import State from '~/store/state'
+import { store } from '~/store'
+import action from '~/store/actions'
 
 export default class UseCom implements System {
   public readonly name = 'usecom'
@@ -11,6 +10,7 @@ export default class UseCom implements System {
     'request',
     'response',
     'warn',
+    'error',
   ]
   private msgQueue: Message[] = []
   private current: Message
@@ -26,6 +26,10 @@ export default class UseCom implements System {
 
   private warn(text: string) {
     this.pushMsg({ text, type: 'warn' })
+  }
+
+  private error(text: string) {
+    this.pushMsg({ text, type: 'error' })
   }
 
   private request(text: string) {
@@ -48,19 +52,13 @@ export default class UseCom implements System {
 
   private showMessage(msg: Message) {
     this.current = msg
-    store.dispatch({
-      type: 'SET_USECOM_TEXT',
-      value: msg.text,
-    })
-    store.dispatch({
-      type: 'SET_USECOM_TYPE',
-      value: msg.type,
-    })
-    store.dispatch(toggleUsecomShow(true))
+    store.dispatch(action('SET_USECOM_TEXT', msg.text))
+    store.dispatch(action('SET_USECOM_TYPE', msg.type))
+    store.dispatch(action('TOGGLE_USECOM_SHOW', true))
   }
 
   private hideMessage() {
-    store.dispatch(toggleUsecomShow(false))
+    store.dispatch(action('TOGGLE_USECOM_SHOW'), false)
     this.current = null
   }
 

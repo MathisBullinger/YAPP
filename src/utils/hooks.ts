@@ -1,6 +1,12 @@
 import { useState, useEffect, MutableRefObject } from 'react'
+import {
+  useSelector as useReduxSelector,
+  TypedUseSelectorHook,
+  useDispatch,
+} from 'react-redux'
 import debounce from 'lodash/debounce'
 import ResObs from 'resize-observer-polyfill'
+import { mousePos, direction } from '~/utils/interaction'
 
 export function useMatchMedia(query: string) {
   const [match, setMatch] = useState(true)
@@ -84,3 +90,28 @@ export function useWindowWidth() {
 
   return width
 }
+
+export function useMousePos() {
+  const [[x, y], setPos] = useState([0, 0])
+  useEffect(
+    () => (mousePos.subscribe(setPos), () => mousePos.unsubscribe(setPos)),
+    []
+  )
+  return [x, y]
+}
+
+export function useScrollDir() {
+  const [dir, setDir] = useState('up')
+  useEffect(
+    () => (direction.subscribe(setDir), () => direction.unsubscribe(setDir)),
+    []
+  )
+  return dir
+}
+
+export const useSelector: TypedUseSelectorHook<State> = useReduxSelector
+export { useDispatch }
+
+// export function useAction() {
+
+// }

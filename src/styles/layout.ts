@@ -10,4 +10,7 @@ export default {
     playerHeight: '4.4rem',
   },
   toolbarHeight: '6rem',
+  page: {
+    padding: '2rem',
+  },
 }

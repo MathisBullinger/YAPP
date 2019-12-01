@@ -1,22 +1,37 @@
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-  compose as composeWithoutDevTools,
-} from 'redux'
-import createSaga from 'redux-saga'
-import * as reducers from './reducers'
-import saga from './sagas'
-import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction'
+import { wrap, proxy, transferHandlers } from 'comlink'
+import transferIgnoreFunctions from '~/store/transferIgnoreFunctions'
+import { Store } from 'redux'
 
-const sagaMiddleware = createSaga()
+transferHandlers.set('IGNORE_FUNCTIONS', transferIgnoreFunctions)
 
-const compose: Function =
-  process.env.NODE_ENV === 'development'
-    ? composeWithDevTools
-    : composeWithoutDevTools
+async function wrapRemote(store) {
+  const subscribers = new Set<Function>()
 
-const app = combineReducers(reducers)
-export default createStore(app, compose(applyMiddleware(sagaMiddleware)))
+  let latestState = await store.getState()
+  store.subscribe(
+    proxy(async () => {
+      latestState = await store.getState()
+      subscribers.forEach(f => f())
+    })
+  )
+  return {
+    dispatch: action => store.dispatch(action),
+    getState: () => latestState,
+    subscribe: listener => {
+      subscribers.add(listener)
+      return () => subscribers.delete(listener)
+    },
+    replaceReducer: () => {
+      throw new Error('Can’t transfer a function')
+    },
+  }
+}
 
-sagaMiddleware.run(saga)
+let store
+export async function initStore() {
+  const remote = (await wrap(new Worker('./store', { type: 'module' }))) as any
+  await remote['ready']
+  store = ((await wrapRemote(remote)) as unknown) as Store
+}
+
+export { store }

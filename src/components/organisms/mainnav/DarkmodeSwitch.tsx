@@ -1,14 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { responsive } from '~/styles'
-import { useSelector, useDispatch } from 'react-redux'
-import { toggleDarkMode, manualDarkmode } from '~/store/actions'
-import State from '~/store/state'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import { Switch } from '~/components/atoms'
+import action from '~/store/actions'
 
 export default function DarkmodeSwitch() {
-  const theme = useSelector((state: State) => state.theme.current)
-  const visible = useSelector((state: State) => state.theme.showToggle)
+  const theme = useSelector(state => state.theme.current)
+  const visible = useSelector(state => state.theme.showToggle)
   const dispatch = useDispatch()
 
   if (!visible) return null
@@ -19,8 +18,8 @@ export default function DarkmodeSwitch() {
         inset
         value={theme !== 'light' ? 'on' : 'off'}
         onInput={v => {
-          dispatch(manualDarkmode())
-          dispatch(toggleDarkMode(v))
+          dispatch(action('MANUAL_DARK_MODE'))
+          dispatch(action('TOGGLE_DARK_MODE', v))
         }}
       />
     </S.Wrap>

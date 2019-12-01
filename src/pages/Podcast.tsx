@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
-import { useSelector, useDispatch } from 'react-redux'
-import State from '~/store/state'
+import { useSelector, useDispatch } from '~/utils/hooks'
 import styled, { ThemeContext } from 'styled-components'
 import { EpisodeList, Episode } from '~/components/organisms'
 import { responsive } from '~/styles'
@@ -11,6 +10,7 @@ import Mobile from './podcast/Mobile'
 import Description from './podcast/Description'
 import Subscribe from './podcast/Subscribe'
 import { Title, Subtitle, Artwork, Progress } from '~/components/atoms'
+import action from '~/store/actions'
 
 interface RouteParams {
   id: string
@@ -19,18 +19,16 @@ interface Props extends RouteComponentProps<RouteParams> {}
 
 function Podcast(props: Props) {
   const podcast = useSelector(
-    (state: State) => state.podcasts.byId[props.match.params.id]
+    state => state.podcasts.byId[props.match.params.id]
   )
   const dispatch = useDispatch()
-  const fetching = useSelector((state: State) => state.podcasts.fetching)
+  const fetching = useSelector(state => state.podcasts.fetching)
   const theme = useContext(ThemeContext)
   const background = theme[theme.topic](theme.variant).color
+  const [vibrant, setVibrant] = useState(theme.primary(theme.variant).color)
 
   if (!fetching && (!podcast?._fetched || !('episodes' in podcast)))
-    dispatch({
-      type: 'FETCH_PODCAST',
-      value: props.match.params.id,
-    })
+    dispatch(action('FETCH_PODCAST', props.match.params.id))
 
   useEffect(() => {
     if (podcast?.colors?.length) {
@@ -47,13 +45,21 @@ function Podcast(props: Props) {
             .reduce((a, c) => (c.contrast >= a.contrast ? c : a)).value
       )
       Object.assign(theme, { muted, vibrant })
-      const primary = theme.primary
-      theme.primary = () => ({
-        color: vibrant + primary().color.substring(7),
-        on: primary().on,
-      })
+
+      setVibrant(vibrant)
     }
   }, [podcast, theme, background])
+
+  if (
+    vibrant.substring(0, 7) !==
+    theme.primary(theme.variant).color.substring(0, 7)
+  ) {
+    const primary = theme.primary
+    theme.primary = () => ({
+      color: vibrant + primary(theme.variant).color.substring(7),
+      on: primary().on,
+    })
+  }
 
   const [episode, setEpisode] = useState(null)
   function openEpisode(id: string) {

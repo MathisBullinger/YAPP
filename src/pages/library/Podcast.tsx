@@ -1,26 +1,32 @@
 import React from 'react'
 import styled from 'styled-components'
-import Mask from './Mask'
-import State, { Podcast as Pod } from '~/store/state'
-import { Artwork, Text } from '~/components/atoms'
+import { shadow, responsive } from '~/styles'
+import Picture from './Picture'
 
 interface Props {
-  podcast: Pod
-  method: State['interaction']['method']
-  isSpaced: boolean
-  steps: { size: string; query?: string }[]
+  podcast: Podcast
   onClick(id: string): void
+  size: number
+  onImgLoaded?: (id: string) => void
+  preLoad: boolean
 }
 
-export default function Podcast(props: Props) {
-  const img = props.podcast ? props.podcast.artworks : []
+export default function Podcast({
+  podcast,
+  onClick,
+  size,
+  onImgLoaded,
+  preLoad,
+}: Props) {
   return (
-    <S.Podcast onClick={() => props.onClick(props.podcast?.itunesId)}>
-      {img.length > 0 && <Artwork lazy imgs={img} size={props.steps} />}
-      {props.method === 'mouse' && props.isSpaced && <Mask />}
-      {img.length === 0 && props.podcast && (
-        <Text emp="disabled">{props.podcast.name}</Text>
-      )}
+    <S.Podcast onClick={() => onClick(podcast?.itunesId)} data-size={size}>
+      <Picture
+        imgs={podcast?.artworks}
+        size={size}
+        alt={podcast?.name}
+        onLoaded={() => onImgLoaded && onImgLoaded(podcast.itunesId)}
+        lazy={!preLoad}
+      />
     </S.Podcast>
   )
 }
@@ -29,16 +35,29 @@ const S = {
   Podcast: styled.div`
     position: relative;
     display: block;
-    padding-bottom: 100%;
     cursor: pointer;
     overflow: hidden;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    width: ${props => props['data-size']}px;
+    height: ${props => props['data-size']}px;
 
-    @media (min-width: 600px) and (orientation: landscape) {
+    @media ${responsive.navOnSide} {
       background-color: ${({ theme }) =>
         theme[theme.topic](theme.variant)
           .on('')
           .substring(0, 7)}0a;
       border: none;
+      border-radius: 0.25rem;
+      box-shadow: ${shadow(0.5)};
+
+      &:hover {
+        box-shadow: ${shadow(1.5)};
+        transform: scale(1.05);
+
+        img {
+          filter: saturate(1.4);
+        }
+      }
     }
 
     * {
