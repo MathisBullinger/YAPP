@@ -102,12 +102,12 @@ function Settings() {
           {
             title: 'Build',
             items: [
-              <Item text="branch" action={process.env.BRANCH} key="branch" />,
               <Item
-                text="uncommitted"
-                action={process.env.UNCOMMITTED}
-                key="uncommitted"
+                text="version"
+                action={process.env.VERSION}
+                key="version"
               />,
+              <Item text="branch" action={process.env.BRANCH} key="branch" />,
               <Item text="commit" action={process.env.COMMIT} key="commit" />,
             ],
           },

@@ -6,12 +6,13 @@ const merge = require('webpack-merge')
 const CopyPlugin = require('copy-webpack-plugin')
 var GitRevisionPlugin = require('git-revision-webpack-plugin')
 const gitRevisionPlugin = new GitRevisionPlugin()
-const exec = require('child_process').execSync
 const WorkerPlugin = require('worker-plugin')
+const pkg = require('./package.json')
+const fs = require('fs')
 
-module.exports = env => merge(baseConfig, require(`./webpack.${env}.js`))
+module.exports = env => merge(baseConfig(env), require(`./webpack.${env}.js`))
 
-const baseConfig = {
+const baseConfig = env => ({
   target: 'web',
   entry: {
     app: './src/index.ts',
@@ -77,13 +78,13 @@ const baseConfig = {
       'process.env': {
         COMMIT: JSON.stringify(gitRevisionPlugin.commithash()),
         BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
-        UNCOMMITTED: JSON.stringify(
-          exec(
-            'git diff-index --quiet HEAD -- && echo no || echo yes'
-          ).toString()
-        ),
+        VERSION: (() => {
+          const version = pkg.version + (env === 'dev' ? '-dev' : '')
+          fs.writeFileSync('.sentry-release', `yapp@${version}`, 'utf-8')
+          return JSON.stringify(version)
+        })(),
       },
     }),
     new WorkerPlugin(),
   ],
-}
+})
