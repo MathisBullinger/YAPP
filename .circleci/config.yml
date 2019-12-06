@@ -24,15 +24,18 @@ jobs:
           name: Move sourcemaps
           command: |
             rm public/*/*.map
-            mkdir sourcemaps
-            mv public/*.map sourcemaps
+            mkdir sentry
+            mv public/*.map sentry
+            mv .sentry-release sentry
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "_tmp_cache_key" }}-{{ checksum "package.json" }}
       - persist_to_workspace:
           root: .
-          paths: public
+          paths:
+            - public
+            - sentry
 
   deploy:
     docker:
@@ -67,10 +70,11 @@ jobs:
       - run:
           name: Create Sentry release
           command: |
+            cd sentry
             VERSION=$(cat ./.sentry-release)
             sentry-cli releases new -p "$SENTRY_PROJECT" "$VERSION"
             sentry-cli releases set-commits --auto "$VERSION"
-            sentry-cli releases files "$VERSION" upload-sourcemaps ./sourcemaps
+            sentry-cli releases files "$VERSION" upload-sourcemaps .
             sentry-cli releases finalize "$VERSION"
 
 workflows:
@@ -86,7 +90,7 @@ workflows:
               only: master
       - deploy:
           requires:
-            - build
+            - sentry
           filters:
             branches:
               only: master
