@@ -4,7 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 module.exports = {
   mode: 'production',
   context: __dirname,
-  devtool: false,
+  devtool: 'hidden-source-map',
   resolve: {
     alias: {
       // ! preact x currenly not working with react router

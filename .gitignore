@@ -10,3 +10,4 @@ src/gqlTypes
 .eslintcache
 report.*.json
 .sentry-release
+sourcemaps
