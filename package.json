@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_OPTIONS=--max_old_space_size=4096 && npx webpack-dev-server --env dev",
+    "start": "npm run apollo:gen && NODE_OPTIONS=--max_old_space_size=4096 && npx webpack-dev-server --env dev",
     "start:network": "echo \"\n\n\u001b[1mrunning at \u001b[32mhttp://$(ifconfig | grep \"inet \" | grep -Fv 127.0.0.1 | awk '{print $2}'):1234\u001b[0m\n\n\" && npm start -- --host='0.0.0.0'",
     "build": "npm run apollo:gen && npx webpack --env prod --config webpack.config.js",
     "build:dev": "npm run apollo:gen && npx webpack --env dev --config webpack.config.js",

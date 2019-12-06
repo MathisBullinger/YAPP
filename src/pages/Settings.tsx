@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { responsive, shadow } from '~/styles'
-import { Text } from '~/components/atoms'
+import { Text, Button } from '~/components/atoms'
 import { StackedList } from '~/components/molecules'
 import Item from './settings/Item'
 import SwitchItem from './settings/SwitchItem'
 import { useSelector, useDispatch } from '~/utils/hooks'
 import { useMatchMedia } from '~/utils/hooks'
 import action from '~/store/actions'
-import importOpml from '~/utils/opml'
+import { importOpml, exportOpml } from '~/utils/opml'
 
 function Settings() {
   const theme = useSelector(state => state.theme)
@@ -84,7 +84,12 @@ function Settings() {
                     onChange={e => void importOpml(e.target.files[0])}
                   />
                 }
-                key="opml"
+                key="import"
+              />,
+              <Item
+                text="export OPML"
+                action={<Button onClick={exportOpml}>export</Button>}
+                key="export"
               />,
             ],
           },

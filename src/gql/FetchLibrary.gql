@@ -3,6 +3,7 @@ query FetchLibrary($ids: [ID]!) {
     itunesId
     name
     creator
+    feed
     artworks {
       url
       size

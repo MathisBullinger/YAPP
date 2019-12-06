@@ -3,8 +3,10 @@ import api from '~/api'
 import gql from 'graphql-tag'
 import action from '~/store/actions'
 import { send } from '~/systems'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-export default async function(file: File) {
+export async function importOpml(file: File) {
   const reader = new FileReader()
   reader.readAsText(file)
   const content = await new Promise<string>(resolve => {
@@ -67,4 +69,64 @@ export default async function(file: File) {
           : '')
     )
   })
+}
+
+export function exportOpml() {
+  const state: State = store.getState()
+  if (!state.subscriptions.every(id => id in state.podcasts.byId)) {
+    store.dispatch(
+      action('FETCH_LIBRARY', {
+        values: state.subscriptions.filter(id => !(id in state.podcasts.byId)),
+      })
+    )
+    const unsubscribe = store.subscribe(() => {
+      if (store.getState().podcasts.fetching) return
+      unsubscribe()
+      exportOpml()
+    })
+    return
+  }
+
+  const Opml = ({ children, ...props }) =>
+    React.createElement('opml', props, children)
+
+  const Outline = ({ children = undefined, ...props }) =>
+    React.createElement('outline', props, children)
+
+  const opml = (
+    <Opml>
+      <head>
+        <title>YAPP Feed</title>
+      </head>
+      <body>
+        <Outline text="feeds">
+          {state.subscriptions.map(id => (
+            // eslint-disable-next-line react/jsx-key
+            <Outline
+              type="rss"
+              text={state.podcasts.byId[id].name}
+              xmlUrl={state.podcasts.byId[id].feed}
+            />
+          ))}
+        </Outline>
+      </body>
+    </Opml>
+  )
+
+  const doc = document.implementation.createDocument('', '', null)
+  const root = doc.createElement('div')
+  ReactDOM.render(opml, root)
+  doc.appendChild(root.querySelector('opml'))
+
+  const downloadLink = document.createElement('a')
+  downloadLink.style.display = 'none'
+  downloadLink.setAttribute(
+    'href',
+    'data:text/plain;charset=utf-8,' +
+      encodeURIComponent(new XMLSerializer().serializeToString(doc))
+  )
+  downloadLink.setAttribute('download', 'yapp_library_opml.xml')
+  document.body.appendChild(downloadLink)
+  downloadLink.click()
+  document.body.removeChild(downloadLink)
 }
