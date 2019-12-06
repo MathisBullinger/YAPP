@@ -33,9 +33,7 @@ jobs:
           key: v1-dependencies-{{ checksum "_tmp_cache_key" }}-{{ checksum "package.json" }}
       - persist_to_workspace:
           root: .
-          paths:
-            - public
-            - sentry
+          paths: .
 
   deploy:
     docker:
@@ -70,27 +68,50 @@ jobs:
       - run:
           name: Create Sentry release
           command: |
-            cd sentry
-            VERSION=$(cat ./.sentry-release)
-            sentry-cli releases new -p "$SENTRY_PROJECT" "$VERSION"
-            sentry-cli releases set-commits --auto "$VERSION"
-            sentry-cli releases files "$VERSION" upload-sourcemaps .
-            sentry-cli releases finalize "$VERSION"
+            VERSION=$(cat sentry/.sentry-release)
+            VERSION_INFO=$(sentry-cli releases info "$VERSION")
+            if [[ "$VERSION_INFO" == *"No such release"* ]]; then 
+              sentry-cli releases new -p "$SENTRY_PROJECT" "$VERSION"
+              sentry-cli releases set-commits --auto "$VERSION"
+              sentry-cli releases files "$VERSION" upload-sourcemaps ./sentry
+              sentry-cli releases finalize "$VERSION"
+            else
+              echo "skip sentry release of $VERSION"
+            fi
 
 workflows:
   version: 2
-  build-deploy:
+  commit:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore:
+                - master
+                - develop
+
+  develop:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: develop
       - sentry:
           requires:
             - build
           filters:
             branches:
+              only: develop
+
+  master:
+    jobs:
+      - build:
+          filters:
+            branches:
               only: master
       - deploy:
           requires:
-            - sentry
+            - build
           filters:
             branches:
               only: master
