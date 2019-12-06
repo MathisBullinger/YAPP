@@ -20,6 +20,12 @@ jobs:
       - run:
           name: Build
           command: npm run build
+      - run:
+          name: Move sourcemaps
+          command: |
+            rm public/*/*.map
+            mkdir sourcemaps
+            mv public/*.map sourcemaps
       - save_cache:
           paths:
             - node_modules
@@ -48,11 +54,36 @@ jobs:
             aws s3 sync public/ s3://yapp-frontend/ --exclude="*" --include="gz/*" --content-encoding="gzip"
             aws s3 sync public/ s3://yapp-frontend/ --exclude="*" --include="br/*" --content-encoding="br"
 
+  sentry:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Install Sentry CLI
+          command: sudo npm install -g @sentry/cli --unsafe-perm
+      - run:
+          name: Create Sentry release
+          command: |
+            VERSION=$(cat ./.sentry-release)
+            sentry-cli releases new -p "$SENTRY_PROJECT" "$VERSION"
+            sentry-cli releases set-commits --auto "$VERSION"
+            sentry-cli releases files "$VERSION" upload-sourcemaps ./sourcemaps
+            sentry-cli releases finalize "$VERSION"
+
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build
+      - sentry:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - build

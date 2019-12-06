@@ -9,3 +9,5 @@ src/gqlTypes
 .vscode
 .eslintcache
 report.*.json
+.sentry-release
+sourcemaps

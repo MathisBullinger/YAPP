@@ -160,27 +160,27 @@ export function* persistTheme() {
   )
 }
 
-const mapPodcast = (data: FetchPodcast['podcast']) => ({
+const mapPodcast = (
+  data: FetchPodcast['podcast'] | FetchLibrary['podcasts'][0]
+) => ({
   itunesId: data.itunesId,
   name: data.name,
   creator: data.creator,
-  feed: '',
-  description: data.description,
+  feed: 'feed' in data ? data.feed : '',
+  description: 'description' in data ? data.description : '',
   artworks: data.artworks,
   colors: data.colors,
   _fetched: true,
-  ...(data.episodes
-    ? {
-        episodes: data.episodes.map(episode => ({
-          title: episode.title,
-          file: episode.file,
-          date: parseInt(episode.date, 10),
-          id: `${data.itunesId} ${episode.id}`,
-          duration: episode.duration,
-          _fetched: false,
-        })),
-      }
-    : {}),
+  ...('episodes' in data && {
+    episodes: data.episodes.map(episode => ({
+      title: episode.title,
+      file: episode.file,
+      date: parseInt(episode.date, 10),
+      id: `${data.itunesId} ${episode.id}`,
+      duration: episode.duration,
+      _fetched: false,
+    })),
+  }),
 })
 
 export default function*() {

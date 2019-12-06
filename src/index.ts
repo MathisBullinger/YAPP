@@ -9,10 +9,7 @@ performance.mark('app start')
 Sentry.init({
   dsn: 'https://f253732d670843f0b08015c64bb7587f@sentry.io/1500732',
   environment: process.env.NODE_ENV,
-})
-
-Sentry.configureScope(scope => {
-  scope.setTag('commit', process.env.COMMIT)
+  release: `yapp@${process.env.VERSION ?? 'unknown'}`,
 })
 
 import initUI from './Root'
