@@ -19,7 +19,10 @@ import { register } from '~/systems'
 ;(async () => {
   performance.mark('store')
   await initStore()
-  console.log(`store in ${performance.measure('store')['duration'] | 0} ms`)
+  performance.measure('store')
+  console.log(
+    `store in ${performance.getEntriesByName('store').shift()?.duration} ms`
+  )
 
   initUI()
   register(new UseCom())
@@ -36,5 +39,8 @@ import { register } from '~/systems'
   if (navigator.platform.startsWith('Win'))
     store.dispatch(action('SET_OS', 'windows'))
 
-  console.log(`setup in ${performance.measure('app start')['duration'] | 0} ms`)
+  performance.measure('app start')
+  console.log(
+    `setup in ${performance.getEntriesByName('app start').shift()?.duration} ms`
+  )
 })()
