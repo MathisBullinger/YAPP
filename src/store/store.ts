@@ -21,8 +21,11 @@ const store = {
             : Promise.resolve(red)
         ) as Promise<() => {}>[]
       ).then(reds => {
+        performance.measure('reducers')
         console.log(
-          `redux setup in ${performance.measure('reducers')['duration'] | 0} ms`
+          `redux setup in ${
+            performance.getEntriesByName('reducers').shift().duration
+          } ms`
         )
         const names = Object.keys(reducers)
         const app = combineReducers(

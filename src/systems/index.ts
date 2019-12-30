@@ -14,3 +14,5 @@ export function send(system: SystemName, message: string, ...payload): any {
 export function register(system: System) {
   systems[system.name] = system
 }
+
+export const get = (system: SystemName) => systems[system]
