@@ -4,10 +4,11 @@ import styled, { ThemeProvider } from 'styled-components'
 import { responsive } from '~/styles'
 import { Shownotes } from '~/components/molecules'
 import { useMatchMedia } from '~/utils/hooks'
-import { send } from '~/systems'
+import { send, get } from '~/systems'
 import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 import Controls from './Episode/Controls'
 import action from '~/store/actions'
+import Audio from '~/systems/audio'
 
 interface Props {
   id: string
@@ -48,7 +49,8 @@ export default function Episode(props: Props) {
   })
 
   function togglePlay() {
-    if (player.currentEpisode !== props.id) send('audio', 'play', props.id)
+    if (player.currentEpisode !== props.id)
+      (get('audio') as Audio).play(props.id)
     else send('audio', playing ? 'pause' : 'resume')
   }
 

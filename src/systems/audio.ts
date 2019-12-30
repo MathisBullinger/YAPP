@@ -26,6 +26,7 @@ export default class Audio implements System {
   private readonly state = new StateManager()
   private track: MediaElementAudioSourceNode
   private gainNode: GainNode
+  private onConnected: (() => void)[] = []
 
   private currentAction = Promise.resolve()
 
@@ -43,6 +44,8 @@ export default class Audio implements System {
   public connect(el: HTMLAudioElement) {
     this.audioEl = el
     this.state.connect(el)
+    this.onConnected.forEach(f => f())
+    this.onConnected = []
   }
 
   public disconnect() {
@@ -57,6 +60,10 @@ export default class Audio implements System {
     store.dispatch(action('SET_CURRENT_EPISODE', episodeId))
     store.dispatch(action('SET_PLAYER_LENGTH', episode.duration))
     store.dispatch(action('SET_PLAYER_PROGRESS', 0))
+
+    await new Promise(res => {
+      this.onConnected.push(res)
+    })
 
     this.audioEl.src = Audio.proxy + episode.file
     try {

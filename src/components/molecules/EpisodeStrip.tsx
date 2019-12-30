@@ -4,7 +4,8 @@ import { Text } from '~/components/atoms'
 import InlinePlayButton from '~/components/molecules/InlinePlayButton'
 import { responsive } from '~/styles'
 import { useSelector } from '~/utils/hooks'
-import { send } from '~/systems'
+import { send, get } from '~/systems'
+import Audio from '~/systems/audio'
 
 interface Props {
   episode: Episode
@@ -17,7 +18,7 @@ export default function EpisodeStrip(props: Props) {
 
   function togglePlay() {
     if (player.currentEpisode !== props.episode.id)
-      send('audio', 'play', props.episode.id)
+      (get('audio') as Audio).play(props.episode.id)
     else send('audio', playing ? 'pause' : 'resume')
   }
 
