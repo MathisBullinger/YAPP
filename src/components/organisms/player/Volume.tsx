@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Slider, IconButton } from '~/components/atoms'
+import audio from '~/systems/audio'
 
 export default function Volume() {
   const [muted, setMuted] = useState(false)
-  const [value, setValue] = useState(35)
+  const [value, setValue] = useState(100)
 
   function handleChange(v: number) {
     if (muted) {
@@ -12,6 +13,7 @@ export default function Volume() {
       return
     }
     setValue(v)
+    audio.setVolume(v / 100)
   }
 
   return (
@@ -21,12 +23,13 @@ export default function Volume() {
         label={muted ? 'unmute' : 'mute'}
         onClick={() => {
           setMuted(!muted)
+          audio.setVolume(muted ? value : 0)
         }}
       />
       <Slider
         min={0}
-        max={75}
-        step={0.5}
+        max={100}
+        step={1}
         value={muted ? 0 : value}
         handleChange={handleChange}
       />

@@ -64,6 +64,10 @@ function setProgress(sec: number, { relative = false } = {}) {
   episode?.ctrl?.seek(newPos)
 }
 
+function setVolume(vol: number) {
+  episode?.ctrl.volume(Math.max(Math.min(vol, 1), 0))
+}
+
 function togglePlay() {
   episode?.ctrl?.playing() ? episode?.ctrl?.pause() : episode?.ctrl?.play()
 }
@@ -71,4 +75,4 @@ function togglePlay() {
 const toggle = (id: string) =>
   episode?.info?.id === id ? togglePlay : () => play(id)
 
-export default { play, togglePlay, toggle, setProgress }
+export default { play, togglePlay, toggle, setProgress, setVolume }
