@@ -5,7 +5,7 @@ import { formatTimeStamp } from '~/utils'
 
 export default function Current() {
   const total = useSelector(state => state.player.length)
-  const current = useSelector(state => state.player.progress)
+  const current = Math.round(useSelector(state => state.player.progress))
   const [compTotal, setCompTotal] = useState(total)
   const [digits, setDigits] = useState(5)
 
@@ -15,6 +15,12 @@ export default function Current() {
   }
 
   return (
-    <TimeStamp time={current ? formatTimeStamp(current).substr(-digits) : ''} />
+    <TimeStamp
+      time={
+        typeof current === 'number'
+          ? formatTimeStamp(current).substr(-digits)
+          : ''
+      }
+    />
   )
 }

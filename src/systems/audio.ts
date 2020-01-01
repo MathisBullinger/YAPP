@@ -12,6 +12,14 @@ function getEpisodeInfo(episodeId: string) {
   return episodeInfo
 }
 
+function watchProgress() {
+  const prog = episode?.ctrl?.seek()
+  if (typeof prog !== 'number') return
+  store.dispatch(action('SET_PLAYER_PROGRESS', prog))
+  if (episode?.ctrl?.playing())
+    setTimeout(watchProgress, 1000 - ((prog * 1000) % 1000) + 20)
+}
+
 function play(id: string) {
   if (episode) episode.ctrl.unload()
   const info = getEpisodeInfo(id)
@@ -22,23 +30,28 @@ function play(id: string) {
   episode.ctrl.play()
   store.dispatch(action('SET_CURRENT_EPISODE', id))
   store.dispatch(action('SET_PLAYER_STATE', 'playing'))
-}
 
-function resume() {
-  episode.ctrl.play()
-  store.dispatch(action('SET_PLAYER_STATE', 'playing'))
-}
+  episode.ctrl.on('load', () => {
+    store.dispatch(action('SET_PLAYER_LENGTH', episode.ctrl.duration()))
+  })
 
-function pause() {
-  episode.ctrl.pause()
-  store.dispatch(action('SET_PLAYER_STATE', 'paused'))
+  episode.ctrl.on('play', () => {
+    const progress = episode.ctrl.seek()
+    store.dispatch(action('SET_PLAYER_STATE', 'playing'))
+    if (typeof progress !== 'number') return
+    watchProgress()
+  })
+
+  episode.ctrl.on('pause', () => {
+    store.dispatch(action('SET_PLAYER_STATE', 'paused'))
+  })
 }
 
 function togglePlay() {
-  episode.ctrl.playing() ? pause() : resume()
+  episode?.ctrl?.playing() ? episode?.ctrl?.pause() : episode?.ctrl?.play()
 }
 
 const toggle = (id: string) =>
   episode?.info?.id === id ? togglePlay : () => play(id)
 
-export default { play, resume, pause, togglePlay, toggle }
+export default { play, togglePlay, toggle }
