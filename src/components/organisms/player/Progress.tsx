@@ -7,7 +7,6 @@ import { blendHexColorString } from '~/utils'
 import Total from './progress/Total'
 import Current from './progress/Current'
 import createRenderer from './progress/render'
-import { send } from '~/systems'
 import { responsive } from '~/styles'
 
 export default function Progress() {
@@ -120,7 +119,7 @@ export default function Progress() {
     const { x, width, height } = canvasRef.current.getBoundingClientRect()
     const v = (e.pageX - x - height / 3) / (width - (height / 3) * 2)
     if (v < 0 || v > 1) return
-    send('audio', 'goto', v * totalLength)
+    // send('audio', 'goto', v * totalLength)
   }
 
   return (

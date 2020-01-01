@@ -1,37 +1,23 @@
-import React, { useRef, useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from '~/utils/hooks'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, responsive, timing } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
-import Audio from '~/systems/audio'
-import { register, send } from '~/systems'
 import PlayButton from './player/PlayButton'
 import ControlButton from './player/ControlButton'
 import Volume from './player/Volume'
 import Progress from './player/Progress'
 import action from '~/store/actions'
 
-const alwaysVisible = false
+const alwaysVisible = true
 
 export default function Player() {
   const dispatch = useDispatch()
   let visible = useSelector(state => state.player.visible)
   const current = useSelector(state => state.player.currentEpisode)
   const navOnSide = useMatchMedia(responsive.navOnSide)
-  const audioRef = useRef(null)
 
   if (alwaysVisible && !visible) dispatch(action('TOGGLE_PLAYER_VISIBLE', true))
-
-  useEffect(() => {
-    register(new Audio())
-  }, [])
-
-  const audioEl = audioRef.current
-  useEffect(() => {
-    if (!audioEl) return
-    send('audio', 'connect', audioEl)
-    return () => send('audio', 'disconnect')
-  }, [audioEl])
 
   if (!alwaysVisible)
     if (!!current !== visible)
@@ -40,20 +26,19 @@ export default function Player() {
   return (
     <ThemeProvider theme={{ topic: 'surface', variant: navOnSide ? 1 : 0 }}>
       <S.Player hidden={!visible}>
-        <audio ref={audioRef} crossOrigin="anonymous" preload="auto" />
         <div className="left" />
         <div className="center">
           <div className="ctrlBtGroup">
             <ControlButton
               label="jump backward"
               icon="jumpBack"
-              handleClick={() => send('audio', 'jump', 'backward')}
+              handleClick={() => {}}
             />
             <PlayButton />
             <ControlButton
               label="jump forward"
               icon="jumpForward"
-              handleClick={() => send('audio', 'jump', 'forward')}
+              handleClick={() => {}}
             />
           </div>
           <Progress />

@@ -1,26 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { IconButton } from '~/components/atoms'
-import { send } from '~/systems'
-import { useSelector } from '~/utils/hooks'
 
-interface Props {
-  episode: Episode
-}
+// interface Props {
+//   episode: Episode
+// }
 
-export default function Controls({ episode }: Props) {
-  const currentEpisode = useSelector(state => state.player.currentEpisode)
-  const playState = useSelector(state => state.player.state)
-
-  function togglePlay() {
-    if (!episode) return
-    if (currentEpisode !== episode.id) send('audio', 'play', episode.id)
-    else
-      send(
-        'audio',
-        playState === 'playing' || playState === 'waiting' ? 'pause' : 'resume'
-      )
-  }
+export default function Controls() {
+  function togglePlay() {}
 
   return (
     <S.Controls>

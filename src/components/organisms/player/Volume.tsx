@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Slider, IconButton } from '~/components/atoms'
-import { send } from '~/systems'
 
 export default function Volume() {
   const [muted, setMuted] = useState(false)
@@ -13,7 +12,6 @@ export default function Volume() {
       return
     }
     setValue(v)
-    send('audio', 'setVolume', v / 100)
   }
 
   return (
@@ -22,7 +20,6 @@ export default function Volume() {
         icon={muted ? 'muted' : 'volume'}
         label={muted ? 'unmute' : 'mute'}
         onClick={() => {
-          send('audio', 'setVolume', muted ? value / 100 : 0)
           setMuted(!muted)
         }}
       />

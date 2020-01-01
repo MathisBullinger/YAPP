@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { IconButton } from '~/components/atoms'
 import { layout } from '~/styles'
 import { useSelector } from '~/utils/hooks'
-import { send } from '~/systems'
 
 export default function PlayButton() {
   const playerState = useSelector(state => state.player.state)
@@ -13,7 +12,7 @@ export default function PlayButton() {
     <S.PlayButton
       icon={playing ? 'pauseCircle' : 'playCircle'}
       label={playing ? 'pause' : 'resume'}
-      onClick={() => send('audio', playing ? 'pause' : 'resume')}
+      onClick={() => {}}
     />
   )
 }
