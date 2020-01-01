@@ -7,6 +7,7 @@ import { useMatchMedia } from '~/utils/hooks'
 import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 import Controls from './Episode/Controls'
 import action from '~/store/actions'
+import audio from '~/systems/audio'
 
 interface Props {
   id: string
@@ -46,8 +47,6 @@ export default function Episode(props: Props) {
     return () => window.removeEventListener('keydown', onKeyDown)
   })
 
-  function togglePlay() {}
-
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
       <S.Episode data-hidden={hidden} onClick={handleClick}>
@@ -73,7 +72,7 @@ export default function Episode(props: Props) {
                   <IconButton
                     icon={playing ? 'pause' : 'play'}
                     label="play"
-                    onClick={togglePlay}
+                    onClick={audio.toggle(props.id)}
                   />
                 </S.DesktopPlay>
               )}
@@ -84,7 +83,7 @@ export default function Episode(props: Props) {
                 </Subtitle>
               </div>
             </S.Head>
-            {!isDesktop && <Controls episode={episode} />}
+            {!isDesktop && <Controls />}
             <Shownotes episodeId={props.id} />
           </S.Content>
         )}
