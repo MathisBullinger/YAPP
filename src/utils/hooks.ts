@@ -111,7 +111,3 @@ export function useScrollDir() {
 
 export const useSelector: TypedUseSelectorHook<State> = useReduxSelector
 export { useDispatch }
-
-// export function useAction() {
-
-// }

@@ -44,6 +44,7 @@ export interface Actions {
   SUBSCRIBE:                    { value: string }
   UNSUBSCRIBE:                  { value: string }
   SET_OS:                       { value: State['platform']['os'] }
+  SET_SEARCH:                   { value: string }
 }
 
 // Action creator. The type of the payload depends on the specified action.
