@@ -1,123 +1,78 @@
-import { System, send } from '.'
-import StateManager from './audio/StateManager'
 import { store } from '~/store'
+import { Howl } from 'howler'
 import action from '~/store/actions'
 
-export default class Audio implements System {
-  public readonly name = 'audio'
-  private static readonly publicActions = [
-    'connect',
-    'disconnect',
-    'play',
-    'pause',
-    'resume',
-    'jump',
-    'goto',
-    'setVolume',
-  ]
+let episode: { ctrl: Howl; info: Episode }
 
-  private static readonly proxy =
-    process.env.NODE_ENV === 'production'
-      ? 'https://proxy.bullinger.dev/'
-      : 'http://localhost:8081/'
-
-  private audioEl: HTMLAudioElement
-  private context: AudioContext
-  private readonly state = new StateManager()
-  private track: MediaElementAudioSourceNode
-  private gainNode: GainNode
-  private onConnected: (() => void)[] = []
-
-  private currentAction = Promise.resolve()
-
-  public msg(action: string, ...payload: any) {
-    if (!Audio.publicActions.includes(action)) return
-    this.currentAction = this.currentAction.then(() => {
-      if (!action.includes('connect')) {
-        if (!this.audioEl) return console.warn('ignore', action)
-        if (!this.context) this.createContext()
-      }
-      return this[action](...payload) || Promise.resolve()
-    })
-  }
-
-  public connect(el: HTMLAudioElement) {
-    this.audioEl = el
-    this.state.connect(el)
-    this.onConnected.forEach(f => f())
-    this.onConnected = []
-  }
-
-  public disconnect() {
-    this.audioEl = null
-    this.state.disconnect()
-  }
-
-  public async play(episodeId: string) {
-    const episode = this.getEpisode(episodeId)
-    if (!episode) return
-
-    store.dispatch(action('SET_CURRENT_EPISODE', episodeId))
-    store.dispatch(action('SET_PLAYER_LENGTH', episode.duration))
-    store.dispatch(action('SET_PLAYER_PROGRESS', 0))
-
-    await new Promise(res => {
-      this.onConnected.push(res)
-    })
-
-    this.audioEl.src = Audio.proxy + episode.file
-    try {
-      await this.audioEl.play()
-    } catch (e) {
-      send('usecom', 'error', `playback error (${e})`)
-      throw e
-    }
-  }
-
-  public pause() {
-    if (this.audioEl.readyState === 0) return
-    this.audioEl.pause()
-  }
-
-  public resume() {
-    if (this.audioEl.readyState === 0) return
-    this.audioEl.play()
-  }
-
-  public jump(direction: 'forward' | 'backward') {
-    if (this.audioEl.readyState === 0) return
-    const dt = direction === 'forward' ? 30 : -10
-    this.audioEl.currentTime += dt
-    this.state.jump(dt * 1000)
-  }
-
-  public goto(seconds: number) {
-    if (this.audioEl.readyState === 0) return
-    const dt = seconds - this.state.getProgress() / 1000
-    this.audioEl.currentTime += dt
-    this.state.jump(dt * 1000)
-  }
-
-  public setVolume(volume: number) {
-    this.gainNode.gain.value = volume
-  }
-
-  private createContext() {
-    this.context = new (window.AudioContext ||
-      (<any>window).webkitAudioContext)()
-    this.track = this.context.createMediaElementSource(this.audioEl)
-    this.gainNode = this.context.createGain()
-    this.track.connect(this.gainNode).connect(this.context.destination)
-    this.gainNode.gain.value = 0.15
-  }
-
-  private getEpisode(episodeId: string) {
-    if (!episodeId) return
-    const [podId, epId] = episodeId.split(' ')
-    const episode = store
-      .getState()
-      .podcasts.byId[podId].episodes.find(({ id }) => id === `${podId} ${epId}`)
-    if (!episode || !episode.file) return
-    return episode
-  }
+function getEpisodeInfo(episodeId: string) {
+  const episodeInfo = (store.getState() as State).podcasts.byId[
+    episodeId.split(' ').shift()
+  ]?.episodes?.find(({ id }) => id === episodeId)
+  if (!episodeInfo) throw Error(`can't find episode ${episodeId}`)
+  return episodeInfo
 }
+
+let watchingProg: number
+function watchProgress() {
+  const prog = episode?.ctrl?.seek()
+  if (typeof prog !== 'number') return
+  store.dispatch(action('SET_PLAYER_PROGRESS', prog))
+  if (episode?.ctrl?.playing())
+    watchingProg = setTimeout(watchProgress, 1000 - ((prog * 1000) % 1000) + 20)
+  else watchingProg = null
+}
+
+function play(id: string) {
+  if (episode) episode.ctrl.unload()
+  const info = getEpisodeInfo(id)
+  episode = {
+    ctrl: new Howl({ src: [info.file], html5: true }),
+    info,
+  }
+  store.dispatch(action('SET_CURRENT_EPISODE', id))
+  store.dispatch(action('SET_PLAYER_STATE', 'waiting'))
+  episode.ctrl.play()
+
+  episode.ctrl.on('load', () => {
+    store.dispatch(action('SET_PLAYER_LENGTH', episode.ctrl.duration()))
+  })
+
+  episode.ctrl.on('play', () => {
+    const progress = episode.ctrl.seek()
+    store.dispatch(action('SET_PLAYER_STATE', 'playing'))
+    if (typeof progress !== 'number') return
+    if (watchingProg) clearTimeout(watchingProg)
+    watchProgress()
+    store.dispatch(action('SET_LAST_SEEK', performance.now()))
+  })
+
+  episode.ctrl.on('pause', () => {
+    store.dispatch(action('SET_PLAYER_STATE', 'paused'))
+  })
+
+  episode.ctrl.on('seek', () => {
+    if (!watchingProg) watchProgress()
+    store.dispatch(action('SET_LAST_SEEK', performance.now()))
+  })
+}
+
+function setProgress(sec: number, { relative = false } = {}) {
+  let prog = episode?.ctrl?.seek()
+  if (typeof prog !== 'number') prog = 0
+  const newPos = relative ? prog + sec : sec
+  store.dispatch(action('SET_PLAYER_PROGRESS', newPos))
+  episode?.ctrl?.seek(newPos)
+}
+
+function setVolume(vol: number) {
+  episode?.ctrl.volume(Math.max(Math.min(vol, 1), 0))
+}
+
+function togglePlay() {
+  episode?.ctrl?.playing() ? episode?.ctrl?.pause() : episode?.ctrl?.play()
+}
+
+const toggle = (id: string) =>
+  episode?.info?.id === id ? togglePlay : () => play(id)
+
+export default { play, togglePlay, toggle, setProgress, setVolume }

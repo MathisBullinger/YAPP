@@ -12,6 +12,7 @@ export default function player(
     | a<'SET_PLAYER_PROGRESS'>
     | a<'SET_PLAYER_BUFFERED'>
     | a<'SET_PLAYER_FETCHING'>
+    | a<'SET_LAST_SEEK'>
 ): State['player'] {
   switch (action.type) {
     case 'TOGGLE_PLAYER_VISIBLE':
@@ -50,6 +51,12 @@ export default function player(
         ...state,
         fetching: getToggleValue(action, state.fetching),
       }
+    case 'SET_LAST_SEEK':
+      return {
+        ...state,
+        lastSeek: action.value,
+      }
+
     default:
       return state
   }

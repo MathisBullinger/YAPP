@@ -27,7 +27,7 @@ async function wrapRemote(store) {
   }
 }
 
-let store
+let store: Store
 export async function initStore() {
   const remote = (await wrap(new Worker('./store', { type: 'module' }))) as any
   await remote['ready']

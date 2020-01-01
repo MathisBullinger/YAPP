@@ -4,11 +4,10 @@ import styled, { ThemeProvider } from 'styled-components'
 import { responsive } from '~/styles'
 import { Shownotes } from '~/components/molecules'
 import { useMatchMedia } from '~/utils/hooks'
-import { send, get } from '~/systems'
 import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 import Controls from './Episode/Controls'
 import action from '~/store/actions'
-import Audio from '~/systems/audio'
+import audio from '~/systems/audio'
 
 interface Props {
   id: string
@@ -48,12 +47,6 @@ export default function Episode(props: Props) {
     return () => window.removeEventListener('keydown', onKeyDown)
   })
 
-  function togglePlay() {
-    if (player.currentEpisode !== props.id)
-      (get('audio') as Audio).play(props.id)
-    else send('audio', playing ? 'pause' : 'resume')
-  }
-
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
       <S.Episode data-hidden={hidden} onClick={handleClick}>
@@ -79,7 +72,7 @@ export default function Episode(props: Props) {
                   <IconButton
                     icon={playing ? 'pause' : 'play'}
                     label="play"
-                    onClick={togglePlay}
+                    onClick={audio.toggle(props.id)}
                   />
                 </S.DesktopPlay>
               )}
@@ -90,7 +83,7 @@ export default function Episode(props: Props) {
                 </Subtitle>
               </div>
             </S.Head>
-            {!isDesktop && <Controls episode={episode} />}
+            {!isDesktop && <Controls />}
             <Shownotes episodeId={props.id} />
           </S.Content>
         )}
