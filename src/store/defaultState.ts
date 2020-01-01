@@ -47,6 +47,9 @@ const defaultState: State = {
     os: null,
     input: 'unknown',
   },
+  library: {
+    search: '',
+  },
 }
 
 export default defaultState

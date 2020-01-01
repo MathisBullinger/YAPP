@@ -47,6 +47,9 @@ interface State {
     os: 'windows'
     input: 'unknown' | 'mouse'
   }
+  library: {
+    search: string
+  }
 }
 
 interface Podcast {

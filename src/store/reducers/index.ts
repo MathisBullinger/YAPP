@@ -6,6 +6,7 @@ import player from './player'
 import useCom from './useCom'
 import subscriptions from './subscriptions'
 import platform from './platform'
+import library from './library'
 
 export {
   theme,
@@ -16,4 +17,5 @@ export {
   useCom,
   subscriptions,
   platform,
+  library,
 }

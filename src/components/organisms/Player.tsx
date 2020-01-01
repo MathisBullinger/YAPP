@@ -10,7 +10,7 @@ import Progress from './player/Progress'
 import action from '~/store/actions'
 import audio from '~/systems/audio'
 
-const alwaysVisible = true
+const alwaysVisible = false
 
 export default function Player() {
   const dispatch = useDispatch()
