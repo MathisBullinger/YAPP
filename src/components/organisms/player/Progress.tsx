@@ -7,16 +7,19 @@ import { blendHexColorString } from '~/utils'
 import Total from './progress/Total'
 import Current from './progress/Current'
 import createRenderer from './progress/render'
-import { send } from '~/systems'
 import { responsive } from '~/styles'
+import audio from '~/systems/audio'
 
 export default function Progress() {
   const canvasRef = useRef(null)
   const theme = useContext(ThemeContext)
-  const totalLength = useSelector(state => state.player.length)
-  const playState = useSelector(state => state.player.state)
-  const fetching = useSelector(state => state.player.fetching)
-  const buffered = useSelector(state => state.player.buffered)
+  const {
+    length: totalLength,
+    state: playState,
+    fetching,
+    buffered,
+    lastSeek,
+  } = useSelector(state => state.player)
   const [width, height] = useCanvasSize(canvasRef)
   const [hovered, setHovered] = useState(false)
   const [ctx, setCtx] = useState(null)
@@ -114,13 +117,14 @@ export default function Progress() {
     fetching,
     ctx,
     isDesktop,
+    lastSeek,
   ])
 
   function handleClick(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     const { x, width, height } = canvasRef.current.getBoundingClientRect()
     const v = (e.pageX - x - height / 3) / (width - (height / 3) * 2)
     if (v < 0 || v > 1) return
-    send('audio', 'goto', v * totalLength)
+    audio.setProgress(v * totalLength)
   }
 
   return (

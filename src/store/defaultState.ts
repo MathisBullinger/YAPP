@@ -35,6 +35,7 @@ const defaultState: State = {
     length: 0,
     buffered: 0,
     progLastUpdate: 0,
+    lastSeek: 0,
   },
   useCom: {
     show: false,

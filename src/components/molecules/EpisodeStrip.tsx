@@ -4,8 +4,7 @@ import { Text } from '~/components/atoms'
 import InlinePlayButton from '~/components/molecules/InlinePlayButton'
 import { responsive } from '~/styles'
 import { useSelector } from '~/utils/hooks'
-import { send, get } from '~/systems'
-import Audio from '~/systems/audio'
+import audio from '~/systems/audio'
 
 interface Props {
   episode: Episode
@@ -15,20 +14,15 @@ interface Props {
 export default function EpisodeStrip(props: Props) {
   const player = useSelector(state => state.player)
   const playing = player.state === 'playing' || player.state === 'waiting'
-
-  function togglePlay() {
-    if (player.currentEpisode !== props.episode.id)
-      (get('audio') as Audio).play(props.episode.id)
-    else send('audio', playing ? 'pause' : 'resume')
-  }
+  const selected = player.currentEpisode === props.episode.id
 
   return (
     <S.Episode onClick={() => props.handleOpen(props.episode.id)}>
       <Text emp="high">{props.episode.title || 'no title available'}</Text>
       <InlinePlayButton
-        playing={player.currentEpisode === props.episode.id && playing}
+        playing={selected && playing}
         progress={Math.random()}
-        onClick={togglePlay}
+        onClick={audio.toggle(props.episode.id)}
       />
     </S.Episode>
   )

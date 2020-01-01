@@ -3,7 +3,7 @@ export abstract class System {
   abstract msg(action: string, ...payload: any): void
 }
 
-type SystemName = 'audio' | 'usecom'
+type SystemName = 'usecom'
 
 const systems: { [name: string]: System } = {}
 

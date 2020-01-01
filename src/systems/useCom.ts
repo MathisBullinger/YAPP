@@ -58,7 +58,7 @@ export default class UseCom implements System {
   }
 
   private hideMessage() {
-    store.dispatch(action('TOGGLE_USECOM_SHOW'), false)
+    store.dispatch(action('TOGGLE_USECOM_SHOW', false))
     this.current = null
   }
 
