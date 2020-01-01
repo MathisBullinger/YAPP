@@ -12,12 +12,15 @@ function getEpisodeInfo(episodeId: string) {
   return episodeInfo
 }
 
+let watchingProg = false
 function watchProgress() {
+  watchingProg = true
   const prog = episode?.ctrl?.seek()
   if (typeof prog !== 'number') return
   store.dispatch(action('SET_PLAYER_PROGRESS', prog))
   if (episode?.ctrl?.playing())
     setTimeout(watchProgress, 1000 - ((prog * 1000) % 1000) + 20)
+  else watchingProg = false
 }
 
 function play(id: string) {
@@ -27,9 +30,9 @@ function play(id: string) {
     ctrl: new Howl({ src: [info.file], html5: true }),
     info,
   }
-  episode.ctrl.play()
   store.dispatch(action('SET_CURRENT_EPISODE', id))
-  store.dispatch(action('SET_PLAYER_STATE', 'playing'))
+  store.dispatch(action('SET_PLAYER_STATE', 'waiting'))
+  episode.ctrl.play()
 
   episode.ctrl.on('load', () => {
     store.dispatch(action('SET_PLAYER_LENGTH', episode.ctrl.duration()))
@@ -39,12 +42,25 @@ function play(id: string) {
     const progress = episode.ctrl.seek()
     store.dispatch(action('SET_PLAYER_STATE', 'playing'))
     if (typeof progress !== 'number') return
-    watchProgress()
+    if (!watchingProg) watchProgress()
   })
 
   episode.ctrl.on('pause', () => {
     store.dispatch(action('SET_PLAYER_STATE', 'paused'))
   })
+
+  episode.ctrl.on('seek', () => {
+    if (!watchingProg) watchProgress()
+    store.dispatch(action('SET_LAST_SEEK', performance.now()))
+  })
+}
+
+function setProgress(sec: number, { relative = false } = {}) {
+  let prog = episode?.ctrl?.seek()
+  if (typeof prog !== 'number') prog = 0
+  const newPos = relative ? prog + sec : sec
+  store.dispatch(action('SET_PLAYER_PROGRESS', newPos))
+  episode?.ctrl?.seek(newPos)
 }
 
 function togglePlay() {
@@ -54,4 +70,4 @@ function togglePlay() {
 const toggle = (id: string) =>
   episode?.info?.id === id ? togglePlay : () => play(id)
 
-export default { play, togglePlay, toggle }
+export default { play, togglePlay, toggle, setProgress }

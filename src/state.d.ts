@@ -35,6 +35,7 @@ interface State {
     progress: number
     progLastUpdate: number
     buffered: number
+    lastSeek: number
   }
   useCom: {
     show: boolean

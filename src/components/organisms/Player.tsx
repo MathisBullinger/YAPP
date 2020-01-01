@@ -8,6 +8,7 @@ import ControlButton from './player/ControlButton'
 import Volume from './player/Volume'
 import Progress from './player/Progress'
 import action from '~/store/actions'
+import audio from '~/systems/audio'
 
 const alwaysVisible = true
 
@@ -32,13 +33,13 @@ export default function Player() {
             <ControlButton
               label="jump backward"
               icon="jumpBack"
-              handleClick={() => {}}
+              handleClick={() => audio.setProgress(-10, { relative: true })}
             />
             <PlayButton />
             <ControlButton
               label="jump forward"
               icon="jumpForward"
-              handleClick={() => {}}
+              handleClick={() => audio.setProgress(30, { relative: true })}
             />
           </div>
           <Progress />
