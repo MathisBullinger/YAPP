@@ -12,15 +12,14 @@ function getEpisodeInfo(episodeId: string) {
   return episodeInfo
 }
 
-let watchingProg = false
+let watchingProg: number
 function watchProgress() {
-  watchingProg = true
   const prog = episode?.ctrl?.seek()
   if (typeof prog !== 'number') return
   store.dispatch(action('SET_PLAYER_PROGRESS', prog))
   if (episode?.ctrl?.playing())
-    setTimeout(watchProgress, 1000 - ((prog * 1000) % 1000) + 20)
-  else watchingProg = false
+    watchingProg = setTimeout(watchProgress, 1000 - ((prog * 1000) % 1000) + 20)
+  else watchingProg = null
 }
 
 function play(id: string) {
@@ -42,7 +41,9 @@ function play(id: string) {
     const progress = episode.ctrl.seek()
     store.dispatch(action('SET_PLAYER_STATE', 'playing'))
     if (typeof progress !== 'number') return
-    if (!watchingProg) watchProgress()
+    if (watchingProg) clearTimeout(watchingProg)
+    watchProgress()
+    store.dispatch(action('SET_LAST_SEEK', performance.now()))
   })
 
   episode.ctrl.on('pause', () => {
