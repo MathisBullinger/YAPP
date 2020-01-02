@@ -149,7 +149,10 @@ export function* persistSubscriptions() {
 }
 
 export function* persistTheme() {
-  const theme = yield select((state: State) => state.theme)
+  const theme = {
+    ...(yield select((state: State) => state.theme)),
+    manualOverride: false,
+  }
   const dbTheme = yield Promise.all(
     Object.keys(theme).map(k => persist.DB.get('theme', k).then(v => [k, v]))
   ).then(Object.fromEntries)
