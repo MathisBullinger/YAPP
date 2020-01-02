@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, KeyboardEvent } from 'react'
+import React, { useState, ChangeEvent, KeyboardEvent, useRef } from 'react'
 import styled from 'styled-components'
 import { filterObj } from '~/utils'
 
@@ -17,6 +17,7 @@ interface Props {
 
 function Input(props: Props) {
   const [value, setValue] = useState('')
+  const ref = useRef<HTMLInputElement>()
   if (props.value !== undefined && props.value !== value) setValue(props.value)
 
   const { merge, block } = props
@@ -33,7 +34,10 @@ function Input(props: Props) {
   }
 
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Escape' && props.onEscape) props.onEscape()
+    if (e.key === 'Escape') {
+      if (props.onEscape) props.onEscape()
+      else (props.elRef ?? ref).current?.blur()
+    }
   }
 
   return (
@@ -42,10 +46,10 @@ function Input(props: Props) {
       placeholder={props.placeholder}
       value={value}
       onChange={handleChange}
-      ref={props.elRef}
+      ref={props.elRef ?? ref}
       onFocus={props.onFocus}
       onBlur={props.onBlur}
-      onKeyDown={props.onEscape && handleKeyDown}
+      onKeyDown={handleKeyDown}
     />
   )
 }
