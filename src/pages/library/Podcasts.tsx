@@ -10,6 +10,7 @@ import { values } from '~/styles/responsive'
 import * as grid from '~/styles/cardGrid'
 import { css } from '~/utils'
 import Fuse from 'fuse.js'
+import sort from '~/utils/sort'
 
 const gridSteps = grid.steps.map(([min, max]) => [min || 0, max || Infinity])
 
@@ -22,9 +23,20 @@ export default function Podcasts({ subs, pods }: Props) {
   const history = useHistory()
   const tileSize = useTileSize()
   const [imgLoaded, setImgLoaded] = useState([])
-  const search = useSelector(state => state.library.search)
+  const { search } = useSelector(state => state.library)
+  const [sorted, setSorted] = useState<string[]>([])
   const [filtered, setFiltered] = useState(subs)
   const [fuse, setFuse] = useState()
+
+  useEffect(() => {
+    if (!pods || !subs) return
+    setSorted(
+      sort(
+        subs.map(id => pods[id]).filter(v => v),
+        { selector: ({ name }) => name, articles: 'append' }
+      ).map(({ itunesId }) => itunesId)
+    )
+  }, [pods, subs])
 
   useEffect(() => {
     setFuse(
@@ -43,12 +55,12 @@ export default function Podcasts({ subs, pods }: Props) {
 
   useEffect(() => {
     if (!search || !fuse) {
-      setFiltered(subs)
+      setFiltered(sorted)
       return
     }
     const filter = fuse.search(search)
     setFiltered(filter.map(({ itunesId }) => itunesId))
-  }, [search, subs, pods, fuse])
+  }, [search, sorted, pods, fuse])
 
   function open(id: string) {
     if (id) history.push(`/podcast/${id}`)

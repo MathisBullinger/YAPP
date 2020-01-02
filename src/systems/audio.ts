@@ -26,7 +26,10 @@ function play(id: string) {
   if (episode) episode.ctrl.unload()
   const info = getEpisodeInfo(id)
   episode = {
-    ctrl: new Howl({ src: [info.file], html5: true }),
+    ctrl: new Howl({
+      src: [`https://proxy.bullinger.dev/${info.file}`],
+      html5: true,
+    }),
     info,
   }
   store.dispatch(action('SET_CURRENT_EPISODE', id))

@@ -49,6 +49,7 @@ const defaultState: State = {
   },
   library: {
     search: '',
+    order: 'title',
   },
 }
 
