@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { filterObj } from '~/utils'
 
 interface Props {
-  type?: 'text'
+  type?: 'text' | 'search'
   placeholder?: string
   value?: string
   onChange?(v: string): void
@@ -13,6 +13,7 @@ interface Props {
   onFocus?(): void
   onBlur?(): void
   onEscape?(): void
+  showReset?: boolean
 }
 
 function Input(props: Props) {
@@ -42,7 +43,7 @@ function Input(props: Props) {
 
   return (
     <Tag
-      type={props.type || 'text'}
+      type={props.type ?? 'text'}
       placeholder={props.placeholder}
       value={value}
       onChange={handleChange}
