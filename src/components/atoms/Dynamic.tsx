@@ -59,7 +59,7 @@ function replace(content, layer: number[] = [0]) {
           ? item
           : React.createElement(
               type,
-              { ...props, key: { key } },
+              { ...props, key },
               replace(props.children, nextLayer)
             )
     }

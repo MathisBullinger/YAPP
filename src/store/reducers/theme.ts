@@ -80,8 +80,9 @@ export default Object.assign(
                   ...state,
                   showToggle: getToggleValue(action, state.showToggle),
                 }
-              default:
+              default: {
                 return state
+              }
             }
           })
         })

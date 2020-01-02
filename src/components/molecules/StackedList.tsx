@@ -40,13 +40,13 @@ namespace S {
       margin-top: 0;
       pointer-events: none;
       margin-right: -1rem;
+      margin-bottom: 0;
 
       &:before {
         content: '';
         width: 100%;
         height: calc(100% - 2rem);
         display: block;
-        background: red;
         position: absolute;
         z-index: -1;
         left: 0;
@@ -60,7 +60,7 @@ namespace S {
       &:after {
         content: '';
         display: block;
-        margin-top: 0.5rem;
+        margin-top: 0.9rem;
         width: 100%;
         height: 2rem;
         background: linear-gradient(

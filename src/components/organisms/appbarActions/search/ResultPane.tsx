@@ -37,7 +37,7 @@ namespace S {
     box-shadow: ${shadow(1)};
     z-index: -1;
     padding: 1.5rem;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     .active > & {
       transition-delay: ${transitionTime};

@@ -25,7 +25,7 @@ const S = {
   Item: styled.div`
     display: flex;
     justify-content: space-between;
-    align-content: center;
+    align-items: center;
     margin-bottom: 2rem;
 
     @media ${responsive.navOnSide} {

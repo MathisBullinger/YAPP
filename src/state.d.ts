@@ -49,6 +49,7 @@ interface State {
   }
   library: {
     search: string
+    order: 'title' | 'custom'
   }
 }
 

@@ -16,7 +16,7 @@ export default function Shownotes({ episodeId }: Props) {
       state.podcasts.byId[pId].episodes.find(({ id }) => id === `${pId} ${eId}`)
   )
   const description =
-    episode.description?.length > episode.content?.length
+    (episode.description?.length ?? 0) > (episode.content?.length ?? 0)
       ? episode.description
       : episode.content
 
@@ -37,7 +37,7 @@ const S = {
     @media ${responsive.navOnSide} {
       flex-grow: 1;
       flex-basis: 0;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     ${Spinner.sc} {
