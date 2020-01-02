@@ -102,7 +102,7 @@ const S = {
     width: 100vw;
     height: 100vh;
     background-color: ${({ theme }) => theme[theme.topic](theme.variant).color};
-    overflow-y: scroll;
+    overflow-y: auto;
     --side-padding: 1.5rem;
 
     transition: transform 0.3s ease-in-out;
