@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { EpisodeStrip } from '~/components/molecules'
+import { responsive } from '~/styles'
 
 interface Props {
   episodes: Episode[]
@@ -34,5 +35,11 @@ const S = {
     align-items: center;
     grid-column-gap: 2rem;
     margin-bottom: -1rem;
+
+    @media ${responsive.navOnBottom} {
+      grid-template-columns: 1fr auto;
+      grid-auto-rows: 1.75rem 2.5rem 1.75rem;
+      --episode-height: 6rem;
+    }
   `,
 }

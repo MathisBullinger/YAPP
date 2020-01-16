@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Text } from '~/components/atoms'
 import InlinePlayButton from '~/components/molecules/InlinePlayButton'
 import { responsive, layout } from '~/styles'
-import { useSelector } from '~/utils/hooks'
+import { useSelector, useMatchMedia } from '~/utils/hooks'
 import audio from '~/systems/audio'
 
 interface Props {
@@ -24,16 +24,24 @@ export default function EpisodeStrip(props: Props) {
   const selected = player.currentEpisode === props.episode.id
   const length = useSelector(state => state.player.length)
   const progress = useSelector(state => state.player.progress)
+  const isDesktop = useMatchMedia(responsive.navOnSide)
 
+  const Date = (
+    <Text emp="medium" small={!isDesktop}>
+      {formatDate(props.episode.date)}
+    </Text>
+  )
   return (
     <S.Episode onClick={() => props.handleOpen(props.episode.id)}>
+      {!isDesktop && Date}
       <Text emp="high">{props.episode.title || 'no title available'}</Text>
-      <Text emp="medium">{formatDate(props.episode.date)}</Text>
+      {isDesktop && Date}
       <InlinePlayButton
         playing={selected && playing}
         progress={selected ? (progress || 0) / (length || Infinity) : 0}
         onClick={audio.toggle(props.episode.id)}
       />
+      {!isDesktop && <Text />}
       <S.Box i={props.i} />
     </S.Episode>
   )
@@ -43,16 +51,27 @@ const S = {
   Episode: styled.li`
     display: contents;
 
-    & > ${Text.sc}:first-child {
-      margin-right: auto;
-    }
-
     &:first-child > ${() => S._box} {
       border-top: 1px solid
         ${({ theme }) =>
           theme[theme.topic](theme.variant)
             .on()
             .substring(0, 7)}22;
+    }
+
+    @media ${responsive.navOnBottom} {
+      & > *:not(${InlinePlayButton.sc}) {
+        grid-column: 1;
+      }
+
+      & > ${Text.sc}:first-child {
+        align-self: flex-end;
+      }
+
+      & > ${Text.sc} {
+        margin: 0;
+        line-height: 1.2em;
+      }
     }
   `,
 
