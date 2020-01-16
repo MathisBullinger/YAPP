@@ -32,6 +32,7 @@ function play(id: string) {
     }),
     info,
   }
+  setVolume()
   store.dispatch(action('SET_CURRENT_EPISODE', id))
   store.dispatch(action('SET_PLAYER_STATE', 'waiting'))
   episode.ctrl.play()
@@ -67,7 +68,8 @@ function setProgress(sec: number, { relative = false } = {}) {
   episode?.ctrl?.seek(newPos)
 }
 
-function setVolume(vol: number) {
+function setVolume(vol: number = store.getState().player.volume) {
+  store.dispatch(action('SET_PLAYER_VOLUME', vol))
   episode?.ctrl.volume(Math.max(Math.min(vol, 1), 0))
 }
 

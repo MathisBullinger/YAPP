@@ -2,17 +2,17 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Slider, IconButton } from '~/components/atoms'
 import audio from '~/systems/audio'
+import { useSelector } from '~/utils/hooks'
 
 export default function Volume() {
   const [muted, setMuted] = useState(false)
-  const [value, setValue] = useState(100)
+  const value = useSelector(state => state.player.volume)
 
   function handleChange(v: number) {
     if (muted) {
       setMuted(false)
       return
     }
-    setValue(v)
     audio.setVolume(v / 100)
   }
 
@@ -30,7 +30,7 @@ export default function Volume() {
         min={0}
         max={100}
         step={1}
-        value={muted ? 0 : value}
+        value={muted ? 0 : value * 100}
         handleChange={handleChange}
       />
     </S.Volume>

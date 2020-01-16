@@ -163,6 +163,12 @@ export function* persistTheme() {
   )
 }
 
+export function* persistPlayer() {
+  const volume = yield select((state: State) => state.player.volume)
+  const dbVolume = yield persist.DB.get('player', 'volume')
+  if (volume !== dbVolume) yield persist.DB.put('player', volume, 'volume')
+}
+
 const mapPodcast = (
   data: FetchPodcast['podcast'] | FetchLibrary['podcasts'][0]
 ) => ({
@@ -204,4 +210,5 @@ export default function*() {
     ],
     persistTheme
   )
+  yield takeLatest(['SET_PLAYER_VOLUME'], persistPlayer)
 }
