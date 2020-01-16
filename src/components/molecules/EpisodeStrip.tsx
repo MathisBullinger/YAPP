@@ -15,13 +15,15 @@ export default function EpisodeStrip(props: Props) {
   const player = useSelector(state => state.player)
   const playing = player.state === 'playing' || player.state === 'waiting'
   const selected = player.currentEpisode === props.episode.id
+  const length = useSelector(state => state.player.length)
+  const progress = useSelector(state => state.player.progress)
 
   return (
     <S.Episode onClick={() => props.handleOpen(props.episode.id)}>
       <Text emp="high">{props.episode.title || 'no title available'}</Text>
       <InlinePlayButton
         playing={selected && playing}
-        progress={Math.random()}
+        progress={selected ? (progress || 0) / (length || Infinity) : 0}
         onClick={audio.toggle(props.episode.id)}
       />
     </S.Episode>

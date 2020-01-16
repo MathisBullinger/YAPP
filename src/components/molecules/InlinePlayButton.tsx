@@ -13,7 +13,6 @@ export default function InlinePlayButton({
   progress,
   onClick,
 }: Props) {
-  progress = 0
   return (
     <S.Button>
       <IconButton
