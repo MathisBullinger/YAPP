@@ -22,10 +22,9 @@ const Text: React.FunctionComponent<Props> = props => (
     {props.children}
   </S.Text>
 )
-export default Text
 
-namespace S {
-  export const Text = styled(({ isLabel, children, className, htmlFor }) =>
+const S = {
+  Text: styled(({ isLabel, children, className, htmlFor }) =>
     React.createElement(
       !isLabel ? 'p' : 'label',
       { className, htmlFor },
@@ -40,6 +39,6 @@ namespace S {
     margin-top: 1rem;
     margin-bottom: 1rem;
     line-height: 1.5rem;
-  `
+  `,
 }
-export const style = S.Text
+export default Object.assign(Text, { sc: S.Text })

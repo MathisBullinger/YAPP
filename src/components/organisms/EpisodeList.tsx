@@ -12,11 +12,12 @@ export default function EpisodeList(props: Props) {
     <S.List>
       {props.episodes
         .sort((a, b) => b.date - a.date)
-        .map(episode => (
+        .map((episode, i) => (
           <EpisodeStrip
             key={episode.title + episode.file}
             episode={episode}
             handleOpen={props.handleOpen}
+            i={i}
           />
         ))}
     </S.List>
@@ -25,6 +26,13 @@ export default function EpisodeList(props: Props) {
 
 const S = {
   List: styled.ol`
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    --episode-height: 4rem;
+    grid-auto-rows: var(--episode-height);
+    align-items: center;
+    grid-column-gap: 2rem;
     margin-bottom: -1rem;
   `,
 }
