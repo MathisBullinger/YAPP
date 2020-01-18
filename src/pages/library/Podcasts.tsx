@@ -69,17 +69,17 @@ export default function Podcasts({ subs, pods }: Props) {
   function onImgLoaded(id: string) {
     setImgLoaded(
       Object.assign([], imgLoaded, {
-        [subs.findIndex(sub => sub === id)]: true,
+        [filtered.findIndex(sub => sub === id)]: true,
       })
     )
   }
   const loadedUpTo = imgLoaded.findIndex(v => !v) - 1
 
   useEffect(() => {
-    if (!subs || !subs.length) return
-    setImgLoaded(subs.map(id => imgLoaded[id] ?? false))
+    if (!filtered || !filtered.length) return
+    setImgLoaded(filtered.map(id => imgLoaded[id] ?? false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subs])
+  }, [filtered])
 
   return (
     <CardGrid>

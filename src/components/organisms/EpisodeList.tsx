@@ -33,7 +33,7 @@ const S = {
     --episode-height: 4rem;
     grid-auto-rows: var(--episode-height);
     align-items: center;
-    grid-column-gap: 2rem;
+    grid-column-gap: 5vw;
     margin-bottom: -1rem;
 
     @media ${responsive.navOnBottom} {
