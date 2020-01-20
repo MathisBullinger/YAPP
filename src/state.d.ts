@@ -36,6 +36,7 @@ interface State {
     progLastUpdate: number
     buffered: number
     lastSeek: number
+    volume: number
   }
   useCom: {
     show: boolean

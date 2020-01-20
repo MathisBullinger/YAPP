@@ -45,6 +45,11 @@ export default {
     spacing: 0.15 / BASE,
   },
 
+  text0: {
+    size: 13 / BASE,
+    weight: Weight.Regular,
+    spacing: 0.5 / BASE,
+  },
   text1: {
     size: 1,
     weight: Weight.Regular,

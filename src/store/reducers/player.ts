@@ -1,9 +1,8 @@
-import { getToggleValue } from './utils'
-import defaultState from '../defaultState'
+import { getToggleValue, setup } from './utils'
 import { assemble as a } from '~/store/actions'
 
-export default function player(
-  state = defaultState['player'],
+export default setup('player', ['volume'], function(
+  state: State['player'],
   action:
     | a<'TOGGLE_PLAYER_VISIBLE'>
     | a<'SET_PLAYER_STATE'>
@@ -13,6 +12,7 @@ export default function player(
     | a<'SET_PLAYER_BUFFERED'>
     | a<'SET_PLAYER_FETCHING'>
     | a<'SET_LAST_SEEK'>
+    | a<'SET_PLAYER_VOLUME'>
 ): State['player'] {
   switch (action.type) {
     case 'TOGGLE_PLAYER_VISIBLE':
@@ -56,8 +56,12 @@ export default function player(
         ...state,
         lastSeek: action.value,
       }
-
+    case 'SET_PLAYER_VOLUME':
+      return {
+        ...state,
+        volume: action.value,
+      }
     default:
       return state
   }
-}
+})

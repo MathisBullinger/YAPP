@@ -10,6 +10,10 @@ export interface YappDB extends DBSchema {
     key: string
     value: string | boolean
   }
+  player: {
+    key: string
+    value: number
+  }
 }
 
 const persist: {
@@ -18,16 +22,29 @@ const persist: {
 } = {
   DB: null,
   initDB: () =>
-    openDB<YappDB>('yapp', 1, {
-      async upgrade(db) {
-        const subscriptions = db.createObjectStore('subscriptions')
-        const theme = db.createObjectStore('theme')
-        await Promise.all([
-          subscriptions.put([], 'ids'),
-          ...Object.entries(defaultState.theme).map(([k, v]) =>
-            theme.put(v, k)
-          ),
-        ])
+    openDB<YappDB>('yapp', 2, {
+      async upgrade(db, oldVersion, newVersion) {
+        console.log(`upgrading db from ${oldVersion} to ${newVersion}`)
+        const ops: Promise<any>[] = []
+
+        if (oldVersion === 0) {
+          const subscriptions = db.createObjectStore('subscriptions')
+          ops.push(subscriptions.put([], 'ids'))
+
+          const theme = db.createObjectStore('theme')
+          ops.push(
+            ...Object.entries(defaultState.theme).map(([k, v]) =>
+              theme.put(v, k)
+            )
+          )
+        }
+
+        if (oldVersion < 2) {
+          const player = db.createObjectStore('player')
+          ops.push(player.put(defaultState.player.volume, 'volume'))
+        }
+
+        await Promise.all(ops)
       },
     }).then(db => ((persist.DB = db), db)),
 }

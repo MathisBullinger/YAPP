@@ -36,6 +36,7 @@ const defaultState: State = {
     buffered: 0,
     progLastUpdate: 0,
     lastSeek: 0,
+    volume: 1,
   },
   useCom: {
     show: false,

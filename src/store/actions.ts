@@ -36,6 +36,7 @@ export interface Actions {
   SET_PLAYER_PROGRESS:          { value: number }
   SET_PLAYER_BUFFERED:          { value: number }
   SET_PLAYER_FETCHING:          { value: boolean }
+  SET_PLAYER_VOLUME:            { value: number }
   SET_LAST_SEEK:                { value: number }
   TOGGLE_USECOM_SHOW:           { value: boolean }
   SET_USECOM_TEXT:              { value: string }

@@ -8,12 +8,7 @@ interface Props {
   playing: boolean
 }
 
-export default function InlinePlayButton({
-  playing,
-  progress,
-  onClick,
-}: Props) {
-  progress = 0
+function InlinePlayButton({ playing, progress, onClick }: Props) {
   return (
     <S.Button>
       <IconButton
@@ -85,3 +80,5 @@ const S = {
     }
   `,
 }
+
+export default Object.assign(InlinePlayButton, { sc: S.Button })
