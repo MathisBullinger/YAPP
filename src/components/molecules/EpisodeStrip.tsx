@@ -75,11 +75,12 @@ const S = {
     }
   `,
 
-  Box: styled.div`
+  Box: styled.div.attrs((props: any) => ({
+    style: { top: `calc(${props.i} * var(--episode-height))` },
+  }))`
     display: block;
     position: absolute;
     left: 0;
-    top: calc(${props => props['i']} * var(--episode-height));
     width: 100%;
     height: var(--episode-height);
 

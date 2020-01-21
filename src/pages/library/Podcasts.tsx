@@ -34,7 +34,7 @@ export default function Podcasts({ subs, pods }: Props) {
       sort(
         subs.map(id => pods[id]).filter(v => v),
         { selector: ({ name }) => name, articles: 'append' }
-      ).map(({ itunesId }) => itunesId)
+      ).map(({ id }) => id)
     )
   }, [pods, subs])
 
@@ -43,10 +43,10 @@ export default function Podcasts({ subs, pods }: Props) {
       new Fuse(
         subs
           .map(id => pods[id])
-          .filter(pod => pod && pod.name && pod.creator && pod.itunesId),
+          .filter(pod => pod && pod.name && pod.creator && pod.id),
         {
           shouldSort: true,
-          keys: ['name', 'creator', 'itunesId'],
+          keys: ['name', 'creator', 'id'],
           threshold: 0.2,
         }
       )
@@ -59,7 +59,7 @@ export default function Podcasts({ subs, pods }: Props) {
       return
     }
     const filter = fuse.search(search)
-    setFiltered(filter.map(({ itunesId }) => itunesId))
+    setFiltered(filter.map(({ id }) => id))
   }, [search, sorted, pods, fuse])
 
   function open(id: string) {

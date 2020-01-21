@@ -9,7 +9,6 @@ interface State {
   }
   appbar: {
     visible: boolean
-    hidden: boolean
     title: string
     actions: AppbarAction[]
     loading: boolean
@@ -43,7 +42,7 @@ interface State {
     text: string
     type: 'info' | 'warn' | 'error' | 'request'
   }
-  subscriptions: Podcast['itunesId'][]
+  subscriptions: Podcast['id'][]
   platform: {
     os: 'windows'
     input: 'unknown' | 'mouse'
@@ -55,11 +54,14 @@ interface State {
 }
 
 interface Podcast {
-  itunesId: string
+  id: string
   name: string
   creator: string
   feed: string
-  description: string
+  descr: {
+    short?: string
+    long?: string
+  }
   artworks: Artwork[]
   episodes?: Episode[]
   colors: Color[]
@@ -72,8 +74,10 @@ interface Episode {
   date: number
   id: string
   duration: number
-  description?: string
-  content?: string
+  descr: {
+    short?: string
+    long?: string
+  }
   artworks?: Artwork[]
   _fetched: boolean
 }

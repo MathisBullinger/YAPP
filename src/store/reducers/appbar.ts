@@ -6,7 +6,6 @@ export default function appbar(
   state = defaultState['appbar'],
   action:
     | a<'TOGGLE_APPBAR'>
-    | a<'TOGGLE_APPBAR_HIDDEN'>
     | a<'SET_APPBAR_TITLE'>
     | a<'ADD_APPBAR_ACTION'>
     | a<'RESET_APPBAR_ACTIONS'>
@@ -18,11 +17,6 @@ export default function appbar(
       return {
         ...state,
         visible: getToggleValue(action, state.visible),
-      }
-    case 'TOGGLE_APPBAR_HIDDEN':
-      return {
-        ...state,
-        hidden: getToggleValue(action, state.hidden),
       }
     case 'SET_APPBAR_TITLE':
       return {

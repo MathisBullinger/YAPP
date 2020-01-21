@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 export default function Result(props: Podcast) {
   return (
-    <S.Result to={`/podcast/${props.itunesId}`}>
+    <S.Result to={`/podcast/${props.id}`}>
       <Artwork size="3.5rem" imgs={props.artworks} />
       <div>
         <Text emp="high">{props.name}</Text>

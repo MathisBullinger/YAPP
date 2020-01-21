@@ -3,7 +3,6 @@ export interface Actions {
   SET_THEME:                    { value: Themes }
   TOGGLE_DARK_MODE:             { value: boolean }
   TOGGLE_APPBAR:                { value: boolean }
-  TOGGLE_APPBAR_HIDDEN:         { value: boolean }
   TOGGLE_PREFER_AMOLED:         { value: boolean }
   TOGGLE_DARK_AT_NIGHT:         { value: boolean }
   SET_DARK_AT_NIGHT:            { value: boolean }
@@ -23,10 +22,10 @@ export interface Actions {
   ADD_PODCAST:                  { value: Podcast }
   ADD_PODCASTS:                 { values: Podcast[] }
   ADD_EPISODE:                  { value: Episode, podId: string }
-  ADD_SEARCH_RESULTS:           { search: string, results: Podcast['itunesId'][] }
+  ADD_SEARCH_RESULTS:           { search: string, results: Podcast['id'][] }
   TOGGLE_PODCAST_FETCHING:      { value: boolean }
   TOGGLE_PODCAST_SEARCHING:     { value: boolean }
-  FETCH_PODCAST:                { value: Podcast['itunesId'], metaOnly?: boolean }
+  FETCH_PODCAST:                { value: Podcast['id'], metaOnly?: boolean }
   FETCH_EPISODE:                { value: string }
   FETCH_LIBRARY:                { values: string[] }
   TOGGLE_PLAYER_VISIBLE:        { value: boolean }

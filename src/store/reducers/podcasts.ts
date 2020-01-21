@@ -18,7 +18,7 @@ export default function(
         ...state,
         byId: {
           ...state.byId,
-          [action.value.itunesId]: action.value,
+          [action.value.id]: action.value,
         },
       }
     case 'ADD_PODCASTS':
@@ -26,7 +26,7 @@ export default function(
         ...state,
         byId: {
           ...state.byId,
-          ...action.values.reduce((a, c) => ({ ...a, [c.itunesId]: c }), {}),
+          ...action.values.reduce((a, c) => ({ ...a, [c.id]: c }), {}),
         },
       }
     case 'ADD_EPISODE': {

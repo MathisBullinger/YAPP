@@ -30,11 +30,11 @@ export function* searchPodcast(action: assemble<'SEARCH_PODCAST'>) {
     yield put(
       a('ADD_PODCAST', {
         value: {
-          itunesId: podcast.itunesId,
+          id: podcast.id,
           name: podcast.name,
           creator: podcast.creator,
           feed: '',
-          description: '',
+          descr: {},
           artworks: podcast.artworks,
           colors: [],
           episodes: null,
@@ -46,9 +46,7 @@ export function* searchPodcast(action: assemble<'SEARCH_PODCAST'>) {
   yield put(
     a('ADD_SEARCH_RESULTS', {
       search: action.value,
-      results: (result.data as SearchPodcast).search.map(
-        podcast => podcast.itunesId
-      ),
+      results: (result.data as SearchPodcast).search.map(podcast => podcast.id),
     })
   )
   yield put(a('TOGGLE_PODCAST_SEARCHING', false))
@@ -171,12 +169,12 @@ export function* persistPlayer() {
 
 const mapPodcast = (
   data: FetchPodcast['podcast'] | FetchLibrary['podcasts'][0]
-) => ({
-  itunesId: data.itunesId,
+): Podcast => ({
+  id: data.id,
   name: data.name,
   creator: data.creator,
   feed: 'feed' in data ? data.feed : '',
-  description: 'description' in data ? data.description : '',
+  descr: 'descr' in data ? data.descr : {},
   artworks: data.artworks,
   colors: data.colors,
   _fetched: true,
@@ -185,8 +183,9 @@ const mapPodcast = (
       title: episode.title,
       file: episode.file,
       date: parseInt(episode.date, 10),
-      id: `${data.itunesId} ${episode.id}`,
+      id: `${data.id} ${episode.id}`,
       duration: episode.duration,
+      descr: {},
       _fetched: false,
     })),
   }),

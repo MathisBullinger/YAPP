@@ -27,7 +27,7 @@ const scrollTimeoutCallback = () => {
   scrollbar._call(false)
 }
 
-const MIN_STEP = 20
+const MIN_STEP = 0
 let lastOffY: number = null
 let lastDY: number = null
 
