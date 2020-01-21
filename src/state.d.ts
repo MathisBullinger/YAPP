@@ -43,7 +43,7 @@ interface State {
     text: string
     type: 'info' | 'warn' | 'error' | 'request'
   }
-  subscriptions: Podcast['itunesId'][]
+  subscriptions: Podcast['id'][]
   platform: {
     os: 'windows'
     input: 'unknown' | 'mouse'
@@ -55,7 +55,7 @@ interface State {
 }
 
 interface Podcast {
-  itunesId: string
+  id: string
   name: string
   creator: string
   feed: string

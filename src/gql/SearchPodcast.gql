@@ -1,6 +1,6 @@
 query SearchPodcast($name: String!) {
   search(name: $name) {
-    itunesId
+    id
     name
     creator
     artworks {

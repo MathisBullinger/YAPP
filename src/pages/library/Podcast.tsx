@@ -19,12 +19,12 @@ export default function Podcast({
   preLoad,
 }: Props) {
   return (
-    <S.Podcast onClick={() => onClick(podcast?.itunesId)} data-size={size}>
+    <S.Podcast onClick={() => onClick(podcast?.id)} data-size={size}>
       <Picture
         imgs={podcast?.artworks}
         size={size}
         alt={podcast?.name}
-        onLoaded={() => onImgLoaded && onImgLoaded(podcast.itunesId)}
+        onLoaded={() => onImgLoaded && onImgLoaded(podcast.id)}
         lazy={!preLoad}
       />
     </S.Podcast>

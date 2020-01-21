@@ -1,6 +1,6 @@
 query FetchLibrary($ids: [ID]!) {
   podcasts(itunesIds: $ids) {
-    itunesId
+    id
     name
     creator
     feed

@@ -78,12 +78,12 @@ function Podcast(props: Props) {
                 <Title s4={desktop} s5={!desktop}>
                   {podcast?.name}
                 </Title>
-                {desktop && <Subscribe id={podcast?.itunesId} />}
+                {desktop && <Subscribe id={podcast?.id} />}
               </S.TitleRow>
               <Subtitle s1={desktop} s2={!desktop}>
                 {podcast?.creator}
               </Subtitle>
-              {desktop && <Description id={podcast?.itunesId} />}
+              {desktop && <Description id={podcast?.id} />}
             </S.TextSection>
             <Artwork
               imgs={podcast?.artworks}
@@ -93,7 +93,7 @@ function Podcast(props: Props) {
               ]}
             />
           </S.Top>
-          <Mobile id={podcast?.itunesId} />
+          <Mobile id={podcast?.id} />
         </S.Head>
         <EpisodeList
           handleOpen={openEpisode}

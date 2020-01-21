@@ -1,6 +1,6 @@
 query FetchPodcast($id: ID!) {
   podcast(itunesId: $id) {
-    itunesId
+    id
     name
     creator
     description

@@ -30,7 +30,7 @@ export async function importOpml(file: File) {
           query: gql`
             query opmlSearch($name: String!) {
               search(name: $name) {
-                itunesId
+                id
                 name
                 feed
               }
@@ -42,11 +42,11 @@ export async function importOpml(file: File) {
         .then(result => {
           const id = (result as any)?.data?.search?.find(
             ({ feed }) => format(feed) === format(podcast.url)
-          )?.itunesId
+          )?.id
           if (id)
             return api
               .query({
-                query: gql`{ podcast(itunesId: ${id}) { itunesId } }`,
+                query: gql`{ podcast(id: ${id}) { id } }`,
               })
               .then(() => {
                 store.dispatch(action('SUBSCRIBE', id))

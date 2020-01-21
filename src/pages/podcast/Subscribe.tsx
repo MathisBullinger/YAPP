@@ -5,7 +5,7 @@ import { Icon, Button } from '~/components/atoms'
 import action from '~/store/actions'
 
 interface Props {
-  id: Podcast['itunesId']
+  id: Podcast['id']
   compact?: boolean
   expanded?: boolean
 }

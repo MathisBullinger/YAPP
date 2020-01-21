@@ -3,7 +3,7 @@ import { useSelector } from '~/utils/hooks'
 import { Text, Dynamic } from '~/components/atoms'
 
 interface Props {
-  id: Podcast['itunesId']
+  id: Podcast['id']
 }
 
 export default function Description({ id }: Props) {

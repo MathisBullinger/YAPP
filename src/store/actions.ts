@@ -23,10 +23,10 @@ export interface Actions {
   ADD_PODCAST:                  { value: Podcast }
   ADD_PODCASTS:                 { values: Podcast[] }
   ADD_EPISODE:                  { value: Episode, podId: string }
-  ADD_SEARCH_RESULTS:           { search: string, results: Podcast['itunesId'][] }
+  ADD_SEARCH_RESULTS:           { search: string, results: Podcast['id'][] }
   TOGGLE_PODCAST_FETCHING:      { value: boolean }
   TOGGLE_PODCAST_SEARCHING:     { value: boolean }
-  FETCH_PODCAST:                { value: Podcast['itunesId'], metaOnly?: boolean }
+  FETCH_PODCAST:                { value: Podcast['id'], metaOnly?: boolean }
   FETCH_EPISODE:                { value: string }
   FETCH_LIBRARY:                { values: string[] }
   TOGGLE_PLAYER_VISIBLE:        { value: boolean }
