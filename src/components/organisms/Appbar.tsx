@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, timing, responsive } from '~/styles'
 import { Title, Progress } from '~/components/atoms'
-import { useSelector, useDispatch } from '~/utils/hooks'
+import { useSelector } from '~/utils/hooks'
 import Back from './appbarActions/Back'
 import Search from './appbarActions/Search'
 import Settings from './appbarActions/Settings'
 import { mapKeys } from '~/utils'
 import { useMatchMedia, useScrollDir } from '~/utils/hooks'
-import action from '~/store/actions'
 
 const actions = mapKeys({ Back, Search, Settings }, k => k.toLowerCase())
 
@@ -17,11 +16,33 @@ export default function Appbar() {
   const barActions = useSelector(state => state.appbar.actions)
   const loading = useSelector(state => state.appbar.loading)
   const scrollDir = useScrollDir()
-  const hideOnScroll = useSelector(state => state.appbar.hideOnScroll)
-  const hidden = useSelector(state => state.appbar.hidden)
-  const dispatch = useDispatch()
   const appbarAllowed = useMatchMedia(responsive.appbarVisible)
   const appbarRequested = useSelector(state => state.appbar.visible)
+  const wrapRef = useRef<HTMLDivElement>()
+
+  useEffect(() => {
+    if (!wrapRef || !wrapRef.current) return
+    if (scrollDir === 'down') {
+      let off =
+        wrapRef.current.offsetTop +
+        wrapRef.current.offsetHeight -
+        window.scrollY
+      wrapRef.current.style.top = `${-Math.max(4 * 14 - off, 0)}px`
+      wrapRef.current.style.height = `calc(${window.scrollY}px + ${4 * 14}px)`
+    } else {
+      const off = Math.max(
+        wrapRef.current.offsetTop +
+          wrapRef.current.offsetHeight -
+          window.scrollY,
+        0
+      )
+      wrapRef.current.style.height = `${document.body.offsetHeight}px`
+      wrapRef.current.style.top = `calc(${Math.max(
+        window.scrollY + off,
+        4 * 14
+      )}px - ${document.body.offsetHeight}px)`
+    }
+  }, [scrollDir, wrapRef])
 
   const visible =
     (appbarAllowed ||
@@ -29,8 +50,8 @@ export default function Appbar() {
     appbarRequested
   if (!visible) return null
 
-  if (hideOnScroll && ((scrollDir || 'up') === 'up') !== !hidden)
-    dispatch(action('TOGGLE_APPBAR_HIDDEN', (scrollDir || 'up') === 'down'))
+  // if (hideOnScroll && ((scrollDir || 'up') === 'up') !== !hidden)
+  //   dispatch(action('TOGGLE_APPBAR_HIDDEN', (scrollDir || 'up') === 'down'))
 
   const [left, right] = barActions
     .reduce(
@@ -54,15 +75,14 @@ export default function Appbar() {
 
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
-      <S.Appbar
-        data-hidden={hideOnScroll && (scrollDir || 'up') === 'down'}
-        hidden={!visible}
-      >
-        {left}
-        <Title s5>{title}</Title>
-        {right}
-        <Progress active={loading} />
-      </S.Appbar>
+      <S.Wrap ref={wrapRef}>
+        <S.Appbar>
+          {left}
+          <Title s5>{title}</Title>
+          {right}
+          <Progress active={loading} />
+        </S.Appbar>
+      </S.Wrap>
     </ThemeProvider>
   )
 }
@@ -70,18 +90,19 @@ export default function Appbar() {
 const S = {
   // prettier-ignore
   Appbar: styled.div`
-    z-index: 2000;
-    position: fixed;
+    position: sticky;
+    top: 0;
     display: flex;
     width: 100vw;
     height: ${layout.mobile.appbarHeight};
     ${({ theme }) => theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(0.8)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
-    transition: background-color ${timing.colorSwap}, transform ${timing.appbarHidden};
+    transition: background-color ${timing.colorSwap};
     flex-direction: row;
     align-items: center;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+    pointer-events: initial;
 
     .action.right:first-of-type {
       margin-left: auto;
@@ -95,9 +116,14 @@ const S = {
     & > * {
       margin: 0;
     }
+  `,
 
-    &[data-hidden="true"] {
-      transform: translateY(-100%);
-    }
-  `
+  Wrap: styled.div`
+    height: ${layout.mobile.appbarHeight};
+    width: 100vw;
+    position: absolute;
+    z-index: 2000;
+    top: 0;
+    pointer-events: none;
+  `,
 }

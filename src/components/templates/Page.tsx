@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { useSelector } from '~/utils/hooks'
-import { responsive, layout, timing } from '~/styles'
+import { responsive, layout } from '~/styles'
 import { scrollbar } from '~/utils/interaction'
 
 const Page: React.FunctionComponent = props => {
   const player = useSelector(state => state.player.visible)
-  const appbar = useSelector(state => state.appbar.visible)
   const toolbar = useSelector(state => state.toolbar.visible)
-  const abHidden = useSelector(state => state.appbar.hidden)
   const os = useSelector(state => state.platform.os)
   const [scrollbarState, setScrollbarState] = useState()
 
@@ -24,7 +22,6 @@ const Page: React.FunctionComponent = props => {
     <ThemeProvider theme={{ topic: 'background' }}>
       <S.Page
         data-player={player ? 'visible' : 'hidden'}
-        data-appbar={appbar && !abHidden ? 'visible' : 'hidden'}
         data-toolbar={toolbar ? 'visible' : 'hidden'}
         {...(os === 'windows' && {
           'data-os': 'windows',
@@ -70,12 +67,7 @@ const S = {
     }
 
     @media ${responsive.appbarVisible} {
-      transition: ${timing.appbarHidden} margin-top,
-        background-color ${timing.colorSwap};
-
-      &[data-appbar='visible'] {
-        --buffer-top: ${layout.mobile.appbarHeight};
-      }
+      --buffer-top: ${layout.mobile.appbarHeight};
     }
 
     @media ${responsive.toolbarVisible} {
@@ -90,8 +82,6 @@ const S = {
     margin-bottom: var(--buffer-bottom);
 
     margin-top: var(--buffer-top);
-
-    /* height: calc(100vh - (var(--buffer-top)) - (var(--buffer-bottom))); */
 
     &[data-os='windows'] {
       scrollbar-width: thin;

@@ -3,7 +3,6 @@ export interface Actions {
   SET_THEME:                    { value: Themes }
   TOGGLE_DARK_MODE:             { value: boolean }
   TOGGLE_APPBAR:                { value: boolean }
-  TOGGLE_APPBAR_HIDDEN:         { value: boolean }
   TOGGLE_PREFER_AMOLED:         { value: boolean }
   TOGGLE_DARK_AT_NIGHT:         { value: boolean }
   SET_DARK_AT_NIGHT:            { value: boolean }

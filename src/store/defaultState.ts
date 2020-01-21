@@ -9,7 +9,6 @@ const defaultState: State = {
   },
   appbar: {
     visible: true,
-    hidden: false,
     title: '',
     actions: [],
     loading: false,
