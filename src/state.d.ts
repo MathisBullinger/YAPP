@@ -59,7 +59,10 @@ interface Podcast {
   name: string
   creator: string
   feed: string
-  description: string
+  descr: {
+    short?: string
+    long?: string
+  }
   artworks: Artwork[]
   episodes?: Episode[]
   colors: Color[]
@@ -72,8 +75,10 @@ interface Episode {
   date: number
   id: string
   duration: number
-  description?: string
-  content?: string
+  descr: {
+    short?: string
+    long?: string
+  }
   artworks?: Artwork[]
   _fetched: boolean
 }

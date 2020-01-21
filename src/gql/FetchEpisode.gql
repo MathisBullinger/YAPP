@@ -5,8 +5,10 @@ query FetchEpisode($pId: ID!, $eId: ID!) {
     date
     id
     duration
-    description
-    content
+    descr {
+      short
+      long
+    }
     artworks {
       url
       size

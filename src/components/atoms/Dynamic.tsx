@@ -68,14 +68,8 @@ function replace(content, layer: number[] = [0]) {
 
 export default function Dynamic({ children }) {
   if (!children) return null
-  if (!children.startsWith('\u200c'))
-    return (
-      <S.Dynamic>
-        <Text>{children}</Text>
-      </S.Dynamic>
-    )
 
-  const content = replace(parse(children.substring(1))).map((item, i) =>
+  const content = replace(parse(children)).map((item, i) =>
     item.type ? item : <Text key={`root-${i}`}>{item}</Text>
   )
 

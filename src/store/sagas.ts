@@ -34,7 +34,7 @@ export function* searchPodcast(action: assemble<'SEARCH_PODCAST'>) {
           name: podcast.name,
           creator: podcast.creator,
           feed: '',
-          description: '',
+          descr: {},
           artworks: podcast.artworks,
           colors: [],
           episodes: null,
@@ -169,12 +169,12 @@ export function* persistPlayer() {
 
 const mapPodcast = (
   data: FetchPodcast['podcast'] | FetchLibrary['podcasts'][0]
-) => ({
+): Podcast => ({
   id: data.id,
   name: data.name,
   creator: data.creator,
   feed: 'feed' in data ? data.feed : '',
-  description: 'description' in data ? data.description : '',
+  descr: 'descr' in data ? data.descr : {},
   artworks: data.artworks,
   colors: data.colors,
   _fetched: true,
@@ -185,6 +185,7 @@ const mapPodcast = (
       date: parseInt(episode.date, 10),
       id: `${data.id} ${episode.id}`,
       duration: episode.duration,
+      descr: {},
       _fetched: false,
     })),
   }),

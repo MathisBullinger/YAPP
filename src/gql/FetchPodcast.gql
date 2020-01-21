@@ -3,7 +3,10 @@ query FetchPodcast($id: ID!) {
     id
     name
     creator
-    description
+    descr {
+      short
+      long
+    }
     artworks {
       url
       size
