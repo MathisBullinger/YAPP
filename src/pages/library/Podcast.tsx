@@ -22,7 +22,7 @@ export default function Podcast({
     <S.Podcast onClick={() => onClick(podcast?.id)} data-size={size}>
       <Picture
         imgs={podcast?.artworks}
-        size={size}
+        size={size * devicePixelRatio}
         alt={podcast?.name}
         onLoaded={() => onImgLoaded && onImgLoaded(podcast.id)}
         lazy={!preLoad}
