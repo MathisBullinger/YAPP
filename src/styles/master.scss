@@ -5,6 +5,10 @@
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   overflow-x: hidden;
+
+  @media (min-width: 600px) and (orientation: landscape) {
+    overscroll-behavior: none;
+  }
 }
 
 body {

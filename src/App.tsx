@@ -8,6 +8,7 @@ import { responsive, timing } from '~/styles'
 import { useSelector, useDispatch, useMatchMedia } from '~/utils/hooks'
 import action from '~/store/actions'
 import sunCalc from 'suncalc'
+import { handleScroll } from '~/utils/interaction'
 import {
   Mainnav,
   Appbar,
@@ -50,10 +51,11 @@ export default function App() {
   })
 
   useEffect(() => {
-    setTimeout(
-      () =>
-        (document.body.style.transition = `background-color ${timing.colorSwap}`)
-    )
+    setTimeout(() => {
+      document.body.style.transition = `background-color ${timing.colorSwap}`
+    })
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
@@ -101,4 +103,8 @@ function useDayTime(allowed: boolean): Promise<'unknown' | 'day' | 'night'> {
   }, [allowed])
 
   return daytime as Promise<'unknown' | 'day' | 'night'>
+}
+
+function onScroll() {
+  handleScroll(window.scrollY)
 }
