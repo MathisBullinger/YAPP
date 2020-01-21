@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import action from '~/store/actions'
 import styled from 'styled-components'
@@ -9,14 +9,18 @@ import { useSelector } from '~/utils/hooks'
 export default function Controls() {
   const dispatch = useDispatch()
   const search = useSelector(state => state.library.search)
+  const [value, setValue] = useState(search)
 
   return (
     <S.Controls>
       <Input
         block
         placeholder="Search Library"
-        value={search}
-        onChange={v => dispatch(action('SET_SEARCH', v))}
+        value={value}
+        onChange={v => {
+          setValue(v)
+          dispatch(action('SET_SEARCH', v))
+        }}
         type="search"
       />
       <IconButton icon="sort" label="sort" onClick={() => {}} />
