@@ -1,6 +1,6 @@
 const path = require('path')
 
-const config = {
+module.exports = {
   extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier/react'],
   parser: '@typescript-eslint/parser',
   plugins: ['prettier', '@typescript-eslint', 'react-hooks'],
@@ -30,7 +30,7 @@ const config = {
     expect: true,
     gapi: 'readonly',
     __dirname: 'readonly',
-    workbox: true,
+    MediaMetadata: 'readonly',
   },
   rules: {
     semi: ['error', 'never'],
@@ -50,5 +50,3 @@ const config = {
     'no-extra-semi': 0,
   },
 }
-
-module.exports = config
