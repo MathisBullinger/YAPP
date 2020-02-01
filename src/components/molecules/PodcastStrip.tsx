@@ -7,43 +7,45 @@ export default function Result(props: Podcast) {
   return (
     <S.Result to={`/podcast/${props.id}`}>
       <Artwork size="3.5rem" imgs={props.artworks} />
-      <div>
+      <S.TextSection>
         <Text emp="high">{props.name}</Text>
         <Text emp="medium">{props.creator}</Text>
-      </div>
+      </S.TextSection>
     </S.Result>
   )
 }
 
-namespace S {
-  const ResultBase = styled(Link)`
+const S = {
+  Result: styled(Link)`
+    height: 3.5rem;
     display: flex;
     flex-direction: row;
-    height: 3.5rem;
     align-items: center;
     text-decoration: none;
-
-    * {
-      margin: 0;
-    }
-
-    div {
-      height: 3rem;
-      padding-left: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-    }
 
     img {
       border-radius: 0.25rem;
       width: 3.5rem;
     }
-  `
 
-  export const Result = styled(ResultBase)`
-    ${ResultBase} ~ & {
+    ${() => S.Result} ~ & {
       margin-top: 1rem;
     }
-  `
+  `,
+
+  TextSection: styled.div`
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 1rem;
+
+    & > * {
+      margin: 0;
+      overflow-x: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  `,
 }
