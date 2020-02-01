@@ -16,6 +16,7 @@ import {
   Player,
   Message,
 } from '~/components/organisms'
+import { scrollbar } from '~/utils/interaction'
 
 export default function App() {
   const theme = useSelector(state => state.theme.current)
@@ -29,6 +30,7 @@ export default function App() {
   const dispatch = useDispatch()
   const timeProm = useDayTime(useGeoDark)
   const [daytime, setDaytime] = useState('unknown')
+  useCustomScrollBar()
 
   useEffect(() => {
     if (!useSystemDark) return
@@ -74,6 +76,36 @@ export default function App() {
       </Router>
     </ThemeProvider>
   )
+}
+
+function useCustomScrollBar() {
+  const os = useSelector(state => state.platform.os)
+  const theme = useSelector(state => state.theme.current)
+
+  useEffect(() => {
+    if (os !== 'windows') return
+    document.documentElement.dataset.os = 'windows'
+    document.documentElement.dataset.scrollbar = 'inactive'
+    const callback = (v: boolean) => {
+      document.documentElement.dataset.scrollbar = v ? 'active' : 'inactive'
+    }
+    scrollbar.subscribe(callback)
+    return () => scrollbar.unsubscribe(callback)
+  }, [os])
+
+  useEffect(() => {
+    if (os !== 'windows') return
+    document.documentElement.style.setProperty(
+      '--scrollbar-color',
+      getTheme(theme)
+        .background(0)
+        .on('disabled')
+    )
+    document.documentElement.style.setProperty(
+      '--background-color',
+      getTheme(theme).background(0).color
+    )
+  }, [theme, os])
 }
 
 function useDayTime(allowed: boolean): Promise<'unknown' | 'day' | 'night'> {

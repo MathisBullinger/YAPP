@@ -9,6 +9,35 @@
   @media (min-width: 600px) and (orientation: landscape) {
     overscroll-behavior: none;
   }
+
+  --scrollbar-color: #ffffff;
+  --background-color: #33333c;
+
+  &[data-os='windows'] {
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 2.5px;
+      transition: background-color 0.2s ease;
+    }
+
+    &[data-scrollbar='active']::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-color);
+    }
+
+    &[data-scrollbar='inactive']::-webkit-scrollbar-thumb {
+      background-color: var(--background-color);
+    }
+  }
 }
 
 #root {

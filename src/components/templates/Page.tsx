@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { useSelector } from '~/utils/hooks'
 import { responsive, layout } from '~/styles'
-import { scrollbar } from '~/utils/interaction'
 
 const Page: React.FunctionComponent = props => {
   const player = useSelector(state => state.player.visible)
   const toolbar = useSelector(state => state.toolbar.visible)
-  const os = useSelector(state => state.platform.os)
-  const [scrollbarState, setScrollbarState] = useState()
-
-  useEffect(() => {
-    if (os !== 'windows') return
-    const callback = (v: boolean) =>
-      setScrollbarState(v ? 'active' : 'inactive')
-    scrollbar.subscribe(callback)
-    return () => scrollbar.unsubscribe(callback)
-  }, [os])
 
   return (
     <ThemeProvider theme={{ topic: 'background' }}>
       <S.Page
         data-player={player ? 'visible' : 'hidden'}
         data-toolbar={toolbar ? 'visible' : 'hidden'}
-        {...(os === 'windows' && {
-          'data-os': 'windows',
-          'data-scrollbar': scrollbarState ?? 'inactive',
-        })}
       >
         {props.children}
       </S.Page>
@@ -35,7 +20,6 @@ const Page: React.FunctionComponent = props => {
 }
 export default Page
 
-const scrollbarWidth = 5
 const S = {
   Page: styled.div`
     position: relative;
@@ -82,34 +66,5 @@ const S = {
     margin-bottom: var(--buffer-bottom);
 
     margin-top: var(--buffer-top);
-
-    &[data-os='windows'] {
-      scrollbar-width: thin;
-      scrollbar-color: ${({ theme }) =>
-        theme[theme.topic](theme.variant).on('disabled')};
-
-      &::-webkit-scrollbar {
-        width: ${scrollbarWidth}px;
-        background-color: transparent;
-      }
-
-      &::-webkit-scrollbar-track {
-        background-color: transparent;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        border-radius: ${scrollbarWidth / 2}px;
-        background-color: ${({ theme }) =>
-          theme[theme.topic](theme.variant).on('disabled')};
-        transition: background-color 0.2s ease;
-      }
-    }
-
-    &[data-scrollbar='inactive'] {
-      &::-webkit-scrollbar-thumb {
-        background-color: ${({ theme }) =>
-          theme[theme.topic](theme.variant).color};
-      }
-    }
   `,
 }
