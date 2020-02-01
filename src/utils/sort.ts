@@ -1,7 +1,7 @@
 const articleMethods: { [k: string]: (v: string) => string } = {
   include: v => v,
-  ignore: v => v.replace(/^(?:a|an|the)(.+)/i, '$1'),
-  append: v => v.replace(/^(a|an|the)(.+)/i, '$2, $1'),
+  ignore: v => v.replace(/^(?:a|an|the) (.+)/i, '$1'),
+  append: v => v.replace(/^(a|an|the) (.+)/i, '$2, $1'),
 }
 const strPrep: typeof articleMethods = Object.fromEntries(
   Object.entries(articleMethods).map(([k, v]) => [k, s => v(s).trim()])
