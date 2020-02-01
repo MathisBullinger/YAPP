@@ -21,7 +21,7 @@ export default function PlayButton() {
 const S = {
   PlayButton: styled(IconButton)`
     cursor: pointer;
-    width: calc(${layout.mobile.playerHeight} / 3 * 2);
-    height: calc(${layout.mobile.playerHeight} / 3 * 2);
+    width: calc(${layout.mobile.playerHeight} / 4 * 3);
+    height: calc(${layout.mobile.playerHeight} / 4 * 3);
   `,
 }

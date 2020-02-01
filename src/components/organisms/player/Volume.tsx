@@ -44,6 +44,7 @@ const S = {
     max-width: 9rem;
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     button,
     svg {
@@ -53,6 +54,7 @@ const S = {
 
     input {
       margin-left: 0.8rem;
+      cursor: pointer;
     }
   `,
 }

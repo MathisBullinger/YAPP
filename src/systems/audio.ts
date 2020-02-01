@@ -23,6 +23,56 @@ function watchProgress() {
   else watchingProg = null
 }
 
+function setupMediaSession(id: string) {
+  if (!('mediaSession' in navigator)) return
+  let info = getEpisodeInfo(id)
+
+  const formatArtworks = (artworks: any[]) =>
+    artworks.map(({ size, type, url }) => ({
+      src: url,
+      sizes: `${size}x${size}`,
+      type: `image/${type}`,
+    }))
+
+  if (!info.artworks?.length) {
+    store.dispatch(action('FETCH_EPISODE', id))
+    const unsubscribe = store.subscribe(() => {
+      info = getEpisodeInfo(id)
+      if (!info._fetched) return
+      if (info.artworks?.length)
+        navigator.mediaSession.metadata.artwork = formatArtworks(info.artworks)
+      unsubscribe()
+    })
+  }
+
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: info.title,
+    artist: info.podcast.creator,
+    album: info.podcast.name,
+    artwork: formatArtworks([
+      ...(info.artworks ?? []),
+      ...info.podcast.artworks,
+    ]),
+  })
+
+  navigator.mediaSession.setActionHandler('play', () => {
+    episode.ctrl.play()
+  })
+  navigator.mediaSession.setActionHandler('pause', () => {
+    episode.ctrl.pause()
+  })
+  navigator.mediaSession.setActionHandler('seekbackward', () => {
+    setProgress(-10, { relative: true })
+  })
+  navigator.mediaSession.setActionHandler('seekforward', () => {
+    setProgress(30, {
+      relative: true,
+    })
+  })
+  navigator.mediaSession.setActionHandler('previoustrack', () => {})
+  navigator.mediaSession.setActionHandler('nexttrack', () => {})
+}
+
 function play(id: string) {
   if (episode) episode.ctrl.unload()
   store.dispatch(action('SET_PLAYER_FETCHING', true))
@@ -38,33 +88,6 @@ function play(id: string) {
   store.dispatch(action('SET_CURRENT_EPISODE', id))
   store.dispatch(action('SET_PLAYER_STATE', 'waiting'))
   episode.ctrl.play()
-
-  if ('mediaSession' in navigator) {
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: info.title,
-      artist: info.podcast.creator,
-      album: info.podcast.name,
-      artwork: [...(info.artworks ?? []), ...info.podcast.artworks].map(
-        ({ size, type, url }) => ({
-          src: url,
-          sizes: `${size}x${size}`,
-          type: `image/${type}`,
-        })
-      ),
-    })
-
-    navigator.mediaSession.setActionHandler('play', () => {
-      episode.ctrl.play()
-    })
-    navigator.mediaSession.setActionHandler('pause', () => {
-      episode.ctrl.pause()
-    })
-    navigator.mediaSession.setActionHandler('seekbackward', () => {})
-    navigator.mediaSession.setActionHandler('seekforward', () => {})
-    navigator.mediaSession.setActionHandler('previoustrack', () => {})
-    navigator.mediaSession.setActionHandler('nexttrack', () => {})
-  }
-
   ;(window as any).Howler?._howls[0]?._sounds[0]?._node?.addEventListener(
     'seeking',
     () => {
@@ -77,6 +100,8 @@ function play(id: string) {
       store.dispatch(action('SET_PLAYER_FETCHING', false))
     }
   )
+
+  setupMediaSession(id)
 
   episode.ctrl.on('load', () => {
     store.dispatch(action('SET_PLAYER_LENGTH', episode.ctrl.duration()))

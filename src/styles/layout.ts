@@ -2,7 +2,7 @@ export default {
   desktop: {
     navWidth: '15rem',
     navWidthCollapsed: '6rem',
-    playerHeight: '6rem',
+    playerHeight: '7rem',
   },
   mobile: {
     navHeight: '4rem',
