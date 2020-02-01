@@ -5,10 +5,10 @@ import InlinePlayButton from '~/components/molecules/InlinePlayButton'
 import { responsive, layout } from '~/styles'
 import { useSelector, useMatchMedia } from '~/utils/hooks'
 import audio from '~/systems/audio'
+import { Link } from 'react-router-dom'
 
 interface Props {
   episode: Episode
-  handleOpen(id: string): void
   i: number
 }
 
@@ -18,31 +18,32 @@ const formatDate = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 }).format
 
-export default function EpisodeStrip(props: Props) {
+export default function EpisodeStrip({ episode, i }: Props) {
   const player = useSelector(state => state.player)
   const playing = player.state === 'playing' || player.state === 'waiting'
-  const selected = player.currentEpisode === props.episode.id
+  const selected = player.currentEpisode === episode.id
   const length = useSelector(state => state.player.length)
   const progress = useSelector(state => state.player.progress)
   const isDesktop = useMatchMedia(responsive.navOnSide)
+  const [pId, eId] = episode.id.split(' ')
 
   const Date = (
     <Text emp="medium" small={!isDesktop}>
-      {formatDate(props.episode.date)}
+      {formatDate(episode.date)}
     </Text>
   )
   return (
-    <S.Episode onClick={() => props.handleOpen(props.episode.id)}>
+    <S.Episode>
       {!isDesktop && Date}
-      <Text emp="high">{props.episode.title || 'no title available'}</Text>
+      <Text emp="high">{episode.title || 'no title available'}</Text>
       {isDesktop && Date}
       <InlinePlayButton
         playing={selected && playing}
         progress={selected ? (progress || 0) / (length || Infinity) : 0}
-        onClick={audio.toggle(props.episode.id)}
+        onClick={audio.toggle(episode.id)}
       />
       {!isDesktop && <Text />}
-      <S.Box i={props.i} />
+      <S.Box to={`/podcast/${pId}/${eId.replace(/^ep_(.+)/, '$1')}`} i={i} />
     </S.Episode>
   )
 }
@@ -75,7 +76,7 @@ const S = {
     }
   `,
 
-  Box: styled.div.attrs((props: any) => ({
+  Box: styled(Link).attrs((props: any) => ({
     style: { top: `calc(${props.i} * var(--episode-height))` },
   }))`
     display: block;

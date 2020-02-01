@@ -50,7 +50,11 @@ export default function Routes() {
         exact
         render={() => preRoute(ComponentLab)}
       />
-      <Route path="/podcast/:id" exact render={() => preRoute(Podcast)} />
+      <Route
+        path="/podcast/:id/:episode?"
+        exact
+        render={() => preRoute(Podcast)}
+      />
       <Route render={() => preRoute(NotFound)} />
     </Switch>
   )

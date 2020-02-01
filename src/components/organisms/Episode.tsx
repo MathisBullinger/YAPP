@@ -8,10 +8,11 @@ import { IconButton, Title, Artwork, Subtitle } from '~/components/atoms'
 import Controls from './Episode/Controls'
 import action from '~/store/actions'
 import audio from '~/systems/audio'
+// @ts-ignore
+import { useHistory } from 'react-router-dom'
 
 interface Props {
   id: string
-  close(): void
 }
 
 export default function Episode(props: Props) {
@@ -20,15 +21,21 @@ export default function Episode(props: Props) {
   const episode =
     podcast && eId && podcast.episodes.find(({ id }) => id === `${pId} ${eId}`)
   const dispatch = useDispatch()
-  if (!episode._fetched && props.id) dispatch(action('FETCH_EPISODE', props.id))
+  if (podcast && !episode?._fetched && props.id)
+    dispatch(action('FETCH_EPISODE', props.id))
   const [hidden, setHidden] = useState(true)
   const isDesktop = useMatchMedia(responsive.navOnSide)
   const player = useSelector(state => state.player)
   const playing =
     player.currentEpisode === props.id &&
     (player.state === 'playing' || player.state === 'waiting')
+  const history = useHistory()
 
   if (!episode !== hidden) setHidden(!episode)
+
+  function close() {
+    history.push(`/podcast/${pId}`)
+  }
 
   function handleClick({ clientX, clientY, target }: MouseEvent) {
     const {
@@ -38,10 +45,10 @@ export default function Episode(props: Props) {
       bottom,
     } = (target as HTMLDivElement).getBoundingClientRect()
     if (clientX < left || clientX > right || clientY < top || clientY > bottom)
-      props.close()
+      close()
   }
 
-  const onKeyDown = ({ keyCode }) => keyCode === 27 && props.close()
+  const onKeyDown = ({ keyCode }) => keyCode === 27 && close()
   useEffect(() => {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -53,7 +60,7 @@ export default function Episode(props: Props) {
         <IconButton
           icon={isDesktop ? 'close' : 'arrow_down'}
           label="hide"
-          onClick={props.close}
+          onClick={close}
         />
         {episode && (
           <S.Content>

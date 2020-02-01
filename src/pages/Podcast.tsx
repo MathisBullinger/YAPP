@@ -14,6 +14,7 @@ import action from '~/store/actions'
 
 interface RouteParams {
   id: string
+  episode?: string
 }
 interface Props extends RouteComponentProps<RouteParams> {}
 
@@ -61,11 +62,6 @@ function Podcast(props: Props) {
     })
   }
 
-  const [episode, setEpisode] = useState(null)
-  function openEpisode(id: string) {
-    setEpisode(id)
-  }
-
   const desktop = useMatchMedia(responsive.navOnSide)
   return (
     <S.Podcast>
@@ -95,11 +91,12 @@ function Podcast(props: Props) {
           </S.Top>
           <Mobile id={podcast?.id} />
         </S.Head>
-        <EpisodeList
-          handleOpen={openEpisode}
-          episodes={podcast?.episodes ?? []}
-        />
-        <Episode id={episode} close={() => setEpisode(null)} />
+        <EpisodeList episodes={podcast?.episodes ?? []} />
+        {props.match.params.episode && (
+          <Episode
+            id={`${props.match.params.id} ep_${props.match.params.episode}`}
+          />
+        )}
       </>
     </S.Podcast>
   )

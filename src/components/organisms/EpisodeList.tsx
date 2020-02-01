@@ -5,7 +5,6 @@ import { responsive } from '~/styles'
 
 interface Props {
   episodes: Episode[]
-  handleOpen(id: string): void
 }
 
 export default function EpisodeList(props: Props) {
@@ -17,7 +16,6 @@ export default function EpisodeList(props: Props) {
           <EpisodeStrip
             key={episode.title + episode.file}
             episode={episode}
-            handleOpen={props.handleOpen}
             i={i}
           />
         ))}
