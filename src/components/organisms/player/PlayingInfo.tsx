@@ -16,9 +16,12 @@ export default function PlayingInfo({ id: epId }: Props) {
 
   return (
     <S.Info>
-      <Artwork imgs={episode.artworks} size="5rem" />
+      <Artwork
+        imgs={episode.artworks?.length ? episode.artworks : podcast.artworks}
+        size="5rem"
+      />
       <S.TextSection>
-        <S.Episode s1>{episode.title}</S.Episode>
+        <S.Episode s1>{episode.title.replace(/#[0-9.]+ (.+)/, '$1')}</S.Episode>
         <S.Podcast s2>{podcast.name}</S.Podcast>
       </S.TextSection>
     </S.Info>
@@ -35,6 +38,7 @@ const S = {
 
     img {
       height: 100%;
+      border-radius: 0.25rem;
     }
   `,
 

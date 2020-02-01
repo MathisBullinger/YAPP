@@ -35,18 +35,16 @@ function Picture({ imgs, size, lazy }: Props) {
 
   return (
     <S.Artwork>
-      <picture>
-        {pics.map(({ url, type, media }, i) => (
-          <source srcSet={url} type={`image/${type}`} media={media} key={i} />
-        ))}
-        <img
-          src={fallback?.url}
-          alt={name}
-          {...(lazy && { loading: 'lazy' })}
-          width="1"
-          height="1"
-        />
-      </picture>
+      {pics.map(({ url, type, media }, i) => (
+        <source srcSet={url} type={`image/${type}`} media={media} key={i} />
+      ))}
+      <img
+        src={fallback?.url}
+        alt={name}
+        {...(lazy && { loading: 'lazy' })}
+        width="1"
+        height="1"
+      />
     </S.Artwork>
   )
 }
