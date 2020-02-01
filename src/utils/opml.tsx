@@ -46,7 +46,14 @@ export async function importOpml(file: File) {
           if (id)
             return api
               .query({
-                query: gql`{ podcast(id: ${id}) { id } }`,
+                query: gql`
+                  query importOpmlPodcast($id: ID!) {
+                    podcast(itunesId: $id) {
+                      id
+                    }
+                  }
+                `,
+                variables: { id },
               })
               .then(() => {
                 store.dispatch(action('SUBSCRIBE', id))
