@@ -7,6 +7,7 @@ import PlayButton from './player/PlayButton'
 import ControlButton from './player/ControlButton'
 import Volume from './player/Volume'
 import Progress from './player/Progress'
+import Info from './player/PlayingInfo'
 import action from '~/store/actions'
 import audio from '~/systems/audio'
 
@@ -27,7 +28,9 @@ export default function Player() {
   return (
     <ThemeProvider theme={{ topic: 'surface', variant: navOnSide ? 1 : 0 }}>
       <S.Player hidden={!visible}>
-        <div className="left" />
+        <div className="left">
+          <Info id={current} />
+        </div>
         <div className="center">
           <div className="ctrlBtGroup">
             <ControlButton
@@ -104,9 +107,13 @@ const S = {
       }
 
       .left, .right {
-        width: 200px;
+        width: 20vw;
         flex-shrink: 0;
         display: flex;
+      }
+
+      .left {
+        align-items: flex-start;
       }
 
       .center {

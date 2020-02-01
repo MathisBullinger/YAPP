@@ -43,6 +43,8 @@ function Picture({ imgs, size, lazy }: Props) {
           src={fallback?.url}
           alt={name}
           {...(lazy && { loading: 'lazy' })}
+          width="1"
+          height="1"
         />
       </picture>
     </S.Artwork>
@@ -60,7 +62,7 @@ function getOptimal(pxSize, imgs) {
     ({ size: imgSize }) => (size !== Infinity ? size : 'max') === imgSize
   )
   return [
-    selected.find(({ type }) => type === 'webp'),
+    selected.find(({ type }) => type === 'jpeg'),
     selected.find(({ type }) => type !== 'webp'),
   ].map(img => img?.url)
 }
@@ -68,6 +70,12 @@ function getOptimal(pxSize, imgs) {
 const S = {
   Artwork: styled.picture`
     display: contents;
+    flex-shrink: 0;
+
+    img {
+      width: auto;
+      height: auto;
+    }
   `,
 }
 export default Object.assign(Picture, { sc: S.Artwork })
