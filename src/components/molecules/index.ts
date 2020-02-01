@@ -4,6 +4,7 @@ import PodcastStrip from './PodcastStrip'
 import EpisodeStrip from './EpisodeStrip'
 import InlinePlayButton from './InlinePlayButton'
 import Shownotes from './Shownotes'
+import Subscribe from './Subscribe'
 
 export {
   Labeled,
@@ -12,4 +13,5 @@ export {
   EpisodeStrip,
   InlinePlayButton,
   Shownotes,
+  Subscribe,
 }

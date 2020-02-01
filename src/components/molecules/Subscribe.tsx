@@ -8,12 +8,14 @@ interface Props {
   id: Podcast['id']
   compact?: boolean
   expanded?: boolean
+  icon?: boolean
 }
 
-export default function Subscribe({
+function Subscribe({
   id,
   compact = false,
   expanded = false,
+  icon = false,
 }: Props) {
   const dispatch = useDispatch()
   const subscribed = useSelector(state => state.subscriptions.includes(id))
@@ -24,11 +26,14 @@ export default function Subscribe({
 
   return (
     <S.Subscribe
-      data-compact={compact && subscribed}
-      {...(compact && !expanded && subscribed && { onClick: toggleSubscribe })}
+      data-compact={icon || (compact && subscribed)}
+      data-icon={icon}
+      {...((icon || (compact && !expanded && subscribed)) && {
+        onClick: toggleSubscribe,
+      })}
     >
-      {compact && !expanded && subscribed ? (
-        <Icon icon="check" />
+      {icon || (compact && !expanded && subscribed) ? (
+        <Icon icon={!icon || subscribed ? 'check' : 'add'} />
       ) : (
         <Button
           {...{
@@ -46,6 +51,8 @@ export default function Subscribe({
 
 const S = {
   Subscribe: styled.div`
+    cursor: pointer;
+
     ${Icon.sc} {
       width: 1.3rem;
       height: 1.3rem;
@@ -61,5 +68,26 @@ const S = {
         text-overflow: initial;
       }
     }
+
+    &[data-icon='true'] {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 1rem;
+      background-color: ${({ theme }) =>
+        theme[theme.topic](theme.variant).on('high')};
+      position: relative;
+
+      svg {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+
+        path {
+          fill: ${({ theme }) => theme[theme.topic](theme.variant).color};
+        }
+      }
+    }
   `,
 }
+export default Object.assign(Subscribe, { sc: S.Subscribe })

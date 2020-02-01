@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { responsive } from '~/styles'
 import { useMatchMedia } from '~/utils/hooks'
 import { IconButton } from '~/components/atoms'
+import { Subscribe } from '~/components/molecules'
 import { timing } from '~/styles'
-import Subscribe from './Subscribe'
 import Description from './Description'
 
 interface Props {
