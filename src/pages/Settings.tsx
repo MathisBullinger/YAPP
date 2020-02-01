@@ -130,6 +130,8 @@ export default Object.assign(Settings, {
 
 const S = {
   Settings: styled.div`
+    height: calc(100vh - (var(--buffer-top)) - (var(--buffer-bottom)) - 4rem);
+
     @media ${responsive.navOnSide} {
       padding-left: 2rem;
       padding-right: 2rem;

@@ -29,10 +29,11 @@ export default StackedList
 
 namespace S {
   export const List = styled.div`
-    * {
+    & > * {
       position: sticky;
       top: 10px;
     }
+
     .section-title {
       top: 0;
       overflow: hidden;
