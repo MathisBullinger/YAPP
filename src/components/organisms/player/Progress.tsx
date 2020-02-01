@@ -147,10 +147,10 @@ export default function Progress() {
 const S = {
   Progress: styled.div`
     width: 100%;
-
     position: absolute;
     top: 100%;
     transform: translateY(-100%);
+    cursor: pointer;
 
     @media ${responsive.navOnSide} {
       position: initial;

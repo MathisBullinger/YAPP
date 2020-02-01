@@ -25,6 +25,7 @@ function watchProgress() {
 
 function play(id: string) {
   if (episode) episode.ctrl.unload()
+  store.dispatch(action('SET_PLAYER_FETCHING', true))
   const info = getEpisodeInfo(id)
   episode = {
     ctrl: new Howl({
@@ -64,6 +65,19 @@ function play(id: string) {
     navigator.mediaSession.setActionHandler('nexttrack', () => {})
   }
 
+  ;(window as any).Howler?._howls[0]?._sounds[0]?._node?.addEventListener(
+    'seeking',
+    () => {
+      store.dispatch(action('SET_PLAYER_FETCHING', true))
+    }
+  )
+  ;(window as any).Howler?._howls[0]?._sounds[0]?._node?.addEventListener(
+    'playing',
+    () => {
+      store.dispatch(action('SET_PLAYER_FETCHING', false))
+    }
+  )
+
   episode.ctrl.on('load', () => {
     store.dispatch(action('SET_PLAYER_LENGTH', episode.ctrl.duration()))
   })
@@ -71,11 +85,11 @@ function play(id: string) {
   episode.ctrl.on('play', () => {
     const progress = episode.ctrl.seek()
     store.dispatch(action('SET_PLAYER_STATE', 'playing'))
+    store.dispatch(action('SET_LAST_SEEK', performance.now()))
     navigator.mediaSession.playbackState = 'playing'
     if (typeof progress !== 'number') return
     if (watchingProg) clearTimeout(watchingProg)
     watchProgress()
-    store.dispatch(action('SET_LAST_SEEK', performance.now()))
   })
 
   episode.ctrl.on('pause', () => {

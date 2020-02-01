@@ -36,7 +36,7 @@ const S = {
       flex-shrink: 1;
       flex-grow: 1;
       min-width: auto;
-      overflow-x: hidden;
+      overflow: hidden;
 
       img {
         border-radius: 0.25rem;
