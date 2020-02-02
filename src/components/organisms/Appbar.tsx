@@ -21,7 +21,7 @@ export default function Appbar() {
   const scrollDir = useScrollDir()
   const appbarAllowed = useMatchMedia(responsive.appbarVisible)
   const appbarRequested = useSelector(state => state.appbar.visible)
-  const wrapRef = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>()
 
   const [scrollState, setScrollState] = useState<ScrollState>('visible')
 
@@ -31,6 +31,11 @@ export default function Appbar() {
   ) {
     setScrollState('transition')
     let off = scrollState === 'visible' ? 0 : height
+    const { scrollTop } = ref.current.parentElement
+    ref.current.style.position = 'absolute'
+    ref.current.style.top = `${
+      scrollTop - (scrollState === 'hidden' ? height : 0)
+    }px`
     positionRel.subscribe(function handleScroll(v: number) {
       off += v
       if (off > height) {
@@ -39,13 +44,12 @@ export default function Appbar() {
       }
       if (off < 0) {
         setScrollState('visible')
+        ref.current.style.position = 'fixed'
+        ref.current.style.top = '0'
         return positionRel.unsubscribe(handleScroll)
       }
-      wrapRef.current.style.transform = `translateY(${-(off ?? height)}px)`
     })
   }
-
-  if (scrollState === 'hidden') return null
 
   const visible =
     (appbarAllowed ||
@@ -75,27 +79,27 @@ export default function Appbar() {
 
   return (
     <ThemeProvider theme={{ topic: 'surface' }}>
-      <S.Wrap ref={wrapRef}>
-        <S.Appbar>
-          {left}
-          <Title s5>{title}</Title>
-          {right}
-          <Progress active={loading} />
-        </S.Appbar>
-      </S.Wrap>
+      <S.Appbar ref={ref}>
+        {left}
+        <Title s5>{title}</Title>
+        {right}
+        <Progress active={loading} />
+      </S.Appbar>
     </ThemeProvider>
   )
 }
 
 const S = {
-  // prettier-ignore
   Appbar: styled.div`
-    position: sticky;
+    position: absolute;
     top: 0;
+    left: 0;
+    z-index: 2000;
     display: flex;
     width: 100vw;
     height: ${layout.mobile.appbarHeight};
-    ${({ theme }) => theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(0.8)};` : ''}
+    ${({ theme }) =>
+      theme.elevationMode === 'shadow' ? `box-shadow: ${shadow(0.8)};` : ''}
     background-color: ${({ theme }) => theme[theme.topic]().color};
     transition: background-color ${timing.colorSwap};
     flex-direction: row;
@@ -116,17 +120,5 @@ const S = {
     & > * {
       margin: 0;
     }
-  `,
-
-  // Wrap: styled.div.attrs(({ offset }: any) => ({
-  //   style: { transform: `translateY(-${offset}px)` },
-  // }))<{ offset: number }>`
-  Wrap: styled.div`
-    height: ${layout.mobile.appbarHeight};
-    width: 100vw;
-    position: absolute;
-    z-index: 2000;
-    top: 0;
-    pointer-events: none;
   `,
 }

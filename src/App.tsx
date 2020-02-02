@@ -8,13 +8,7 @@ import { responsive, timing } from '~/styles'
 import { useSelector, useDispatch, useMatchMedia } from '~/utils/hooks'
 import action from '~/store/actions'
 import sunCalc from 'suncalc'
-import {
-  Mainnav,
-  Appbar,
-  Toolbar,
-  Player,
-  Message,
-} from '~/components/organisms'
+import { Mainnav, Toolbar, Player, Message } from '~/components/organisms'
 import { scrollbar } from '~/utils/interaction'
 
 export default function App() {
@@ -62,7 +56,6 @@ export default function App() {
       theme={{ ...getTheme(theme), topic: 'background', variant: 0 }}
     >
       <Router>
-        <Appbar />
         {toolbarAllowed && toolbarRequested && <Toolbar />}
         <Mainnav />
         <Page>

@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { useSelector } from '~/utils/hooks'
 import { responsive, layout } from '~/styles'
 import { handleScroll } from '~/utils/interaction'
+import { Appbar } from '~/components/organisms'
 
 const Page: React.FunctionComponent = props => {
   const player = useSelector(state => state.player.visible)
@@ -17,6 +18,7 @@ const Page: React.FunctionComponent = props => {
           handleScroll((e.target as HTMLDivElement).scrollTop)
         }}
       >
+        <Appbar />
         {props.children}
       </S.Page>
     </ThemeProvider>
