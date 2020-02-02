@@ -123,7 +123,7 @@ const S = {
       transition: none;
       max-width: 100vw;
       max-height: 100vh;
-      min-width: 600px;
+      min-width: 650px;
       min-height: 500px;
       width: 40vw;
       height: 70vh;

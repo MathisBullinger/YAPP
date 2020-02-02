@@ -20,6 +20,7 @@ mousePos.subscribe(mouseMethodHandler)
 
 export const scrollbar = subscription<boolean>()
 export const position = subscription<number>()
+export const positionRel = subscription<number>()
 export const direction = subscription<'down' | 'up'>()
 
 const scrollTimeoutCallback = () => {
@@ -43,6 +44,7 @@ export const handleScroll = throttle((scrollTop: number) => {
   const dy = scrollTop - lastOffY
 
   position._call(scrollTop)
+  positionRel._call(dy)
 
   if (Math.abs(dy) >= MIN_STEP)
     if (lastDY !== null || dy > 0 !== lastDY > 0)

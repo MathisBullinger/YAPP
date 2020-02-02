@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { layout, shadow, timing, responsive } from '~/styles'
 import { Title, Progress } from '~/components/atoms'
@@ -8,8 +8,11 @@ import Search from './appbarActions/Search'
 import Settings from './appbarActions/Settings'
 import { mapKeys } from '~/utils'
 import { useMatchMedia, useScrollDir } from '~/utils/hooks'
+import { positionRel } from '~/utils/interaction'
 
 const actions = mapKeys({ Back, Search, Settings }, k => k.toLowerCase())
+type ScrollState = 'visible' | 'hidden' | 'transition'
+const height = 56
 
 export default function Appbar() {
   const title = useSelector(state => state.appbar.title)
@@ -20,38 +23,35 @@ export default function Appbar() {
   const appbarRequested = useSelector(state => state.appbar.visible)
   const wrapRef = useRef<HTMLDivElement>()
 
-  useEffect(() => {
-    if (!wrapRef || !wrapRef.current) return
-    if (scrollDir === 'down') {
-      let off =
-        wrapRef.current.offsetTop +
-        wrapRef.current.offsetHeight -
-        window.scrollY
-      wrapRef.current.style.top = `${-Math.max(4 * 14 - off, 0)}px`
-      wrapRef.current.style.height = `calc(${window.scrollY}px + ${4 * 14}px)`
-    } else {
-      const off = Math.max(
-        wrapRef.current.offsetTop +
-          wrapRef.current.offsetHeight -
-          window.scrollY,
-        0
-      )
-      wrapRef.current.style.height = `${document.body.offsetHeight}px`
-      wrapRef.current.style.top = `calc(${Math.max(
-        window.scrollY + off,
-        4 * 14
-      )}px - ${document.body.offsetHeight}px)`
-    }
-  }, [scrollDir, wrapRef])
+  const [scrollState, setScrollState] = useState<ScrollState>('visible')
+
+  if (
+    (scrollDir === 'down' && scrollState === 'visible') ||
+    (scrollDir === 'up' && scrollState === 'hidden')
+  ) {
+    setScrollState('transition')
+    let off = scrollState === 'visible' ? 0 : height
+    positionRel.subscribe(function handleScroll(v: number) {
+      off += v
+      if (off > height) {
+        setScrollState('hidden')
+        return positionRel.unsubscribe(handleScroll)
+      }
+      if (off < 0) {
+        setScrollState('visible')
+        return positionRel.unsubscribe(handleScroll)
+      }
+      wrapRef.current.style.transform = `translateY(${-(off ?? height)}px)`
+    })
+  }
+
+  if (scrollState === 'hidden') return null
 
   const visible =
     (appbarAllowed ||
       document.querySelector('#root').classList.contains('fixed')) &&
     appbarRequested
   if (!visible) return null
-
-  // if (hideOnScroll && ((scrollDir || 'up') === 'up') !== !hidden)
-  //   dispatch(action('TOGGLE_APPBAR_HIDDEN', (scrollDir || 'up') === 'down'))
 
   const [left, right] = barActions
     .reduce(
@@ -118,6 +118,9 @@ const S = {
     }
   `,
 
+  // Wrap: styled.div.attrs(({ offset }: any) => ({
+  //   style: { transform: `translateY(-${offset}px)` },
+  // }))<{ offset: number }>`
   Wrap: styled.div`
     height: ${layout.mobile.appbarHeight};
     width: 100vw;

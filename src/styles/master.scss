@@ -6,10 +6,6 @@
   font-size: 14px;
   margin: 0;
 
-  @media (min-width: 600px) and (orientation: landscape) {
-    overscroll-behavior: none;
-  }
-
   --scrollbar-color: #ffffff;
   --background-color: #33333c;
 
@@ -42,4 +38,12 @@
 
 #root {
   display: contents;
+}
+
+html,
+body,
+#root {
+  @media (min-width: 600px) and (orientation: landscape) {
+    overscroll-behavior: none;
+  }
 }
