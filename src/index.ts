@@ -12,6 +12,15 @@ Sentry.init({
   release: `yapp@${process.env.VERSION ?? 'unknown'}`,
 })
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(
+      ({ scope }) => console.log('sw registered with scope:', scope),
+      err => console.log('sw registration failed:', err)
+    )
+  })
+}
+
 import initUI from './Root'
 import './api'
 import UseCom from '~/systems/useCom'
@@ -26,15 +35,6 @@ import { register } from '~/systems'
 
   initUI()
   register(new UseCom())
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').then(
-        ({ scope }) => console.log('sw registered with scope:', scope),
-        err => console.log('sw registration failed:', err)
-      )
-    })
-  }
 
   if (navigator.platform.startsWith('Win'))
     store.dispatch(action('SET_OS', 'windows'))
