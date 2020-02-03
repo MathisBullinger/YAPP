@@ -62,4 +62,4 @@ export const handleScroll = throttle((scrollTop: number) => {
 
   lastDY = dy
   lastOffY = scrollTop
-}, 1000 / 30)
+}, 1000 / 60)

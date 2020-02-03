@@ -127,6 +127,7 @@ const S = {
       flex-shrink: 0;
       border-radius: 0.25rem;
       width: 6rem;
+      height: 6rem;
     }
 
     @media ${responsive.navOnSide} {
@@ -139,6 +140,7 @@ const S = {
 
       img {
         width: 14rem;
+        height: 14rem;
       }
     }
   `,

@@ -21,13 +21,20 @@ export default function Appbar() {
   const scrollDir = useScrollDir()
   const appbarAllowed = useMatchMedia(responsive.appbarVisible)
   const appbarRequested = useSelector(state => state.appbar.visible)
+  const hideOnScroll = useSelector(state => state.appbar.hideOnScroll)
   const ref = useRef<HTMLDivElement>()
-
   const [scrollState, setScrollState] = useState<ScrollState>('visible')
 
+  const visible =
+    (appbarAllowed ||
+      document.querySelector('#root').classList.contains('fixed')) &&
+    appbarRequested
+  if (!visible) return null
+
   if (
-    (scrollDir === 'down' && scrollState === 'visible') ||
-    (scrollDir === 'up' && scrollState === 'hidden')
+    ref.current?.parentElement &&
+    ((hideOnScroll && scrollDir === 'down' && scrollState === 'visible') ||
+      (scrollDir === 'up' && scrollState === 'hidden'))
   ) {
     setScrollState('transition')
     let off = scrollState === 'visible' ? 0 : height
@@ -50,12 +57,6 @@ export default function Appbar() {
       }
     })
   }
-
-  const visible =
-    (appbarAllowed ||
-      document.querySelector('#root').classList.contains('fixed')) &&
-    appbarRequested
-  if (!visible) return null
 
   const [left, right] = barActions
     .reduce(
@@ -91,7 +92,7 @@ export default function Appbar() {
 
 const S = {
   Appbar: styled.div`
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 2000;
